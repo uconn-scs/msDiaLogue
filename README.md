@@ -7,8 +7,9 @@ This repository will be used to build a customized UConn PMF-SCS workflow for DI
 
 Main areas include:
 
-* Data preprocessing: getting data from Spectronaught
+* Data preprocessing: getting data from Spectronaut
 * Data transformation: options for transforming abundance data
+* Data filtering: provides options to filter out data based on preset levels 
 * Data normalization: normalization procedures
 * Data imputation: missing data procedures
 * Differential Abundance Analysis: statistical tools for DIA data analysis
