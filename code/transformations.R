@@ -1,23 +1,52 @@
 # Code for data transformation
-
 # see https://pubmed.ncbi.nlm.nih.gov/15147579/
 # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4373093/
 
+library(tidyr)
+library(dplyr)
+library(tictoc)
+
+#################################################
+# The preprocessing() function takes as input:
+#     1. A data frame containing the pre-processed data signals  
+#     2. An integer specifying the base for the log transformation
+
+# The function then executes the following:
+#   1.  
+#   2. 
+#   3. 
+
+
+# Finally, the function returns the transformed data.
+#################################################
+
+
+#TODO: Rewrite plotting to consist of mean vs variance plots for each protein seperately  
+
 
 transform <- function(dataSet, logFold = 2){
+  
+      index <- dim(dataSet)[2]
+  
+      variance <- sapply(dataSet, var)
+      meanCalc <- sapply(dataSet, mean)
+      
+      plot(meanCalc, variance)
+      
+      logFold <- 2
+      
+      dataSet[,3:index] <- log(dataSet[,3:index], logFold)
+      
+      variance <- sapply(dataSet[,3:index], var)
+      meanCalc <- sapply(dataSet[,3:index], mean)
+      
+      plot(meanCalc, variance)
 
-#plot histogram of pre transformed data
-hist(dataSet, main = "Pre-Transformation")
-
-#create transformed data set
-xTrans = log(dataSet, logFold)
-
-#plot histogram of pre transformed data
-hist(xTrans, main = "Post-Transformation")
+      return(dataSet)
 
 }
 
-# simulate some data using gamma distribution - non-negative, positive skew
-x <- rgamma(10000,shape = 0.4, 1/1000)
+dataSet <- dat
 
-transform(x,2)
+
+dat2 <- transform(dat,2)
