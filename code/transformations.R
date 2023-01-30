@@ -7,46 +7,60 @@ library(dplyr)
 library(tictoc)
 
 #################################################
-# The preprocessing() function takes as input:
+# The transformation() function takes as input:
 #     1. A data frame containing the pre-processed data signals  
 #     2. An integer specifying the base for the log transformation
 
 # The function then executes the following:
-#   1.  
-#   2. 
-#   3. 
-
+#   1.  Separate label columns from data columns
+#   2.  Plot the mean-variance relationship (using a subfunction)
+#   3.  Transform the data 
+#   4.  Plot the mean-variance relationship again for comparison
+#   5.  Recombine the labels and transformed data 
 
 # Finally, the function returns the transformed data.
 #################################################
 
 
-#TODO: Rewrite plotting to consist of mean vs variance plots for each protein seperately  
+#TODO: Rewrite plotting to consist of mean vs variance plots for each protein separately  
+
+meanVariancePlot <- function(datMV, title = ""){
+  
+  #calculate the mean and variance for each protein individually
+  variance <- sapply(datMV, var)
+  meanCalc <- sapply(datMV, mean)
+  
+  #Plot the mean-variance relationship
+  plot(meanCalc, variance, main = title, xlab = "Mean", ylab = "Variance")
+  
+}
 
 
 transform <- function(dataSet, logFold = 2){
-  
+    
+      # Define the number of proteins that are present in data set
       index <- dim(dataSet)[2]
-  
-      variance <- sapply(dataSet, var)
-      meanCalc <- sapply(dataSet, mean)
       
-      plot(meanCalc, variance)
+      # separate the data set into labels and numerical data
+      #labels consist of first 2 columns, data is everything else
+      dataLabels <- dataSet[,1:2]
+      dataPoints <- dataSet[,3:index]
       
-      logFold <- 2
+      #calculate and plot a mean variance plot 
+      meanVariancePlot(dataPoints, title = "Pre-Transformation")
       
-      dataSet[,3:index] <- log(dataSet[,3:index], logFold)
+      #take the log of the numerical data
+      transDataPoints <- log(dataPoints, logFold)
       
-      variance <- sapply(dataSet[,3:index], var)
-      meanCalc <- sapply(dataSet[,3:index], mean)
+      #calculate and plot a mean variance plot 
+      meanVariancePlot(transDataPoints,  title = "Post-Transformation")
       
-      plot(meanCalc, variance)
-
-      return(dataSet)
+      #recombine the labels and transformed data into a single data frame
+      transDataSet <- cbind(dataLabels, dataPoints)
+      
+      # return the transformed data
+      return(transDataSet)
 
 }
-
-dataSet <- dat
-
 
 dat2 <- transform(dat,2)
