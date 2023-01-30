@@ -21,9 +21,6 @@ library(tictoc)
 # Finally, the function returns the transformed data.
 #################################################
 
-
-#TODO: Rewrite plotting to consist of mean vs variance plots for each protein separately  
-
 meanVariancePlot <- function(datMV, title = ""){
   
   #calculate the mean and variance for each protein individually
