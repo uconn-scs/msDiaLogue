@@ -17,6 +17,8 @@ library(tictoc)
 #   4.  
 #   5. Produces (/saves) a table of protein mean and standard deviation.
  
+
+# Finally, the function returns the summarized data.
 #################################################
 
 ##TODO: Once we have a data set that includes the unique peptides column this 
