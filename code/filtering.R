@@ -7,40 +7,41 @@ library(tictoc)
 #################################################
 # The filtering() function takes as input:
 #     1. A data frame containing the data signals and labels 
-#     2. An integer specifying the required number of unique peptides
+#     2. A Boolean specifying whether or not to filter out results that are NaN
+#     3. An integer specifying how many unique peptides are required to include a protein
 
 # The function then executes the following:
-#   1.  
-#   2.  
-#   3.   
-#   4.  
-#   5. 
+#   1.  filters out NaN values
+#   2.  filters out proteins with an insufficient number of unique peptides
 
 # Finally, the function returns the filtered data.
 #################################################
 
-##TODO: Once we have a data set that includes the unique peptides column this 
-  ## function can be written - for now it will exist as pseudo code as a guide
+##TODO: Once we have a data set that includes the unique peptides column the 
+# specification can be added. For now, we include 
 
 
-
-filter <- function(dataSet, numberRequiredPeptides = 2){
+filtering <- function(dataSet, filterNaN = TRUE, filterUnique = 2){
   
-  #Find indexes of proteins that don't pass filter  
+  filteredData <- dataSet
   
-  #Generate list of protein names that didn't pass the filter 
+  if (filterNaN) {
+    # filter out the proteins that have no recorded value
+    filteredData <- filteredData %>% filter(!is.nan(PG.Quantity ))
+  }
   
-  #Print list
-  
-  #Remove samples that do not pass the filter
+  if (filterUnique == 2){
+    #filter out proteins that have only 1 unique peptide
+    filteredData <- filteredData %>% filter(PG.IsSingleHit == FALSE)
+  }
 
   # return the filtered data
-  return(filteredDataSet)
+  return(filteredData)
   
 }
 
-dat2 <- read.csv("temp.csv")
+rawData <- read.csv("ProteinQuantReport.csv")
 
-dat3 <- filter(dat2, 2)
+filteredData <- filtering(rawData)
 
 
