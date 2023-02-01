@@ -21,16 +21,17 @@ library(tictoc)
 # Finally, the function returns the summarized data.
 #################################################
 
-##TODO: Once we have a data set that includes the unique peptides column this 
-## function can be written - for now it will exist as pseudo code as a guide
-
-
 
 summarize <- function(dataSet, sortBy = "",  fileName = ""){
   
 
   #Calculate the mean and standard deviation for each protein in each sample 
-  # Use sapply here?
+    
+  # There's got to be a method for using tidyr here, but I can't find it yet. 
+  
+  nestedData <- dataSet %>%
+    group_by(R.Condition) %>%
+    nest()
   
   if (sortBy == "Average"){
     
@@ -59,8 +60,6 @@ summarize <- function(dataSet, sortBy = "",  fileName = ""){
 }
 
 dat2 <- read.csv("temp.csv")
-
-print(dat2)
 
 dat3 <- filter(dat2, 2)
 
