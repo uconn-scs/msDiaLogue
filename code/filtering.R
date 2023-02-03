@@ -1,7 +1,8 @@
 # Code for data filtering
-library(tidyr)
-library(dplyr)
-library(tictoc)
+
+require(tidyr)
+require(dplyr)
+require(tictoc)
 
 #################################################
 # The filtering() function takes as input:

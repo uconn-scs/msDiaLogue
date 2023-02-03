@@ -1,8 +1,8 @@
 # Code for data summary
 
-library(tidyr)
-library(dplyr)
-library(tictoc)
+require(tidyr)
+require(dplyr)
+require(tictoc)
 
 #################################################
 # The summarization() function takes as input:

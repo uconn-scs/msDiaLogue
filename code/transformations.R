@@ -2,9 +2,9 @@
 # see https://pubmed.ncbi.nlm.nih.gov/15147579/
 # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4373093/
 
-library(tidyr)
-library(dplyr)
-library(tictoc)
+require(tidyr)
+require(dplyr)
+require(tictoc)
 
 #################################################
 # The transformation() function takes as input:
