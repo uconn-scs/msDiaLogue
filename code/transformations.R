@@ -39,8 +39,8 @@ transform <- function(dataSet, logFold = 2){
       
       # separate the data set into labels and numerical data
       #labels consist of first 2 columns, data is everything else
-      dataLabels <- dataSet[,1:2]
-      dataPoints <- dataSet[,3:index]
+      dataLabels <- dataSet[,1:3]
+      dataPoints <- dataSet[,4:index]
       
       #calculate and plot a mean variance plot 
       meanVariancePlot(dataPoints, title = "Pre-Transformation")
@@ -52,7 +52,7 @@ transform <- function(dataSet, logFold = 2){
       meanVariancePlot(transDataPoints,  title = "Post-Transformation")
       
       #recombine the labels and transformed data into a single data frame
-      transDataSet <- cbind(dataLabels, dataPoints)
+      transDataSet <- cbind(dataLabels, transDataPoints)
       
       # return the transformed data
       return(transDataSet)

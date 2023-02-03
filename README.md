@@ -1,4 +1,4 @@
-# PMF-SCS-workflow
+# msDiaLogue
 
 ## Code building for workflow package
 
