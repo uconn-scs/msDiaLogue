@@ -61,9 +61,7 @@ preprocessing <- function(fileName, filterNaN = TRUE, filterUnique = 2){
 }
 
 
-rawData <- read.csv("ProteinQuantReport.csv")
 
-dat <- preprocessing("ProteinQuantReport.csv")
 
 
 

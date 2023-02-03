@@ -16,18 +16,9 @@ require(tictoc)
 
 #################################################
 
-meanVariancePlot <- function(datMV, title = ""){
-  
-  #calculate the mean and variance for each protein individually
-  variance <- sapply(datMV, var)
-  meanCalc <- sapply(datMV, mean)
-  
-  #Plot the mean-variance relationship
-  plot(meanCalc, variance, main = title, xlab = "Mean", ylab = "Variance")
-  
-}
 
-transform <- function(dataSet, logFold = 2){
+
+visualize <- function(dataSet, logFold = 2){
   
   # Define the number of proteins that are present in data set
   index <- dim(dataSet)[2]
@@ -54,7 +45,7 @@ transform <- function(dataSet, logFold = 2){
   
 }
 
-dat2 <- transform(dat,2)
+
 
 
 

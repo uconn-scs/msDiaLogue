@@ -74,7 +74,5 @@ summarize <- function(dataSet, sortBy = "",  fileName = ""){
   
 }
 
-dataSet<- dat2
 
-dat3 <- summarize(dat2, fileName = "Summary of Protein Signals.csv")
 

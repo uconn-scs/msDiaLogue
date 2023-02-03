@@ -59,4 +59,4 @@ transform <- function(dataSet, logFold = 2){
 
 }
 
-dat2 <- transform(dat,2)
+

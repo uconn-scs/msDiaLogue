@@ -40,8 +40,6 @@ filtering <- function(dataSet, filterNaN = TRUE, filterUnique = 2){
   
 }
 
-rawData <- read.csv("ProteinQuantReport.csv")
 
-filteredData <- filtering(rawData)
 
 
