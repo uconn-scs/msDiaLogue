@@ -32,7 +32,6 @@ meanVariancePlot <- function(datMV, title = ""){
   
 }
 
-
 transform <- function(dataSet, logFold = 2){
     
       # Define the number of proteins that are present in data set
