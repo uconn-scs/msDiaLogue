@@ -1,9 +1,4 @@
 # Code for visualizations
-
-require(tidyr)
-require(dplyr)
-require(tictoc)
-
 #################################################
 # The visualizations() function takes as input:
 #     1.   

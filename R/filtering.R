@@ -1,9 +1,4 @@
 # Code for data filtering
-
-require(tidyr)
-require(dplyr)
-require(tictoc)
-
 #################################################
 # The filtering() function takes as input:
 #     1. A data frame containing the data signals and labels 

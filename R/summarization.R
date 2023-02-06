@@ -1,9 +1,4 @@
 # Code for data summary
-
-require(tidyr)
-require(dplyr)
-require(tictoc)
-
 #################################################
 # The summarization() function takes as input:
 #     1. A data frame containing the data signals and labels 

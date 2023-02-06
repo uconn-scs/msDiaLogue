@@ -1,12 +1,22 @@
 Package: msDiaLogue
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
+Version: 0.0.1
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Charles", "Watt", email = "clw21002work@uconn.edu", role = c("aut", "cre"))
+    person("Timothy", "Moore", email = "timothy.e.moore@uconn.edu", role = c("aut"))
+Description: Offers simple tools to manipulate and investigate mass spectrometry (MS)
+    data from data independent aquistion (DIA) experiments. The package is designed 
+    to make effective statistical methods for DIA easy and accessible to all researchers.
+    Specific tools include: filtration, transformation, normalization, 
+    differential abundance estimation, and visualization. 
+License: use_gpl_license(version = 3, include_future = TRUE) 
+Depends:
+  R (>= 4.2.2)
+Imports:
+  tidyr (>= 1.3.0),
+  dpylr (>= 1.0.10)
+Suggests:
+  ggplot2
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3

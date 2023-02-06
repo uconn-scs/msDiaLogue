@@ -1,11 +1,6 @@
 # Code for data transformation
 # see https://pubmed.ncbi.nlm.nih.gov/15147579/
 # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4373093/
-
-require(tidyr)
-require(dplyr)
-require(tictoc)
-
 #################################################
 # The transformation() function takes as input:
 #     1. A data frame containing the pre-processed data signals  
