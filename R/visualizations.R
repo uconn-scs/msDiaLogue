@@ -5,7 +5,7 @@
 #     2. 
 
 # The function then executes the following:
-#   1.  
+#   1. creates a volcano plot 
 #   2.  
 #   3.  
 
