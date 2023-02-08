@@ -14,7 +14,7 @@ Depends:
   R (>= 4.2.2)
 Imports:
   tidyr (>= 1.3.0),
-  dpylr (>= 1.0.10)
+  dplyr (>= 1.0.10)
 Suggests:
   ggplot2
 Encoding: UTF-8

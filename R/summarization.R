@@ -1,4 +1,8 @@
 # Code for data summary
+
+require(dplyr)
+require(tidyr)
+
 #################################################
 # The summarization() function takes as input:
 #     1. A data frame containing the data signals and labels 

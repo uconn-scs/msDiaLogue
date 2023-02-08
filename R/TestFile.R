@@ -1,11 +1,10 @@
-library(devtools)
-library(msDiaLogue)
+
 
 name <- "ProteinQuantReport.csv"
 
-data <- preprocessing(name)
+#data <- preprocessing(name)
 
-dataTrans <- transform(data)
+#dataTrans <- transform(data)
 
-dataOutput <- summarize(dataTrans)
+#dataOutput <- summarize(dataTrans)
 

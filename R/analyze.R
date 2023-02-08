@@ -11,12 +11,12 @@
 #' Finally, the function returns a data frame of test results.
 #################################################
 
-analyze <- function(dataSummary, ){
+analyze <- function(dataSummary ){
 
 
   
   # return pre-processed data
-  return(loadedData)
+  return(dataSummary)
 }
 
 
