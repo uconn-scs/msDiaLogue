@@ -28,50 +28,93 @@ require(tidyr)
 ###################################################
 
 normalize <- function(dataSet, normalizeType = "Quant"){
-
-  
-  # Define the number of proteins that are present in data set
-  index <- dim(dataSet)[2]
   
   # separate the data set into labels and numerical data
   #labels consist of first 3 columns, data is everything else
   dataLabels <- dataSet[,1:3]
   dataPoints <- dataSet[,4:index]
   
-  
+  # Define the number of proteins that are present in data set
+  index <- length(dataPoints[1,])
 
   if (normalizeType == "Quant"){
-    #TODO implement ourselves
+  
+    #count how many conditions are present in the data set. 
+    conditionNum <- length(dataSet[,1])
+    
+  #create a database of original locations 
+    orderSet = c()
+    #repeat for each protein
+    for (i in c(1:index)){
+      
+      #create a new data frame combining data points for a single protein with a list from 1 to n
+      temp <- data.frame(cbind(dataPoints[,i], c(1:conditionNum)))
+      
+      #sort the new data frame by the protein values
+      orderI <- arrange(temp, X1)[,2]
+      
+      #record the data points locations
+      orderSet <- cbind(orderSet, orderI)
+      
+    }
     
     
+  #sort each column and average the values across the new rows
+    
+  temp <-  lapply(dataPoints, sort, decreasing=F)
+    
+    
+  sortedPoints <- as.data.frame(do.call(cbind, temp))
+  
+  rowAverages <- apply(sortedPoints, 1, mean)
+  
+  fullAverages <- matrix(rep(rowAverages, index), ncol = index)
+
+  
+  #reorder the values into their original locations
+    
+  
+  #create a database of original locations 
+  normDataPoints = c()
+  #repeat for each protein
+  for (i in 1:index){
+    
+    #create a new data frame combining data points for a single protein with a list from 1 to n
+    temp <- data.frame(cbind(fullAverages[,i], orderSet[,i]))
+    
+    #sort the new data frame by the protein values
+    reOrderI <- arrange(temp, X2)[,1]
+    
+    #record the data points locations
+    normDataPoints <- cbind(normDataPoints, reOrderI)
+    
+  }
     
   }
 
-  
+  #subtracts the median intensity of each protein from every value for that protein
   if (normalizeType == "Median"){
-    
-  dataPoints <- scale(dataPoints, center = median(dataPoints), scale = FALSE)
-    
+  normDataPoints <- scale(dataPoints, center = apply(dataPoints, 2, median), scale = FALSE)
   }
   
+  #subtracts the average intensity of each protein from every value for that protein
   if (normalizeType == "Mean"){
-    
-    dataPoints <- scale(dataPoints, center = TRUE, scale = FALSE)
-    
+    normDataPoints <- scale(dataPoints, center = TRUE, scale = FALSE)
   }
   
+  # Throws a warning if no normalization is performed, since there a possibility of introducing error
   if (normalizeType == "None"){
-    
     warning(" 
             You are currently choosing NOT to normalize your data. 
             This is heavily discouraged in most scientific work. 
             Please be confident this is the correct choice. ")
     
+    normDataPoints <- dataPoints
   }
   
   
   #recombine the labels and transformed data into a single data frame
-  normDataSet <- cbind(dataLabels, dataPoints)
+  normDataSet <- cbind(dataLabels, normDataPoints)
   
   # return pre-processed data
   return(normDataSet)

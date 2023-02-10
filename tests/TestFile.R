@@ -6,6 +6,8 @@ data <- preprocessing(name)
 
 dataTrans <- transform(data)
 
+dataNorm <- normalize(dataTrans)
+
 dataOutput <- summarize(dataTrans)
 
 
@@ -18,4 +20,15 @@ mat <- matrix(c(2, 3, 6, 5, 5, 3, 6, 6,
 
 mat.t <- t(mat)
 
-#dataPoints <- scale(mat, center = median(mat), scale = FALSE)
+dataPoints <- scale(mat.t, center = apply(mat.t,2,median), scale = FALSE)
+
+
+
+orderSet = c()
+
+orderSet <- cbind(orderSet, c(1:10))
+
+
+matrix(rep(1:10, 6), ncol = 6)
+
+
