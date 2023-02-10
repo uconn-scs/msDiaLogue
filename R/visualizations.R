@@ -16,7 +16,7 @@ require(ggplot2)
 #' 
 #' 
 #' @details 
-#' 
+#' placeholder
 #' 
 #' 
 #' 

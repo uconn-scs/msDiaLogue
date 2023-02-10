@@ -4,20 +4,17 @@ require(dplyr)
 require(tidyr)
 
 #################################################
-# The summarization() function takes as input:
-#     1. A data frame containing the data signals and labels 
-#     2. A string specify sort type, if any 
-#     3. A string specifying if the table should be printed, and providing the file name 
-
-# The function then executes the following:
-#   1.  
-#   2.  
-#   3.   
-#   4.  
-#   5. Produces (/saves) a table of protein mean, standard deviation and N.
- 
-
-# Finally, the function returns the summarized data.
+#' Summarize protein intensities across replicates 
+#' 
+#' @description 
+#' summarize() 
+#' 
+#' 
+#' @param dataSet A data frame containing the data signals and labels
+#' @param fileName A string which can be used to generate a csv file of the summary statistics
+#' 
+#' 
+#' @returns The function returns the summarized data frame.
 #################################################
 
 
@@ -30,7 +27,6 @@ summarize <- function(dataSet, sortBy = "",  fileName = ""){
   
   #create a list of all samples in the data
   sampleList <- unique(dataSet$R.Condition)
-  
   
   #group all of the data by sample number  
   sampleGrouping <- dataSet %>% group_by(R.Condition) 
@@ -47,25 +43,12 @@ summarize <- function(dataSet, sortBy = "",  fileName = ""){
   proteinSummary <- proteinSummary %>% select(starts_with(proteinList))
     
   
-  if (sortBy == "Average"){
-    
-    # Sort from left to right by highest average 
-    
-  } 
-  
-  if (sortBy == "SD"){
-    
-    # Sort from left to right by lowest standard deviation
-    
-  } 
-  
   if (fileName != ""){
     
     #save file to current working directory as fileName 
     write.csv(proteinSummary, fileName, row.names=sampleList)
     
   } 
-  
   
   # return protein data summary
   return(proteinSummary)

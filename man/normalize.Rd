@@ -13,7 +13,7 @@ normalize(dataSet, normalizeType = "Quant")
 normalization to apply:
 Quantile ("Quant"),
 Column-wise Median ("Median"),
-Column-wise Mean("Mean"),
+Column-wise Mean ("Mean"),
 or None ("None").}
 }
 \value{

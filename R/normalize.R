@@ -21,7 +21,7 @@ require(tidyr)
 #' 
 #' @details 
 #' Quantile normalization is generally recommended. Mean and Median
-#'normalization are included as popular previous methods. No normalization is not recommended. 
+#' normalization are included as popular previous methods. No normalization is not recommended. 
 #'      
 #' @returns The function returns a normalized 2d dataframe. 
 #' 
@@ -41,6 +41,8 @@ normalize <- function(dataSet, normalizeType = "Quant"){
   
 
   if (normalizeType == "Quant"){
+    #TODO implement ourselves
+    
     
     
   }
@@ -48,13 +50,13 @@ normalize <- function(dataSet, normalizeType = "Quant"){
   
   if (normalizeType == "Median"){
     
+  dataPoints <- scale(dataPoints, center = median(dataPoints), scale = FALSE)
     
   }
   
-  
   if (normalizeType == "Mean"){
     
-    dataPoints <- scale(dataPoints, center = TRUE, scale = TRUE)
+    dataPoints <- scale(dataPoints, center = TRUE, scale = FALSE)
     
   }
   
@@ -69,7 +71,7 @@ normalize <- function(dataSet, normalizeType = "Quant"){
   
   
   #recombine the labels and transformed data into a single data frame
-  normDataSet <- cbind(dataLabels, DataPoints)
+  normDataSet <- cbind(dataLabels, dataPoints)
   
   # return pre-processed data
   return(normDataSet)
