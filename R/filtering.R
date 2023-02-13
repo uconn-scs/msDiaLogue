@@ -26,7 +26,7 @@ require(tidyr)
 #################################################
 
 ##TODO: Once we have a data set that includes the unique peptides column the 
-# specification can be added. For now, we include 
+# specification can be added. For now, we include only peptides that have at least 2.
 
 
 filtering <- function(dataSet, filterNaN = TRUE, filterUnique = 2){

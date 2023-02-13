@@ -56,3 +56,36 @@ dataSet <- cbind(a, normTest)
 normalize(dataSet)
 
 order(dataSet[,4])
+
+
+######################################
+#Testing Imputation
+mat <- matrix(c(2, 3, 6, 5, 5, "", 6, 6, 
+                4, 3, 5, 3, 3, 5, 4, 5, 
+                NaN, 4, 3, 4, 7, 2, NA, 5, 
+                3, 5, 4, 4, 0.001, 6, 3, 4, 
+                4, 5, 5, 6, 6, 5, 5, 7
+), byrow = TRUE, nrow = 8, ncol = 5)
+
+mat <- tibble(mat)
+
+mat2 <- mat %>% 
+  mutate(across(everything(), ~replace(.x, is.nan(.x), 0)))
+
+
+mat2 <- data.frame(sapply(mat, function(x) ifelse(is.nan(x), NA, x)))
+
+
+apply(mat,2, is.nan)
+
+
+mat2 <- replace(mat, is.nan(as.matrix(mat)), NA)
+
+
+tmp2 <- impute(mat)
+
+
+x <-c(NaN)
+is.nan(x)
+
+
