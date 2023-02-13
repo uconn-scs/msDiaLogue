@@ -20,7 +20,7 @@ or None ("None").}
 The function returns a normalized 2d dataframe.
 }
 \description{
-normalize() applies one specifyed type of normalization to a data set
+normalize() applies one specified type of normalization to a data set
 }
 \details{
 Quantile normalization is generally recommended. Mean and Median

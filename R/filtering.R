@@ -4,16 +4,25 @@ require(dplyr)
 require(tidyr)
 
 #################################################
-# The filtering() function takes as input:
-#     1. A data frame containing the data signals and labels 
-#     2. A Boolean specifying whether or not to filter out results that are NaN
-#     3. An integer specifying how many unique peptides are required to include a protein
-
-# The function then executes the following:
-#   1.  filters out NaN values
-#   2.  filters out proteins with an insufficient number of unique peptides
-
-# Finally, the function returns the filtered data.
+#' Filtering of raw data signals
+#' 
+#' @description 
+#' filtering() applies a series of filtering steps to the data set
+#' 
+#' @param dataSet The 2d data set of experimental values 
+#' 
+#' @param filterNaN A Boolean (default = TRUE) specifying whether or not proteins
+#' with NaN values should be removed from the data set.
+#' 
+#' @param filterUnique An integer (default = 2) specifying whether or not proteins
+#' with less than the default number of unique peptides should be removed from
+#' the data set.
+#' 
+#' @details 
+#' All forms of filtering are recommended for most use cases. 
+#'      
+#' @returns The function returns a filtered 2d dataframe. 
+#' 
 #################################################
 
 ##TODO: Once we have a data set that includes the unique peptides column the 

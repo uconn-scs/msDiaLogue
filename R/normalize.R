@@ -7,7 +7,7 @@ require(tidyr)
 #' Normalization of preprocessed data
 #' 
 #' @description 
-#' normalize() applies one specifyed type of normalization to a data set
+#' normalize() applies one specified type of normalization to a data set
 #' 
 #' @param dataSet The 2d data set of experimental values 
 #' 
@@ -32,63 +32,46 @@ normalize <- function(dataSet, normalizeType = "Quant"){
   # separate the data set into labels and numerical data
   #labels consist of first 3 columns, data is everything else
   dataLabels <- dataSet[,1:3]
-  dataPoints <- dataSet[,4:index]
+  dataPoints <- dataSet[,4:length(dataSet[1,])]
   
   # Define the number of proteins that are present in data set
   index <- length(dataPoints[1,])
 
-  if (normalizeType == "Quant"){
   
-    #count how many conditions are present in the data set. 
-    conditionNum <- length(dataSet[,1])
+  
+  if (normalizeType == "Quant"){
+    #TODO: update quantile normalization to handle ties.
     
-  #create a database of original locations 
-    orderSet = c()
+    #create a database of original locations 
+    orderSet <- apply(dataPoints, 2, order)
+    
+            ######Ugly Temporary fix for NA values
+            dataPoints <- replace(dataPoints, is.na(dataPoints), 0)
+            ############
+    
+    #sort each column and average the values across the new rows
+    temp <-  data.frame(apply(dataPoints, 2, sort))
+    rowAverages <- apply(temp, 1, mean)
+    
+    #create a data set of just the row averages repeated for each protein
+    fullAverages <- matrix(rep(rowAverages, index), ncol = index)
+  
+    
+    #reorder the values into their original locations
+    normDataPoints = c()
     #repeat for each protein
-    for (i in c(1:index)){
+    for (i in 1:index){
       
       #create a new data frame combining data points for a single protein with a list from 1 to n
-      temp <- data.frame(cbind(dataPoints[,i], c(1:conditionNum)))
+      temp <- data.frame(cbind(fullAverages[,i], orderSet[,i]))
       
       #sort the new data frame by the protein values
-      orderI <- arrange(temp, X1)[,2]
+      reOrderI <- arrange(temp, X2)[,1]
       
       #record the data points locations
-      orderSet <- cbind(orderSet, orderI)
+      normDataPoints <- cbind(normDataPoints, reOrderI)
       
     }
-    
-    
-  #sort each column and average the values across the new rows
-    
-  temp <-  lapply(dataPoints, sort, decreasing=F)
-    
-    
-  sortedPoints <- as.data.frame(do.call(cbind, temp))
-  
-  rowAverages <- apply(sortedPoints, 1, mean)
-  
-  fullAverages <- matrix(rep(rowAverages, index), ncol = index)
-
-  
-  #reorder the values into their original locations
-    
-  
-  #create a database of original locations 
-  normDataPoints = c()
-  #repeat for each protein
-  for (i in 1:index){
-    
-    #create a new data frame combining data points for a single protein with a list from 1 to n
-    temp <- data.frame(cbind(fullAverages[,i], orderSet[,i]))
-    
-    #sort the new data frame by the protein values
-    reOrderI <- arrange(temp, X2)[,1]
-    
-    #record the data points locations
-    normDataPoints <- cbind(normDataPoints, reOrderI)
-    
-  }
     
   }
 

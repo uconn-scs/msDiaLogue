@@ -6,7 +6,10 @@ data <- preprocessing(name)
 
 dataTrans <- transform(data)
 
-dataNorm <- normalize(dataTrans)
+dataSet <- dataTrans
+
+dataNorm <- normalize(dataTrans, normalizeType = "Quantile")
+
 
 dataOutput <- summarize(dataTrans)
 
@@ -32,3 +35,24 @@ orderSet <- cbind(orderSet, c(1:10))
 matrix(rep(1:10, 6), ncol = 6)
 
 
+
+######################################
+#Testing normalize
+
+normTest <- matrix(c(5, 4, 3,  
+                2, 1, 4, 
+                3, 4, 6,
+                4, 2, 8
+), byrow = TRUE, nrow = 4, ncol = 3)
+
+normalize(normTest)
+
+dataSet <- normTest
+
+a <- matrix(rep(NA, 12), nrow = 4)
+
+dataSet <- cbind(a, normTest)
+
+normalize(dataSet)
+
+order(dataSet[,4])
