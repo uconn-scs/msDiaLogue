@@ -13,11 +13,10 @@ require(tidyr)
 #' 
 #' @param normalizeType A string (default = "Quant") specifying which type of 
 #' normalization to apply: 
-#' Quantile ("Quant"), 
+#' 1. Quantile ("Quant"), 
 #' Column-wise Median ("Median"), 
 #' Column-wise Mean ("Mean"), 
 #' or None ("None").
-#' 
 #' 
 #' @details 
 #' Quantile normalization is generally recommended. Mean and Median
