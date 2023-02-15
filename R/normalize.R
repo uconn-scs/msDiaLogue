@@ -21,7 +21,7 @@ require(tidyr)
 #' 
 #' @details 
 #' Quantile normalization is generally recommended. Mean and Median
-#' normalization are included as popular previous methods. No normalization is not recommended. 
+#' normalization are going to be included as popular previous methods. No normalization is not recommended. 
 #'      
 #' @returns The function returns a normalized 2d dataframe. 
 #' 
