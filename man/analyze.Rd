@@ -2,28 +2,23 @@
 % Please edit documentation in R/analyze.R
 \name{analyze}
 \alias{analyze}
-\title{The analyze() function takes as input:
-1.
-The function then executes the following:
-\enumerate{
-\item reads the file
-\item if applicable, applies filters
-\item 
-}
-
-Finally, the function returns a data frame of test results.}
+\title{Analyzing summarized data}
 \usage{
-analyze(dataSummary)
+analyze(dataSet)
+}
+\arguments{
+\item{summaryData}{The 2d data set of data}
+
+\item{testType}{A string (default = "t-test") specifying which
+statistical test to use.}
+
+\item{conditions}{A list of length 2, composed of integers, specifying
+which conditions to compare}
+}
+\value{
+The function returns a 2d dataframe with differences of means and
+p-values for every protein across the two conditions.
 }
 \description{
-The analyze() function takes as input:
-1.
-The function then executes the following:
-\enumerate{
-\item reads the file
-\item if applicable, applies filters
-\item 
-}
-
-Finally, the function returns a data frame of test results.
+analyze() applies a statistical test to the data.
 }

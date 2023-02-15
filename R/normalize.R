@@ -44,10 +44,6 @@ normalize <- function(dataSet, normalizeType = "Quant"){
     #create a database of original locations 
     orderSet <- apply(dataPoints, 2, order)
     
-            ######Ugly Temporary fix for NA values
-            dataPoints <- replace(dataPoints, is.na(dataPoints), 0)
-            ############
-    
     #sort each column and average the values across the new rows
     temp <-  data.frame(apply(dataPoints, 2, sort))
     rowAverages <- apply(temp, 1, mean)
@@ -97,6 +93,9 @@ normalize <- function(dataSet, normalizeType = "Quant"){
   
   #recombine the labels and transformed data into a single data frame
   normDataSet <- cbind(dataLabels, normDataPoints)
+  
+  #replace the protein names
+  colnames(normDataSet) <- colnames(dataSet)
   
   # return pre-processed data
   return(normDataSet)

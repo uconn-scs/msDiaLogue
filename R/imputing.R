@@ -23,20 +23,27 @@ require(tidyr)
 
 impute <- function(dataSet, imputeType = "MinVal"){
   
-  imputedData <- dataSet
+  # separate the data set into labels and numerical data
+  #labels consist of first 3 columns, data is everything else
+  dataLabels <- dataSet[,1:3]
+  imputedDataPoints <- dataSet[,4:length(dataSet[1,])]
+  
   
   if (imputeType == "MinVal") {
     # filter out the proteins that have no recorded value
     
     #imputedData <- replace(imputedData, is.nan(imputedData), NA)
     #imputedData <- replace(imputedData, is.null(imputedData), NA)
-    imputedData[imputedData == ""] <- NA
+    imputedDataPoints[imputedDataPoints == ""] <- NA
     
-    minimumValue <- min(imputedData, na.rm = TRUE)
+    minimumValue <- min(imputedDataPoints, na.rm = TRUE)
     
-    imputedData <- replace(imputedData, is.na(imputedData), minimumValue)
+    imputedDataPoints <- replace(imputedDataPoints, is.na(imputedDataPoints), minimumValue)
     
   }
+  
+  #recombine the labels and transformed data into a single data frame
+  imputedData <- cbind(dataLabels, imputedDataPoints)
   
   
   # return the filtered data
