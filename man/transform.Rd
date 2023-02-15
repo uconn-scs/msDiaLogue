@@ -8,7 +8,8 @@ transform(dataSet, logFold = 2)
 }
 \description{
 @description
-placeholder
+transform() applies a transformation to the data to stabilize
+the variance.
 }
 \details{
 @param dataSet A data frame containing the data signals
@@ -18,8 +19,9 @@ placeholder
 The function executes the following:
 \enumerate{
 \item Plots the mean-variance relationship (using meanVariancePlot())
-\item Transforms the data
+\item Log-transforms the data, using the specified base.
 \item Plots the mean-variance relationship again for comparison
-@returns The function returns the transformed data.
 }
+
+@returns The function returns the transformed data.
 }

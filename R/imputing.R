@@ -28,8 +28,8 @@ impute <- function(dataSet, imputeType = "MinVal"){
   if (imputeType == "MinVal") {
     # filter out the proteins that have no recorded value
     
-    imputedData <- replace(imputedData, is.nan(imputedData), NA)
-    imputedData <- replace(imputedData, is.null(imputedData), NA)
+    #imputedData <- replace(imputedData, is.nan(imputedData), NA)
+    #imputedData <- replace(imputedData, is.null(imputedData), NA)
     imputedData[imputedData == ""] <- NA
     
     minimumValue <- min(imputedData, na.rm = TRUE)

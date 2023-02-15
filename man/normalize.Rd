@@ -11,10 +11,12 @@ normalize(dataSet, normalizeType = "Quant")
 
 \item{normalizeType}{A string (default = "Quant") specifying which type of
 normalization to apply:
-Quantile ("Quant"),
+\enumerate{
+\item Quantile ("Quant"),
 Column-wise Median ("Median"),
 Column-wise Mean ("Mean"),
-or None ("None").}
+or None ("None").
+}}
 }
 \value{
 The function returns a normalized 2d dataframe.
@@ -24,5 +26,5 @@ normalize() applies one specified type of normalization to a data set
 }
 \details{
 Quantile normalization is generally recommended. Mean and Median
-normalization are included as popular previous methods. No normalization is not recommended.
+normalization are going to be included as popular previous methods. No normalization is not recommended.
 }

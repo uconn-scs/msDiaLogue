@@ -35,9 +35,9 @@ meanVariancePlot <- function(datMV, title = ""){
 #################################################
 #' Log based Transformation 
 #' 
-#' 
 #'  @description 
-#'  placeholder
+#'  transform() applies a transformation to the data to stabilize 
+#'  the variance.
 #' 
 #'  @param dataSet A data frame containing the data signals  
 #'  @param  logFold An integer specifying the base for the log transformation
@@ -46,8 +46,10 @@ meanVariancePlot <- function(datMV, title = ""){
 #'  @details 
 #'  The function executes the following:
 #'   1.  Plots the mean-variance relationship (using meanVariancePlot())
-#'   3.  Transforms the data 
+#'   2.  Log-transforms the data, using the specified base.
 #'   3.  Plots the mean-variance relationship again for comparison
+#'   
+#'   
 #'   @returns The function returns the transformed data.
 
 #################################################
