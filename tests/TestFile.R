@@ -24,21 +24,23 @@ dataOutput <- summarize(dataNorm)
 
 
 ######################################
-#Testing normalize
+#Testing real format normalize
 
 normTest <- matrix(c(5, 4, 3,  
-                2, 1, 4, 
-                3, 4, 6,
-                4, 2, 8
+                     2, 1, 4, 
+                     3, 4, 6,
+                     4, 2, 8
 ), byrow = TRUE, nrow = 4, ncol = 3)
 
-a <- matrix(rep(NA, 12), nrow = 4)
+
+normTest <- t(normTest)
+
+a <- matrix(rep(NA, 9), nrow = 3)
 
 dataSet <- cbind(a, normTest)
 
-transform(dataSet)
-
 test <- normalize(dataSet, normalizeType = "Quant")
+
 
 ######################################
 #Testing Imputation

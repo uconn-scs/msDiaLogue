@@ -33,6 +33,8 @@ normalize <- function(dataSet, normalizeType = "Quant"){
   dataLabels <- dataSet[,1:3]
   dataPoints <- dataSet[,4:length(dataSet[1,])]
   
+  dataPoints <- t(dataPoints)
+  
   # Define the number of proteins that are present in data set
   index <- length(dataPoints[1,])
 
@@ -91,11 +93,17 @@ normalize <- function(dataSet, normalizeType = "Quant"){
   }
   
   
+  normDataPoints <- t(normDataPoints)
+  
+  
   #recombine the labels and transformed data into a single data frame
   normDataSet <- cbind(dataLabels, normDataPoints)
   
   #replace the protein names
   colnames(normDataSet) <- colnames(dataSet)
+  
+  #replace the sample names
+  rownames(normDataSet) <- rownames(dataSet)
   
   # return pre-processed data
   return(normDataSet)
