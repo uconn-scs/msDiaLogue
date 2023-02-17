@@ -1,3 +1,5 @@
+
+
 #Default Methods Test
 
 name <- "ProteinQuantReport.csv"
@@ -19,20 +21,11 @@ dataOutput <- summarize(dataNorm)
 
 
 compareValues <-c(1,2)
-
 testOutput <- analyze(dataNorm, compareValues)
 
+
+
 #####################################
-
-
-
-
-tempx <- t.test(dataNorm[1:3,6],dataNorm[4:6,6])
-c(tempx$estimate, tempx$p.value) 
-
-
-
-
 
 
 
