@@ -4,16 +4,16 @@
 \alias{analyze}
 \title{Analyzing summarized data}
 \usage{
-analyze(dataSet)
+analyze(dataSet, conditions, testType = "t-test")
 }
 \arguments{
-\item{summaryData}{The 2d data set of data}
+\item{conditions}{A list of length 2, composed of integers, specifying
+which conditions to compare}
 
 \item{testType}{A string (default = "t-test") specifying which
 statistical test to use.}
 
-\item{conditions}{A list of length 2, composed of integers, specifying
-which conditions to compare}
+\item{summaryData}{The 2d data set of data}
 }
 \value{
 The function returns a 2d dataframe with differences of means and

@@ -22,10 +22,6 @@ require(dplyr)
 #' 
 #################################################
 
-dataSet <- dataNorm
-
-conditions <- compareValues
-
 analyze <- function(dataSet, conditions, testType = "t-test"){
 
   
