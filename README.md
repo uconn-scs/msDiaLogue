@@ -13,6 +13,6 @@ Main areas include:
 * Data imputation: missing data procedures
 * Data summary: calculating and presenting numerical summaries in tabular form
 * Differential Abundance Analysis: statistical tools for DIA data analysis
-* Data visualization: 
+* Data visualization: providing clean visuals to aid in data analysis decisions
 
 
