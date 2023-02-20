@@ -21,7 +21,10 @@ dataOutput <- summarize(dataNorm)
 
 
 compareValues <-c(1,2)
-testOutput <- analyze(dataNorm, compareValues)
+testOutput <- analyze(dataNorm, compareValues, testType = "volcano")
+
+
+visualize(testOutput)
 
 
 
@@ -60,13 +63,6 @@ mat <- matrix(c(2, 3, 6, 5, 5, "", 6, 6,
 tmp2 <- impute(mat)
 
 
-# mat <- tibble(mat)
-# mat2 <- mat %>% 
-#   mutate(across(everything(), ~replace(.x, is.nan(.x), 0)))
-# mat2 <- data.frame(sapply(mat, function(x) ifelse(is.nan(x), NA, x)))
-# apply(mat,2, is.nan)
-# mat2 <- replace(mat, is.nan(as.matrix(mat)), NA)
-# x <-c(NaN)
-# is.nan(x)
+
 
 

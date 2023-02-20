@@ -4,19 +4,20 @@
 \alias{visualize}
 \title{Generating visualizations for MS Data}
 \usage{
-visualize(dataSet, graphType = "Volcano")
+visualize(outputData, graphType = "volcano")
 }
 \arguments{
-\item{dataSet}{}
+\item{outputData}{A 2d data frame that matches the output from the analyze() function for the same name}
 
-\item{graphType}{}
+\item{graphType}{A string indicating the graph type}
 }
 \value{
 The function does not return anything.
 }
 \description{
-visualize()
+visualize() produces specified graphics for the results of the data analysis function
 }
 \details{
-placeholder
+visualize() is designed to work directly with output from analyze.
+Be sure that the graphType and testType params match.
 }
