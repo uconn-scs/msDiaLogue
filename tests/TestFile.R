@@ -2,10 +2,19 @@
 
 #Default Methods Test
 
+############### No user access
+
+
 name <- "ProteinQuantReport.csv"
 
 
 data <- preprocessing(name)
+
+
+#filter <- filter1(dataNorm, contaminantList)
+
+
+############### Default input functions
 
 
 dataTrans <- transform(data)
@@ -17,15 +26,21 @@ dataImput <- impute(dataTrans)
 dataNorm <- normalize(dataImput, normalizeType = "Quant")
 
 
-dataOutput <- summarize(dataNorm)
+#filter <- filter2(dataNorm, conditionList, proteinList)
+
+
+############### User entered input functions
+
+
+dataOutput <- summarize(dataNorm, fileName = "")
 
 
 compareValues <-c(1,2)
-testOutput <- analyze(dataNorm, compareValues, testType = "volcano")
+#TODO add warning if >2 values, recommend ANOVA
+testOutput <- analyze(dataNorm, compareValues, testType = "t-test")
 
 
 visualize(testOutput)
-
 
 
 #####################################
