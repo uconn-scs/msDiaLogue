@@ -119,6 +119,7 @@ analyze <- function(dataSet, conditions, testType = "t-test"){
     warning("This analysis can only be performed on 2 conditions at a time. 
             Please select exactly 2 conditions to compare.
             Alternatively, please consider using ANOVA.")
+    break
     
   }
   

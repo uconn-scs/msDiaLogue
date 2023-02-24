@@ -11,13 +11,13 @@ name <- "ProteinQuantReport.csv"
 data <- preprocessing(name)
 
 
-#filter <- filter(data, contaminantList)
+dataFilter1<- filterOutIn(data, TRUE, c("MYG_HORSE"))
 
 
 ############### Default input functions
 
 
-dataTrans <- transform(data)
+dataTrans <- transform(dataFilter1)
 
 
 dataImput <- impute(dataTrans)
@@ -26,23 +26,30 @@ dataImput <- impute(dataTrans)
 dataNorm <- normalize(dataImput, normalizeType = "Quant")
 
 
-#filter <- filter(dataNorm, conditionList, proteinList)
+dataFilter2<- filterOutIn(dataNorm, FALSE, c("MYG_HORSE"))
 
 
 ############### User entered input functions
 
 
-dataOutput <- summarize(dataNorm, fileName = "")
+dataOutput <- summarize(dataFilter2, fileName = "")
 
 
 compareValues <-c(1,2) 
-testOutput <- analyze(dataNorm, compareValues, testType = "t-test")
+testOutput <- analyze(dataNorm, compareValues, testType = "volcano")
 
 
 visualize(testOutput)
 
 
 #####################################
+
+
+mtcars
+
+foo <- c("wt", "am", "carb")
+
+mtcars2 <- mtcars %>% select(-all_of(foo))
 
 
 

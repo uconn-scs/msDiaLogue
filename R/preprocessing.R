@@ -38,7 +38,7 @@ preprocessing <- function(fileName, filterNaN = TRUE, filterUnique = 2){
     rawData <- read.csv(fileName)
     
     #Filter Data by NaN and unique peptide count
-    filteredData <- filtering(rawData, filterNaN, filterUnique)
+    filteredData <- preProcessFiltering(rawData, filterNaN, filterUnique)
     
     # select columns necessary for analysis 
     selectedData <- filteredData %>% select(R.Condition, R.FileName, R.Replicate,  
