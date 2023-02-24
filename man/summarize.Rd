@@ -4,7 +4,7 @@
 \alias{summarize}
 \title{Summarize protein intensities across replicates}
 \usage{
-summarize(dataSet, sortBy = "", fileName = "")
+summarize(dataSet, fileName = "")
 }
 \arguments{
 \item{dataSet}{A data frame containing the data signals and labels}
@@ -12,8 +12,9 @@ summarize(dataSet, sortBy = "", fileName = "")
 \item{fileName}{A string which can be used to generate a csv file of the summary statistics}
 }
 \value{
-The function returns the summarized data frame.
+The function returns a 2d summarized data frame.
 }
 \description{
-summarize()
+summarize() calculates the mean, standard deviation and replicate count for
+protein across every condition.
 }

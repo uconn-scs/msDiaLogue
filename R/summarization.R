@@ -7,18 +7,20 @@ require(tidyr)
 #' Summarize protein intensities across replicates 
 #' 
 #' @description 
-#' summarize() 
+#' summarize() calculates the mean, standard deviation and replicate count for 
+#' protein across every condition.
 #' 
 #' 
 #' @param dataSet A data frame containing the data signals and labels
+#' 
 #' @param fileName A string which can be used to generate a csv file of the summary statistics
 #' 
 #' 
-#' @returns The function returns the summarized data frame.
+#' @returns The function returns a 2d summarized data frame.
 #################################################
 
 
-summarize <- function(dataSet, sortBy = "",  fileName = ""){
+summarize <- function(dataSet, fileName = ""){
   
   #Calculate the mean,  standard deviation and sample count for each protein in each sample 
   

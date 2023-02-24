@@ -10,12 +10,15 @@ impute(dataSet, imputeType = "MinVal")
 \item{dataSet}{The 2d data set of experimental values}
 
 \item{imputeType}{A Boolean (default = "MinVal") specifying what imputation
-method to use.
-.}
+method to use.}
 }
 \value{
 The function returns an imputed 2d dataframe.
 }
 \description{
 impute() applies an imputation method to the data set.
+}
+\details{
+"MinVal" replaces missing values with the lowest global value
+.
 }

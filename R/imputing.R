@@ -13,6 +13,9 @@ require(tidyr)
 #' 
 #' @param imputeType A Boolean (default = "MinVal") specifying what imputation 
 #' method to use.
+#' 
+#' @details 
+#' "MinVal" replaces missing values with the lowest global value
 #' . 
 #'      
 #' @returns The function returns an imputed 2d dataframe. 
