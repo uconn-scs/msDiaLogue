@@ -23,7 +23,6 @@ require(ggplot2)
 #' Be sure that the graphType and testType params match.
 #' 
 #' 
-#' 
 #' @returns The function does not return anything.
 #################################################
 
@@ -54,7 +53,7 @@ visualize <- function(outputData, graphType = "volcano"){
   #############
   
   #create volcano plot with p =0.05 cut off, and hard coded range and scope
-  p1 <- ggplot(data=plotData, aes(x=Log.2.Fold.Change, y= -log10(P.value), 
+  p1 <- ggplot(data=plotData, aes(x=Log.Fold.Change, y= -log10(P.value), 
                                   col = diffexpressed, label = delabel)) +
     geom_point() +
     #x and y limits are currently hard-coded

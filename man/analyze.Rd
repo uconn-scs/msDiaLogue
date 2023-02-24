@@ -17,7 +17,8 @@ statistical test to use.}
 }
 \value{
 The function returns a 2d dataframe with differences of means and
-p-values for every protein across the two conditions.
+p-values for every protein across the two conditions. The dataframe is sorted
+by ascending p-value.
 }
 \description{
 analyze() applies a statistical test to the data.

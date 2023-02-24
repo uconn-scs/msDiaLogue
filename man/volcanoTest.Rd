@@ -7,12 +7,21 @@
 volcanoTest(x)
 }
 \arguments{
-\item{x}{placeholder}
+\item{x}{The function takes a parameter x, a 1d dataframe, where the first
+half of the data are from the first condition, and the second half are
+from the second condition.}
 }
 \value{
-The function returns a 1d dataframe with differences of log2 means and
-t-tested p-values for every protein across the two conditions.
+The function returns a list of length 2 with the difference of means and
+the t-tested p-values for the protein across two conditions.
 }
 \description{
-placeholder
+This function produces output (fold change, and P value) for a volcano plot.
+}
+\details{
+If the means between the two conditions are the same, t.test throws an error,
+which is caught and printed to the user to make sure the program keeps running
+
+WARNING: currently, the function does not apply a further transformation.
+The data must be log 2 transformed in a previous step to be transformed here.
 }

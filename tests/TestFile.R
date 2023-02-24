@@ -11,7 +11,7 @@ name <- "ProteinQuantReport.csv"
 data <- preprocessing(name)
 
 
-#filter <- filter1(dataNorm, contaminantList)
+#filter <- filter(data, contaminantList)
 
 
 ############### Default input functions
@@ -26,7 +26,7 @@ dataImput <- impute(dataTrans)
 dataNorm <- normalize(dataImput, normalizeType = "Quant")
 
 
-#filter <- filter2(dataNorm, conditionList, proteinList)
+#filter <- filter(dataNorm, conditionList, proteinList)
 
 
 ############### User entered input functions
@@ -35,8 +35,7 @@ dataNorm <- normalize(dataImput, normalizeType = "Quant")
 dataOutput <- summarize(dataNorm, fileName = "")
 
 
-compareValues <-c(1,2)
-#TODO add warning if >2 values, recommend ANOVA
+compareValues <-c(1,2) 
 testOutput <- analyze(dataNorm, compareValues, testType = "t-test")
 
 
