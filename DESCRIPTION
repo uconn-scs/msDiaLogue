@@ -16,7 +16,9 @@ Imports:
   tidyr (>= 1.3.0),
   dplyr (>= 1.0.10)
 Suggests:
-  ggplot2
+    ggplot2,
+    testthat (>= 3.0.0)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Config/testthat/edition: 3

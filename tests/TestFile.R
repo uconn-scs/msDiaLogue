@@ -26,13 +26,13 @@ dataImput <- impute(dataTrans)
 dataNorm <- normalize(dataImput, normalizeType = "Quant")
 
 
-dataFilter2<- filterOutIn(dataNorm, FALSE, c("MYG_HORSE"))
+#dataFilter2<- filterOutIn(dataNorm, FALSE, proteinList)
 
 
 ############### User entered input functions
 
 
-dataOutput <- summarize(dataFilter2, fileName = "")
+dataOutput <- summarize(dataNorm, fileName = "")
 
 
 compareValues <-c(1,2) 
