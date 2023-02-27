@@ -12,7 +12,7 @@ require(tidyr)
 #' 
 #' @param fileName The name of the file containing MS data (+ the path to the file, if needed) 
 #' 
-#' @param filterNan A boolean (default = TRUE) specifying if observations including NaN should be omitted. 
+#' @param filterNaN A boolean (default = TRUE) specifying if observations including NaN should be omitted. 
 #' 
 #' @param filterUnique An integer specifying how many unique peptides are required to include a protein
 #' 

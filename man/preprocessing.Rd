@@ -9,9 +9,9 @@ preprocessing(fileName, filterNaN = TRUE, filterUnique = 2)
 \arguments{
 \item{fileName}{The name of the file containing MS data (+ the path to the file, if needed)}
 
-\item{filterUnique}{An integer specifying how many unique peptides are required to include a protein}
+\item{filterNaN}{A boolean (default = TRUE) specifying if observations including NaN should be omitted.}
 
-\item{filterNan}{A boolean (default = TRUE) specifying if observations including NaN should be omitted.}
+\item{filterUnique}{An integer specifying how many unique peptides are required to include a protein}
 }
 \value{
 The function returns a 2d dataframe.
