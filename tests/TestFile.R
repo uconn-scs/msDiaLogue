@@ -17,21 +17,34 @@ dataFilter1<- filterOutIn(data, TRUE, c("MYG_HORSE"))
 ############### Default input functions
 
 
+#TODO 1 remove lists of proteins that are uniquely found in only one condition
+#Sort Proteins to unique combinations of conditions, store as lists.
+
+#TODO 1 venn diagram of all proteins sorted into conditions that is present 
+# https://r-graph-gallery.com/14-venn-diagramm
+
+
 dataTrans <- transform(dataFilter1)
 
-
+requiredPercentPresent <- 50
+#TODO 2 impute only in cases where meets percentPresent, 
+#Use protein x condition-specific average value
 dataImput <- impute(dataTrans)
 
+#TODO 2 remove proteins that don't meet PercentPresent
+#create file with removed proteins, with average values and N
+#from the values that do exist.
+ #<- filterOutIn()
 
 dataNorm <- normalize(dataImput, normalizeType = "Quant")
 
 
-#dataFilter2<- filterOutIn(dataNorm, FALSE, proteinList)
+dataFilter2<- filterOutIn(dataNorm, FALSE, proteinList)
 
 
 ############### User entered input functions
 
-
+#TODO 4 default if conditons = 2, include fold change in summarize output
 dataOutput <- summarize(dataNorm, fileName = "")
 
 
@@ -39,7 +52,17 @@ compareValues <-c(1,2)
 testOutput <- analyze(dataNorm, compareValues, testType = "volcano")
 
 
+#TODO 4 boxplots or rainforest plots 
+
+
 visualize(testOutput)
+
+#TODO 3
+#Scatterplot of log fold change (a vs b) vs scaled abundance MA
+#https://en.wikipedia.org/wiki/MA_plot
+#GGplot and plotly for interactive plotting
+
+#TODO 3 Add heatmap and dendogram by condition, not by protein
 
 
 #####################################
