@@ -1,6 +1,6 @@
 
 
-#Default Methods Test
+#Default Methods Test ----
 
 ############### No user access
 
@@ -65,19 +65,40 @@ visualize(testOutput)
 #TODO 3 Add heatmap and dendogram by condition, not by protein
 
 
-#####################################
+#Active Build Section ----
+
+library(VennDiagram)
 
 
-mtcars
+# A simple single-set diagram
+cardiome <- letters[1:10]
+superset <- letters[8:24]
+overlap <- calculate.overlap(
+  x = list(
+    "Cardiome" = cardiome,
+    "SuperSet" = superset
+  )
+)
 
-foo <- c("wt", "am", "carb")
+overlap$a1
+overlap$a2
+overlap$a3
 
-mtcars2 <- mtcars %>% select(-all_of(foo))
 
 
 
-######################################
-#Testing real format normalize
+
+
+
+
+
+
+
+
+# Individual Unit Tests ----
+
+
+###################################### Testing real format normalize
 
 normTest <- matrix(c(5, 4, 3,  
                      2, 1, 4, 
@@ -95,8 +116,7 @@ dataSet <- cbind(a, normTest)
 test <- normalize(dataSet, normalizeType = "Quant")
 
 
-######################################
-#Testing Imputation
+###################################### Testing Imputation
 mat <- matrix(c(2, 3, 6, 5, 5, "", 6, 6, 
                 4, 3, 5, 3, 3, 5, 4, 5, 
                  "", 4, 3, 4, 7, 2, NA, 5, 
