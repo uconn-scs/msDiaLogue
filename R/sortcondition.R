@@ -21,10 +21,10 @@ require(tidyr)
 sortcondition <- function(dataSet){
   
   #create a list of the unique condition names
-  conditionList <- unique(dataTest$R.Condition)
+  conditionList <- unique(dataSet$R.Condition)
   
   # calculate how many values are present from each condition by protein
-  dtaCounts <- dataTest %>% 
+  dtaCounts <- dataSet %>% 
             # do not include columns that are strings
             select(!c(R.FileName, R.Replicate)) %>%
                 # group by experimental condition

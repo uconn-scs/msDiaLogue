@@ -67,27 +67,21 @@ visualize(testOutput)
 
 #Active Build Section ----
 
+testData <- read.csv("MissingDataTestFile.csv")
+
+combos.list <- sortcondition(testData)
+
 library(VennDiagram)
 
+VennDiagram::venn.diagram(
+                          x = combos.list[1:length(unique(df$cond))], 
+                          filename = "test.tiff", 
+                          fill = c("red", "green", "blue"), 
+                          alpha = 0.2)
 
-# A simple single-set diagram
-cardiome <- letters[1:10]
-superset <- letters[8:24]
-overlap <- calculate.overlap(
-  x = list(
-    "Cardiome" = cardiome,
-    "SuperSet" = superset
-  )
-)
+a <- VennDiagram::get.venn.partitions(combos.list[1:length(unique(df$cond))])
 
-overlap$a1
-overlap$a2
-overlap$a3
-
-
-
-
-
+a$..values..
 
 
 
