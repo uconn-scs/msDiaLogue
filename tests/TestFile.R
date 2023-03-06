@@ -28,7 +28,7 @@ dataTrans <- transform(dataFilter1)
 
 requiredPercentPresent <- 50
 #TODO 2 impute only in cases where meets percentPresent, 
-#Use protein x condition-specific average value
+#Use protein x condition-specific minimum value
 dataImput <- impute(dataTrans)
 
 #TODO 2 remove proteins that don't meet PercentPresent
