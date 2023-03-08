@@ -6,6 +6,7 @@ require(ggrepel)
 require(dplyr)
 require(tidyr)
 require(ggplot2)
+require(VennDiagram)
 
 #################################################
 #' Generating visualizations for MS Data
@@ -28,13 +29,15 @@ require(ggplot2)
 
 
 
-visualize <- function(outputData, graphType = "volcano"){
+visualize <- function(outputData, graphType = "volcano", fileName){
   
-  #transpose the data for easy manipulation
-  plotData <- data.frame(t(outputData))
+
   
   # specify graph type
   if (graphType == "volcano") {
+    
+  #transpose the data for easy manipulation
+  plotData <- data.frame(t(outputData))
   
   # add a column of NAs to indicate coloring
   plotData$diffexpressed <- "NO"
@@ -64,9 +67,34 @@ visualize <- function(outputData, graphType = "volcano"){
     scale_color_manual(values=c("red", "black")) +
     geom_hline(yintercept=-log10(0.05), col="red") 
   
+  
+  
+  return(p1)
+  
+  }
+  
+  
+  # specify graph type
+  if (graphType == "venn") {
+  
+  combos.list <- outputData
+    
+   venn.diagram(
+      x = combos.list[1:length(combos.list)], 
+      filename = fileName, 
+      fill = c("red", "green", "blue", "yellow"), 
+      alpha = 0.2)
+    
+    
+    a <- get.venn.partitions(combos.list[1:length(combos.list)])
+    
+    a$..values..
+    
+  return()
+     
   }
 
- return(p1)
+ 
 }
 
 

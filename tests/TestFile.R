@@ -1,5 +1,3 @@
-
-
 #Default Methods Test ----
 
 ############### No user access
@@ -17,16 +15,17 @@ dataFilter1<- filterOutIn(data, TRUE, c("MYG_HORSE"))
 ############### Default input functions
 
 
-#TODO 1 remove lists of proteins that are uniquely found in only one condition
-#Sort Proteins to unique combinations of conditions, store as lists.
+combos.list <- sortcondition(testData)
 
-#TODO 1 venn diagram of all proteins sorted into conditions that is present 
-# https://r-graph-gallery.com/14-venn-diagramm
-
+# above 4 conditions, venn diagrams become less useful
+if (length(combos.list) <= 4){
+  visualize(combos.list, "venn", "test.tiff")
+  #TODO 1 Return list of proteins that are present in all conditions
+}
 
 dataTrans <- transform(dataFilter1)
 
-requiredPercentPresent <- 50
+requiredPercentPresent <- 51
 #TODO 2 impute only in cases where meets percentPresent, 
 #Use protein x condition-specific minimum value
 dataImput <- impute(dataTrans)
@@ -65,23 +64,29 @@ visualize(testOutput)
 #TODO 3 Add heatmap and dendogram by condition, not by protein
 
 
+
+
+
+
+
+
+
+
 #Active Build Section ----
 
-testData <- read.csv("MissingDataTestFile.csv")
+dataTest <- read.csv("MissingDataTestFile.csv")
 
-combos.list <- sortcondition(testData)
 
-library(VennDiagram)
+# calculate how many values are present from each condition by protein
+dtaTemp <- dataTest %>% 
+  # do not include columns that are strings
+  select(!c(R.FileName, R.Replicate)) %>%
+      # group by experimental condition
+      group_by(R.Condition) %>% 
+          # apply to every numeric function a summation of the non-NA values
+          mutate_if(is.na, ~min(.x))
 
-VennDiagram::venn.diagram(
-                          x = combos.list[1:length(unique(df$cond))], 
-                          filename = "test.tiff", 
-                          fill = c("red", "green", "blue"), 
-                          alpha = 0.2)
 
-a <- VennDiagram::get.venn.partitions(combos.list[1:length(unique(df$cond))])
-
-a$..values..
 
 
 

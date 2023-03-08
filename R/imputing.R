@@ -32,15 +32,34 @@ impute <- function(dataSet, imputeType = "MinVal"){
   imputedDataPoints <- dataSet[,4:length(dataSet[1,])]
   
   
-  if (imputeType == "MinVal") {
+  if (imputeType == "GlobeMinVal") {
+  
+    #Check each protein in turn
+    
+    #Check each condition in turn 
+    
+    #if any NA's are present, find the smallest value of the existing replicates 
+    
+    
+    
+    # calculate how many values are present from each condition by protein
+    dtaCounts <- dataSet %>% 
+      # do not include columns that are strings
+      select(!c(R.FileName, R.Replicate)) %>%
+        # group by experimental condition
+        group_by(R.Condition) %>% 
+          # apply to every numeric function a summation of the non-NA values
+          summarise(across(where(is.numeric), ~sum(!is.na(.x))))
+      
+  
+  }
+  
+  if (imputeType == "GlobeMinVal") {
     # filter out the proteins that have no recorded value
-    
-    #imputedData <- replace(imputedData, is.nan(imputedData), NA)
-    #imputedData <- replace(imputedData, is.null(imputedData), NA)
     imputedDataPoints[imputedDataPoints == ""] <- NA
-    
+    # find the global smallest value in the data set
     minimumValue <- min(imputedDataPoints, na.rm = TRUE)
-    
+    # replace all NAs with the smallest value
     imputedDataPoints <- replace(imputedDataPoints, is.na(imputedDataPoints), minimumValue)
     
   }
