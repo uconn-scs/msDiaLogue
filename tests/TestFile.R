@@ -89,7 +89,9 @@ dtaTemp <- dataTest %>%
 
 
 
-
+trimFASTA("jlb20220525_BosTaurus_RefUniprotproteome_UP000009136.txt", 
+          "20230217_112231_hrf20230212_AAML1031_Plates124_Report.csv", 
+          "test.txt")
 
 
 
