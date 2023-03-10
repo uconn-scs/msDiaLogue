@@ -16,9 +16,9 @@ require(tictoc)
 #' 
 #' @param reportFileName A string indicating the spectronaut report .csv filename. 
 #' 
-#' @param selectString A string containing a regular expression for which to search. 
-#' 
 #' @param outputFileName A string indicating the name for the new .txt FASTA file.
+#' 
+#' @param selectString A string containing a regular expression for which to search. 
 #' 
 #' @details 
 #' Depending on the size of the FASTA files, this function can be slow and 
@@ -31,7 +31,7 @@ require(tictoc)
 
 
 
-trimFASTA <- function(FASTAFileName, reportFileName, selectString = "*BOVIN", outputFileName){
+trimFASTA <- function(FASTAFileName, reportFileName, outputFileName, selectString = "*BOVIN"){
   
   
 message("Depending on the size of the FASTA files, this function can be slow and

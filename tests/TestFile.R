@@ -84,20 +84,20 @@ dtaTemp <- dataTest %>%
       # group by experimental condition
       group_by(R.Condition) %>% 
           # apply to every numeric function a summation of the non-NA values
-          mutate_if(is.na, ~min(.x))
-
-
-
-
-trimFASTA("jlb20220525_BosTaurus_RefUniprotproteome_UP000009136.txt", 
-          "20230217_112231_hrf20230212_AAML1031_Plates124_Report.csv", 
-          "test.txt")
+          mutate(across(case_when(
+            
+              sum(is.na) > 2 ~ min(.x))))
 
 
 
 
 # Individual Unit Tests ----
 
+###################################### Testing trimFASTA
+
+trimFASTA("jlb20220525_BosTaurus_RefUniprotproteome_UP000009136.txt", 
+          "20230217_112231_hrf20230212_AAML1031_Plates124_Report.csv", 
+          "test.txt")
 
 ###################################### Testing real format normalize
 

@@ -51,8 +51,9 @@ impute <- function(dataSet, imputeType = "MinVal"){
         # group by experimental condition
         group_by(R.Condition) %>% 
           # apply to every numeric function a summation of the non-NA values
-          summarise(across(where(is.numeric), ~sum(!is.na(.x))))
-      
+          summarise(across(where(is.numeric), ~min(.x)))
+    
+    
   
   }
   
