@@ -67,26 +67,52 @@ visualize(testOutput)
 
 
 
-
-
-
-
-
 #Active Build Section ----
 
 dataTest <- read.csv("MissingDataTestFile.csv")
 
+dataRaw <- dataTest
 
-# calculate how many values are present from each condition by protein
-dtaTemp <- dataTest %>% 
-  # do not include columns that are strings
-  select(!c(R.FileName, R.Replicate)) %>%
-      # group by experimental condition
-      group_by(R.Condition) %>% 
-          # apply to every numeric function a summation of the non-NA values
-          mutate(across(case_when(
+numbReplicates <- as.integer(length(unique(dataTest$R.Replicate)))
+
+numbProteins <- as.integer(length(dataTest[1,]) - 3)
+
+numbConditions <- as.integer(length(dataTest[,1]) / numbReplicates)
+
+
+
+for (i in 1:numbProteins) {
+  
+  for (j in 1:numbConditions){
+
+    tempRange <- as.integer((j-1)*numbReplicates + 1):as.integer(j*numbReplicates)
+    
+    tempData <- dataTest[tempRange, i + 3]
+  
+    
+    percentPresent <- sum(!is.na(tempData))/numbReplicates
+    
+    
+    # if the imputation threshold is met
+    if (percentPresent >= 0.51) {
+      
+      for (k in 1:as.integer(length(tempData))){
+        
+          if (is.na(tempData[k])){
             
-              sum(is.na) > 2 ~ min(.x))))
+            tempData[k] <- min(tempData, na.rm = TRUE)
+            
+        }
+        
+      }
+      
+    }
+    
+    dataTest[tempRange, i + 3] <- tempData
+    
+  }
+  
+}
 
 
 
