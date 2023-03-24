@@ -86,10 +86,6 @@ visualize <- function(outputData, graphType = "volcano", fileName){
       alpha = 0.2)
     
     
-    a <- get.venn.partitions(combos.list[1:length(combos.list)])
-    
-    a$..values..
-    
   return()
      
   }

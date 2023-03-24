@@ -15,28 +15,27 @@ dataFilter1<- filterOutIn(data, TRUE, c("MYG_HORSE"))
 ############### Default input functions
 
 
-combos.list <- sortcondition(testData)
+combos.list <- sortcondition(dataFilter1)
+showUniversal <- TRUE
 
 # above 4 conditions, venn diagrams become less useful
 if (length(combos.list) <= 4){
   visualize(combos.list, "venn", "test.tiff")
-  #TODO 1 Return list of proteins that are present in all conditions
 }
+
+if (showUniversal){
+  a <- get.venn.partitions(combos.list[1:length(combos.list)])
+  universalProt <- a$..values..[[1]]
+}
+  
 
 dataTrans <- transform(dataFilter1)
 
-requiredPercentPresent <- 51
-#TODO 2 impute only in cases where meets percentPresent, 
-#Use protein x condition-specific minimum value
 dataImput <- impute(dataTrans)
 
-#TODO 2 remove proteins that don't meet PercentPresent
-#create file with removed proteins, with average values and N
-#from the values that do exist.
- #<- filterOutIn()
+dataFilter2 <- filterNA(dataImput)
 
-dataNorm <- normalize(dataImput, normalizeType = "Quant")
-
+dataNorm <- normalize(dataFilter2, normalizeType = "Quant")
 
 dataFilter2<- filterOutIn(dataNorm, FALSE, proteinList)
 
@@ -69,55 +68,24 @@ visualize(testOutput)
 
 #Active Build Section ----
 
-dataTest <- read.csv("MissingDataTestFile.csv")
-
-dataRaw <- dataTest
-
-numbReplicates <- as.integer(length(unique(dataTest$R.Replicate)))
-
-numbProteins <- as.integer(length(dataTest[1,]) - 3)
-
-numbConditions <- as.integer(length(dataTest[,1]) / numbReplicates)
 
 
 
-for (i in 1:numbProteins) {
-  
-  for (j in 1:numbConditions){
 
-    tempRange <- as.integer((j-1)*numbReplicates + 1):as.integer(j*numbReplicates)
-    
-    tempData <- dataTest[tempRange, i + 3]
-  
-    
-    percentPresent <- sum(!is.na(tempData))/numbReplicates
-    
-    
-    # if the imputation threshold is met
-    if (percentPresent >= 0.51) {
-      
-      for (k in 1:as.integer(length(tempData))){
-        
-          if (is.na(tempData[k])){
-            
-            tempData[k] <- min(tempData, na.rm = TRUE)
-            
-        }
-        
-      }
-      
-    }
-    
-    dataTest[tempRange, i + 3] <- tempData
-    
-  }
-  
-}
+
 
 
 
 
 # Individual Unit Tests ----
+
+###################################### Testing local imputation
+
+dataTest <- read.csv("MissingDataTestFile.csv")
+
+dataTestImpute <- impute(dataTest, imputeType = "LocalMinVal", reqPercentPresent = 51)
+
+dataNAFiltered <- filterNA(dataTestImpute)
 
 ###################################### Testing trimFASTA
 

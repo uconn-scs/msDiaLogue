@@ -101,6 +101,44 @@ filterOutIn <- function(dataSet, removeList, listName ){
   
 }
 
+#################################################
+#' Filtering NA's post-imputation
+#' 
+#' @description 
+#' filterNA() removes all proteins from the data
+#' 
+#' @param dataSet The 2d data set of experimental values 
+#' 
+#' @details 
+#' If contaminates are removed, a .csv file is created with the removed data.  
+#'      
+#' @returns The function returns a filtered 2d dataframe. 
+#' 
+#################################################
 
+filterNA <- function(dataSet){
+  
+  #relabel the data frame
+  filteredData <- dataSet
+    
+    #create a dataframe of the removed data
+    removedData <- filteredData %>% 
+                              select_if(function(x) any(is.na(x)))
+    
+    #add label columns back into data table
+    removedData <- bind_cols(dataSet[,1:3], removedData)
+    
+    #save removed data to current working directory as fileName 
+    write.csv(removedData, "filtered_NA_data.csv")
+    
+    #remove all of the contaminates if they are present
+    filteredData <- filteredData %>% select_if(function(x) !any(is.na(x)))
+    
+  
+  #return the filtered data 
+  return(filteredData)
+  
+  
+}
 
 
