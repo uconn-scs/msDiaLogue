@@ -43,6 +43,32 @@ summarize <- function(dataSet, fileName = ""){
   
   #sort the summary so that values for each protein are sequential
   proteinSummary <- proteinSummary %>% select(starts_with(proteinList))
+  
+  #if only two samples are present, then calculate fold change automatically.
+  if (sampleList == 2){
+    
+    foldChange <- proteinSummary[2,]/proteinSummary[1,]
+    
+    proteinSummary <- rbind(proteinSummary, foldChange)
+    
+    rowNames <- c("Condition 1", "Condition 2", "Fold Change")
+    
+    proteinSummary <- cbind(rowNames, proteinSummary)
+    
+    for (i in 2:length(proteinSummary[1,])) {
+      
+      print(!grepl("*_mean", colnames(proteinSummary)[i]))
+      
+      if (!grepl("*_mean", colnames(proteinSummary)[i])){
+        
+        proteinSummary[3,i] <- NA
+        
+      }
+      
+    }
+                                                  
+    
+  }
     
   
   if (fileName != ""){

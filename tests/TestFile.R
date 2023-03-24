@@ -16,7 +16,7 @@ dataFilter1<- filterOutIn(data, TRUE, c("MYG_HORSE"))
 
 
 combos.list <- sortcondition(dataFilter1)
-showUniversal <- TRUE
+showUniversal <- FALSE
 
 # above 4 conditions, venn diagrams become less useful
 if (length(combos.list) <= 4){
@@ -37,16 +37,13 @@ dataFilter2 <- filterNA(dataImput)
 
 dataNorm <- normalize(dataFilter2, normalizeType = "Quant")
 
-dataFilter2<- filterOutIn(dataNorm, FALSE, proteinList)
-
 
 ############### User entered input functions
 
-#TODO 4 default if conditons = 2, include fold change in summarize output
 dataOutput <- summarize(dataNorm, fileName = "")
 
-
 compareValues <-c(1,2) 
+
 testOutput <- analyze(dataNorm, compareValues, testType = "volcano")
 
 
@@ -86,6 +83,8 @@ dataTest <- read.csv("MissingDataTestFile.csv")
 dataTestImpute <- impute(dataTest, imputeType = "LocalMinVal", reqPercentPresent = 51)
 
 dataNAFiltered <- filterNA(dataTestImpute)
+
+
 
 ###################################### Testing trimFASTA
 

@@ -31,7 +31,6 @@ require(VennDiagram)
 
 visualize <- function(outputData, graphType = "volcano", fileName){
   
-
   
   # specify graph type
   if (graphType == "volcano") {
@@ -90,7 +89,9 @@ visualize <- function(outputData, graphType = "volcano", fileName){
      
   }
 
- 
+
+  
+   
 }
 
 
