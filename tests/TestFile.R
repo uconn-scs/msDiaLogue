@@ -32,6 +32,19 @@ dataFilter2 <- filterNA(dataImput)
 
 dataNorm <- normalize(dataFilter2, normalizeType = "Quant")
 
+#pullProteinPath
+
+dataSetList <- list(
+  "Initial" = data, 
+  "Transformed" = dataTrans, 
+  "Imputed" = dataImput, 
+  "Normalized" = dataNorm)
+
+proteinName <- "ZCRB1_HUMAN"
+
+ZCRB1 <- pullProteinPath(proteinName, dataSetList)
+
+
 
 ############### User entered input functions
 
@@ -57,20 +70,11 @@ visualize(testOutput)
 
 #Active Build Section ----
 
-#pullProteinPath
-
-dataSetList <- list(
-  "Raw" = data, 
-  "Filtered" = dataFilter1, 
-  "Transformed" = dataTrans, 
-  "Imputed" = dataImput, 
-  "Filtered2" = dataFilter2, 
-  "Normalized" = dataNorm)
 
 
-proteinName <- "PAL4C_HUMAN"
 
-PAL4C <- pullProteinPath(proteinName, dataSetList)
+
+
 
 
 

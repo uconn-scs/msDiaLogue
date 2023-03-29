@@ -45,7 +45,7 @@ summarize <- function(dataSet, fileName = ""){
   proteinSummary <- proteinSummary %>% select(starts_with(proteinList))
   
   #if only two samples are present, then calculate fold change automatically.
-  if (sampleList == 2){
+  if (length(sampleList) == 2){
     
     foldChange <- proteinSummary[2,]/proteinSummary[1,]
     

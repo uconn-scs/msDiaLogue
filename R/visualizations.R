@@ -88,6 +88,22 @@ visualize <- function(outputData, graphType = "volcano", fileName){
   return()
      
   }
+  
+  
+  if (graphType == "MA") {
+    
+    
+    
+    
+    
+    plot(rowMeans(log2(y)), 
+         log2(y[, 1])-log2(y[, 2]),
+         xlab = "A",
+         ylab = "M"
+    )
+    
+    
+  }
 
    
 }
