@@ -1,3 +1,8 @@
+#Current Critical Errors
+
+# code must be rewritten, without assuming all conditions will have the same number of replicates
+
+
 #Default Methods Test ----
 
 ############### No user access
@@ -16,19 +21,9 @@ dataFilter1<- filterOutIn(data, TRUE, c("MYG_HORSE"))
 
 
 combos.list <- sortcondition(dataFilter1)
-showUniversal <- FALSE
 
-# above 4 conditions, venn diagrams become less useful
-if (length(combos.list) <= 4){
-  visualize(combos.list, "venn", "test.tiff")
-}
-
-if (showUniversal){
-  a <- get.venn.partitions(combos.list[1:length(combos.list)])
-  universalProt <- a$..values..[[1]]
-}
-  
-
+vennMain(combos.list)
+ 
 dataTrans <- transform(dataFilter1)
 
 dataImput <- impute(dataTrans)
@@ -47,9 +42,6 @@ compareValues <-c(1,2)
 testOutput <- analyze(dataNorm, compareValues, testType = "volcano")
 
 
-#TODO 4 boxplots or rainforest plots 
-
-
 visualize(testOutput)
 
 #TODO 3
@@ -65,12 +57,20 @@ visualize(testOutput)
 
 #Active Build Section ----
 
+#pullProteinPath
+
+dataSetList <- list(
+  "Raw" = data, 
+  "Filtered" = dataFilter1, 
+  "Transformed" = dataTrans, 
+  "Imputed" = dataImput, 
+  "Filtered2" = dataFilter2, 
+  "Normalized" = dataNorm)
 
 
+proteinName <- "PAL4C_HUMAN"
 
-
-
-
+PAL4C <- pullProteinPath(proteinName, dataSetList)
 
 
 

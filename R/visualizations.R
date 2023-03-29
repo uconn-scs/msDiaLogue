@@ -89,12 +89,43 @@ visualize <- function(outputData, graphType = "volcano", fileName){
      
   }
 
-
-  
    
 }
 
 
+#################################################
+#' Operates the venn diagram functions 
+#' 
+#' @description 
+#' Builds a venn diagram, if useful, and provides universal protein list 
+#' 
+#' @param combos.list The output from sortCondition: lists of condition combinations
+#' 
+#' @param showUniversal A Boolean specifiying if a list of proteins that are present 
+#' in every condition should also be returned.
+#' 
+#'      
+#' @returns The function returns nothing. 
+#' 
+#################################################
+
+vennMain <- function(combos.list, showUniversal = FALSE){
+  
+  # above 4 conditions, venn diagrams become less useful
+  if (length(combos.list) <= 4){
+    visualize(combos.list, "venn", "test.tiff")
+  }
+  
+  if (showUniversal){
+    a <- get.venn.partitions(combos.list[1:length(combos.list)])
+    universalProt <- a$..values..[[1]]
+  }
+  
+  #return the filtered data 
+  return()
+  
+  
+}
 
 
 
