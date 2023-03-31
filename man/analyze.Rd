@@ -23,3 +23,12 @@ by ascending p-value.
 \description{
 analyze() applies a statistical test to the data.
 }
+\details{
+Options for testType are:
+
+"t-test" for unequal variance t-test.
+
+"volcano" for output to plot a volcano plot.
+
+"MA" for output to plot an MA plot.
+}

@@ -7,8 +7,8 @@
 trimFASTA(
   FASTAFileName,
   reportFileName,
-  selectString = "*BOVIN",
-  outputFileName
+  outputFileName,
+  selectString = "*BOVIN"
 )
 }
 \arguments{
@@ -16,9 +16,9 @@ trimFASTA(
 
 \item{reportFileName}{A string indicating the spectronaut report .csv filename.}
 
-\item{selectString}{A string containing a regular expression for which to search.}
+\item{outputFileName}{A string indicating the name for the new .txt FASTA file.}
 
-\item{outputFileName}{A string indicating the name for the new FASTA file.}
+\item{selectString}{A string containing a regular expression for which to search.}
 }
 \value{
 The function returns a FASTA file with only the specified proteins present.

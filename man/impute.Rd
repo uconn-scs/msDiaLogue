@@ -4,13 +4,16 @@
 \alias{impute}
 \title{Imputation of raw data signals}
 \usage{
-impute(dataSet, imputeType = "MinVal")
+impute(dataSet, imputeType = "LocalMinVal", reqPercentPresent = 51)
 }
 \arguments{
 \item{dataSet}{The 2d data set of experimental values}
 
-\item{imputeType}{A Boolean (default = "MinVal") specifying what imputation
+\item{imputeType}{A Boolean (default = "LocalMinVal") specifying what imputation
 method to use.}
+
+\item{reqPercentPresent}{An int (default = 51) specifying the require percent of values
+that must be present in a given protein by condition combination for values to be imputed.}
 }
 \value{
 The function returns an imputed 2d dataframe.
@@ -19,6 +22,6 @@ The function returns an imputed 2d dataframe.
 impute() applies an imputation method to the data set.
 }
 \details{
-"MinVal" replaces missing values with the lowest global value
-.
+"LocalMinVal" replaces missing values with the lowest value from the protein by condition combination.
+"GlobalMinVal" replaces missing values with the lowest overall value in the data set.
 }
