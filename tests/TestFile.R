@@ -1,6 +1,7 @@
 #Current Critical Errors
 
-# code must be rewritten, without assuming all conditions will have the same number of replicates
+# code must be FULLY run throug and partially rewritten, 
+#without assuming all conditions will have the same number of replicates.
 
 
 #Default Methods Test ----
@@ -50,18 +51,27 @@ ZCRB1 <- pullProteinPath(proteinName, dataSetList)
 
 dataOutput <- summarize(dataNorm, fileName = "")
 
+
+
+
 compareValues <-c(1,2) 
 
-testOutput <- analyze(dataNorm, compareValues, testType = "volcano")
+#Volcano Plot
+testOutput1 <- analyze(dataNorm, compareValues, testType = "volcano")
+
+visualize(testOutput1)
+
+#T-Test
+testOutput2 <- analyze(dataNorm, compareValues, testType = "t-test")
 
 
-visualize(testOutput)
+#MA Plot
+testOutput3 <- analyze(dataNorm, compareValues, testType = "MA")
 
-#TODO 3
-#Scatterplot of log fold change (a vs b) vs scaled abundance MA
-#https://en.wikipedia.org/wiki/MA_plot
-#GGplot and plotly for interactive plotting
+visualize(testOutput3, graphType = "MA")
 
+
+# Heatmap and 
 #TODO 3 Add heatmap and dendogram by condition, not by protein
 
 

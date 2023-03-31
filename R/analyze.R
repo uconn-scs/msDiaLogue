@@ -99,10 +99,20 @@ volcanoTest <- function(x){
 #' @param summaryData The 2d data set of data 
 #' 
 #' @param testType A string (default = "t-test") specifying which 
-#' statistical test to use.
+#' statistical test to use. 
 #' 
 #' @param conditions A list of length 2, composed of integers, specifying 
 #' which conditions to compare
+#' 
+#' @details
+#' Options for testType are:
+#' 
+#' "t-test" for unequal variance t-test.
+#' 
+#' "volcano" for output to plot a volcano plot.
+#' 
+#' "MA" for output to plot an MA plot. 
+#' 
 #'  
 #' @returns The function returns a 2d dataframe with differences of means and 
 #' p-values for every protein across the two conditions. The dataframe is sorted
@@ -152,6 +162,9 @@ analyze <- function(dataSet, conditions, testType = "t-test"){
   #set names for rows
   rownames(statSetOut) <- c("Difference in Means", "P-value")
   
+  #sort output by ascending p-value
+  statSetOut <- statSetOut[,order(as.matrix(statSetOut[2,]))]
+  
   }
   
   
@@ -167,12 +180,25 @@ analyze <- function(dataSet, conditions, testType = "t-test"){
   #set names for rows
   rownames(statSetOut) <- c("Log Fold Change", "P-value")
     
-    
-  }
-  
   
   #sort output by ascending p-value
   statSetOut <- statSetOut[,order(as.matrix(statSetOut[2,]))]
+    
+  }
+  
+  if (testType == "MA") {
+   
+    #Find the average of each condition individually
+    statSetOutA <- apply(testDataA[,4:length(testDataA[1,])], MARGIN = 2, FUN = mean) 
+    statSetOutB <- apply(testDataB[,4:length(testDataB[1,])], MARGIN = 2, FUN = mean)
+   
+    #combine into one data set
+    statSetOut <- rbind(statSetOutA, statSetOutB)
+    
+    #set names for rows to the condition names
+    rownames(statSetOut) <- conditions
+      
+  }
   
   # return pre-processed data
   return(statSetOut)

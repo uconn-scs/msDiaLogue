@@ -7,6 +7,7 @@ require(dplyr)
 require(tidyr)
 require(ggplot2)
 require(VennDiagram)
+require(pheatmap)
 
 #################################################
 #' Generating visualizations for MS Data
@@ -91,19 +92,41 @@ visualize <- function(outputData, graphType = "volcano", fileName){
   
   
   if (graphType == "MA") {
+  #Future addition: use GGplot and plotly for interactive plotting if needed  
     
+  #transpose the outputted data for easier manipulation
+    tOutputData <- t(outputData)
     
-    
-    
-    
-    plot(rowMeans(log2(y)), 
-         log2(y[, 1])-log2(y[, 2]),
+    #plot an MA graph with labeled axes.
+    plot(rowMeans(log2(tOutputData)), 
+         log2(tOutputData[, 1])-log2(tOutputData[, 2]),
          xlab = "A",
          ylab = "M"
     )
     
+  }
+  
+  
+  if (graphType == "heatmap"){
+    
+    matrix <- dataNorm %>% select(-c(R.FileName, R.Replicate)) %>% group_by(R.Condition) %>%
+                    summarise(across(.cols = everything(), ~mean(.x)))
+    matrix <- data.frame(matrix)
+    
+    rownames(matrix) <- matrix[,1]
+    
+    submatrix <- matrix[,2:20] 
+    
+    objEHeat <- pheatmap(mat = t(submatrix),cluster_row = FALSE, cluster_cols = TRUE, legend = TRUE)
+    
+    objEHeat$tree_row %>%
+      plot(horiz = FALSE)
+    
+    
+    
     
   }
+  
 
    
 }
