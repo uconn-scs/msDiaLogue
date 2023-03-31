@@ -19,7 +19,6 @@ require(pheatmap)
 #' 
 #' @param graphType A string indicating the graph type
 #' 
-#' 
 #' @details 
 #' visualize() is designed to work directly with output from analyze. 
 #' Be sure that the graphType and testType params match.
@@ -109,19 +108,20 @@ visualize <- function(outputData, graphType = "volcano", fileName){
   
   if (graphType == "heatmap"){
     
+    #Summarize the replicates to simple means 
     matrix <- dataNorm %>% select(-c(R.FileName, R.Replicate)) %>% group_by(R.Condition) %>%
                     summarise(across(.cols = everything(), ~mean(.x)))
+    #recast the data as a data frame
     matrix <- data.frame(matrix)
     
+    #label the row names
     rownames(matrix) <- matrix[,1]
     
+    #select only the data
     submatrix <- matrix[,2:20] 
     
-    objEHeat <- pheatmap(mat = t(submatrix),cluster_row = FALSE, cluster_cols = TRUE, legend = TRUE)
-    
-    objEHeat$tree_row %>%
-      plot(horiz = FALSE)
-    
+    #create a heatmap and plot it
+    objEHeat <- pheatmap(mat = t(submatrix),cluster_row = FALSE, cluster_cols = TRUE, scale = "row", legend = TRUE)
     
     
     
