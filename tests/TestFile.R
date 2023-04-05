@@ -1,6 +1,6 @@
 #Current Critical Errors
 
-# code must be FULLY run throug and partially rewritten, 
+# code must be FULLY run through and partially rewritten, 
 #without assuming all conditions will have the same number of replicates.
 
 
@@ -71,8 +71,9 @@ testOutput3 <- analyze(dataNorm, compareValues, testType = "MA")
 visualize(testOutput3, graphType = "MA")
 
 
-# Heatmap and 
-#TODO 3 Add heatmap and dendogram by condition, not by protein
+#Heatmap Plot 
+#select by highest fold change or largest abundance
+visualize(dataOutput, graphType = "heatmap")
 
 
 

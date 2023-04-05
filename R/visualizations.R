@@ -97,8 +97,8 @@ visualize <- function(outputData, graphType = "volcano", fileName){
     tOutputData <- t(outputData)
     
     #plot an MA graph with labeled axes.
-    plot(rowMeans(log2(tOutputData)), 
-         log2(tOutputData[, 1])-log2(tOutputData[, 2]),
+    plot(rowMeans(tOutputData), 
+         tOutputData[, 1]-tOutputData[, 2],
          xlab = "A",
          ylab = "M"
     )

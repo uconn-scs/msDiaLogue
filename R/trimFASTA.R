@@ -1,4 +1,7 @@
 
+#TODO check if it is creating a small number of replicates
+
+
 require("data.table") 
 require(seqinr)
 require(tidyr)
