@@ -93,15 +93,49 @@ visualize <- function(outputData, graphType = "volcano", fileName){
   if (graphType == "MA") {
   #Future addition: use GGplot and plotly for interactive plotting if needed  
     
-  #transpose the outputted data for easier manipulation
+    #transpose the outputted data for easier manipulation
     tOutputData <- t(outputData)
     
-    #plot an MA graph with labeled axes.
-    plot(rowMeans(tOutputData), 
-         tOutputData[, 1]-tOutputData[, 2],
-         xlab = "A",
-         ylab = "M"
-    )
+    #calculate the A data 
+    plotData <- data.frame(rowMeans(tOutputData))
+    
+    #Calculate the M data
+    plotData <- cbind(plotData, data.frame(tOutputData[, 1]-tOutputData[, 2]) )
+    
+    #label the columns with their A and M names  
+    colnames(plotData) <- c("A", "M")
+    
+    # add a column of NAs to indicate coloring
+    plotData$diffexpressed <- "NO"
+    
+    # add a column of NAs to provide labels
+    plotData$delabel <- NA
+    
+    # if M > 1, set as "Diff" for coloring and naming
+    plotData$diffexpressed[plotData$M >= 1|plotData$M <= -1] <- "Change"
+    
+    
+    # only label genes that are differentially expressed
+    plotData$delabel[plotData$diffexpressed != "NO"] <- row.names(plotData[plotData$diffexpressed != "NO",])
+    
+    ############# Ugly current fix to remove species names
+    plotData$delabel <- gsub("_.*", "", plotData$delabel)
+    #############
+    
+    
+    #create volcano plot with p =0.05 cut off, and hard coded range and scope
+    p2 <- ggplot(data=plotData, aes(x=A, y= M, 
+                                    col = diffexpressed, label = delabel)) +
+      geom_point() +
+      #x and y limits are currently hard-coded
+      theme_minimal() + 
+      geom_text_repel() +
+      scale_color_manual(values=c("red", "black")) +
+      geom_hline(yintercept=1, col="red") +
+      geom_hline(yintercept=-1, col="red") 
+    
+    return(p2)
+    
     
   }
   
