@@ -1,7 +1,10 @@
-#Current Critical Errors
+#Current Critical Errors/Assumptions
 
-# code must be FULLY run through and partially rewritten, 
+#1: code must be FULLY run through and partially rewritten, 
 #without assuming all conditions will have the same number of replicates.
+
+#2: Volcano plot and MA Plot currently assume that the data was transformed via Log2
+
 
 
 #Default Methods Test ----
@@ -66,13 +69,14 @@ testOutput2 <- analyze(dataNorm, compareValues, testType = "t-test")
 
 
 #MA Plot
+#add individual protein labeling above fold change 1
 testOutput3 <- analyze(dataNorm, compareValues, testType = "MA")
 
 visualize(testOutput3, graphType = "MA")
 
 
 #Heatmap Plot 
-#select by highest fold change or largest abundance
+#select which to plot by largest abundance
 visualize(dataOutput, graphType = "heatmap")
 
 
