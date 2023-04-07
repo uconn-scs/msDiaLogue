@@ -151,8 +151,24 @@ visualize <- function(outputData, graphType = "volcano", fileName){
     #label the row names
     rownames(matrix) <- matrix[,1]
     
+    mostAbundant = TRUE
+    
+    if (mostAbundant) {
+    
+    tmp <- matrix[,2: length(matrix[1,])]  
+      
+    #sort by column 
+    colmeans <- colMeans(matrix[,2: length(matrix[1,])])
+    
+    #Order the data by 
+    sortMatrix <- matrix[,order(colmeans, decreasing = TRUE)]
+    
+    matrix <- sortMatrix
+    
+    }
+    
     #select only the data
-    submatrix <- matrix[,2:20] 
+    submatrix <- matrix[,2:30] 
     
     #create a heatmap and plot it
     objEHeat <- pheatmap(mat = t(submatrix),cluster_row = FALSE, cluster_cols = TRUE, scale = "row", legend = TRUE)
