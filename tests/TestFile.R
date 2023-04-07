@@ -69,14 +69,12 @@ testOutput2 <- analyze(dataNorm, compareValues, testType = "t-test")
 
 
 #MA Plot
-#add individual protein labeling above fold change 1
 testOutput3 <- analyze(dataNorm, compareValues, testType = "MA")
 
 visualize(testOutput3, graphType = "MA")
 
 
 #Heatmap Plot 
-#select which to plot by largest abundance
 visualize(dataOutput, graphType = "heatmap")
 
 
