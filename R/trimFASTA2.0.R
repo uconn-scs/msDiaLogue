@@ -6,17 +6,19 @@ require(dplyr)
 require(tictoc)
 
 #################################################
-#' Trimming down a protein FASTA file to certain sequences 
+#' Trimming down a protein FASTA file to certain proteins 
 #' 
 #' @description 
-#' Trimming down a FASTA file to only contain entries present in an associated 
-#' Scaffold report file.  
+#' Trimming down a FASTA file to only contain proteins present in an associated 
+#' spectronaut report file.  
 #' 
 #' @param FASTAFileName A string indicating the FASTA .txt filename.
 #' 
-#' @param reportFileName A string indicating the scaffold report .csv or .txt filename. 
+#' @param reportFileName A string indicating the spectronaut report .csv filename. 
 #' 
 #' @param outputFileName A string indicating the name for the new .txt FASTA file.
+#' 
+#' @param selectString A string containing a regular expression for which to search. 
 #' 
 #' @details 
 #' Depending on the size of the FASTA files, this function can be slow and 
@@ -84,12 +86,3 @@ write.fasta(part_Fasta,part_names,outputFileName,nbchar=60)
 toc()
 
 }
-
-############################### Jen, edit below here
-
-FASTAFileName <- "jlb20220327_SchistocephalusSolidus_Uniprot_UP000275846_Unassembled+WGS_updated16Aug2019.txt"
-reportFileName <- "AWang Scaffold output.txt"
-outputFileName <- "test4-19-23.txt"
-
-trimFASTA2.0(FASTAFileName, reportFileName, outputFileName)
-
