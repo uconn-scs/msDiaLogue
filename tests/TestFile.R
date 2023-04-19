@@ -110,8 +110,11 @@ trimFASTA("jlb20220525_BosTaurus_RefUniprotproteome_UP000009136.txt",
           "test.txt")
 
 
+FASTAFileName <- "jlb20220327_SchistocephalusSolidus_Uniprot_UP000275846_Unassembled+WGS_updated16Aug2019.txt"
+reportFileName <- "AWang Scaffold output.txt"
+outputFileName <- "test4-19-23.txt"
 
-
+trimFASTA2.0(FASTAFileName, reportFileName, outputFileName)
 
 ###################################### Testing real format normalize
 
