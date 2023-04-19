@@ -29,7 +29,7 @@ require(pheatmap)
 
 
 
-visualize <- function(outputData, graphType = "volcano", fileName){
+visualize <- function(outputData, graphType = "volcano", fileName, transformType ){
   
   
   # specify graph type
@@ -64,7 +64,8 @@ visualize <- function(outputData, graphType = "volcano", fileName){
     theme_minimal() + 
     geom_text_repel() +
     scale_color_manual(values=c("red", "black")) +
-    geom_hline(yintercept=-log10(0.05), col="red") 
+    geom_hline(yintercept=-log10(0.05), col="red") +
+    xlab(sprintf("%s Transformed Fold Change", transformType))
   
   
   
@@ -123,7 +124,7 @@ visualize <- function(outputData, graphType = "volcano", fileName){
     #############
     
     
-    #create volcano plot with p =0.05 cut off, and hard coded range and scope
+    #create MA plot with M = +- 1 cut off, and hard coded range and scope
     p2 <- ggplot(data=plotData, aes(x=A, y= M, 
                                     col = diffexpressed, label = delabel)) +
       geom_point() +
@@ -132,7 +133,8 @@ visualize <- function(outputData, graphType = "volcano", fileName){
       geom_text_repel() +
       scale_color_manual(values=c("red", "black")) +
       geom_hline(yintercept=1, col="red") +
-      geom_hline(yintercept=-1, col="red") 
+      geom_hline(yintercept=-1, col="red") +
+      ggtitle(sprintf("%s Transformed MA Plot", transformType))
     
     return(p2)
     

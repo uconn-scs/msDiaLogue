@@ -62,7 +62,7 @@ compareValues <-c(1,2)
 #Volcano Plot
 testOutput1 <- analyze(dataNorm, compareValues, testType = "volcano")
 
-visualize(testOutput1)
+visualize(testOutput1, transformType = "Log 2")
 
 #T-Test
 testOutput2 <- analyze(dataNorm, compareValues, testType = "t-test")
@@ -71,7 +71,7 @@ testOutput2 <- analyze(dataNorm, compareValues, testType = "t-test")
 #MA Plot
 testOutput3 <- analyze(dataNorm, compareValues, testType = "MA")
 
-visualize(testOutput3, graphType = "MA")
+visualize(testOutput3, graphType = "MA", transformType = "Log 2")
 
 
 #Heatmap Plot 
