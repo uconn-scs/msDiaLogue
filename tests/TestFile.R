@@ -36,7 +36,7 @@ dataFilter2 <- filterNA(dataImput)
 
 dataNorm <- normalize(dataFilter2, normalizeType = "Quant")
 
-#pullProteinPath
+############# Pull Protein Path
 
 dataSetList <- list(
   "Initial" = data, 
