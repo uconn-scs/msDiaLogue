@@ -25,7 +25,7 @@ summarize <- function(dataSet, fileName = ""){
   #Calculate the mean,  standard deviation and sample count for each protein in each sample 
   
   # create a list of all protein names in the data   
-  proteinList <- names(dataSet)[-c(1:3)][1:10]
+  proteinList <- names(dataSet)[-c(1:3)]
   
   #create a list of all samples in the data
   sampleList <- unique(dataSet$R.Condition)

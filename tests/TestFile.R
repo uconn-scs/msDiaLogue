@@ -15,10 +15,6 @@ name <- "ProteinQuantReport.csv"
 data <- preprocessing(name)
 
 
-data <- read.csv("MissingandUnevenDataTestFile.csv")
-
-data <- read.csv("MissingDataTestFile.csv")
-
 dataFilter1<- filterOutIn(data, TRUE, c("MYG_HORSE"))
 
 
@@ -31,7 +27,7 @@ vennMain(combos.list)
  
 dataTrans <- transform(dataFilter1)
 
-dataImput <- impute(dataTrans)
+dataImput <- impute(dataTrans, imputeType = "GlobalMinVal")
 
 dataFilter2 <- filterNA(dataImput)
 

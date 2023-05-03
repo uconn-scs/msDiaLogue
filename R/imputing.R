@@ -85,7 +85,7 @@ impute <- function(dataSet, imputeType = "LocalMinVal", reqPercentPresent = 51){
   }
   
   
-  if (imputeType == "GlobeMinVal") {
+  if (imputeType == "GlobalMinVal") {
     
     # separate the data set into labels and numerical data
     #labels consist of first 3 columns, data is everything else
