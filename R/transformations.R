@@ -24,8 +24,8 @@ require(tidyr)
 meanVariancePlot <- function(datMV, title = ""){
   
   #calculate the mean and variance for each protein individually
-  variance <- sapply(datMV, var)
-  meanCalc <- sapply(datMV, mean)
+  variance <- sapply(datMV, function(x) var(x, na.rm=TRUE))
+  meanCalc <- sapply(datMV, function(x) mean(x, na.rm=TRUE))
   
   #Plot the mean-variance relationship
   plot(meanCalc, variance, main = title, xlab = "Mean", ylab = "Variance")

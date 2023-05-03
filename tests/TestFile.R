@@ -1,6 +1,6 @@
 #Current Critical Errors/Assumptions
 
-#1: code must be FULLY run through and partially rewritten, 
+#1: Impute(localMinVal) code must partially rewritten, 
 #without assuming all conditions will have the same number of replicates.
 
 
@@ -14,6 +14,10 @@ name <- "ProteinQuantReport.csv"
 
 data <- preprocessing(name)
 
+
+data <- read.csv("MissingandUnevenDataTestFile.csv")
+
+data <- read.csv("MissingDataTestFile.csv")
 
 dataFilter1<- filterOutIn(data, TRUE, c("MYG_HORSE"))
 
@@ -72,34 +76,16 @@ visualize(testOutput3, graphType = "MA", transformType = "Log 2")
 
 
 #Heatmap Plot 
-visualize(dataOutput, graphType = "heatmap")
+#TODO: Currently displays the top 30 proteins by abundance on heatmap
+visualize(dataNorm, graphType = "heatmap")
 
 
 #PCA Plot 
-visualize(dataOutput, graphType = "pca")
+visualize(dataNorm, graphType = "pca")
 
 
 #Active Build Section ----
 
-
-#Building PCA plots
-
-
-data("decathlon2")
-df <- decathlon2[1:23, 1:10]
-
-res.pca <- PCA(df,  graph = FALSE)
-
-get_eig(res.pca)
-
-fviz_screeplot(res.pca, addlabels = TRUE, ylim = c(0, 50))
-
-var <- get_pca_var(res.pca)
-var
-
-head(var$coord)
-
-head(var$contrib)
 
 
 

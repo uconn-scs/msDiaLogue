@@ -25,8 +25,6 @@ correct_Data <- matrix(c(NA, NA, NA, 5.6666667, 2, 3.000000, 4.6666667,
                          NA, NA, NA, 2.000000, 3, 4.6666667, 5.6666667
 ), byrow = TRUE, nrow = 3, ncol = 7, dimnames = c(NULL, NULL))
 
-dimnames(correct_Data) <-  c(NULL, NULL)
-
 
 normTest <- t(normTest)
 

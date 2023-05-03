@@ -9,7 +9,6 @@ require(ggplot2)
 require(VennDiagram)
 require(pheatmap)
 require(FactoMineR)
-require(factoextra)
 
 #################################################
 #' Generating visualizations for MS Data
@@ -147,7 +146,7 @@ visualize <- function(outputData, graphType = "volcano", fileName, transformType
   if (graphType == "heatmap"){
     
     #Summarize the replicates to simple means 
-    matrix <- dataNorm %>% select(-c(R.FileName, R.Replicate)) %>% group_by(R.Condition) %>%
+    matrix <- outputData %>% select(-c(R.FileName, R.Replicate)) %>% group_by(R.Condition) %>%
                     summarise(across(.cols = everything(), ~mean(.x)))
     #recast the data as a data frame
     matrix <- data.frame(matrix)
@@ -185,25 +184,13 @@ visualize <- function(outputData, graphType = "volcano", fileName, transformType
   
   if (graphType == "pca"){
     
-    #Summarize the replicates to simple means 
-    matrix <- dataNorm %>% select(-c(R.FileName, R.Replicate)) %>% group_by(R.Condition) %>%
-      summarise(across(.cols = everything(), ~mean(.x)))
-    #recast the data as a data frame
-    matrix <- data.frame(matrix)
+    row.names(outputData) <- outputData$R.FileName
     
-    #label the row names
-    rownames(matrix) <- matrix[,1]
+    outputData_trim.trans <- t(outputData[,-1:-3])
     
-    mostAbundant = TRUE
+    res.pca <- PCA(outputData_trim.trans, scale.unit=TRUE, ncp=5, graph = T)
     
-    
-    #select only the data
-    submatrix <- matrix[,2:30] 
-    
-    #create a heatmap and plot it
-    objEHeat <- pheatmap(mat = t(submatrix),cluster_row = FALSE, cluster_cols = TRUE, scale = "row", legend = TRUE)
-    
-    
+    fviz_screeplot(res.pca, addlabels = TRUE, ylim = c(0, 99))
     
   }
   
