@@ -12,7 +12,7 @@ name <- "ProteinQuantReport.csv"
 data <- preprocessing(name)
 
 
-data <- read.csv("MissingandUnevenDataTestFile.csv")
+#data <- read.csv("MissingandUnevenDataTestFile.csv")
 
 dataFilter1<- filterOutIn(data, TRUE, c("MYG_HORSE"))
 
