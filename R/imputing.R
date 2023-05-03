@@ -31,14 +31,20 @@ impute <- function(dataSet, imputeType = "LocalMinVal", reqPercentPresent = 51){
   
   if (imputeType == "LocalMinVal") {
   
-    #Count how many replicates are present for each condition 
-    numbReplicates <- as.integer(length(unique(dataSet$R.Replicate)))
+    conditionsList <- unique(dataSet$R.Condition)
+    
+    #Count how many conditions are present for the data set
+    numbConditions <- as.integer(length(conditionsList))
     
     #count how many proteins are present 
     numbProteins <- as.integer(length(dataSet[1,]) - 3)
     
-    #count how many conditions are being tested in the data set
-    numbConditions <- as.integer(length(dataSet[,1]) / numbReplicates)
+    #count how many replicates are present for each condition in the data set
+    numbReplicates <- c()
+    
+    for (j in 1:numbConditions){
+    numbReplicates[j] <- as.integer(dim(dataSet[dataSet$R.Condition == toString(conditionsList[j]),])[1])
+    }
     
     
     #for each protein in order
@@ -47,14 +53,11 @@ impute <- function(dataSet, imputeType = "LocalMinVal", reqPercentPresent = 51){
       #for each condition in order
       for (j in 1:numbConditions){
         
-        #Define the range of the data set by protein and condition
-        tempRange <- as.integer((j-1)*numbReplicates + 1):as.integer(j*numbReplicates)
-        
         #select and isolate the data from each protein by condition combination
-        tempData <- dataSet[tempRange, i + 3]
+        tempData <- dataSet[dataSet$R.Condition == toString(conditionsList[j]), i + 3]
         
         #calculate the percent of samples that are present in that protein by condition combination
-        percentPresent <- sum(!is.na(tempData))/numbReplicates * 100
+        percentPresent <- sum(!is.na(tempData))/numbReplicates[j] * 100
         
         
         # if the imputation threshold is met
@@ -68,13 +71,12 @@ impute <- function(dataSet, imputeType = "LocalMinVal", reqPercentPresent = 51){
               
               #replace the value with the minimum (non-NA) value of the protein by condition combination
               tempData[k] <- min(tempData, na.rm = TRUE)
-              
             }
           }
         }
         
         #save that protein by condition combination back to the 
-        dataSet[tempRange, i + 3] <- tempData
+        dataSet[dataSet$R.Condition == toString(conditionsList[j]), i + 3] <- tempData
         
       }
     }

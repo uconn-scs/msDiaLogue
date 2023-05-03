@@ -1,8 +1,5 @@
 #Current Critical Errors/Assumptions
 
-#1: Impute(localMinVal) code must partially rewritten, 
-#without assuming all conditions will have the same number of replicates.
-
 
 #Default Methods Test ----
 
@@ -14,6 +11,8 @@ name <- "ProteinQuantReport.csv"
 
 data <- preprocessing(name)
 
+
+data <- read.csv("MissingandUnevenDataTestFile.csv")
 
 dataFilter1<- filterOutIn(data, TRUE, c("MYG_HORSE"))
 
@@ -27,7 +26,7 @@ vennMain(combos.list)
  
 dataTrans <- transform(dataFilter1)
 
-dataImput <- impute(dataTrans, imputeType = "GlobalMinVal")
+dataImput <- impute(dataTrans)
 
 dataFilter2 <- filterNA(dataImput)
 
