@@ -1,8 +1,7 @@
 
-
-
-
 name <- "20230510_msDIAlogue HeLa-yeast_Report.csv"
+
+dataraw <- read.csv(name)
 
 
 data <- preprocessing(name)
