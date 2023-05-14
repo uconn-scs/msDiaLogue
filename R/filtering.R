@@ -29,7 +29,7 @@ require(tidyr)
 # specification can be added. For now, we include only peptides that have at least 2.
 
 
-preProcessFiltering <- function(dataSet, filterNaN = TRUE, filterUnique = 2){
+preProcessFiltering <- function(dataSet, filterNaN = TRUE, filterUnique = 2, filterBlank = TRUE){
   
   filteredData <- dataSet
   
@@ -43,6 +43,12 @@ preProcessFiltering <- function(dataSet, filterNaN = TRUE, filterUnique = 2){
     filteredData <- filteredData %>% filter(PG.IsSingleHit == FALSE)
   }
 
+  if (filterBlank){
+    #filter out proteins that have only 1 unique peptide
+    filteredData <- filteredData %>% filter(PG.ProteinNames != "")
+  }
+  
+  
   # return the filtered data
   return(filteredData)
   
