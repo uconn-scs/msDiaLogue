@@ -28,7 +28,7 @@ require(tidyr)
 ##TODO: Once we have a data set that includes the unique peptides column the 
 # specification can be added. For now, we include only peptides that have at least 2.
 
-
+#' @export
 preProcessFiltering <- function(dataSet, filterNaN = TRUE, filterUnique = 2, filterBlank = TRUE){
   
   filteredData <- dataSet
@@ -73,7 +73,7 @@ preProcessFiltering <- function(dataSet, filterNaN = TRUE, filterUnique = 2, fil
 #' @returns The function returns a filtered 2d dataframe. 
 #' 
 #################################################
-
+#' @export
 filterOutIn <- function(dataSet, removeList, listName ){
   
   #relabel the data frame
@@ -121,7 +121,7 @@ filterOutIn <- function(dataSet, removeList, listName ){
 #' @returns The function returns a filtered 2d dataframe. 
 #' 
 #################################################
-
+#' @export
 filterNA <- function(dataSet){
   
   #relabel the data frame

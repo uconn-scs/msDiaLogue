@@ -20,7 +20,7 @@ require(tidyr)
 #' 
 
 #################################################
-
+#' @export
 meanVariancePlot <- function(datMV, title = ""){
   
   #calculate the mean and variance for each protein individually
@@ -56,7 +56,7 @@ meanVariancePlot <- function(datMV, title = ""){
 
 
 
-
+#' @export
 transform <- function(dataSet, logFold = 2){
     
       # Define the number of proteins that are present in data set

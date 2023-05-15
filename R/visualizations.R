@@ -29,7 +29,7 @@ require(FactoMineR)
 #################################################
 
 
-
+#' @export
 visualize <- function(outputData, graphType = "volcano", fileName, transformType ){
   
   
@@ -215,7 +215,7 @@ visualize <- function(outputData, graphType = "volcano", fileName, transformType
 #' @returns The function returns nothing. 
 #' 
 #################################################
-
+#' @export
 vennMain <- function(combos.list, showUniversal = FALSE){
   
   # above 4 conditions, venn diagrams become less useful

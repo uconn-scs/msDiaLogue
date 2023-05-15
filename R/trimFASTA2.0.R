@@ -28,7 +28,7 @@ require(tictoc)
 #' 
 #' @returns The function returns a FASTA file with only the specified proteins present.
 #################################################
-
+#' @export
 trimFASTA2.0 <- function(FASTAFileName, reportFileName, outputFileName, selectString = "*BOVIN"){
 
 message("Depending on the size of the FASTA files, this function can be slow and

@@ -17,7 +17,7 @@ require(tidyr)
 #' @returns The function returns a list of lists.
 #' 
 #################################################
-
+#' @export
 sortcondition <- function(dataSet){
   
   #create a list of the unique condition names

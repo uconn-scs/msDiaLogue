@@ -4,6 +4,7 @@ require(dplyr)
 require(tidyr)
 
 #################################################
+#' 
 #' Loading, filtering and reformatting of MS DIA data
 #' 
 #' @description 
@@ -32,7 +33,7 @@ require(tidyr)
 #' @returns The function returns a 2d dataframe. 
 #' 
 ###################################################
-
+#' @export
 preprocessing <- function(fileName, filterNaN = TRUE, filterUnique = 2, filterBlank = TRUE){
     # read in the protein quantitative csv file generated from Spectranaut
     rawData <- read.csv(fileName)

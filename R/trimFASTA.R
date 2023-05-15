@@ -33,7 +33,7 @@ require(tictoc)
 #################################################
 
 
-
+#' @export
 trimFASTA <- function(FASTAFileName, reportFileName, outputFileName, selectString = "*BOVIN"){
   
   

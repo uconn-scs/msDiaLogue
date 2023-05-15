@@ -26,7 +26,7 @@ require(tidyr)
 #################################################
 
 
-
+#' @export
 impute <- function(dataSet, imputeType = "LocalMinVal", reqPercentPresent = 51){
   
   if (imputeType == "LocalMinVal") {

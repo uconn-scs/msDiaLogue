@@ -119,7 +119,7 @@ volcanoTest <- function(x){
 #' by ascending p-value.  
 #' 
 #################################################
-
+#' @export
 analyze <- function(dataSet, conditions, testType = "t-test"){
   
   

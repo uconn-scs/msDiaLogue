@@ -14,7 +14,7 @@
 #' @returns The function returns a 2d dataframe, with the protein data at each step present in the dataSetList 
 #' 
 #################################################
-
+#' @export
 pullProteinPath <- function(proteinName, dataSetList){
   
   #label the data frame

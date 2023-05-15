@@ -19,7 +19,7 @@ require(tidyr)
 #' @returns The function returns a 2d summarized data frame.
 #################################################
 
-
+#' @export
 summarize <- function(dataSet, fileName = ""){
   
   #Calculate the mean,  standard deviation and sample count for each protein in each sample 

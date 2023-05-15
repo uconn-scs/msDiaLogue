@@ -25,7 +25,7 @@ require(tidyr)
 #' @returns The function returns a normalized 2d dataframe. 
 #' 
 ###################################################
-
+#' @export
 normalize <- function(dataSet, normalizeType = "Quant"){
   
   # separate the data set into labels and numerical data
