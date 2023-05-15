@@ -4,7 +4,7 @@
 \alias{preprocessing}
 \title{Loading, filtering and reformatting of MS DIA data}
 \usage{
-preprocessing(fileName, filterNaN = TRUE, filterUnique = 2)
+preprocessing(fileName, filterNaN = TRUE, filterUnique = 2, filterBlank = TRUE)
 }
 \arguments{
 \item{fileName}{The name of the file containing MS data (+ the path to the file, if needed)}

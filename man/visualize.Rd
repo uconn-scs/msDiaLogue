@@ -4,7 +4,7 @@
 \alias{visualize}
 \title{Generating visualizations for MS Data}
 \usage{
-visualize(outputData, graphType = "volcano", fileName)
+visualize(outputData, graphType = "volcano", fileName, transformType)
 }
 \arguments{
 \item{outputData}{A 2d data frame that matches the output from the analyze() function for the same name}

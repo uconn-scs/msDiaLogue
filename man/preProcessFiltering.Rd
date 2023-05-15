@@ -4,7 +4,12 @@
 \alias{preProcessFiltering}
 \title{Filtering of raw data signals}
 \usage{
-preProcessFiltering(dataSet, filterNaN = TRUE, filterUnique = 2)
+preProcessFiltering(
+  dataSet,
+  filterNaN = TRUE,
+  filterUnique = 2,
+  filterBlank = TRUE
+)
 }
 \arguments{
 \item{dataSet}{The 2d data set of experimental values}
