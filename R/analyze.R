@@ -133,9 +133,9 @@ analyze <- function(dataSet, conditions, testType = "t-test"){
     
   }
   
-  #select two conditions
-  testDataA <- dataSet[grep(toString(conditions[1]) , dataSet$R.Condition), ]
-  testDataB <- dataSet[grep(toString(conditions[2]) , dataSet$R.Condition), ]
+  #select two conditions #the messy "grep and paste" functions are ensuring that only exact matches are found
+  testDataA <- dataSet[grep(paste(paste("^",toString(conditions[1]),sep = ""), "$", sep = "" ), dataSet$R.Condition), ]
+  testDataB <- dataSet[grep(paste(paste("^",toString(conditions[2]),sep = ""), "$", sep = "" ), dataSet$R.Condition), ]
   
   #combine just the results from these conditions
   testData <- rbind(testDataA, testDataB)
@@ -206,7 +206,12 @@ analyze <- function(dataSet, conditions, testType = "t-test"){
 
 
 
+y = data.frame(1:10)
+y
 
+x <- 1
 
+ouit <- match(x,y)
 
+ouit
 

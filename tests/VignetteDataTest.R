@@ -1,7 +1,5 @@
 
-name <- "20230510_msDIAlogue HeLa-yeast_Report.csv"
-
-dataraw <- read.csv(name)
+name <- "20230510_msDIAlogue HeLa-6mix_Report.csv"
 
 
 data <- preprocessing(name)
@@ -41,7 +39,7 @@ dataOutput <- summarize(dataNorm, fileName = "")
 
 
 
-compareValues <- c("pt5x","1x") 
+compareValues <- c("100fmol","50fmol") 
 
 #Volcano Plot
 testOutput1 <- analyze(dataNorm, compareValues, testType = "volcano")
