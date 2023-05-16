@@ -41,7 +41,7 @@ dataOutput <- summarize(dataNorm, fileName = "")
 
 
 
-compareValues <-c("pt5x","1x") 
+compareValues <- c("pt5x","1x") 
 
 #Volcano Plot
 testOutput1 <- analyze(dataNorm, compareValues, testType = "volcano")

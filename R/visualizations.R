@@ -59,7 +59,7 @@ visualize <- function(outputData, graphType = "volcano", fileName, transformType
   p1 <- ggplot(data=plotData, aes(x=Log.Fold.Change, y= -log10(P.value), 
                                   col = diffexpressed, label = delabel)) +
     geom_point() +
-    #x and y limits are currently hard-coded
+    #TODO x and y limits are currently hard-coded
     xlim(-1, 1) +
     ylim(0.001, 4.5)+
     theme_minimal() + 
