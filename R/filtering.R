@@ -38,9 +38,9 @@ preProcessFiltering <- function(dataSet, filterNaN = TRUE, filterUnique = 2, fil
     filteredData <- filteredData %>% filter(!is.nan(PG.Quantity ))
   }
   
-  if (filterUnique == 2){
+  if (filterUnique >= 2){
     #filter out proteins that have only 1 unique peptide
-    filteredData <- filteredData %>% filter(PG.IsSingleHit == FALSE)
+    filteredData <- filteredData %>% filter(PG.NrOfStrippedSequencesIdentified >= filterUnique)
   }
 
   if (filterBlank){
