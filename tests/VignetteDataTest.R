@@ -49,3 +49,13 @@ visualize(testOutput1, transformType = "Log 2")
 #T-Test
 testOutput2 <- analyze(dataNorm, compareValues, testType = "t-test")
 
+#MA Plot
+testOutput3 <- analyze(dataNorm, compareValues, testType = "MA")
+
+visualize(testOutput3, graphType = "MA", transformType = "Log 2")
+
+#PCA Plot 
+visualize(dataNorm, graphType = "pca")
+
+#heatmap plot
+visualize(dataNorm, graphType = "heatmap")
