@@ -200,12 +200,3 @@ analyze <- function(dataSet, conditions, testType = "t-test"){
 
 
 
-y = data.frame(1:10)
-y
-
-x <- 1
-
-ouit <- match(x,y)
-
-ouit
-
