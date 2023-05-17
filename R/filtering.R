@@ -55,7 +55,7 @@ preProcessFiltering <- function(dataSet, filterNaN = TRUE, filterUnique = 2, fil
 }
 
 #################################################
-#' Filtering proteins or contaminates
+#' Filtering proteins or contaminants
 #' 
 #' @description 
 #' filterOutIn() applies a series of filtering steps to the data set
@@ -64,11 +64,13 @@ preProcessFiltering <- function(dataSet, filterNaN = TRUE, filterUnique = 2, fil
 #' 
 #' @param removeList A Boolean specifying whether entries
 #' in the following list should be removed or selected.
+#' "TRUE" will remove the list of proteins from the data set. 
+#' "FALSE will remove all proteins not in the list from the data set.
 #' 
-#' @param listName A list of proteins or contaminates to select or to remove
+#' @param listName A list of proteins or contaminants to select or to remove
 #' 
 #' @details 
-#' If contaminates are removed, a .csv file is created with the removed data.  
+#' If contaminants are removed, a .csv file is created with the removed data.  
 #'      
 #' @returns The function returns a filtered 2d dataframe. 
 #' 
@@ -88,7 +90,7 @@ filterOutIn <- function(dataSet, removeList, listName ){
     #save removed data to current working directory as fileName 
     write.csv(removedData, "filtered_out_data.csv")
     
-    #remove all of the contaminates if they are present
+    #remove all of the contaminants if they are present
     filteredData <- filteredData %>% select(-any_of(listName))
     
   }
@@ -116,7 +118,8 @@ filterOutIn <- function(dataSet, removeList, listName ){
 #' @param dataSet The 2d data set of experimental values 
 #' 
 #' @details 
-#' If contaminates are removed, a .csv file is created with the removed data.  
+#' If proteins that don't meet the imputation requirement are removed, 
+#' a .csv file is created with the removed data.  
 #'      
 #' @returns The function returns a filtered 2d dataframe. 
 #' 
@@ -137,7 +140,7 @@ filterNA <- function(dataSet){
     #save removed data to current working directory as fileName 
     write.csv(removedData, "filtered_NA_data.csv")
     
-    #remove all of the contaminates if they are present
+    #remove all of the contaminants if they are present
     filteredData <- filteredData %>% select_if(function(x) !any(is.na(x)))
     
   

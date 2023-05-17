@@ -125,11 +125,10 @@ visualize <- function(outputData, graphType = "volcano", fileName, transformType
     #############
     
     
-    #create MA plot with M = +- 1 cut off, and hard coded range and scope
+    #create MA plot with M = +- 1 cut off
     p2 <- ggplot(data=plotData, aes(x=A, y= M, 
                                     col = diffexpressed, label = delabel)) +
       geom_point() +
-      #x and y limits are currently hard-coded
       theme_minimal() + 
       geom_text_repel() +
       scale_color_manual(values=c("red", "black")) +
@@ -186,7 +185,7 @@ visualize <- function(outputData, graphType = "volcano", fileName, transformType
     
     row.names(outputData) <- outputData$R.FileName
     
-    outputData_trim.trans <- t(outputData[,-1:-3])
+    outputData_trim.trans <- outputData[,-1:-3]
     
     res.pca <- PCA(outputData_trim.trans, scale.unit=TRUE, ncp=5, graph = T)
     

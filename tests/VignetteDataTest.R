@@ -1,7 +1,7 @@
 
 name <- "20230510_msDIAlogue HeLa-6mix_Report.csv"
 
-data <- preprocessing(name, filterUnique = 3)
+data <- preprocessing(name, filterUnique = 2)
 
 dataFilter1<- filterOutIn(data, TRUE, c("MYG_HORSE"))
 

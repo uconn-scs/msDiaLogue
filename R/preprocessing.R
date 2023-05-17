@@ -17,6 +17,9 @@ require(tidyr)
 #' 
 #' @param filterUnique An integer specifying how many unique peptides are required to include a protein
 #' 
+#' @param filterBlank a boolean specifying if data points with blank protein names
+#'  should be removed from the data set
+#' 
 #' 
 #' @details 
 #' The function executes the following:

@@ -11,26 +11,26 @@ require(dplyr)
 #' This function produces output (difference of means, and P value) for visual
 #' inspection or for external use.  
 #' 
-#' @param x The function takes a parameter x, a 1d dataframe, where the first 
-#' half of the data are from the first condition, and the second half are 
-#' from the second condition.
+#' @param x The function takes a parameter x, a 1d dataframe, where data from 
+#' the first condition are listed first, and data from the second condition are listed second.
+#' 
+#' @param lengthA The parameter "Length of A" is an integer specifying how many 
+#' of the data points in x are from the first condition
 #' 
 #' @returns The function returns a list of length 2 with the difference of means and 
 #' the t-tested p-values for the protein across two conditions. 
 #' 
 #################################################
 
-tTesting <- function(x){
-  
-  # calculate the number of replicates - assumes they are equal
-  nR <- length(x)/2
+tTesting <- function(x, lengthA){
+
   
   out <- tryCatch(
     {
       #run a t.test on the data
-      tempx <- t.test(x[1:nR],x[as.integer(nR+1):as.integer(nR*2)])
+      tempx <- t.test(x[1:lengthA],x[as.integer(lengthA+1):as.integer(length(x))])
       #combine the difference in means and the p-value to a list
-      c(mean(x[1:nR])-mean(x[as.integer(nR+1):as.integer(nR*2)]), tempx$p.value) 
+      c(mean(x[1:lengthA])-mean(x[as.integer(lengthA+1):as.integer(length(x))]), tempx$p.value) 
     },
     
     # if an error is thrown, catch it and print that the data are constant to
@@ -49,9 +49,11 @@ tTesting <- function(x){
 #' @description 
 #' This function produces output (fold change, and P value) for a volcano plot. 
 #' 
-#' @param x The function takes a parameter x, a 1d dataframe, where the first 
-#' half of the data are from the first condition, and the second half are 
-#' from the second condition.
+#' @param x The function takes a parameter x, a 1d dataframe, where data from 
+#' the first condition are listed first, and data from the second condition are listed second.
+#' 
+#' @param lengthA The parameter "Length of A" is an integer specifying how many 
+#' of the data points in x are from the first condition
 #' 
 #' @details 
 #' If the means between the two conditions are the same, t.test throws an error, 
@@ -64,19 +66,16 @@ tTesting <- function(x){
 #' the t-tested p-values for the protein across two conditions.  
 #' 
 #################################################
-
-volcanoTest <- function(x){
-  
-     # calculate the number of replicates - assumes they are equal  
-      nR <- length(x)/2
+ 
+volcanoTest <- function(x, lengthA){
   
       out <- tryCatch(
         {
       
       #run a t.test on the data
-      tempx <- t.test(x[1:nR],x[as.integer(nR+1):as.integer(nR*2)])
+      tempx <- t.test(x[1:lengthA],x[as.integer(lengthA+1):as.integer(length(x))])
       #combine the difference in means and the p-value to a list
-      c(mean(x[1:nR])-mean(x[as.integer(nR+1):as.integer(nR*2)]), tempx$p.value) 
+      c(mean(x[1:lengthA])-mean(x[as.integer(lengthA+1):as.integer(length(x))]), tempx$p.value) 
         },
       
       # if an error is thrown, catch it and print that the data are constant to
@@ -142,19 +141,14 @@ analyze <- function(dataSet, conditions, testType = "t-test"){
   
   #separate off the labels from the data
   testDataPoints <- testData[,4:length(testData[1,])]
-  
-  #count the number of replicates
-  nR <- length(unique(testData$R.Replicate))
-  
 
-  
-  
+  nRepA <- length(testDataA[,1])
   
   
   if (testType == "t-test"){
     
   #generate each result protein by protein
-  statSet <- apply(testDataPoints, 2, tTesting)
+  statSet <- apply(testDataPoints, 2, tTesting, lengthA = nRepA)
   
   #compile as dataframe
   statSetOut <- data.frame(statSet)
@@ -172,7 +166,7 @@ analyze <- function(dataSet, conditions, testType = "t-test"){
   if (testType == "volcano") {
   
   #generate each result protein by protein
-  statSet <- apply(testDataPoints, 2, volcanoTest)
+  statSet <- apply(testDataPoints, 2, volcanoTest, lengthA = nRepA)
   
   #compile as dataframe
   statSetOut <- data.frame(statSet)
