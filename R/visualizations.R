@@ -30,7 +30,7 @@ require(FactoMineR)
 
 
 #' @export
-visualize <- function(outputData, graphType = "volcano", fileName, transformType ){
+visualize <- function(outputData, graphType = "volcano", fileName, transformType, conditionLabels ){
   
   
   # specify graph type
@@ -59,14 +59,13 @@ visualize <- function(outputData, graphType = "volcano", fileName, transformType
   p1 <- ggplot(data=plotData, aes(x=Log.Fold.Change, y= -log10(P.value), 
                                   col = diffexpressed, label = delabel)) +
     geom_point() +
-    #TODO x and y limits are currently hard-coded
-    xlim(-1, 1) +
-    ylim(0.001, 4.5)+
     theme_minimal() + 
-    geom_text_repel() +
+    # Setting more force to make data labels closer, ideally to eliminate long lines
+    geom_text_repel(force_pull = 3) +
     scale_color_manual(values=c("red", "black")) +
     geom_hline(yintercept=-log10(0.05), col="red") +
-    xlab(sprintf("%s Transformed Fold Change", transformType))
+    xlab(sprintf("%s Transformed Fold Change", transformType)) +
+    labs(title = paste(conditionLabels[1], "vs.", conditionLabels[2]))
   
   
   

@@ -98,6 +98,13 @@ filterOutIn <- function(dataSet, removeList, listName ){
   #If certain proteins are being selected
   if (removeList == FALSE){
     
+    
+    #create list of datalabels
+    dataLabels <- c("R.Condition", "R.FileName", "R.Replicate")
+    
+    #add datalabels to listName to make sure data structure is maintained
+    listName <- c(dataLabels, listName)
+    
     #select only proteins of interest
     filteredData <- filteredData %>% select(all_of(listName))
     

@@ -33,6 +33,11 @@ impute <- function(dataSet, imputeType = "LocalMinVal", reqPercentPresent = 51){
   
     conditionsList <- unique(dataSet$R.Condition)
     
+    #create a shadow matrix for counting missing 
+    shadowMatrix <- dataSet
+    #empty the shadow matrix of data, but keep all the structure
+    shadowMatrix[,4:length(shadowMatrix[1,])] = 0
+    
     #Count how many conditions are present for the data set
     numbConditions <- as.integer(length(conditionsList))
     
@@ -71,6 +76,12 @@ impute <- function(dataSet, imputeType = "LocalMinVal", reqPercentPresent = 51){
               
               #replace the value with the minimum (non-NA) value of the protein by condition combination
               tempData[k] <- min(tempData, na.rm = TRUE)
+              
+              
+              #record that a value was imputed in the shadow matrix
+              shadowMatrix[j, i + 3] <- 1
+              
+              
             }
           }
         }
@@ -89,6 +100,7 @@ impute <- function(dataSet, imputeType = "LocalMinVal", reqPercentPresent = 51){
   
   if (imputeType == "GlobalMinVal") {
     
+    
     # separate the data set into labels and numerical data
     #labels consist of first 3 columns, data is everything else
     dataLabels <- dataSet[,1:3]
@@ -96,6 +108,17 @@ impute <- function(dataSet, imputeType = "LocalMinVal", reqPercentPresent = 51){
     
     # filter out the proteins that have no recorded value
     imputedDataPoints[imputedDataPoints == ""] <- NA
+    
+    #create a shadow matrix to record imputations
+    shadowMatrix <- dataSet
+    #Set all blanks equal to NA
+    shadowMatrix[shadowMatrix == ""] <- NA
+    #Make all values equal to 0, since they will not be imputed 
+    shadowMatrix[!is.na(shadowMatrix)] <- 0
+    #Make all NA's equal to 1, since they will all be imputed in GlobalMinVal
+    shadowMatrix[is.na(shadowMatrix)] <- 1
+    
+    
     # find the global smallest value in the data set
     minimumValue <- min(imputedDataPoints, na.rm = TRUE)
     # replace all NAs with the smallest value
@@ -106,8 +129,12 @@ impute <- function(dataSet, imputeType = "LocalMinVal", reqPercentPresent = 51){
   
   }
   
+  
+  #write the shadow matrix to a csv
+  
+  
   # return the filtered data
-  return(imputedData)
+  return(c(imputedData, shadowMatrix))
   
 }
 

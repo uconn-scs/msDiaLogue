@@ -7,6 +7,7 @@ dataFilter1<- filterOutIn(data, TRUE, c("MYG_HORSE"))
 
 
 
+
 # Optional 1: generate venn diagram 
 combos.list <- sortcondition(dataFilter1)
 
@@ -17,7 +18,10 @@ vennMain(combos.list)
 
 dataTrans <- transform(dataFilter1)
 
-dataImput <- impute(dataTrans)
+imputDataStore <- impute(dataTrans)
+dataImput <- imputDataStore[1]
+shadowImput <- imputDataStore[2]
+
 
 dataFilter2 <- filterNA(dataImput)
 
@@ -50,17 +54,19 @@ compareValues <- c("100fmol","50fmol")
 #Volcano Plot
 testOutput1 <- analyze(dataNorm, compareValues, testType = "volcano")
 
-visualize(testOutput1, transformType = "Log 2")
+visualize(testOutput1, conditionLabels = compareValues, transformType = "Log 2")
 
 
 #T-Test
 testOutput2 <- analyze(dataNorm, compareValues, testType = "t-test")
 
+# ACTIVE: visualize(testOutput2, graphType = "t-test", conditionLabels = compareValues, )
+
 
 #MA Plot
 testOutput3 <- analyze(dataNorm, compareValues, testType = "MA")
 
-visualize(testOutput3, graphType = "MA", transformType = "Log 2")
+visualize(testOutput3, graphType = "MA", conditionLabels = compareValues, transformType = "Log 2")
 
 
 #PCA Plot 
