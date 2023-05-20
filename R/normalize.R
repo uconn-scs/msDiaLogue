@@ -28,6 +28,10 @@ require(tidyr)
 #' @export
 normalize <- function(dataSet, normalizeType = "Quant"){
   
+  #create pre-normalization boxplot
+  visualize(dataSet, graphType = "normalize", conditionLabels = "Pre -")
+  
+  
   # separate the data set into labels and numerical data
   #labels consist of first 3 columns, data is everything else
   dataLabels <- dataSet[,1:3]
@@ -104,6 +108,10 @@ normalize <- function(dataSet, normalizeType = "Quant"){
   
   #replace the sample names
   rownames(normDataSet) <- rownames(dataSet)
+  
+  
+  #create post-normalization boxplot
+  visualize(normDataSet, graphType = "normalize", conditionLabels = "Post -")
   
   # return pre-processed data
   return(normDataSet)

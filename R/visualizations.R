@@ -143,37 +143,13 @@ visualize <- function(outputData, graphType = "volcano", fileName, transformType
   
   if (graphType == "heatmap"){
     
-    #Summarize the replicates to simple means 
-    matrix <- outputData %>% select(-c(R.FileName, R.Replicate)) %>% group_by(R.Condition) %>%
-                    summarise(across(.cols = everything(), ~mean(.x)))
-    #recast the data as a data frame
-    matrix <- data.frame(matrix)
     
-    #label the row names
-    rownames(matrix) <- matrix[,1]
-    
-    mostAbundant = TRUE
-    
-    if (mostAbundant) {
-    
-    tmp <- matrix[,2: length(matrix[1,])]  
-      
-    #sort by column 
-    colmeans <- colMeans(matrix[,2: length(matrix[1,])])
-    
-    #Order the data by 
-    sortMatrix <- matrix[,order(colmeans, decreasing = TRUE)]
-    
-    matrix <- sortMatrix
-    
-    }
-    
-    #select only the data
-    submatrix <- matrix[,2:30] 
-    
-    #create a heatmap and plot it
-    objEHeat <- pheatmap(mat = t(submatrix),cluster_row = FALSE, cluster_cols = TRUE, scale = "row", legend = TRUE)
-    
+    #create a new variable that is a unique combination of condition and replicate
+    rownames(outputData) <- paste(outputData$R.Condition, "_", outputData$R.Replicate)
+  
+    #create and plot heat map with replicate clustering   
+    objEHeat <- pheatmap(mat = t(outputData[,3:length(outputData[1,])]), 
+                         cluster_row = FALSE, cluster_cols = TRUE, show_rownames = FALSE, show_colnames = TRUE)
     
     
   }
@@ -191,6 +167,44 @@ visualize <- function(outputData, graphType = "volcano", fileName, transformType
     fviz_screeplot(res.pca, addlabels = TRUE, ylim = c(0, 99))
     
   }
+  
+  
+  
+  if (graphType == "normalize"){
+    
+    
+    #create a new variable that is a unique combination of condition and replicate
+    outputData$R.UniqueID <- paste(outputData$R.Condition, "_", outputData$R.Replicate)
+    
+    #recast the data as a data table
+    outputData <- data.table(outputData)
+    
+    #melt the data table into a very tall and narrow table
+    outputData.Melt <- melt(outputData, id.vars = c("R.Condition", "R.FileName", "R.Replicate", "R.UniqueID"), value.name = "Signal_Value")
+    
+    # plot a boxplot of each replicate by condition
+    print(ggplot(outputData.Melt, aes(R.UniqueID, Signal_Value)) + geom_boxplot() +
+      labs(title = paste( conditionLabels, "Normalization Boxplot")))
+    
+    
+  }
+  
+  if (graphType == "t-test"){
+    
+    df.tmp <- data.frame(t(outputData))
+    
+    #graph a histogram of the difference in means
+    
+    hist(df.tmp$Difference.in.Means, main = "Histogram of Differences in Means", 
+         xlab = "Difference in Means", breaks = "Scott")
+    
+    # graph a histogram of the p-values
+    
+    hist(df.tmp$P.value, main = "Histogram of P-Values", 
+         xlab = "P-Value", breaks = "Scott")
+    
+  }
+  
   
   
 

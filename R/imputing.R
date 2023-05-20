@@ -128,13 +128,10 @@ impute <- function(dataSet, imputeType = "LocalMinVal", reqPercentPresent = 51){
     imputedData <- cbind(dataLabels, imputedDataPoints)
   
   }
-  
-  
-  #write the shadow matrix to a csv
-  
+
   
   # return the filtered data
-  return(c(imputedData, shadowMatrix))
+  return(list(data.frame(imputedData), data.frame(shadowMatrix)))
   
 }
 

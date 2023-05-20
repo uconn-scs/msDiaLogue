@@ -19,8 +19,8 @@ vennMain(combos.list)
 dataTrans <- transform(dataFilter1)
 
 imputDataStore <- impute(dataTrans)
-dataImput <- imputDataStore[1]
-shadowImput <- imputDataStore[2]
+dataImput <- imputDataStore[[1]]
+shadowImput <- imputDataStore[[2]]
 
 
 dataFilter2 <- filterNA(dataImput)
@@ -43,8 +43,6 @@ A0A024R4E5 <- pullProteinPath(proteinName, dataSetList)
 
 
 
-
-
 dataOutput <- summarize(dataNorm, fileName = "")
 
 
@@ -60,7 +58,7 @@ visualize(testOutput1, conditionLabels = compareValues, transformType = "Log 2")
 #T-Test
 testOutput2 <- analyze(dataNorm, compareValues, testType = "t-test")
 
-# ACTIVE: visualize(testOutput2, graphType = "t-test", conditionLabels = compareValues, )
+visualize(testOutput2, graphType = "t-test", conditionLabels = compareValues)
 
 
 #MA Plot
@@ -73,5 +71,5 @@ visualize(testOutput3, graphType = "MA", conditionLabels = compareValues, transf
 visualize(dataNorm, graphType = "pca")
 
 
-#Heatmap 
+#Heat Map 
 visualize(dataNorm, graphType = "heatmap")
