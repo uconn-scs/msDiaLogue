@@ -16,5 +16,6 @@ The function returns a filtered 2d dataframe.
 filterNA() removes all proteins from the data
 }
 \details{
-If contaminates are removed, a .csv file is created with the removed data.
+If proteins that don't meet the imputation requirement are removed,
+a .csv file is created with the removed data.
 }

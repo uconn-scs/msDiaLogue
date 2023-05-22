@@ -12,6 +12,9 @@ preprocessing(fileName, filterNaN = TRUE, filterUnique = 2, filterBlank = TRUE)
 \item{filterNaN}{A boolean (default = TRUE) specifying if observations including NaN should be omitted.}
 
 \item{filterUnique}{An integer specifying how many unique peptides are required to include a protein}
+
+\item{filterBlank}{a boolean specifying if data points with blank protein names
+should be removed from the data set}
 }
 \value{
 The function returns a 2d dataframe.

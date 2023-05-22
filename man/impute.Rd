@@ -16,7 +16,8 @@ method to use.}
 that must be present in a given protein by condition combination for values to be imputed.}
 }
 \value{
-The function returns an imputed 2d dataframe.
+The function returns a list of the imputed 2d dataframe, and a shadow matrix
+showing which proteins by replicate were imputed.
 }
 \description{
 impute() applies an imputation method to the data set.

@@ -21,7 +21,8 @@ require(tidyr)
 #' "LocalMinVal" replaces missing values with the lowest value from the protein by condition combination.
 #' "GlobalMinVal" replaces missing values with the lowest overall value in the data set.
 #'      
-#' @returns The function returns an imputed 2d dataframe. 
+#' @returns The function returns a list of the imputed 2d dataframe, and a shadow matrix
+#' showing which proteins by replicate were imputed. 
 #' 
 #################################################
 

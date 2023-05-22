@@ -18,7 +18,8 @@ require(FactoMineR)
 #' 
 #' @param outputData A 2d data frame that matches the output from the analyze() function for the same name
 #' 
-#' @param graphType A string indicating the graph type
+#' @param graphType A string indicating the graph type. Current options are: "volcano", 
+#' "venn", "MA", "pca", "heatmap", "normalize", and "t-test".
 #' 
 #' @details 
 #' visualize() is designed to work directly with output from analyze. 

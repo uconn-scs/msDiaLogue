@@ -21,6 +21,7 @@ require(tidyr)
 #' @details 
 #' Quantile normalization is generally recommended. Mean and Median
 #' normalization are going to be included as popular previous methods. No normalization is not recommended. 
+#' Boxplots are also generated for before and after the normalization to give a visual indicator of the changes.
 #'      
 #' @returns The function returns a normalized 2d dataframe. 
 #' 

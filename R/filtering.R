@@ -18,15 +18,15 @@ require(tidyr)
 #' with less than the default number of unique peptides should be removed from
 #' the data set.
 #' 
+#' @param filterBlank A Boolean (default = TRUE) specifying whether or not proteins
+#' without names should be removed from the data set.
+#' 
 #' @details 
 #' All forms of filtering are recommended for most use cases. 
 #'      
 #' @returns The function returns a filtered 2d dataframe. 
 #' 
 #################################################
-
-##TODO: Once we have a data set that includes the unique peptides column the 
-# specification can be added. For now, we include only peptides that have at least 2.
 
 #' @export
 preProcessFiltering <- function(dataSet, filterNaN = TRUE, filterUnique = 2, filterBlank = TRUE){

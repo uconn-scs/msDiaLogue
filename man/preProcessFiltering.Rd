@@ -20,6 +20,9 @@ with NaN values should be removed from the data set.}
 \item{filterUnique}{An integer (default = 2) specifying whether or not proteins
 with less than the default number of unique peptides should be removed from
 the data set.}
+
+\item{filterBlank}{A Boolean (default = TRUE) specifying whether or not proteins
+without names should be removed from the data set.}
 }
 \value{
 The function returns a filtered 2d dataframe.

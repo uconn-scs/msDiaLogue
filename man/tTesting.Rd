@@ -4,12 +4,14 @@
 \alias{tTesting}
 \title{Producing results of t-test}
 \usage{
-tTesting(x)
+tTesting(x, lengthA)
 }
 \arguments{
-\item{x}{The function takes a parameter x, a 1d dataframe, where the first
-half of the data are from the first condition, and the second half are
-from the second condition.}
+\item{x}{The function takes a parameter x, a 1d dataframe, where data from
+the first condition are listed first, and data from the second condition are listed second.}
+
+\item{lengthA}{The parameter "Length of A" is an integer specifying how many
+of the data points in x are from the first condition}
 }
 \value{
 The function returns a list of length 2 with the difference of means and

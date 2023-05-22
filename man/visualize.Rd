@@ -4,12 +4,19 @@
 \alias{visualize}
 \title{Generating visualizations for MS Data}
 \usage{
-visualize(outputData, graphType = "volcano", fileName, transformType)
+visualize(
+  outputData,
+  graphType = "volcano",
+  fileName,
+  transformType,
+  conditionLabels
+)
 }
 \arguments{
 \item{outputData}{A 2d data frame that matches the output from the analyze() function for the same name}
 
-\item{graphType}{A string indicating the graph type}
+\item{graphType}{A string indicating the graph type. Current options are: "volcano",
+"venn", "MA", "pca", "heatmap", "normalize", and "t-test".}
 }
 \value{
 The function does not return anything.
