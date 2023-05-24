@@ -221,19 +221,21 @@ visualize <- function(outputData, graphType = "volcano", fileName, transformType
 #' 
 #' @param combos.list The output from sortCondition: lists of condition combinations
 #' 
-#' @param showUniversal A Boolean specifiying if a list of proteins that are present 
+#' @param showUniversal A Boolean specifying if a list of proteins that are present 
 #' in every condition should also be returned.
+#' 
+#' @param fileName A string, ending in .tiff specifying the name for the venn diagram
 #' 
 #'      
 #' @returns The function returns nothing. 
 #' 
 #################################################
 #' @export
-vennMain <- function(combos.list, showUniversal = FALSE){
+vennMain <- function(combos.list, showUniversal = FALSE, fileName = "test.tiff"){
   
   # above 4 conditions, venn diagrams become less useful
   if (length(combos.list) <= 4){
-    visualize(combos.list, "venn", "test.tiff")
+    visualize(combos.list, "venn", fileName)
   }
   
   if (showUniversal){

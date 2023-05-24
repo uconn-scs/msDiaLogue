@@ -4,13 +4,15 @@
 \alias{vennMain}
 \title{Operates the venn diagram functions}
 \usage{
-vennMain(combos.list, showUniversal = FALSE)
+vennMain(combos.list, showUniversal = FALSE, fileName = "test.tiff")
 }
 \arguments{
 \item{combos.list}{The output from sortCondition: lists of condition combinations}
 
-\item{showUniversal}{A Boolean specifiying if a list of proteins that are present
+\item{showUniversal}{A Boolean specifying if a list of proteins that are present
 in every condition should also be returned.}
+
+\item{fileName}{A string, ending in .tiff specifying the name for the venn diagram}
 }
 \value{
 The function returns nothing.
