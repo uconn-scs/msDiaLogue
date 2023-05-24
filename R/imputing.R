@@ -11,24 +11,28 @@ require(tidyr)
 #' 
 #' @param dataSet The 2d data set of experimental values 
 #' 
-#' @param imputeType A Boolean (default = "LocalMinVal") specifying what imputation 
+#' @param imputeType A string (default = "LocalMinVal") specifying what imputation 
 #' method to use.
 #' 
 #' @param reqPercentPresent An int (default = 51) specifying the require percent of values 
 #' that must be present in a given protein by condition combination for values to be imputed.
 #' 
+#' @param reportImputing A Boolean (default = FALSE) specifying whether to provide 
+#' a shadow data frame with imputed data labels. Alters the return structure
+#' 
 #' @details 
 #' "LocalMinVal" replaces missing values with the lowest value from the protein by condition combination.
 #' "GlobalMinVal" replaces missing values with the lowest overall value in the data set.
 #'      
-#' @returns The function returns a list of the imputed 2d dataframe, and a shadow matrix
+#' @returns If reportImputing is FALSE, the function returns the imputed 2d dataframe.
+#' If reportImputing is TRUE, the function returns a list of the imputed 2d dataframe and a shadow matrix
 #' showing which proteins by replicate were imputed. 
 #' 
 #################################################
 
 
 #' @export
-impute <- function(dataSet, imputeType = "LocalMinVal", reqPercentPresent = 51){
+impute <- function(dataSet, imputeType = "LocalMinVal", reqPercentPresent = 51, reportImputing = FALSE){
   
   if (imputeType == "LocalMinVal") {
   
@@ -131,8 +135,15 @@ impute <- function(dataSet, imputeType = "LocalMinVal", reqPercentPresent = 51){
   }
 
   
+  
+  if (reportImputing){
   # return the filtered data
   return(list(data.frame(imputedData), data.frame(shadowMatrix)))
+  }
+  
+  else {return (data.frame(imputedData))
+    
+  }
   
 }
 

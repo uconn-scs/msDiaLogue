@@ -18,7 +18,9 @@ vennMain(combos.list)
 
 dataTrans <- transform(dataFilter1)
 
-imputDataStore <- impute(dataTrans)
+dataImput2 <- impute(dataTrans)
+
+imputDataStore <- impute(dataTrans, reportImputing = TRUE)
 dataImput <- imputDataStore[[1]]
 shadowImput <- imputDataStore[[2]]
 
