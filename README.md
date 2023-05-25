@@ -2,7 +2,7 @@
 
 ## Code building for workflow package
 
-This repository will be used to build a customized UConn PMF-SCS workflow for DIA proteomics data. The code will pull heavily from the MSstats package, but will be expanded to include more options for users, and more detail explanations of the steps in the analysis process. 
+This repository will be used to build a customized UConn PMF-SCS workflow for DIA proteomics data. The code wedill be expanded to include more options for users, and more detailed explanations of the steps in the analysis process. 
 
 Main areas include:
 
