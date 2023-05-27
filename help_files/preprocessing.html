@@ -1,0 +1,94 @@
+<!DOCTYPE html><html><head><title>R: Loading, filtering and reformatting of MS DIA data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table style="width: 100%;"><tr><td>preprocessing {msDiaLogue}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Loading, filtering and reformatting of MS DIA data</h2>
+
+<h3>Description</h3>
+
+<p>preprocessing() reads a .csv file, applies filtering conditions, selects columns
+necessary for analysis, and returns the reformated data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>preprocessing(fileName, filterNaN = TRUE, filterUnique = 2, filterBlank = TRUE)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table>
+<tr style="vertical-align: top;"><td><code>fileName</code></td>
+<td>
+<p>The name of the file containing MS data (+ the path to the file, if needed)</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>filterNaN</code></td>
+<td>
+<p>A boolean (default = TRUE) specifying if observations including NaN should be omitted.</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>filterUnique</code></td>
+<td>
+<p>An integer specifying how many unique peptides are required to include a protein</p>
+</td></tr>
+<tr style="vertical-align: top;"><td><code>filterBlank</code></td>
+<td>
+<p>a boolean specifying if data points with blank protein names
+should be removed from the data set</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function executes the following:
+</p>
+
+<ol>
+<li><p> reads the file
+</p>
+</li>
+<li><p> if applicable, applies filters
+</p>
+</li>
+<li><p> provides summary statistics and histogram of all values reported in the
+data set
+</p>
+</li>
+<li><p> selects columns that provide necessary information for analysis
+</p>
+</li>
+<li><p> re-formats the data to present individual proteins as columns and groups
+replicates under each protein
+</p>
+</li>
+<li><p> stores the data as a data.frame and prints a few columns to provide a
+visual example to the user.
+</p>
+</li></ol>
+
+
+
+<h3>Value</h3>
+
+<p>The function returns a 2d dataframe.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>msDiaLogue</em> version 0.0.1 ]</div>
+</div>
+</body></html>
