@@ -46,7 +46,7 @@ preprocessing <- function(fileName, filterNaN = TRUE, filterUnique = 2, filterBl
     
     # select columns necessary for analysis 
     selectedData <- filteredData %>% select(R.Condition, R.FileName, R.Replicate,  
-                                               PG.Quantity, PG.ProteinNames)
+                                               PG.Quantity, PG.ProteinNames, PG.ProteinAccessions)
     
     # print summary statistics for full raw data set
     cat("Summary of full data signals (raw)")
@@ -57,10 +57,47 @@ preprocessing <- function(fileName, filterNaN = TRUE, filterUnique = 2, filterBl
     hist(log2(selectedData$PG.Quantity), main = "Histogram of Full Data Set", 
          xlab = "Log2(Data)", breaks = "Scott")
     
-    # reformat data to present proteins as the columns
-    # and to group replicates under each protein
-    reformatedData <- selectedData %>% pivot_wider(id_cols = c(R.Condition, R.FileName, R.Replicate),
-                              names_from = PG.ProteinNames, values_from = PG.Quantity)
+    
+    #Warning catching for duplicated protein names
+       reformatedData <- tryCatch(
+      {
+        # try to reformat data to present proteins as the columns
+        # and to group replicates under each protein
+        reformatedData <- selectedData %>% pivot_wider(id_cols = c(R.Condition, R.FileName, R.Replicate),
+                                                       names_from = PG.ProteinNames, values_from = PG.Quantity)
+        
+        
+      },
+      
+      #If a warning is thrown for duplicated protein names being stored as list
+      warning = function(w){
+        message(paste(w, "There are duplicated protein names in your data. 
+                Accession numbers have been used to replace duplicate names in all locations."))
+                
+      #compile a database if the entries with duplicates
+      warningTmp <- {selectedData} %>%
+          dplyr::group_by(R.Condition, R.FileName, R.Replicate, PG.ProteinNames) %>%
+          dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
+          dplyr::filter(n > 1L) 
+        
+      #Create a unique list of duplicated values
+      duplicateName <- unique(warningTmp$PG.ProteinNames)
+      
+      #For each duplicate protein, replace all instances of the name, with the accession numbers
+      for (i in duplicateName){
+        selectedData <- selectedData %>%
+          mutate(PG.ProteinNames = ifelse(PG.ProteinNames == duplicateName, PG.ProteinAccessions, PG.ProteinNames))
+      }
+      
+      #Try to reformat the data again
+      reformatedData <- selectedData %>% pivot_wider(id_cols = c(R.Condition, R.FileName, R.Replicate),
+                                                       names_from = PG.ProteinNames, values_from = PG.Quantity)   
+   
+      return(reformatedData)
+      
+      }
+    )
+    
     
     # store data in a data frame structure
     loadedData <- reformatedData %>% data.frame() 
