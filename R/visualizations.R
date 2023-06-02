@@ -227,7 +227,7 @@ visualize <- function(outputData, graphType = "volcano", fileName, transformType
 #' @param fileName A string, ending in .tiff specifying the name for the venn diagram
 #' 
 #'      
-#' @returns The function returns nothing. 
+#' @returns The function returns the unions of conditions with each proteins present. 
 #' 
 #################################################
 #' @export
@@ -241,11 +241,14 @@ vennMain <- function(combos.list, showUniversal = FALSE, fileName = "test.tiff")
   if (showUniversal){
     a <- get.venn.partitions(combos.list[1:length(combos.list)])
     universalProt <- a$..values..[[1]]
+    
+    #return the filtered data 
+    return(a)
+    
   }
   
-  #return the filtered data 
+
   return()
-  
   
 }
 
