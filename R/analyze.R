@@ -192,6 +192,8 @@ analyze <- function(dataSet, conditions, testType = "t-test"){
     #set names for rows to the condition names
     rownames(statSetOut) <- conditions
       
+    statSetOut <- data.frame(statSetOut)
+    
   }
   
   # return pre-processed data
