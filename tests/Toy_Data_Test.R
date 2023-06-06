@@ -1,8 +1,10 @@
-name <- "20230510_msDIAlogue HeLa-6mix_Report.csv"
+name <- "Input_Data/Toy_Spectronaut_Data.csv"
 
 rawData <- read.csv(name)
 
 data <- preprocessing(name, filterUnique = 2, filterNaN = TRUE)
+
+write.csv(data, file = "tests/Unit_Test_Data/preprocessedToy.csv")
 
 #TODO Getting list csv of protein names to accession number mappings 
 #add csv export of removed data

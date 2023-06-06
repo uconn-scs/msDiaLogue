@@ -15,7 +15,7 @@ in every condition should also be returned.}
 \item{fileName}{A string, ending in .tiff specifying the name for the venn diagram}
 }
 \value{
-The function returns nothing.
+The function returns the unions of conditions with each proteins present.
 }
 \description{
 Builds a venn diagram, if useful, and provides universal protein list
