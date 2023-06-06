@@ -4,8 +4,6 @@ rawData <- read.csv(name)
 
 data <- preprocessing(name, filterUnique = 2, filterNaN = TRUE)
 
-write.csv(data, file = "tests/Unit_Test_Data/preprocessedToy.csv")
-
 #TODO Getting list csv of protein names to accession number mappings 
 #add csv export of removed data
 
@@ -19,12 +17,14 @@ combos.list <- sortcondition(dataFilter1)
 
 vennMain(combos.list)
 #TODO work on the list of colors that are used for circles
-
 #Optional 1
+
+
 
 #TODO add regular expression filtering for filterOutIn
 
 dataTrans <- transform(dataFilter1, logFold = 2)
+
 
 #TODO make transformation graphs per protein per condition?
 
@@ -38,6 +38,7 @@ compareValues <- c("100fmol","50fmol")
 
 testOutput1 <- analyze(dataNorm, compareValues, testType = "volcano")
 
+
 visualize(testOutput1, conditionLabels = compareValues, transformType = "Log 2")
 
 #TODO add labels for only specified set of proteins are named. 
@@ -48,7 +49,7 @@ visualize(testOutput2, graphType = "t-test",  conditionLabels = compareValues, t
 
 # TODO consider changing breaks  for t-test histograms
 
-testOutput2 <- analyze(dataNorm, compareValues, testType = "MA")
+testOutput3 <- analyze(dataNorm, compareValues, testType = "MA")
 
 visualize(testOutput2, graphType = "MA",  conditionLabels = compareValues, transformType = "Log 2")
 
