@@ -37,12 +37,12 @@ require(tidyr)
 #' 
 ###################################################
 #' @export
-preprocessing <- function(fileName, filterNaN = TRUE, filterUnique = 2, filterBlank = TRUE){
+preprocessing <- function(fileName, filterNaN = TRUE, filterUnique = 2, replaceBlank = TRUE){
     # read in the protein quantitative csv file generated from Spectranaut
     rawData <- read.csv(fileName)
     
     #Filter Data by NaN and unique peptide count
-    filteredData <- preProcessFiltering(rawData, filterNaN, filterUnique, filterBlank)
+    filteredData <- preProcessFiltering(rawData, filterNaN, filterUnique, replaceBlank)
     
     # select columns necessary for analysis 
     selectedData <- filteredData %>% select(R.Condition, R.FileName, R.Replicate,  

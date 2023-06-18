@@ -29,7 +29,7 @@ require(tidyr)
 #################################################
 
 #' @export
-preProcessFiltering <- function(dataSet, filterNaN = TRUE, filterUnique = 2, filterBlank = TRUE){
+preProcessFiltering <- function(dataSet, filterNaN = TRUE, filterUnique = 2, replaceBlank = TRUE){
   
   filteredData <- dataSet
   
@@ -43,9 +43,10 @@ preProcessFiltering <- function(dataSet, filterNaN = TRUE, filterUnique = 2, fil
     filteredData <- filteredData %>% filter(PG.NrOfStrippedSequencesIdentified >= filterUnique)
   }
 
-  if (filterBlank){
-    #filter out proteins that have only 1 unique peptide
-    filteredData <- filteredData %>% filter(PG.ProteinNames != "")
+  if (replaceBlank){
+    #replace blank protein name entries with their accession numbers
+    filteredData <- filteredData %>% 
+                        mutate(PG.ProteinNames=replace(PG.ProteinNames, PG.ProteinNames=="", PG.ProteinAccessions[PG.ProteinNames==""]))
   }
   
   
