@@ -1,5 +1,5 @@
 
-name <- "20230510_msDIAlogue HeLa-6mix_Report.csv"
+name <- "Input_Data/20230510_msDIAlogue HeLa-6mix_Report.csv"
 
 data <- preprocessing(name, filterUnique = 2)
 

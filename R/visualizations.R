@@ -77,13 +77,16 @@ visualize <- function(outputData, graphType = "volcano", fileName, transformType
   
   # specify graph type
   if (graphType == "venn") {
+    
+  paletteTemp <- c("red", "blue", "yellow", "green", "white")
+    
   
   combos.list <- outputData
     
    venn.diagram(
       x = combos.list[1:length(combos.list)], 
       filename = fileName, 
-      fill = c("red", "green", "blue", "yellow"), 
+      fill = c(paletteTemp[1:length(combos.list)]), 
       alpha = 0.2)
     
     
