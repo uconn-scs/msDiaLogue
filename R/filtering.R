@@ -34,13 +34,29 @@ preProcessFiltering <- function(dataSet, filterNaN = TRUE, filterUnique = 2, rep
   filteredData <- dataSet
   
   if (filterNaN) {
+    
+    #create a dataframe of the removed data
+    removedData <- filteredData %>% filter(is.nan(PG.Quantity ))
+    
+    #save removed data to current working directory as 
+    write.csv(removedData, "preprocess_Filtered_Out_NaN.csv")
+    
     # filter out the proteins that have no recorded value
     filteredData <- filteredData %>% filter(!is.nan(PG.Quantity ))
+  
+    
   }
   
   if (filterUnique >= 2){
+    #create a dataframe of the removed data
+    removedData <- filteredData %>% filter(PG.NrOfStrippedSequencesIdentified < filterUnique)
+    
+    #save removed data to current working directory as 
+    write.csv(removedData, "preprocess_Filtered_Out_Unique.csv")
+    
     #filter out proteins that have only 1 unique peptide
     filteredData <- filteredData %>% filter(PG.NrOfStrippedSequencesIdentified >= filterUnique)
+    
   }
 
   if (replaceBlank){
