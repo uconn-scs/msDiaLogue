@@ -1,11 +1,11 @@
 
-name <- "Input_Data/20230510_msDIAlogue HeLa-6mix_Report.csv"
+name <- "Input_Data/20230530_103408_20230525_HeLa-6mix_cleanedMQdb_MS2quant_Report.csv"
 
 data <- preprocessing(name, filterUnique = 2)
 
-dataFilter1<- filterOutIn(data, TRUE, c("MYG_HORSE"))
+dataFilter1<- filterOutIn(data, TRUE, listName =  c("MYG_HORSE"))
 
-
+dataFilter1.5<- filterOutIn(data, TRUE, stringSearch = "CON__" )
 
 
 # Optional 1: generate venn diagram 
