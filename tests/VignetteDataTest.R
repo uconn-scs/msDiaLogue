@@ -25,7 +25,7 @@ dataImput <- imputDataStore[[1]]
 shadowImput <- imputDataStore[[2]]
 
 
-dataFilter2 <- filterNA(dataImput)
+dataFilter2 <- filterNA(dataImput2)
 
 dataNorm <- normalize(dataFilter2, normalizeType = "Quant")
 
@@ -54,8 +54,9 @@ compareValues <- c("100fmol","50fmol")
 #Volcano Plot
 testOutput1 <- analyze(dataNorm, compareValues, testType = "volcano")
 
-visualize(testOutput1, conditionLabels = compareValues, transformType = "Log 2")
+volcanoPlotObject <- visualize(testOutput1, conditionLabels = compareValues, transformType = "Log 2")
 
+volcanoPlotObject
 
 #T-Test
 testOutput2 <- analyze(dataNorm, compareValues, testType = "t-test")
@@ -66,12 +67,14 @@ visualize(testOutput2, graphType = "t-test", conditionLabels = compareValues)
 #MA Plot
 testOutput3 <- analyze(dataNorm, compareValues, testType = "MA")
 
-visualize(testOutput3, graphType = "MA", conditionLabels = compareValues, transformType = "Log 2")
+maPlotObject <- visualize(testOutput3, graphType = "MA", conditionLabels = compareValues, transformType = "Log 2")
+
+maPlotObject
 
 
 #PCA Plot 
-visualize(dataNorm, graphType = "pca")
+pcaPlotObject <- visualize(dataNorm, graphType = "pca")
 
 
 #Heat Map 
-visualize(dataNorm, graphType = "heatmap")
+heatmapPlotObject <- visualize(dataNorm, graphType = "heatmap")

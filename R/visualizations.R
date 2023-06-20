@@ -155,6 +155,7 @@ visualize <- function(outputData, graphType = "volcano", fileName, transformType
     objEHeat <- pheatmap(mat = t(outputData[,3:length(outputData[1,])]), 
                          cluster_row = FALSE, cluster_cols = TRUE, show_rownames = FALSE, show_colnames = TRUE)
     
+    return(objEHeat)
     
   }
   
@@ -168,7 +169,10 @@ visualize <- function(outputData, graphType = "volcano", fileName, transformType
     
     res.pca <- PCA(outputData_trim.trans, scale.unit=TRUE, ncp=5, graph = T)
     
-    fviz_screeplot(res.pca, addlabels = TRUE, ylim = c(0, 99))
+    #TODO: screeplot appears to be deprecated or not found in current factoextra
+    #fviz_screeplot(res.pca, addlabels = TRUE, ylim = c(0, 99))
+    
+    return(res.pca)
     
   }
   
