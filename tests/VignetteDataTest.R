@@ -1,19 +1,22 @@
 
 name <- "Input_Data/20230530_103408_20230525_HeLa-6mix_cleanedMQdb_MS2quant_Report.csv"
 
+rawData <- read.csv(name)
+
 data <- preprocessing(name, filterUnique = 2)
+
+#TODO: preprocessing returns data + "key" which is a data frame of protein name, gene name, accession number, and description.
+  # key is for labeling: searching, look up, matching
 
 dataFilter1<- filterOutIn(data, TRUE, listName =  c("MYG_HORSE"))
 
-dataFilter1.5<- filterOutIn(data, TRUE, stringSearch = "CON__" )
-
+dataFilter1.5<- filterOutIn(data, FALSE, stringSearch = "MOUSE" )
 
 # Optional 1: generate venn diagram 
 combos.list <- sortcondition(dataFilter1)
 
 vennMain(combos.list)
 #Optional 1
-
 
 
 dataTrans <- transform(dataFilter1)
