@@ -2,28 +2,28 @@
 % Please edit documentation in R/analyze.R
 \name{volcanoTest}
 \alias{volcanoTest}
-\title{Producing results for volcano plot}
+\title{Producing results for a volcano plot}
 \usage{
 volcanoTest(x, lengthA)
 }
 \arguments{
-\item{x}{The function takes a parameter x, a 1d dataframe, where data from
-the first condition are listed first, and data from the second condition are listed second.}
+\item{x}{A 1d dataframe, where data from the first condition are listed first, and data
+from the second condition are listed second.}
 
-\item{lengthA}{The parameter "Length of A" is an integer specifying how many
-of the data points in x are from the first condition}
+\item{lengthA}{An integer specifying the number of the data points in \code{x} are from
+the first condition.}
 }
 \value{
-The function returns a list of length 2 with the difference of means and
-the t-tested p-values for the protein across two conditions.
+A list of length 2 with the difference of means and the P-values from a t-test
+for the protein across two conditions.
 }
 \description{
-This function produces output (fold change, and P value) for a volcano plot.
+Produce output (fold change, and P-value) for a volcano plot.
 }
 \details{
-If the means between the two conditions are the same, t.test throws an error,
-which is caught and printed to the user to make sure the program keeps running
+If the means between the two conditions are the same, t.test throws an error, which is
+caught and printed to the user to make sure the program keeps running.
 
-WARNING: currently, the function does not apply a further transformation.
-The data must be log 2 transformed in a previous step to be transformed here.
+WARNING: Currently, the function does not apply any further transformation. The data
+must undergo a log2 transformation in a previous step before being used here.
 }

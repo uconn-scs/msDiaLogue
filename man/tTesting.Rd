@@ -7,17 +7,17 @@
 tTesting(x, lengthA)
 }
 \arguments{
-\item{x}{The function takes a parameter x, a 1d dataframe, where data from
-the first condition are listed first, and data from the second condition are listed second.}
+\item{x}{A 1d dataframe, where data from the first condition are listed first, and data
+from the second condition are listed second.}
 
-\item{lengthA}{The parameter "Length of A" is an integer specifying how many
-of the data points in x are from the first condition}
+\item{lengthA}{An integer specifying the number of the data points in \code{x} are from
+the first condition.}
 }
 \value{
-The function returns a list of length 2 with the difference of means and
-the t-tested p-values for the protein across two conditions.
+A list of length 2 with the difference of means and the P-values from a t-test
+for the protein across two conditions.
 }
 \description{
-This function produces output (difference of means, and P value) for visual
-inspection or for external use.
+Produce output (difference of means, and P-value) for visual inspection or for external
+use.
 }
