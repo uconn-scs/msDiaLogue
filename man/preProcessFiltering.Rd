@@ -8,7 +8,7 @@ preProcessFiltering(
   dataSet,
   filterNaN = TRUE,
   filterUnique = 2,
-  filterBlank = TRUE
+  replaceBlank = TRUE
 )
 }
 \arguments{
@@ -21,8 +21,8 @@ with NaN values should be removed from the data set.}
 with less than the default number of unique peptides should be removed from
 the data set.}
 
-\item{filterBlank}{A Boolean (default = TRUE) specifying whether or not proteins
-without names should be removed from the data set.}
+\item{replaceBlank}{A Boolean (default = TRUE) specifying whether or not proteins
+without names should be be named by their accession numbers.}
 }
 \value{
 The function returns a filtered 2d dataframe.
