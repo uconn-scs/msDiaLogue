@@ -12,23 +12,22 @@ preProcessFiltering(
 )
 }
 \arguments{
-\item{dataSet}{The 2d data set of experimental values}
+\item{dataSet}{The 2d data set of experimental values.}
 
-\item{filterNaN}{A Boolean (default = TRUE) specifying whether or not proteins
-with NaN values should be removed from the data set.}
+\item{filterNaN}{A boolean (default = TRUE) specifying whether proteins with NaN should
+be removed from the data set.}
 
-\item{filterUnique}{An integer (default = 2) specifying whether or not proteins
-with less than the default number of unique peptides should be removed from
-the data set.}
+\item{filterUnique}{An integer (default = 2) specifying whether proteins with less than
+the default number of unique peptides should be removed from the data set.}
 
-\item{replaceBlank}{A Boolean (default = TRUE) specifying whether or not proteins
-without names should be be named by their accession numbers.}
+\item{replaceBlank}{A boolean (default = TRUE) specifying whether proteins without names
+should be be named by their accession numbers.}
 }
 \value{
-The function returns a filtered 2d dataframe.
+A filtered 2d dataframe.
 }
 \description{
-filtering() applies a series of filtering steps to the data set
+Apply a series of filtering steps to the data set.
 }
 \details{
 All forms of filtering are recommended for most use cases.

@@ -7,22 +7,25 @@
 filterOutIn(dataSet, removeList, listName = c(), stringSearch = "")
 }
 \arguments{
-\item{dataSet}{The 2d data set of experimental values}
+\item{dataSet}{The 2d data set of experimental values.}
 
-\item{removeList}{A boolean specifying whether entries
-in the following list should be removed or selected.
-"TRUE" will remove the list of proteins from the data set.
-"FALSE will remove all proteins not in the list from the data set.}
+\item{removeList}{A boolean specifying whether entries in the following list should be
+removed or selected.
+\itemize{
+\item TRUE: Remove the list of proteins from the data set.
+\item FALSE: Remove all proteins not in the list from the data set.
+}}
 
-\item{listName}{A list of proteins or contaminants to select or to remove}
+\item{listName}{A list of proteins or contaminants to select or to remove.}
 
-\item{stringSearch}{A string providing to match against protein names for either inclusion or exclusion}
+\item{stringSearch}{A string used to match against protein names, for either inclusion
+or exclusion.}
 }
 \value{
-The function returns a filtered 2d dataframe.
+A filtered 2d dataframe.
 }
 \description{
-filterOutIn() applies a series of filtering steps to the data set
+Apply a series of filtering steps to the data set.
 }
 \details{
 If proteins are removed by list, a .csv file is created with the removed data.

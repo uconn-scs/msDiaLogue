@@ -7,15 +7,15 @@
 filterNA(dataSet)
 }
 \arguments{
-\item{dataSet}{The 2d data set of experimental values}
+\item{dataSet}{The 2d data set of experimental values.}
 }
 \value{
-The function returns a filtered 2d dataframe.
+A filtered 2d dataframe.
 }
 \description{
-filterNA() removes all proteins from the data
+Remove all proteins from the data.
 }
 \details{
-If proteins that don't meet the imputation requirement are removed,
-a .csv file is created with the removed data.
+If proteins that do not meet the imputation requirement are removed, a .csv file is
+created with the removed data.
 }
