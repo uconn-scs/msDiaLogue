@@ -2,6 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+.DS_Store
 filtered_out_data.csv
 filtered_NA_data.csv
 FASTA Conversion/20230217_112231_hrf20230212_AAML1031_Plates124_Report.csv
