@@ -1,44 +1,40 @@
-#################################################
 #' Compiling data on a single protein from each step in the process
 #' 
-#' @description 
-#' pullProteinPath summarizes the steps that have been performed on the data for one protein. 
-#'
-#' @param proteinName A String identifying the protein of interest. 
+#' @description
+#' Summarize the steps performed on the data for one protein.
 #' 
-#' @param dataSetList A list of data frames, the order dictates the order of presentation 
+#' @param proteinName A string identifying the protein of interest.
 #' 
-#' @details 
-#' proteinName must match the labels in the data sets exactly.    
-#'      
-#' @returns The function returns a 2d dataframe, with the protein data at each step present in the dataSetList 
+#' @param dataSetList A list of data frames, the order dictates the order of presentation.
 #' 
-#################################################
+#' @details \code{proteinName} must match the labels in the data sets exactly.
+#' 
+#' @returns A 2d dataframe, with the protein data at each step present in the \code{dataSetList}.
+#' 
 #' @export
-pullProteinPath <- function(proteinName, dataSetList){
+
+pullProteinPath <- function(proteinName, dataSetList) {
   
-  #label the data frame
+  ## label the data frame
   proteinPath <- dataSetList[[1]][1:3]
   
-  #for each provided data set
-  for (i in 1:length(dataSetList)){
+  ## for each provided data set
+  for (i in 1:length(dataSetList)) {
     
-    #pull out the name of the type of data
+    ## pull out the name of the type of data
     dataLabel <- names(dataSetList)[i]
     
-    #select the correct protein data 
+    ## select the correct protein data
     selectTemp <- dataSetList[[i]] %>% select(proteinName)
-  
-    #label the correct protein data with the data type
-    names(selectTemp) <- dataLabel
-
-    #add the labeled data to the data frame
-    proteinPath <- cbind(proteinPath, selectTemp)
     
+    ## label the correct protein data with the data type
+    names(selectTemp) <- dataLabel
+    
+    ## add the labeled data to the data frame
+    proteinPath <- cbind(proteinPath, selectTemp)
   }
   
-  #return the path of data for this protein
+  ## return the path of data for this protein
   return(proteinPath)
-  
-  
 }
+

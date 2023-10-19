@@ -7,16 +7,16 @@
 pullProteinPath(proteinName, dataSetList)
 }
 \arguments{
-\item{proteinName}{A String identifying the protein of interest.}
+\item{proteinName}{A string identifying the protein of interest.}
 
-\item{dataSetList}{A list of data frames, the order dictates the order of presentation}
+\item{dataSetList}{A list of data frames, the order dictates the order of presentation.}
 }
 \value{
-The function returns a 2d dataframe, with the protein data at each step present in the dataSetList
+A 2d dataframe, with the protein data at each step present in the \code{dataSetList}.
 }
 \description{
-pullProteinPath summarizes the steps that have been performed on the data for one protein.
+Summarize the steps performed on the data for one protein.
 }
 \details{
-proteinName must match the labels in the data sets exactly.
+\code{proteinName} must match the labels in the data sets exactly.
 }
