@@ -7,28 +7,22 @@
 analyze(dataSet, conditions, testType = "t-test")
 }
 \arguments{
-\item{conditions}{A list of length 2, composed of integers, specifying
-which conditions to compare}
+\item{dataSet}{The 2d data set of data.}
 
-\item{testType}{A string (default = "t-test") specifying which
-statistical test to use.}
+\item{conditions}{A list of length 2, composed of integers, specifying which conditions
+to compare.}
 
-\item{summaryData}{The 2d data set of data}
+\item{testType}{A string (default = "t-test") specifying which statistical test to use:
+\enumerate{
+\item "t-test": unequal variance t-test.
+\item "volcano": output to plot a volcano plot.
+\item "MA": output to plot an MA plot.
+}}
 }
 \value{
-The function returns a 2d dataframe with differences of means and
-p-values for every protein across the two conditions. The dataframe is sorted
-by ascending p-value.
+A 2d dataframe with differences of means and P-values for every protein across
+the two conditions, sorted in ascending order by P-value.
 }
 \description{
-analyze() applies a statistical test to the data.
-}
-\details{
-Options for testType are:
-
-"t-test" for unequal variance t-test.
-
-"volcano" for output to plot a volcano plot.
-
-"MA" for output to plot an MA plot.
+Apply a statistical test to the data.
 }
