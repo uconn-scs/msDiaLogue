@@ -1,118 +1,120 @@
-# Code for data pre-processing
-
-require(dplyr)
-require(tidyr)
-
-#################################################
-#' 
+######################################
+#### Code for data pre-processing ####
+######################################
+#'
 #' Loading, filtering and reformatting of MS DIA data
 #' 
-#' @description 
-#' preprocessing() reads a .csv file, applies filtering conditions, selects columns 
-#' necessary for analysis, and returns the reformated data.
+#' @description
+#' Read a .csv file, apply filtering conditions, select columns necessary for analysis,
+#' and return the reformatted data.
 #' 
-#' @param fileName The name of the file containing MS data (+ the path to the file, if needed) 
+#' @param fileName The name of the file containing MS data (including the path to the file,
+#' if needed).
 #' 
-#' @param filterNaN A boolean (default = TRUE) specifying if observations including NaN should be omitted. 
+#' @param filterNaN A boolean (default = TRUE) specifying whether observations including
+#' NaN should be omitted.
 #' 
-#' @param filterUnique An integer specifying how many unique peptides are required to include a protein
+#' @param filterUnique An integer (default = 2) specifying how many number of unique
+#' peptides are required to include a protein.
 #' 
-#' @param filterBlank a boolean specifying if data points with blank protein names
-#'  should be removed from the data set
+#' @param replaceBlank A boolean specifying whether data points with blank protein names
+#' should be removed from the data set.
 #' 
-#' 
-#' @details 
+#' @details
 #' The function executes the following:
-#'   1. reads the file 
-#'   2. if applicable, applies filters
-#'   3. provides summary statistics and histogram of all values reported in the 
-#'      data set
-#'   4. selects columns that provide necessary information for analysis
-#'   5. re-formats the data to present individual proteins as columns and groups 
-#'      replicates under each protein
-#'   6. stores the data as a data.frame and prints a few columns to provide a 
-#'      visual example to the user.
-#'      
-#' @returns The function returns a 2d dataframe. 
+#' \enumerate{
+#' \item Reads the file.
+#' \item Applies applicable filters, if necessary.
+#' \item Provides summary statistics and a histogram of all values reported in the data set.
+#' \item Selects columns that contain necessary information for the analysis.
+#' \item Re-formats the data to present individual proteins as columns and group replicates
+#' under each protein.
+#' \item Stores the data as a \code{data.frame} and prints a subset of columns to provide
+#' a visual example to the user.
+#' }
 #' 
-###################################################
+#' @import dplyr
+#' @import tidyr
+#' @importFrom utils read.csv
+#' 
+#' @returns A 2d dataframe.
+#' 
 #' @export
-preprocessing <- function(fileName, filterNaN = TRUE, filterUnique = 2, replaceBlank = TRUE){
-    # read in the protein quantitative csv file generated from Spectranaut
-    rawData <- read.csv(fileName)
+
+preprocessing <- function(fileName,
+                          filterNaN = TRUE,
+                          filterUnique = 2,
+                          replaceBlank = TRUE) {
+  
+  ## read in the protein quantitative csv file generated from Spectranaut
+  rawData <- read.csv(fileName)
+  
+  ## filter data by NaN and unique peptide count
+  filteredData <- preProcessFiltering(rawData, filterNaN, filterUnique, replaceBlank)
+  
+  ## select columns necessary for analysis
+  selectedData <- filteredData %>%
+    select(c(R.Condition, R.FileName, R.Replicate, PG.Quantity,
+             PG.ProteinNames, PG.ProteinAccessions))
+  
+  ## print summary statistics for full raw data set
+  cat("Summary of full data signals (raw)")
+  print(summary(selectedData$PG.Quantity))
+  cat("\n")
+  
+  ## generate a histogram of the log2-transformed values for full data set
+  hist(log2(selectedData$PG.Quantity),
+       main = "Histogram of Full Data Set",
+       xlab = "Log2(Data)", breaks = "Scott")
+  
+  ## warning catching for duplicated protein names
+  reformatedData <- tryCatch({
     
-    #Filter Data by NaN and unique peptide count
-    filteredData <- preProcessFiltering(rawData, filterNaN, filterUnique, replaceBlank)
+    ## try to reformat the data to present proteins as the columns and
+    ## to group replicates under each protein
+    reformatedData <- selectedData %>% pivot_wider(
+      id_cols = c(R.Condition, R.FileName, R.Replicate),
+      names_from = PG.ProteinNames, values_from = PG.Quantity)
     
-    # select columns necessary for analysis 
-    selectedData <- filteredData %>% select(R.Condition, R.FileName, R.Replicate,  
-                                               PG.Quantity, PG.ProteinNames, PG.ProteinAccessions)
+  }, warning = function(w) {
     
-    # print summary statistics for full raw data set
-    cat("Summary of full data signals (raw)")
-    print(summary(selectedData$PG.Quantity))
-    cat("\n")
+    ## if a warning is thrown for duplicated protein names being stored as list
+    message(paste(
+      w, "There are duplicated protein names in your data.\n",
+      "Accession numbers have been used to replace duplicate names in all locations."))
     
-    # generate histogram of log2 -transformed full data set values 
-    hist(log2(selectedData$PG.Quantity), main = "Histogram of Full Data Set", 
-         xlab = "Log2(Data)", breaks = "Scott")
+    ## compile a database if the entries with duplicates
+    warningTmp <- selectedData %>%
+      dplyr::group_by(R.Condition, R.FileName, R.Replicate, PG.ProteinNames) %>%
+      dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
+      dplyr::filter(n > 1L)
     
+    ## create a unique list of duplicated values
+    duplicateName <- unique(warningTmp$PG.ProteinNames)
     
-    #Warning catching for duplicated protein names
-       reformatedData <- tryCatch(
-      {
-        # try to reformat data to present proteins as the columns
-        # and to group replicates under each protein
-        reformatedData <- selectedData %>% pivot_wider(id_cols = c(R.Condition, R.FileName, R.Replicate),
-                                                       names_from = PG.ProteinNames, values_from = PG.Quantity)
-        
-        
-      },
-      
-      #If a warning is thrown for duplicated protein names being stored as list
-      warning = function(w){
-        message(paste(w, "There are duplicated protein names in your data. 
-                Accession numbers have been used to replace duplicate names in all locations."))
-                
-      #compile a database if the entries with duplicates
-      warningTmp <- {selectedData} %>%
-          dplyr::group_by(R.Condition, R.FileName, R.Replicate, PG.ProteinNames) %>%
-          dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
-          dplyr::filter(n > 1L) 
-        
-      #Create a unique list of duplicated values
-      duplicateName <- unique(warningTmp$PG.ProteinNames)
-      
-      #For each duplicate protein, replace all instances of the name, with the accession numbers
-      for (i in duplicateName){
-        selectedData <- selectedData %>%
-          mutate(PG.ProteinNames = ifelse(PG.ProteinNames == duplicateName, PG.ProteinAccessions, PG.ProteinNames))
-      }
-      
-      #Try to reformat the data again
-      reformatedData <- selectedData %>% pivot_wider(id_cols = c(R.Condition, R.FileName, R.Replicate),
-                                                       names_from = PG.ProteinNames, values_from = PG.Quantity)   
-   
-      return(reformatedData)
-      
-      }
-    )
+    ## for each duplicate protein, replace all instances of the name,
+    ## with the accession numbers
+    for (i in duplicateName) {
+      selectedData <- selectedData %>%
+        mutate(PG.ProteinNames = ifelse(
+          PG.ProteinNames == duplicateName, PG.ProteinAccessions, PG.ProteinNames))
+    }
     
-    
-    # store data in a data frame structure
-    loadedData <- reformatedData %>% data.frame() 
-    
-    #Provide sample data for visual inspection
-    cat("Example Structure of Pre-Processed Data")
-    print(loadedData[,1:5])
-    
-    # return pre-processed data
-    return(loadedData)
+    ## try to reformat the data again
+    reformatedData <- selectedData %>%
+      pivot_wider(id_cols = c(R.Condition, R.FileName, R.Replicate),
+                  names_from = PG.ProteinNames, values_from = PG.Quantity)
+    return(reformatedData)
+  })
+  
+  ## store data in a data.frame structure
+  loadedData <- reformatedData %>% data.frame() 
+  
+  ## provide sample data for visual inspection
+  cat("Example Structure of Pre-Processed Data")
+  print(loadedData[,1:5])
+  
+  ## return pre-processed data
+  return(loadedData)
 }
-
-
-
-
-
-
 

@@ -12,33 +12,35 @@ preprocessing(
 )
 }
 \arguments{
-\item{fileName}{The name of the file containing MS data (+ the path to the file, if needed)}
+\item{fileName}{The name of the file containing MS data (including the path to the file,
+if needed).}
 
-\item{filterNaN}{A boolean (default = TRUE) specifying if observations including NaN should be omitted.}
+\item{filterNaN}{A boolean (default = TRUE) specifying whether observations including
+NaN should be omitted.}
 
-\item{filterUnique}{An integer specifying how many unique peptides are required to include a protein}
+\item{filterUnique}{An integer (default = 2) specifying how many number of unique
+peptides are required to include a protein.}
 
-\item{filterBlank}{a boolean specifying if data points with blank protein names
-should be removed from the data set}
+\item{replaceBlank}{A boolean specifying whether data points with blank protein names
+should be removed from the data set.}
 }
 \value{
-The function returns a 2d dataframe.
+A 2d dataframe.
 }
 \description{
-preprocessing() reads a .csv file, applies filtering conditions, selects columns
-necessary for analysis, and returns the reformated data.
+Read a .csv file, apply filtering conditions, select columns necessary for analysis,
+and return the reformatted data.
 }
 \details{
 The function executes the following:
 \enumerate{
-\item reads the file
-\item if applicable, applies filters
-\item provides summary statistics and histogram of all values reported in the
-data set
-\item selects columns that provide necessary information for analysis
-\item re-formats the data to present individual proteins as columns and groups
-replicates under each protein
-\item stores the data as a data.frame and prints a few columns to provide a
-visual example to the user.
+\item Reads the file.
+\item Applies applicable filters, if necessary.
+\item Provides summary statistics and a histogram of all values reported in the data set.
+\item Selects columns that contain necessary information for the analysis.
+\item Re-formats the data to present individual proteins as columns and group replicates
+under each protein.
+\item Stores the data as a \code{data.frame} and prints a subset of columns to provide
+a visual example to the user.
 }
 }
