@@ -7,25 +7,26 @@
 normalize(dataSet, normalizeType = "Quant")
 }
 \arguments{
-\item{dataSet}{The 2d data set of experimental values}
+\item{dataSet}{The 2d data set of experimental values.}
 
 \item{normalizeType}{A string (default = "Quant") specifying which type of
 normalization to apply:
 \enumerate{
-\item Quantile ("Quant"),
-Column-wise Median ("Median"),
-Column-wise Mean ("Mean"),
-or None ("None").
+\item Quantile ("Quant")
+\item Column-wise Median ("Median")
+\item Column-wise Mean ("Mean")
+\item None ("None")
 }}
 }
 \value{
-The function returns a normalized 2d dataframe.
+A normalized 2d dataframe.
 }
 \description{
-normalize() applies one specified type of normalization to a data set
+Apply a specified type of normalization to a data set.
 }
 \details{
-Quantile normalization is generally recommended. Mean and Median
-normalization are going to be included as popular previous methods. No normalization is not recommended.
-Boxplots are also generated for before and after the normalization to give a visual indicator of the changes.
+Quantile normalization is generally recommended. Mean and Median normalization are
+going to be included as popular previous methods. No normalization is not recommended.
+Boxplots are also generated for before and after the normalization to give a visual
+indicator of the changes.
 }
