@@ -1,264 +1,240 @@
-# Code for visualizations
-#https://biocorecrg.github.io/CRG_RIntroduction/volcano-plots.html
-
-
-require(ggrepel)
-require(dplyr)
-require(tidyr)
-require(ggplot2)
-require(VennDiagram)
-require(pheatmap)
-require(FactoMineR)
-
-#################################################
+#################################
+#### Code for visualizations ####
+#################################
+#' 
 #' Generating visualizations for MS Data
 #' 
-#' @description 
-#' visualize() produces specified graphics for the results of the data analysis function
+#' @description
+#' Create specific graphics to illustrate the results of the data analysis function.
 #' 
-#' @param outputData A 2d data frame that matches the output from the analyze() function for the same name
+#' @param outputData A 2D data frame that corresponds to the output from the function
+#' \code{analyze()} for the same name.
 #' 
-#' @param graphType A string indicating the graph type. Current options are: "volcano", 
-#' "venn", "MA", "pca", "heatmap", "normalize", and "t-test".
+#' @param graphType A string indicating the graph type.
+#' Current options are:
+#' \enumerate{
+#' \item "heatmap"
+#' \item "MA"
+#' \item "normalize"
+#' \item "pca"
+#' \item "t-test"
+#' \item "venn"
+#' \item "volcano"
+#' }
+#' 
+#' @param fileName Filename specifying the name for Venn image output, or if NULL, it
+#' returns the grid object itself.
+#' 
+#' @param transformType transformType ## TODO
+#' 
+#' @param conditionLabels conditionLabels ## TODO
 #' 
 #' @details 
-#' visualize() is designed to work directly with output from analyze. 
-#' Be sure that the graphType and testType params match.
+#' The function \code{visualize()} is designed to work directly with output from the
+#' function \code{analyze()}. Please be sure that the arguments \code{graphType} and
+#' \code{testType} match.
 #' 
+#' @import dplyr
+#' @import FactoMineR
+#' @import ggrepel
+#' @import ggplot2
+#' @import pheatmap
+#' @import tidyr
+#' @import VennDiagram
+#' @importFrom graphics hist
 #' 
-#' @returns The function does not return anything.
-#################################################
-
-
+#' @returns An object of class \code{ggplot}.
+#' 
 #' @export
-visualize <- function(outputData, graphType = "volcano", fileName, transformType, conditionLabels ){
+
+visualize <- function(outputData,
+                      graphType = "volcano",
+                      fileName,
+                      transformType,
+                      conditionLabels) {
   
-  
-  # specify graph type
-  if (graphType == "volcano") {
+  if (graphType == "heatmap") {
     
-  #transpose the data for easy manipulation
-  plotData <- data.frame(t(outputData))
-  
-  # add a column of NAs to indicate coloring
-  plotData$diffexpressed <- "NO"
-  
-  # if pvalue < 0.05, set as "Diff" for coloring and naming
-  plotData$diffexpressed[plotData$P.value < 0.05] <- "Diff"
-  
-  # add a column of NAs to provide labels
-  plotData$delabel <- NA
-  
-  # only label genes that are differentially expressed
-  plotData$delabel[plotData$diffexpressed != "NO"] <- row.names(plotData[plotData$diffexpressed != "NO",])
-  
-  ############# Ugly current fix to remove species names
-  plotData$delabel <- gsub("_.*", "", plotData$delabel)
-  #############
-  
-  #create volcano plot with p =0.05 cut off, and hard coded range and scope
-  p1 <- ggplot(data=plotData, aes(x=Log.Fold.Change, y= -log10(P.value), 
-                                  col = diffexpressed, label = delabel)) +
-    geom_point() +
-    theme_minimal() + 
-    # Setting more force to make data labels closer, ideally to eliminate long lines
-    geom_text_repel(force_pull = 3) +
-    scale_color_manual(values=c("red", "black")) +
-    geom_hline(yintercept=-log10(0.05), col="red") +
-    xlab(sprintf("%s Transformed Fold Change", transformType)) +
-    labs(title = paste(conditionLabels[1], "vs.", conditionLabels[2]))
-  
-  
-  
-  return(p1)
-  
-  }
-  
-  
-  # specify graph type
-  if (graphType == "venn") {
+    ## create a new variable that is a unique combination of "condition" and "replicate"
+    rownames(outputData) <- paste(outputData$R.Condition, "_", outputData$R.Replicate)
     
-  paletteTemp <- c("red", "blue", "yellow", "green", "white")
+    ## create and plot a heat map with replicate clustering   
+    objEHeat <- pheatmap(mat = t(outputData[,3:length(outputData[1,])]),
+                         cluster_rows = FALSE, cluster_cols = TRUE,
+                         show_rownames = FALSE, show_colnames = TRUE)
     
-  
-  combos.list <- outputData
+    return(objEHeat)
     
-   venn.diagram(
-      x = combos.list[1:length(combos.list)], 
-      filename = fileName, 
-      fill = c(paletteTemp[1:length(combos.list)]), 
-      alpha = 0.2)
+  } else if (graphType == "MA") {
+    #Future addition: use GGplot and plotly for interactive plotting if needed  
     
-    
-  return()
-     
-  }
-  
-  
-  if (graphType == "MA") {
-  #Future addition: use GGplot and plotly for interactive plotting if needed  
-    
-    #transpose the outputted data for easier manipulation
+    ## transpose the output data for easy manipulation
     tOutputData <- t(outputData)
     
-    #calculate the A data 
+    ## calculate the A data
     plotData <- data.frame(rowMeans(tOutputData))
     
-    #Calculate the M data
-    plotData <- cbind(plotData, data.frame(tOutputData[, 1]-tOutputData[, 2]) )
+    ## calculate the M data
+    plotData <- cbind(plotData, data.frame(tOutputData[,1] - tOutputData[,2]))
     
-    #label the columns with their A and M names  
+    ## label the columns with their A and M names
     colnames(plotData) <- c("A", "M")
     
-    # add a column of NAs to indicate coloring
+    ## add a column of NAs for coloring indication
     plotData$diffexpressed <- "NO"
     
-    # add a column of NAs to provide labels
+    ## add a column of NAs for labeling
     plotData$delabel <- NA
     
-    # if M > 1, set as "Diff" for coloring and naming
+    ## If M > 1, set it as "Diff" for both coloring and naming
     plotData$diffexpressed[plotData$M >= 1|plotData$M <= -1] <- "Change"
     
-    
-    # only label genes that are differentially expressed
-    plotData$delabel[plotData$diffexpressed != "NO"] <- row.names(plotData[plotData$diffexpressed != "NO",])
+    ## only label genes that are differentially expressed
+    plotData$delabel[plotData$diffexpressed != "NO"] <-
+      row.names(plotData[plotData$diffexpressed != "NO",])
     
     ############# Ugly current fix to remove species names
     plotData$delabel <- gsub("_.*", "", plotData$delabel)
     #############
     
-    
-    #create MA plot with M = +- 1 cut off
-    p2 <- ggplot(data=plotData, aes(x=A, y= M, 
-                                    col = diffexpressed, label = delabel)) +
+    ## create an MA plot with M = +- 1 cutoff
+    p2 <- ggplot(plotData, aes(x = A, y = M, col = diffexpressed, label = delabel)) +
       geom_point() +
-      theme_minimal() + 
       geom_text_repel() +
-      scale_color_manual(values=c("red", "black")) +
-      geom_hline(yintercept=1, col="red") +
-      geom_hline(yintercept=-1, col="red") +
+      scale_color_manual(values = c("red", "black")) +
+      geom_hline(yintercept = 1, col="red") +
+      geom_hline(yintercept = -1, col="red") +
+      theme_minimal() +
       ggtitle(sprintf("%s Transformed MA Plot", transformType))
     
     return(p2)
     
+  } else if (graphType == "normalize") {
     
-  }
-  
-  
-  if (graphType == "heatmap"){
+    ## create a new variable that is a unique combination of "condition" and "replicate"
+    outputData$R.UniqueID <- paste(outputData$R.Condition, "_", outputData$R.Replicate)
     
+    ## convert the data into a data table
+    outputData <- data.table(outputData)
     
-    #create a new variable that is a unique combination of condition and replicate
-    rownames(outputData) <- paste(outputData$R.Condition, "_", outputData$R.Replicate)
-  
-    #create and plot heat map with replicate clustering   
-    objEHeat <- pheatmap(mat = t(outputData[,3:length(outputData[1,])]), 
-                         cluster_row = FALSE, cluster_cols = TRUE, show_rownames = FALSE, show_colnames = TRUE)
+    ## melt the data table into a long table format
+    outputData.Melt <- melt(
+      outputData, id.vars = c("R.Condition", "R.FileName", "R.Replicate", "R.UniqueID"),
+      value.name = "Signal_Value")
     
-    return(objEHeat)
+    ## create a boxplot for each replicate based on condition
+    print(ggplot(outputData.Melt, aes(R.UniqueID, Signal_Value)) +
+            geom_boxplot() +
+            labs(title = paste(conditionLabels, "Normalization Boxplot")))
     
-  }
-  
-  
-  
-  if (graphType == "pca"){
+  } else if (graphType == "pca") {
     
     row.names(outputData) <- outputData$R.FileName
     
     outputData_trim.trans <- outputData[,-1:-3]
     
-    res.pca <- PCA(outputData_trim.trans, scale.unit=TRUE, ncp=5, graph = T)
+    res.pca <- PCA(outputData_trim.trans, scale.unit = TRUE, ncp = 5, graph = T)
     
     #TODO: screeplot appears to be deprecated or not found in current factoextra
     #fviz_screeplot(res.pca, addlabels = TRUE, ylim = c(0, 99))
     
     return(res.pca)
     
-  }
-  
-  
-  
-  if (graphType == "normalize"){
-    
-    
-    #create a new variable that is a unique combination of condition and replicate
-    outputData$R.UniqueID <- paste(outputData$R.Condition, "_", outputData$R.Replicate)
-    
-    #recast the data as a data table
-    outputData <- data.table(outputData)
-    
-    #melt the data table into a very tall and narrow table
-    outputData.Melt <- melt(outputData, id.vars = c("R.Condition", "R.FileName", "R.Replicate", "R.UniqueID"), value.name = "Signal_Value")
-    
-    # plot a boxplot of each replicate by condition
-    print(ggplot(outputData.Melt, aes(R.UniqueID, Signal_Value)) + geom_boxplot() +
-      labs(title = paste( conditionLabels, "Normalization Boxplot")))
-    
-    
-  }
-  
-  if (graphType == "t-test"){
+  } else if (graphType == "t-test") {
     
     df.tmp <- data.frame(t(outputData))
     
-    #graph a histogram of the difference in means
-    
-    hist(df.tmp$Difference.in.Means, main = "Histogram of Differences in Means", 
+    ## create a histogram of the difference in means
+    hist(df.tmp$Difference.in.Means, main = "Histogram of Differences in Means",
          xlab = "Difference in Means", breaks = "Scott")
     
-    # graph a histogram of the p-values
-    
-    hist(df.tmp$P.value, main = "Histogram of P-Values", 
+    ## create a histogram of the p-values
+    hist(df.tmp$P.value, main = "Histogram of P-Values",
          xlab = "P-Value", breaks = "Scott")
     
+  } else if (graphType == "venn") {
+    
+    paletteTemp <- c("red", "blue", "yellow", "green", "white")
+    
+    combos.list <- outputData
+    
+    venn.diagram(x = combos.list[1:length(combos.list)],
+                 filename = fileName,
+                 fill = c(paletteTemp[1:length(combos.list)]),
+                 alpha = 0.2)
+    
+  } else if (graphType == "volcano") {
+    
+    ## transpose the data for easy manipulation
+    plotData <- data.frame(t(outputData))
+    
+    ## add a column of NAs for coloring indication
+    plotData$diffexpressed <- "NO"
+    
+    # if P-value < 0.05, set it as "Diff" for both coloring and naming
+    plotData$diffexpressed[plotData$P.value < 0.05] <- "Diff"
+    
+    ## add a column of NAs for labeling
+    plotData$delabel <- NA
+    
+    ## only label genes that are differentially expressed
+    plotData$delabel[plotData$diffexpressed != "NO"] <-
+      row.names(plotData[plotData$diffexpressed != "NO",])
+    
+    ############# Ugly current fix to remove species names
+    plotData$delabel <- gsub("_.*", "", plotData$delabel)
+    #############
+    
+    ## create a volcano plot with P-value = 0.05 cutoff and hard-coded range and scope
+    p1 <- ggplot(plotData, aes(x = Log.Fold.Change, y = -log10(P.value),
+                               col = diffexpressed, label = delabel)) +
+      geom_point() +
+      # set more force to make data labels closer, ideally to eliminate long lines
+      geom_text_repel(force_pull = 3) +
+      scale_color_manual(values = c("red", "black")) +
+      geom_hline(yintercept = -log10(0.05), col = "red") +
+      xlab(sprintf("%s Transformed Fold Change", transformType)) +
+      labs(title = paste(conditionLabels[1], "vs.", conditionLabels[2])) +
+      theme_minimal()
+    
+    return(p1)
   }
-  
-  
-  
-
-   
 }
 
 
-#################################################
-#' Operates the venn diagram functions 
+##----------------------------------------------------------------------------------------
 #' 
-#' @description 
-#' Builds a venn diagram, if useful, and provides universal protein list 
+#' Operate the Venn diagram functions
 #' 
-#' @param combos.list The output from sortCondition: lists of condition combinations
+#' @description
+#' Create a Venn diagram if useful, and provide a universal protein list.
 #' 
-#' @param showUniversal A Boolean specifying if a list of proteins that are present 
-#' in every condition should also be returned.
+#' @param combos.list The output from \code{sortCondition}, lists of condition combinations.
 #' 
-#' @param fileName A string, ending in .tiff specifying the name for the venn diagram
+#' @param showUniversal A boolean specifying whether to return a list of proteins that are
+#' present in every condition.
 #' 
-#'      
-#' @returns The function returns the unions of conditions with each proteins present. 
+#' @param fileName A string ending in .tiff, specifying the name for the Venn diagram.
 #' 
-#################################################
+#' @returns The unions of conditions with each proteins present.
+#' 
 #' @export
-vennMain <- function(combos.list, showUniversal = FALSE, fileName = "test.tiff"){
+
+vennMain <- function(combos.list, showUniversal = FALSE, fileName = "test.tiff") {
   
-  # above 4 conditions, venn diagrams become less useful
-  if (length(combos.list) <= 4){
+  ## above 4 conditions, Venn diagrams become less useful
+  if (length(combos.list) <= 4) {
     visualize(combos.list, "venn", fileName)
   }
   
-  if (showUniversal){
+  if (showUniversal) {
     a <- get.venn.partitions(combos.list[1:length(combos.list)])
     universalProt <- a$..values..[[1]]
     
-    #return the filtered data 
+    ## return the filtered data
     return(a)
-    
   }
   
-
   return()
-  
 }
-
-
-
 

@@ -2,21 +2,21 @@
 % Please edit documentation in R/visualizations.R
 \name{vennMain}
 \alias{vennMain}
-\title{Operates the venn diagram functions}
+\title{Operate the Venn diagram functions}
 \usage{
 vennMain(combos.list, showUniversal = FALSE, fileName = "test.tiff")
 }
 \arguments{
-\item{combos.list}{The output from sortCondition: lists of condition combinations}
+\item{combos.list}{The output from \code{sortCondition}, lists of condition combinations.}
 
-\item{showUniversal}{A Boolean specifying if a list of proteins that are present
-in every condition should also be returned.}
+\item{showUniversal}{A boolean specifying whether to return a list of proteins that are
+present in every condition.}
 
-\item{fileName}{A string, ending in .tiff specifying the name for the venn diagram}
+\item{fileName}{A string ending in .tiff, specifying the name for the Venn diagram.}
 }
 \value{
-The function returns the unions of conditions with each proteins present.
+The unions of conditions with each proteins present.
 }
 \description{
-Builds a venn diagram, if useful, and provides universal protein list
+Create a Venn diagram if useful, and provide a universal protein list.
 }

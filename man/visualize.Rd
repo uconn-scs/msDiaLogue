@@ -13,18 +13,36 @@ visualize(
 )
 }
 \arguments{
-\item{outputData}{A 2d data frame that matches the output from the analyze() function for the same name}
+\item{outputData}{A 2D data frame that corresponds to the output from the function
+\code{analyze()} for the same name.}
 
-\item{graphType}{A string indicating the graph type. Current options are: "volcano",
-"venn", "MA", "pca", "heatmap", "normalize", and "t-test".}
+\item{graphType}{A string indicating the graph type.
+Current options are:
+\enumerate{
+\item "heatmap"
+\item "MA"
+\item "normalize"
+\item "pca"
+\item "t-test"
+\item "venn"
+\item "volcano"
+}}
+
+\item{fileName}{Filename specifying the name for Venn image output, or if NULL, it
+returns the grid object itself.}
+
+\item{transformType}{transformType ## TODO}
+
+\item{conditionLabels}{conditionLabels ## TODO}
 }
 \value{
-The function does not return anything.
+An object of class \code{ggplot}.
 }
 \description{
-visualize() produces specified graphics for the results of the data analysis function
+Create specific graphics to illustrate the results of the data analysis function.
 }
 \details{
-visualize() is designed to work directly with output from analyze.
-Be sure that the graphType and testType params match.
+The function \code{visualize()} is designed to work directly with output from the
+function \code{analyze()}. Please be sure that the arguments \code{graphType} and
+\code{testType} match.
 }
