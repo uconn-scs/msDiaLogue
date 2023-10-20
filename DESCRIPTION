@@ -9,7 +9,7 @@ Description: Offers simple tools to manipulate and investigate mass spectrometry
     to make effective statistical methods for DIA easy and accessible to all researchers.
     Specific tools include: filtration, transformation, normalization, 
     differential abundance estimation, and visualization. 
-License: use_gpl_license(version = 3, include_future = TRUE) 
+License: GPL-3 + file LICENSE
 Depends:
   R (>= 4.1.0)
 Imports:
