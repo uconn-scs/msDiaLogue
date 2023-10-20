@@ -2,19 +2,19 @@
 % Please edit documentation in R/transformations.R
 \name{meanVariancePlot}
 \alias{meanVariancePlot}
-\title{Plotting a Mean vs. Variance graph}
+\title{Plotting a graph of mean versus variance}
 \usage{
 meanVariancePlot(datMV, title = "")
 }
 \arguments{
-\item{datMV}{A data frame containing the data signals}
+\item{datMV}{A data frame containing the data signals.}
 
-\item{title}{A string with the desired title for the mean-variance plot}
+\item{title}{A string with the desired title for the mean-variance plot.}
 }
 \value{
-The function does not return anything.
+An object of class \code{plot}.
 }
 \description{
-meanVariancePlot() takes a set of protein data organized by column, calculates
-the mean and variance of each column and that plots those statistics.
+Take a set of protein data organized by column, calculate the mean and variance of each
+column, and then plot those statistics.
 }
