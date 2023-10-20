@@ -16,12 +16,12 @@ function processMathHTML() {
 
 <table style="width: 100%;"><tr><td>tTesting {msDiaLogue}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Producing results of t-test</h2>
+<h2 id='tTesting'>Producing results of t-test</h2>
 
 <h3>Description</h3>
 
-<p>This function produces output (difference of means, and P value) for visual
-inspection or for external use.
+<p>Produce output (difference of means, and P-value) for visual inspection or for external
+use.
 </p>
 
 
@@ -34,23 +34,23 @@ inspection or for external use.
 <h3>Arguments</h3>
 
 <table>
-<tr style="vertical-align: top;"><td><code>x</code></td>
+<tr><td><code id="tTesting_:_x">x</code></td>
 <td>
-<p>The function takes a parameter x, a 1d dataframe, where data from
-the first condition are listed first, and data from the second condition are listed second.</p>
+<p>A 1d dataframe, where data from the first condition are listed first, and data
+from the second condition are listed second.</p>
 </td></tr>
-<tr style="vertical-align: top;"><td><code>lengthA</code></td>
+<tr><td><code id="tTesting_:_lengthA">lengthA</code></td>
 <td>
-<p>The parameter &quot;Length of A&quot; is an integer specifying how many
-of the data points in x are from the first condition</p>
+<p>An integer specifying the number of the data points in <code>x</code> are from
+the first condition.</p>
 </td></tr>
 </table>
 
 
 <h3>Value</h3>
 
-<p>The function returns a list of length 2 with the difference of means and
-the t-tested p-values for the protein across two conditions.
+<p>A list of length 2 with the difference of means and the P-values from a t-test
+for the protein across two conditions.
 </p>
 
 <hr /><div style="text-align: center;">[Package <em>msDiaLogue</em> version 0.0.1 ]</div>

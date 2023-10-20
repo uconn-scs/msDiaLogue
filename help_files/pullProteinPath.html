@@ -16,11 +16,11 @@ function processMathHTML() {
 
 <table style="width: 100%;"><tr><td>pullProteinPath {msDiaLogue}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Compiling data on a single protein from each step in the process</h2>
+<h2 id='pullProteinPath'>Compiling data on a single protein from each step in the process</h2>
 
 <h3>Description</h3>
 
-<p>pullProteinPath summarizes the steps that have been performed on the data for one protein.
+<p>Summarize the steps performed on the data for one protein.
 </p>
 
 
@@ -33,26 +33,26 @@ function processMathHTML() {
 <h3>Arguments</h3>
 
 <table>
-<tr style="vertical-align: top;"><td><code>proteinName</code></td>
+<tr><td><code id="pullProteinPath_:_proteinName">proteinName</code></td>
 <td>
-<p>A String identifying the protein of interest.</p>
+<p>A string identifying the protein of interest.</p>
 </td></tr>
-<tr style="vertical-align: top;"><td><code>dataSetList</code></td>
+<tr><td><code id="pullProteinPath_:_dataSetList">dataSetList</code></td>
 <td>
-<p>A list of data frames, the order dictates the order of presentation</p>
+<p>A list of data frames, the order dictates the order of presentation.</p>
 </td></tr>
 </table>
 
 
 <h3>Details</h3>
 
-<p>proteinName must match the labels in the data sets exactly.
+<p><code>proteinName</code> must match the labels in the data sets exactly.
 </p>
 
 
 <h3>Value</h3>
 
-<p>The function returns a 2d dataframe, with the protein data at each step present in the dataSetList
+<p>A 2d dataframe, with the protein data at each step present in the <code>dataSetList</code>.
 </p>
 
 <hr /><div style="text-align: center;">[Package <em>msDiaLogue</em> version 0.0.1 ]</div>

@@ -16,11 +16,11 @@ function processMathHTML() {
 
 <table style="width: 100%;"><tr><td>normalize {msDiaLogue}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Normalization of preprocessed data</h2>
+<h2 id='normalize'>Normalization of preprocessed data</h2>
 
 <h3>Description</h3>
 
-<p>normalize() applies one specified type of normalization to a data set
+<p>Apply a specified type of normalization to a data set.
 </p>
 
 
@@ -33,21 +33,27 @@ function processMathHTML() {
 <h3>Arguments</h3>
 
 <table>
-<tr style="vertical-align: top;"><td><code>dataSet</code></td>
+<tr><td><code id="normalize_:_dataSet">dataSet</code></td>
 <td>
-<p>The 2d data set of experimental values</p>
+<p>The 2d data set of experimental values.</p>
 </td></tr>
-<tr style="vertical-align: top;"><td><code>normalizeType</code></td>
+<tr><td><code id="normalize_:_normalizeType">normalizeType</code></td>
 <td>
 <p>A string (default = &quot;Quant&quot;) specifying which type of
 normalization to apply:
 </p>
 
 <ol>
-<li><p> Quantile (&quot;Quant&quot;),
-Column-wise Median (&quot;Median&quot;),
-Column-wise Mean (&quot;Mean&quot;),
-or None (&quot;None&quot;).
+<li><p> Quantile (&quot;Quant&quot;)
+</p>
+</li>
+<li><p> Column-wise Median (&quot;Median&quot;)
+</p>
+</li>
+<li><p> Column-wise Mean (&quot;Mean&quot;)
+</p>
+</li>
+<li><p> None (&quot;None&quot;)
 </p>
 </li></ol>
 </td></tr>
@@ -56,15 +62,16 @@ or None (&quot;None&quot;).
 
 <h3>Details</h3>
 
-<p>Quantile normalization is generally recommended. Mean and Median
-normalization are going to be included as popular previous methods. No normalization is not recommended.
-Boxplots are also generated for before and after the normalization to give a visual indicator of the changes.
+<p>Quantile normalization is generally recommended. Mean and Median normalization are
+going to be included as popular previous methods. No normalization is not recommended.
+Boxplots are also generated for before and after the normalization to give a visual
+indicator of the changes.
 </p>
 
 
 <h3>Value</h3>
 
-<p>The function returns a normalized 2d dataframe.
+<p>A normalized 2d dataframe.
 </p>
 
 <hr /><div style="text-align: center;">[Package <em>msDiaLogue</em> version 0.0.1 ]</div>

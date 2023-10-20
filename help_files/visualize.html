@@ -16,11 +16,11 @@ function processMathHTML() {
 
 <table style="width: 100%;"><tr><td>visualize {msDiaLogue}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Generating visualizations for MS Data</h2>
+<h2 id='visualize'>Generating visualizations for MS Data</h2>
 
 <h3>Description</h3>
 
-<p>visualize() produces specified graphics for the results of the data analysis function
+<p>Create specific graphics to illustrate the results of the data analysis function.
 </p>
 
 
@@ -39,28 +39,67 @@ function processMathHTML() {
 <h3>Arguments</h3>
 
 <table>
-<tr style="vertical-align: top;"><td><code>outputData</code></td>
+<tr><td><code id="visualize_:_outputData">outputData</code></td>
 <td>
-<p>A 2d data frame that matches the output from the analyze() function for the same name</p>
+<p>A 2D data frame that corresponds to the output from the function
+<code>analyze()</code> for the same name.</p>
 </td></tr>
-<tr style="vertical-align: top;"><td><code>graphType</code></td>
+<tr><td><code id="visualize_:_graphType">graphType</code></td>
 <td>
-<p>A string indicating the graph type. Current options are: &quot;volcano&quot;,
-&quot;venn&quot;, &quot;MA&quot;, &quot;pca&quot;, &quot;heatmap&quot;, &quot;normalize&quot;, and &quot;t-test&quot;.</p>
+<p>A string indicating the graph type.
+Current options are:
+</p>
+
+<ol>
+<li><p> &quot;heatmap&quot;
+</p>
+</li>
+<li><p> &quot;MA&quot;
+</p>
+</li>
+<li><p> &quot;normalize&quot;
+</p>
+</li>
+<li><p> &quot;pca&quot;
+</p>
+</li>
+<li><p> &quot;t-test&quot;
+</p>
+</li>
+<li><p> &quot;venn&quot;
+</p>
+</li>
+<li><p> &quot;volcano&quot;
+</p>
+</li></ol>
+</td></tr>
+<tr><td><code id="visualize_:_fileName">fileName</code></td>
+<td>
+<p>Filename specifying the name for Venn image output, or if NULL, it
+returns the grid object itself.</p>
+</td></tr>
+<tr><td><code id="visualize_:_transformType">transformType</code></td>
+<td>
+<p>transformType ## TODO</p>
+</td></tr>
+<tr><td><code id="visualize_:_conditionLabels">conditionLabels</code></td>
+<td>
+<p>conditionLabels ## TODO</p>
 </td></tr>
 </table>
 
 
 <h3>Details</h3>
 
-<p>visualize() is designed to work directly with output from analyze.
-Be sure that the graphType and testType params match.
+<p>The function <code>visualize()</code> is designed to work directly with output from the
+function <code>analyze()</code>. Please be sure that the arguments <code>graphType</code> and
+<code>testType</code> match.
 </p>
 
 
 <h3>Value</h3>
 
-<p>The function does not return anything.
+<p>An object of class <code>ggplot</code>.
 </p>
 
 <hr /><div style="text-align: center;">[Package <em>msDiaLogue</em> version 0.0.1 ]</div>

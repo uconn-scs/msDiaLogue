@@ -16,11 +16,11 @@ function processMathHTML() {
 
 <table style="width: 100%;"><tr><td>filterNA {msDiaLogue}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Filtering NA's post-imputation</h2>
+<h2 id='filterNA'>Filtering NA's post-imputation</h2>
 
 <h3>Description</h3>
 
-<p>filterNA() removes all proteins from the data
+<p>Remove all proteins from the data.
 </p>
 
 
@@ -33,23 +33,23 @@ function processMathHTML() {
 <h3>Arguments</h3>
 
 <table>
-<tr style="vertical-align: top;"><td><code>dataSet</code></td>
+<tr><td><code id="filterNA_:_dataSet">dataSet</code></td>
 <td>
-<p>The 2d data set of experimental values</p>
+<p>The 2d data set of experimental values.</p>
 </td></tr>
 </table>
 
 
 <h3>Details</h3>
 
-<p>If proteins that don't meet the imputation requirement are removed,
-a .csv file is created with the removed data.
+<p>If proteins that do not meet the imputation requirement are removed, a .csv file is
+created with the removed data.
 </p>
 
 
 <h3>Value</h3>
 
-<p>The function returns a filtered 2d dataframe.
+<p>A filtered 2d dataframe.
 </p>
 
 <hr /><div style="text-align: center;">[Package <em>msDiaLogue</em> version 0.0.1 ]</div>

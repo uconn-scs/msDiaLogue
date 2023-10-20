@@ -16,40 +16,48 @@ function processMathHTML() {
 
 <table style="width: 100%;"><tr><td>preprocessing {msDiaLogue}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Loading, filtering and reformatting of MS DIA data</h2>
+<h2 id='preprocessing'>Loading, filtering and reformatting of MS DIA data</h2>
 
 <h3>Description</h3>
 
-<p>preprocessing() reads a .csv file, applies filtering conditions, selects columns
-necessary for analysis, and returns the reformated data.
+<p>Read a .csv file, apply filtering conditions, select columns necessary for analysis,
+and return the reformatted data.
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>preprocessing(fileName, filterNaN = TRUE, filterUnique = 2, filterBlank = TRUE)
+<pre><code class='language-R'>preprocessing(
+  fileName,
+  filterNaN = TRUE,
+  filterUnique = 2,
+  replaceBlank = TRUE
+)
 </code></pre>
 
 
 <h3>Arguments</h3>
 
 <table>
-<tr style="vertical-align: top;"><td><code>fileName</code></td>
+<tr><td><code id="preprocessing_:_fileName">fileName</code></td>
 <td>
-<p>The name of the file containing MS data (+ the path to the file, if needed)</p>
+<p>The name of the file containing MS data (including the path to the file,
+if needed).</p>
 </td></tr>
-<tr style="vertical-align: top;"><td><code>filterNaN</code></td>
+<tr><td><code id="preprocessing_:_filterNaN">filterNaN</code></td>
 <td>
-<p>A boolean (default = TRUE) specifying if observations including NaN should be omitted.</p>
+<p>A boolean (default = TRUE) specifying whether observations including
+NaN should be omitted.</p>
 </td></tr>
-<tr style="vertical-align: top;"><td><code>filterUnique</code></td>
+<tr><td><code id="preprocessing_:_filterUnique">filterUnique</code></td>
 <td>
-<p>An integer specifying how many unique peptides are required to include a protein</p>
+<p>An integer (default = 2) specifying how many number of unique
+peptides are required to include a protein.</p>
 </td></tr>
-<tr style="vertical-align: top;"><td><code>filterBlank</code></td>
+<tr><td><code id="preprocessing_:_replaceBlank">replaceBlank</code></td>
 <td>
-<p>a boolean specifying if data points with blank protein names
-should be removed from the data set</p>
+<p>A boolean specifying whether data points with blank protein names
+should be removed from the data set.</p>
 </td></tr>
 </table>
 
@@ -60,25 +68,24 @@ should be removed from the data set</p>
 </p>
 
 <ol>
-<li><p> reads the file
+<li><p> Reads the file.
 </p>
 </li>
-<li><p> if applicable, applies filters
+<li><p> Applies applicable filters, if necessary.
 </p>
 </li>
-<li><p> provides summary statistics and histogram of all values reported in the
-data set
+<li><p> Provides summary statistics and a histogram of all values reported in the data set.
 </p>
 </li>
-<li><p> selects columns that provide necessary information for analysis
+<li><p> Selects columns that contain necessary information for the analysis.
 </p>
 </li>
-<li><p> re-formats the data to present individual proteins as columns and groups
-replicates under each protein
+<li><p> Re-formats the data to present individual proteins as columns and group replicates
+under each protein.
 </p>
 </li>
-<li><p> stores the data as a data.frame and prints a few columns to provide a
-visual example to the user.
+<li><p> Stores the data as a <code>data.frame</code> and prints a subset of columns to provide
+a visual example to the user.
 </p>
 </li></ol>
 
@@ -86,7 +93,7 @@ visual example to the user.
 
 <h3>Value</h3>
 
-<p>The function returns a 2d dataframe.
+<p>A 2d dataframe.
 </p>
 
 <hr /><div style="text-align: center;">[Package <em>msDiaLogue</em> version 0.0.1 ]</div>

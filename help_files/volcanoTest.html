@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><title>R: Producing results for volcano plot</title>
+<!DOCTYPE html><html><head><title>R: Producing results for a volcano plot</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
@@ -16,11 +16,11 @@ function processMathHTML() {
 
 <table style="width: 100%;"><tr><td>volcanoTest {msDiaLogue}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Producing results for volcano plot</h2>
+<h2 id='volcanoTest'>Producing results for a volcano plot</h2>
 
 <h3>Description</h3>
 
-<p>This function produces output (fold change, and P value) for a volcano plot.
+<p>Produce output (fold change, and P-value) for a volcano plot.
 </p>
 
 
@@ -33,33 +33,33 @@ function processMathHTML() {
 <h3>Arguments</h3>
 
 <table>
-<tr style="vertical-align: top;"><td><code>x</code></td>
+<tr><td><code id="volcanoTest_:_x">x</code></td>
 <td>
-<p>The function takes a parameter x, a 1d dataframe, where data from
-the first condition are listed first, and data from the second condition are listed second.</p>
+<p>A 1d dataframe, where data from the first condition are listed first, and data
+from the second condition are listed second.</p>
 </td></tr>
-<tr style="vertical-align: top;"><td><code>lengthA</code></td>
+<tr><td><code id="volcanoTest_:_lengthA">lengthA</code></td>
 <td>
-<p>The parameter &quot;Length of A&quot; is an integer specifying how many
-of the data points in x are from the first condition</p>
+<p>An integer specifying the number of the data points in <code>x</code> are from
+the first condition.</p>
 </td></tr>
 </table>
 
 
 <h3>Details</h3>
 
-<p>If the means between the two conditions are the same, t.test throws an error,
-which is caught and printed to the user to make sure the program keeps running
+<p>If the means between the two conditions are the same, t.test throws an error, which is
+caught and printed to the user to make sure the program keeps running.
 </p>
-<p>WARNING: currently, the function does not apply a further transformation.
-The data must be log 2 transformed in a previous step to be transformed here.
+<p>WARNING: Currently, the function does not apply any further transformation. The data
+must undergo a log2 transformation in a previous step before being used here.
 </p>
 
 
 <h3>Value</h3>
 
-<p>The function returns a list of length 2 with the difference of means and
-the t-tested p-values for the protein across two conditions.
+<p>A list of length 2 with the difference of means and the P-values from a t-test
+for the protein across two conditions.
 </p>
 
 <hr /><div style="text-align: center;">[Package <em>msDiaLogue</em> version 0.0.1 ]</div>

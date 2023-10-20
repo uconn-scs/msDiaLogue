@@ -16,50 +16,62 @@ function processMathHTML() {
 
 <table style="width: 100%;"><tr><td>filterOutIn {msDiaLogue}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Filtering proteins or contaminants</h2>
+<h2 id='filterOutIn'>Filtering proteins or contaminants</h2>
 
 <h3>Description</h3>
 
-<p>filterOutIn() applies a series of filtering steps to the data set
+<p>Apply a series of filtering steps to the data set.
 </p>
 
 
 <h3>Usage</h3>
 
-<pre><code class='language-R'>filterOutIn(dataSet, removeList, listName)
+<pre><code class='language-R'>filterOutIn(dataSet, removeList, listName = c(), stringSearch = "")
 </code></pre>
 
 
 <h3>Arguments</h3>
 
 <table>
-<tr style="vertical-align: top;"><td><code>dataSet</code></td>
+<tr><td><code id="filterOutIn_:_dataSet">dataSet</code></td>
 <td>
-<p>The 2d data set of experimental values</p>
+<p>The 2d data set of experimental values.</p>
 </td></tr>
-<tr style="vertical-align: top;"><td><code>removeList</code></td>
+<tr><td><code id="filterOutIn_:_removeList">removeList</code></td>
 <td>
-<p>A Boolean specifying whether entries
-in the following list should be removed or selected.
-&quot;TRUE&quot; will remove the list of proteins from the data set.
-&quot;FALSE will remove all proteins not in the list from the data set.</p>
+<p>A boolean specifying whether entries in the following list should be
+removed or selected.
+</p>
+
+<ul>
+<li><p> TRUE: Remove the list of proteins from the data set.
+</p>
+</li>
+<li><p> FALSE: Remove all proteins not in the list from the data set.
+</p>
+</li></ul>
 </td></tr>
-<tr style="vertical-align: top;"><td><code>listName</code></td>
+<tr><td><code id="filterOutIn_:_listName">listName</code></td>
 <td>
-<p>A list of proteins or contaminants to select or to remove</p>
+<p>A list of proteins or contaminants to select or to remove.</p>
+</td></tr>
+<tr><td><code id="filterOutIn_:_stringSearch">stringSearch</code></td>
+<td>
+<p>A string used to match against protein names, for either inclusion
+or exclusion.</p>
 </td></tr>
 </table>
 
 
 <h3>Details</h3>
 
-<p>If contaminants are removed, a .csv file is created with the removed data.
+<p>If proteins are removed by list, a .csv file is created with the removed data.
 </p>
 
 
 <h3>Value</h3>
 
-<p>The function returns a filtered 2d dataframe.
+<p>A filtered 2d dataframe.
 </p>
 
 <hr /><div style="text-align: center;">[Package <em>msDiaLogue</em> version 0.0.1 ]</div>
