@@ -7,14 +7,15 @@
 summarize(dataSet, fileName = "")
 }
 \arguments{
-\item{dataSet}{A data frame containing the data signals and labels}
+\item{dataSet}{A data frame containing the data signals and labels.}
 
-\item{fileName}{A string which can be used to generate a csv file of the summary statistics}
+\item{fileName}{A string which can be used to generate a csv file of the summary
+statistics.}
 }
 \value{
-The function returns a 2d summarized data frame.
+A 2d summarized data frame.
 }
 \description{
-summarize() calculates the mean, standard deviation and replicate count for
-protein across every condition.
+Calculate the mean, standard deviation, and replicate count for protein across every
+condition.
 }
