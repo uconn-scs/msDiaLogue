@@ -14,21 +14,20 @@ trimFASTA2.0(
 \arguments{
 \item{FASTAFileName}{A string indicating the FASTA .txt filename.}
 
-\item{reportFileName}{A string indicating the spectronaut report .csv filename.}
+\item{reportFileName}{A string indicating the Spectronaut report .csv filename.}
 
 \item{outputFileName}{A string indicating the name for the new .txt FASTA file.}
 
 \item{selectString}{A string containing a regular expression for which to search.}
 }
 \value{
-The function returns a FASTA file with only the specified proteins present.
+A FASTA file with only the specified proteins present.
 }
 \description{
-Trimming down a FASTA file to only contain proteins present in an associated
-spectronaut report file.
+Trim down a FASTA file to only contain proteins present in an associated Spectronaut
+report file.
 }
 \details{
-Depending on the size of the FASTA files, this function can be slow and
-take multiple minutes to run.
-The FASTA file must be in a .txt format. No other FASTA formats will work.
+Depending on the size of the FASTA file, this function may run slowly and take several
+minutes. The FASTA file must be in .txt format; other formats will not work.
 }
