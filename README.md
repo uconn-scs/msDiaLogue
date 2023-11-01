@@ -1,8 +1,8 @@
+# msDiaLogue <img src="man/figure/logo.png" align="right" height="170"/>
+
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/uconn-scs/msDiaLogue/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/uconn-scs/msDiaLogue/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
-
-# msDiaLogue
 
 ## Code building for workflow package
 
