@@ -7,7 +7,8 @@ test_that("preprocessing", {
   ## execute current function 'preprocessing' on raw data file
   invisible(capture.output(
     data <- preprocessing(fileName, filterNaN = TRUE, filterUnique = 2,
-                          replaceBlank = TRUE, saveRm = FALSE)))
+                          replaceBlank = TRUE, saveRm = FALSE)
+  ))
   
   ## load stored correct data 
   storedData <- read.csv("../storedData/preprocessing_Toy.csv")

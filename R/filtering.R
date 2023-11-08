@@ -41,10 +41,11 @@ preProcessFiltering <- function(dataSet,
   
   if (filterNaN) {
     
-    ## create a dataframe of the removed data
-    removedData <- filteredData %>% filter(is.nan(PG.Quantity))
-    
     if (saveRm) {
+      
+      ## create a dataframe of the removed data
+      removedData <- filteredData %>% filter(is.nan(PG.Quantity))
+      
       ## save removed data to current working directory
       write.csv(removedData, "preprocess_Filtered_Out_NaN.csv")
     }
@@ -56,11 +57,12 @@ preProcessFiltering <- function(dataSet,
   
   if (filterUnique >= 2) {
     
-    ## create a dataframe of the removed data
-    removedData <- filteredData %>%
-      filter(PG.NrOfStrippedSequencesIdentified < filterUnique)
-    
     if (saveRm) {
+      
+      ## create a dataframe of the removed data
+      removedData <- filteredData %>%
+        filter(PG.NrOfStrippedSequencesIdentified < filterUnique)
+      
       ## save removed data to current working directory
       write.csv(removedData, "preprocess_Filtered_Out_Unique.csv")
     }
@@ -92,20 +94,17 @@ preProcessFiltering <- function(dataSet,
 #' 
 #' @param dataSet The 2d data set of experimental values.
 #' 
-#' @param removeList A boolean specifying whether entries in the following list should be
-#' removed or selected.
+#' @param listName A list of proteins or contaminants to select or to remove.
+#' 
+#' @param removeList A boolean (default = TRUE) specifying whether the list of proteins
+#' should be removed or selected.
 #' \itemize{
 #' \item TRUE: Remove the list of proteins from the data set. 
 #' \item FALSE: Remove all proteins not in the list from the data set.
 #' }
 #' 
-#' @param stringSearch A string used to match against protein names, for either inclusion
-#' or exclusion.
-#' 
-#' @param listName A list of proteins or contaminants to select or to remove.
-#' 
-#' @details 
-#' If proteins are removed by list, a .csv file is created with the removed data.
+#' @param saveRm A boolean (default = TRUE) specifying whether to save removed data to
+#' current working directory. This option only works when \code{removeList = TRUE}.
 #' 
 #' @import dplyr
 #' @import tidyr
@@ -115,7 +114,10 @@ preProcessFiltering <- function(dataSet,
 #' 
 #' @export
 
-filterOutIn <- function(dataSet, removeList, listName = c(), stringSearch = "" ) {
+filterOutIn <- function(dataSet,
+                        listName = c(),
+                        removeList = TRUE,
+                        saveRm = TRUE) {
   
   ## relabel the data frame
   filteredData <- dataSet
@@ -123,14 +125,18 @@ filterOutIn <- function(dataSet, removeList, listName = c(), stringSearch = "" )
   ## only list filter if a list is present
   if (length(listName) != 0) {
     
+    ## create a dataframe of the data of proteins
+    listedData <- filteredData %>%
+      select(any_of(c("R.Condition", "R.FileName", "R.Replicate", listName)))
+    
     ## if contaminants are being removed
     if (removeList == TRUE) {
       
-      ## create a dataframe of the removed data
-      removedData <- filteredData %>% select(any_of(listName))
-      
-      ## save removed data to current working directory
-      write.csv(removedData, "filtered_out_data.csv")
+      if (saveRm) {
+        
+        ## save removed data to current working directory
+        write.csv(listedData, "filtered_out_data.csv")
+      }
       
       ## remove all of the contaminants if they are present
       filteredData <- filteredData %>% select(-any_of(listName))
@@ -138,39 +144,8 @@ filterOutIn <- function(dataSet, removeList, listName = c(), stringSearch = "" )
       ## if certain proteins are being selected
     } else if (removeList == FALSE) {
       
-      ## create a list of datalabels
-      dataLabels <- c("R.Condition", "R.FileName", "R.Replicate")
-      
-      ## add datalabels to listName to ensure the maintenance of the data structure
-      listName <- c(dataLabels, listName)
-      
       ## select only proteins of interest
-      filteredData <- filteredData %>% select(all_of(listName))
-    }
-  }
-  
-  ## if a grep search is being enacted to remove or select rows
-  ## beginning with certain characters
-  if (stringSearch != "") {
-    
-    ## create columns of datalabels
-    dataLabels <- filteredData[,1:3]
-    
-    if (removeList == TRUE) {
-      
-      ## select and keep only the data points that do not match the string,
-      ## i.e. filter out the string
-      filteredData <- filteredData[,grep(paste0(stringSearch), names(filteredData),
-                                         value = TRUE, invert = TRUE)]
-      
-    } else if (removeList == FALSE) {
-      
-      ## select only proteins that match the string at some point
-      filteredData <- filteredData[,grep(paste0(
-        stringSearch), names(filteredData), value = TRUE)]
-      
-      ## add back in the datalabels since they did not match the character search
-      filteredData <- cbind(dataLabels, filteredData)
+      filteredData <- listedData
     }
   }
   

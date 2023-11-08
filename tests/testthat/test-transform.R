@@ -6,7 +6,8 @@ test_that("transformation", {
   
   ## execute current function 'transform' on data file
   invisible(capture.output(
-    data <- transform(dataSet, logFold = 2)))
+    data <- transform(dataSet, logFold = 2)
+  ))
   
   ## load stored correct data
   storedData <- read.csv("../storedData/transform_Toy.csv")
