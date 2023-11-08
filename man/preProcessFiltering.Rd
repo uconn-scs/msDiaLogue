@@ -8,7 +8,8 @@ preProcessFiltering(
   dataSet,
   filterNaN = TRUE,
   filterUnique = 2,
-  replaceBlank = TRUE
+  replaceBlank = TRUE,
+  saveRm = TRUE
 )
 }
 \arguments{
@@ -22,6 +23,9 @@ the default number of unique peptides should be removed from the data set.}
 
 \item{replaceBlank}{A boolean (default = TRUE) specifying whether proteins without names
 should be be named by their accession numbers.}
+
+\item{saveRm}{A boolean (default = TRUE) specifying whether to save removed data to
+current working directory.}
 }
 \value{
 A filtered 2d dataframe.

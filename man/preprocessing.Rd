@@ -8,7 +8,8 @@ preprocessing(
   fileName,
   filterNaN = TRUE,
   filterUnique = 2,
-  replaceBlank = TRUE
+  replaceBlank = TRUE,
+  saveRm = TRUE
 )
 }
 \arguments{
@@ -21,8 +22,11 @@ NaN should be omitted.}
 \item{filterUnique}{An integer (default = 2) specifying how many number of unique
 peptides are required to include a protein.}
 
-\item{replaceBlank}{A boolean specifying whether data points with blank protein names
-should be removed from the data set.}
+\item{replaceBlank}{A boolean (default = TRUE) specifying whether proteins without names
+should be be named by their accession numbers.}
+
+\item{saveRm}{A boolean (default = TRUE) specifying whether to save removed data to
+current working directory.}
 }
 \value{
 A 2d dataframe.

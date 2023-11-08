@@ -17,8 +17,11 @@
 #' @param filterUnique An integer (default = 2) specifying how many number of unique
 #' peptides are required to include a protein.
 #' 
-#' @param replaceBlank A boolean specifying whether data points with blank protein names
-#' should be removed from the data set.
+#' @param replaceBlank A boolean (default = TRUE) specifying whether proteins without names
+#' should be be named by their accession numbers.
+#' 
+#' @param saveRm A boolean (default = TRUE) specifying whether to save removed data to
+#' current working directory.
 #' 
 #' @details
 #' The function executes the following:
@@ -34,6 +37,7 @@
 #' }
 #' 
 #' @import dplyr
+#' @import ggplot2
 #' @import tidyr
 #' @importFrom utils read.csv
 #' 
@@ -44,13 +48,14 @@
 preprocessing <- function(fileName,
                           filterNaN = TRUE,
                           filterUnique = 2,
-                          replaceBlank = TRUE) {
+                          replaceBlank = TRUE,
+                          saveRm = TRUE) {
   
   ## read in the protein quantitative csv file generated from Spectranaut
-  rawData <- read.csv(fileName)
+  dataSet <- read.csv(fileName)
   
   ## filter data by NaN and unique peptide count
-  filteredData <- preProcessFiltering(rawData, filterNaN, filterUnique, replaceBlank)
+  filteredData <- preProcessFiltering(dataSet, filterNaN, filterUnique, replaceBlank, saveRm)
   
   ## select columns necessary for analysis
   selectedData <- filteredData %>%
@@ -63,9 +68,17 @@ preprocessing <- function(fileName,
   cat("\n")
   
   ## generate a histogram of the log2-transformed values for full data set
-  hist(log2(selectedData$PG.Quantity),
-       main = "Histogram of Full Data Set",
-       xlab = "Log2(Data)", breaks = "Scott")
+  ggplot(data.frame(value = log2(selectedData$PG.Quantity))) +
+    geom_histogram(aes(x = value),
+                   breaks = seq(floor(min(log2(selectedData$PG.Quantity))),
+                                ceiling(max(log2(selectedData$PG.Quantity))), 1),
+                   color = "black", fill = "gray") +
+    scale_x_continuous(breaks = seq(floor(min(log2(selectedData$PG.Quantity))),
+                                    ceiling(max(log2(selectedData$PG.Quantity))), 2)) +
+    labs(title = "Histogram of Full Data Set",
+         x = expression("log"[2]*"(Data)"), y = "Frequency") +
+    theme_bw() +
+    theme(plot.title = element_text(hjust = 0.5))
   
   ## warning catching for duplicated protein names
   reformatedData <- tryCatch({
@@ -108,7 +121,7 @@ preprocessing <- function(fileName,
   })
   
   ## store data in a data.frame structure
-  loadedData <- reformatedData %>% data.frame() 
+  loadedData <- data.frame(reformatedData) 
   
   ## provide sample data for visual inspection
   cat("Example Structure of Pre-Processed Data")

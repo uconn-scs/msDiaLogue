@@ -18,6 +18,9 @@
 #' @param replaceBlank A boolean (default = TRUE) specifying whether proteins without names
 #' should be be named by their accession numbers.
 #' 
+#' @param saveRm A boolean (default = TRUE) specifying whether to save removed data to
+#' current working directory.
+#' 
 #' @details
 #' All forms of filtering are recommended for most use cases.
 #' 
@@ -31,7 +34,8 @@
 preProcessFiltering <- function(dataSet,
                                 filterNaN = TRUE,
                                 filterUnique = 2,
-                                replaceBlank = TRUE) {
+                                replaceBlank = TRUE,
+                                saveRm = TRUE) {
   
   filteredData <- dataSet
   
@@ -40,8 +44,10 @@ preProcessFiltering <- function(dataSet,
     ## create a dataframe of the removed data
     removedData <- filteredData %>% filter(is.nan(PG.Quantity))
     
-    ## save removed data to current working directory
-    write.csv(removedData, "preprocess_Filtered_Out_NaN.csv")
+    if (saveRm) {
+      ## save removed data to current working directory
+      write.csv(removedData, "preprocess_Filtered_Out_NaN.csv")
+    }
     
     ## filter out the proteins that have no recorded value
     filteredData <- filteredData %>% filter(!is.nan(PG.Quantity))
@@ -51,10 +57,13 @@ preProcessFiltering <- function(dataSet,
   if (filterUnique >= 2) {
     
     ## create a dataframe of the removed data
-    removedData <- filteredData %>% filter(PG.NrOfStrippedSequencesIdentified < filterUnique)
+    removedData <- filteredData %>%
+      filter(PG.NrOfStrippedSequencesIdentified < filterUnique)
     
-    ## save removed data to current working directory
-    write.csv(removedData, "preprocess_Filtered_Out_Unique.csv")
+    if (saveRm) {
+      ## save removed data to current working directory
+      write.csv(removedData, "preprocess_Filtered_Out_Unique.csv")
+    }
     
     ## filter out proteins that have only 1 unique peptide
     filteredData <- filteredData %>%
@@ -66,7 +75,7 @@ preProcessFiltering <- function(dataSet,
     
     ## replace blank protein name entries with their accession numbers
     filteredData <- filteredData %>% mutate(PG.ProteinNames = replace(
-      PG.ProteinNames, PG.ProteinNames == "", PG.ProteinAccessions[PG.ProteinNames == ""]))
+      PG.ProteinNames, PG.ProteinNames == "", PG.ProteinAccessions))
   }
   
   ## return the filtered data
