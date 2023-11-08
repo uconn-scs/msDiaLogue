@@ -13,7 +13,7 @@
 #' @param graphType A string indicating the graph type.
 #' Current options are:
 #' \enumerate{
-#' \item "heatmap"
+#' \item "heatmap": heatmap.
 #' \item "MA"
 #' \item "normalize"
 #' \item "pca"
@@ -21,6 +21,24 @@
 #' \item "venn"
 #' \item "volcano"
 #' }
+#' 
+#' @param pkg A string specifying the source package used to plot the heatmap.
+#' Two options: \code{"pheatmap"} and \code{"ggplot2"}.
+#' This argument only works when \code{graphType = "heatmap"}.
+#' 
+#' @param cluster_cols A boolean (default = TRUE) determining if rows should be clustered
+#' or \code{hclust} object. This argument only works when \code{graphType = "heatmap"} and
+#' \code{pkg = "pheatmap"}.
+#' 
+#' @param cluster_rows A boolean (default = FALSE) determining if columns should be
+#' clustered or \code{hclust} object. This argument only works when
+#' \code{graphType = "heatmap"} and \code{pkg = "pheatmap"}.
+#' 
+#' @param show_colnames A boolean (default = TRUE) specifying if column names are be shown.
+#' This argument only works when \code{graphType = "heatmap"} and \code{pkg = "pheatmap"}.
+#' 
+#' @param show_rownames A boolean (default = TRUE) specifying if row names are be shown.
+#' This argument only works when \code{graphType = "heatmap"} and \code{pkg = "pheatmap"}.
 #' 
 #' @param fileName Filename specifying the name for Venn image output, or if NULL, it
 #' returns the grid object itself.
@@ -41,6 +59,7 @@
 #' @import pheatmap
 #' @import tidyr
 #' @import VennDiagram
+#' @importFrom ggplotify as.ggplot
 #' @importFrom graphics hist
 #' 
 #' @returns An object of class \code{ggplot}.
@@ -49,21 +68,45 @@
 
 visualize <- function(outputData,
                       graphType = "volcano",
+                      pkg = "pheatmap",
+                      cluster_cols = TRUE, cluster_rows = FALSE,
+                      show_colnames = TRUE, show_rownames = TRUE,
                       fileName,
                       transformType,
                       conditionLabels) {
   
   if (graphType == "heatmap") {
     
-    ## create a new variable that is a unique combination of "condition" and "replicate"
-    rownames(outputData) <- paste(outputData$R.Condition, "_", outputData$R.Replicate)
+    if(pkg == "pheatmap") {
+      
+      ## organize the data for pheatmap plotting
+      plotData <- t(select(outputData, -c(R.Condition, R.FileName, R.Replicate)))
+      colnames(plotData) <- paste0(outputData$R.Condition, "_", outputData$R.Replicate)
+      
+      plot <- pheatmap(mat = plotData,
+                       cluster_cols = cluster_cols, cluster_rows = cluster_rows,
+                       show_colnames = show_colnames, show_rownames = show_rownames)
+      plot <- ggplotify::as.ggplot(plot)
+      
+    } else if (pkg == "ggplot2") {
+      
+      ## performing wide-to-long data reshaping for ggplot2 plotting
+      plotData <- outputData %>%
+        mutate(R.ConRep = paste0(R.Condition, "_", R.Replicate)) %>%
+        select(-c(R.Condition, R.FileName, R.Replicate)) %>%
+        pivot_longer(-R.ConRep)
+      
+      plot <- ggplot(plotData, aes(R.ConRep, name, fill = value)) +
+        geom_tile(aes(width = 1.1, height = 1.1), color = "grey60", lwd = .5) +
+        guides(fill = guide_colourbar(title = NULL)) +
+        scale_y_discrete(limits = rev) +
+        scale_fill_distiller(palette = "RdYlBu") +
+        theme(axis.text.x = element_text(angle = -90, vjust = .5)) +
+        xlab(NULL) +
+        ylab(NULL)
+    }
     
-    ## create and plot a heat map with replicate clustering   
-    objEHeat <- pheatmap(mat = t(outputData[,3:length(outputData[1,])]),
-                         cluster_rows = FALSE, cluster_cols = TRUE,
-                         show_rownames = FALSE, show_colnames = TRUE)
-    
-    return(objEHeat)
+    return(plot)
     
   } else if (graphType == "MA") {
     #Future addition: use GGplot and plotly for interactive plotting if needed  

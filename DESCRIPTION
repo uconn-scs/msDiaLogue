@@ -22,7 +22,8 @@ Imports:
     ggrepel,
     pheatmap,
     seqinr,
-    tictoc
+    tictoc,
+    ggplotify
 Suggests:
     testthat (>= 3.0.0)
 Encoding: UTF-8

@@ -7,6 +7,11 @@
 visualize(
   outputData,
   graphType = "volcano",
+  pkg = "pheatmap",
+  cluster_cols = TRUE,
+  cluster_rows = FALSE,
+  show_colnames = TRUE,
+  show_rownames = TRUE,
   fileName,
   transformType,
   conditionLabels
@@ -19,7 +24,7 @@ visualize(
 \item{graphType}{A string indicating the graph type.
 Current options are:
 \enumerate{
-\item "heatmap"
+\item "heatmap": heatmap.
 \item "MA"
 \item "normalize"
 \item "pca"
@@ -27,6 +32,24 @@ Current options are:
 \item "venn"
 \item "volcano"
 }}
+
+\item{pkg}{A string specifying the source package used to plot the heatmap.
+Two options: \code{"pheatmap"} and \code{"ggplot2"}.
+This argument only works when \code{graphType = "heatmap"}.}
+
+\item{cluster_cols}{A boolean (default = TRUE) determining if rows should be clustered
+or \code{hclust} object. This argument only works when \code{graphType = "heatmap"} and
+\code{pkg = "pheatmap"}.}
+
+\item{cluster_rows}{A boolean (default = FALSE) determining if columns should be
+clustered or \code{hclust} object. This argument only works when
+\code{graphType = "heatmap"} and \code{pkg = "pheatmap"}.}
+
+\item{show_colnames}{A boolean (default = TRUE) specifying if column names are be shown.
+This argument only works when \code{graphType = "heatmap"} and \code{pkg = "pheatmap"}.}
+
+\item{show_rownames}{A boolean (default = TRUE) specifying if row names are be shown.
+This argument only works when \code{graphType = "heatmap"} and \code{pkg = "pheatmap"}.}
 
 \item{fileName}{Filename specifying the name for Venn image output, or if NULL, it
 returns the grid object itself.}
