@@ -24,20 +24,26 @@
 #' 
 #' @param title A string with the desired title for the mean-variance plot.
 #' 
+#' @import ggplot2
 #' @importFrom stats var median
 #' 
 #' @returns An object of class \code{plot}.
 #' 
-#' @export
+#' @noRd
 
-meanVariancePlot <- function(datMV, title = "") {
+meanVarPlot <- function(datMV, title = "") {
   
   ## calculate the mean and variance for each protein individually
-  Variance <- sapply(datMV, function(x) var(x, na.rm=TRUE))
-  Mean <- sapply(datMV, function(x) mean(x, na.rm=TRUE))
+  plotData <- data.frame(t(sapply(datMV, function(x) {
+    c(Mean = mean(x, na.rm = TRUE), Variance = var(x, na.rm = TRUE))
+  })))
   
   ## plot the mean-variance relationship
-  plot(Mean, Variance, main = title, xlab = "Mean", ylab = "Variance")
+  ggplot(plotData, aes(Mean, Variance)) +
+    geom_point() +
+    labs(title = title) +
+    theme_bw() +
+    theme(plot.title = element_text(hjust = 0.5))
 }
 
 
@@ -66,22 +72,19 @@ meanVariancePlot <- function(datMV, title = "") {
 
 transform <- function(dataSet, logFold = 2) {
   
-  ## define the number of proteins that are present in data set
-  index <- dim(dataSet)[2]
-  
   ## separate the data set into labels and numerical data
   ## labels consist of the first 2 columns, data is everything else
   dataLabels <- dataSet[,1:3]
-  dataPoints <- dataSet[,4:index]
+  dataPoints <- dataSet[,4:ncol(dataSet)]
   
   ## calculate and plot a mean-variance plot 
-  meanVariancePlot(dataPoints, title = "Pre-Transformation")
+  meanVarPlot(dataPoints, title = "Pre-Transformation")
   
   ## take the log of the numerical data
   transDataPoints <- log(dataPoints, logFold)
   
   ## calculate and plot a mean-variance plot 
-  meanVariancePlot(transDataPoints,  title = "Post-Transformation")
+  meanVarPlot(transDataPoints,  title = "Post-Transformation")
   
   ## recombine the labels and transformed data into a single data frame
   transDataSet <- cbind(dataLabels, transDataPoints)
