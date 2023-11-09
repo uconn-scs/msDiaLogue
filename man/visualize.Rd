@@ -14,8 +14,7 @@ visualize(
   show_rownames = TRUE,
   compareConditions = c(),
   transformType = NULL,
-  fileName,
-  conditionLabels
+  fileName
 )
 }
 \arguments{
@@ -60,8 +59,6 @@ the transformed MA plot.}
 
 \item{fileName}{Filename specifying the name for Venn image output, or if NULL, it
 returns the grid object itself.}
-
-\item{conditionLabels}{conditionLabels ## TODO}
 }
 \value{
 An object of class \code{ggplot}.

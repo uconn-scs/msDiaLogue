@@ -49,8 +49,6 @@
 #' @param fileName Filename specifying the name for Venn image output, or if NULL, it
 #' returns the grid object itself.
 #' 
-#' @param conditionLabels conditionLabels ## TODO
-#' 
 #' @details 
 #' The function \code{visualize()} is designed to work directly with output from the
 #' function \code{analyze()}. Please be sure that the arguments \code{graphType} and
@@ -77,8 +75,7 @@ visualize <- function(outputData,
                       show_colnames = TRUE, show_rownames = TRUE,
                       compareConditions = c(),
                       transformType = NULL,
-                      fileName,
-                      conditionLabels) {
+                      fileName) {
   
   if (graphType == "heatmap") {
     
@@ -139,27 +136,27 @@ visualize <- function(outputData,
       scale_color_manual(values = c("Down" = "blue", "No" = "gray", "Up" = "red")) +
       labs(title = paste(transformType, "Transformed MA Plot")) +
       theme_bw() +
-      theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
+      theme(legend.position = "bottom", plot.title = element_text(hjust = .5))
     
     return(plot)
     
   } else if (graphType == "normalize") {
     
-    ## create a new variable that is a unique combination of "condition" and "replicate"
-    outputData$R.UniqueID <- paste(outputData$R.Condition, "_", outputData$R.Replicate)
+    plotData <- outputData %>%
+      select(-R.FileName) %>%
+      pivot_longer(-c(R.Condition, R.Replicate))
+
+    plot <- ggplot(plotData, aes(x = R.Condition, y = value, fill = as.character(R.Replicate))) +
+      geom_boxplot(varwidth = TRUE) +
+      guides(fill = guide_legend(title = "Repilcate")) +
+      labs(title = "Normalization Boxplot") +
+      xlab("Condition") +
+      ylab("Signal value") +
+      scale_fill_brewer(palette = "RdYlBu") +
+      theme_bw() +
+      theme(legend.position = "bottom", plot.title = element_text(hjust = .5))
     
-    ## convert the data into a data table
-    outputData <- data.table(outputData)
-    
-    ## melt the data table into a long table format
-    outputData.Melt <- melt(
-      outputData, id.vars = c("R.Condition", "R.FileName", "R.Replicate", "R.UniqueID"),
-      value.name = "Signal_Value")
-    
-    ## create a boxplot for each replicate based on condition
-    print(ggplot(outputData.Melt, aes(R.UniqueID, Signal_Value)) +
-            geom_boxplot() +
-            labs(title = paste(conditionLabels, "Normalization Boxplot")))
+    return(plot)
     
   } else if (graphType == "pca") {
     
