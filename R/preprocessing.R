@@ -69,8 +69,7 @@ preprocessing <- function(fileName,
   ## select columns necessary for analysis
   selectedData <- filteredData %>%
     select(c(R.Condition, R.FileName, R.Replicate, PG.Quantity,
-             PG.ProteinNames, PG.ProteinAccessions)) %>%
-    mutate_at('PG.Quantity', as.numeric)
+             PG.ProteinNames, PG.ProteinAccessions))
   
   ## print summary statistics for full raw data set
   cat("Summary of full data signals (raw)")
