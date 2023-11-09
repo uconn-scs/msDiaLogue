@@ -127,7 +127,7 @@ visualize <- function(outputData,
       mutate(Significant = cut(M, breaks = c(-Inf, -1, 1, Inf),
                                labels = c("Down", "No", "Up"))) %>%
       mutate(delabel = ifelse(Significant != "No",
-                              gsub("_.*", "", rownames(plotData)), NA))
+                              gsub("_.*", "", colnames(outputData)), NA))
     
     plot <- ggplot(plotData, aes(x = A, y = M, color = Significant, label = delabel)) +
       geom_hline(yintercept = c(-1, 1), linetype = "dashed") +
