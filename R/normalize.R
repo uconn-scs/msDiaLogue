@@ -31,7 +31,7 @@
 normalize <- function(dataSet, normalizeType = "Quant") {
   
   ## create a boxplot for pre-normalization
-  visualize(dataSet, graphType = "normalize", conditionLabels = "Pre -")
+  visualize(dataSet, graphType = "normalize") ## conditionLabels = "Pre -"
   
   ## separate the data set into labels and numerical data
   ## labels consist of the first 3 columns, data is everything else
@@ -102,7 +102,7 @@ normalize <- function(dataSet, normalizeType = "Quant") {
   rownames(normDataSet) <- rownames(dataSet)
   
   ## create a boxplot for post-normalization
-  visualize(normDataSet, graphType = "normalize", conditionLabels = "Post -")
+  visualize(normDataSet, graphType = "normalize") ## conditionLabels = "Post -"
   
   ## return pre-processed data
   return(normDataSet)

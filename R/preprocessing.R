@@ -8,8 +8,10 @@
 #' Read a .csv file, apply filtering conditions, select columns necessary for analysis,
 #' and return the reformatted data.
 #' 
-#' @param fileName The name of the file containing MS data (including the path to the file,
-#' if needed).
+#' @param fileName The name of the .csv file containing MS data (including the path to the
+#' file, if needed).
+#' 
+#' @param dataSet The raw data set, if already loaded in R.
 #' 
 #' @param filterNaN A boolean (default = TRUE) specifying whether observations including
 #' NaN should be omitted.
@@ -46,13 +48,20 @@
 #' @export
 
 preprocessing <- function(fileName,
+                          dataSet = NULL,
                           filterNaN = TRUE,
                           filterUnique = 2,
                           replaceBlank = TRUE,
                           saveRm = TRUE) {
   
-  ## read in the protein quantitative csv file generated from Spectranaut
-  dataSet <- read.csv(fileName)
+  if (missing(fileName)) {
+    if (is.null(dataSet)) {
+      stop("Either 'fileName' or 'dataSet' must be provided.")
+    }
+  } else {
+    ## read in the protein quantitative csv file generated from Spectranaut
+    dataSet <- read.csv(fileName)
+  }
   
   ## filter data by NaN and unique peptide count
   filteredData <- preProcessFiltering(dataSet, filterNaN, filterUnique, replaceBlank, saveRm)

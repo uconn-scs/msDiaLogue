@@ -6,6 +6,7 @@
 \usage{
 preprocessing(
   fileName,
+  dataSet = NULL,
   filterNaN = TRUE,
   filterUnique = 2,
   replaceBlank = TRUE,
@@ -13,8 +14,10 @@ preprocessing(
 )
 }
 \arguments{
-\item{fileName}{The name of the file containing MS data (including the path to the file,
-if needed).}
+\item{fileName}{The name of the .csv file containing MS data (including the path to the
+file, if needed).}
+
+\item{dataSet}{The raw data set, if already loaded in R.}
 
 \item{filterNaN}{A boolean (default = TRUE) specifying whether observations including
 NaN should be omitted.}
