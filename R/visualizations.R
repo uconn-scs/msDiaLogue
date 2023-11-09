@@ -40,10 +40,14 @@
 #' @param show_rownames A boolean (default = TRUE) specifying if row names are be shown.
 #' This argument only works when \code{graphType = "heatmap"} and \code{pkg = "pheatmap"}.
 #' 
+#' @param compareConditions A string specifying which two conditions to compare. This
+#' argument only works when there are more than two conditions in \code{outputData}.
+#' 
+#' @param transformType A string used to label the title of the transformation type for
+#' the transformed MA plot.
+#' 
 #' @param fileName Filename specifying the name for Venn image output, or if NULL, it
 #' returns the grid object itself.
-#' 
-#' @param transformType transformType ## TODO
 #' 
 #' @param conditionLabels conditionLabels ## TODO
 #' 
@@ -71,8 +75,9 @@ visualize <- function(outputData,
                       pkg = "pheatmap",
                       cluster_cols = TRUE, cluster_rows = FALSE,
                       show_colnames = TRUE, show_rownames = TRUE,
+                      compareConditions = c(),
+                      transformType = NULL,
                       fileName,
-                      transformType,
                       conditionLabels) {
   
   if (graphType == "heatmap") {
@@ -96,7 +101,7 @@ visualize <- function(outputData,
         select(-c(R.Condition, R.FileName, R.Replicate)) %>%
         pivot_longer(-R.ConRep)
       
-      plot <- ggplot(plotData, aes(R.ConRep, name, fill = value)) +
+      plot <- ggplot(plotData, aes(x= R.ConRep, y = name, fill = value)) +
         geom_tile(aes(width = 1.1, height = 1.1), color = "grey60", lwd = .5) +
         guides(fill = guide_colourbar(title = NULL)) +
         scale_y_discrete(limits = rev) +
@@ -109,48 +114,34 @@ visualize <- function(outputData,
     return(plot)
     
   } else if (graphType == "MA") {
-    #Future addition: use GGplot and plotly for interactive plotting if needed  
     
-    ## transpose the output data for easy manipulation
-    tOutputData <- t(outputData)
+    if (nrow(outputData) == 2) {
+      compareConditions <- rownames(outputData)
+    } else if (nrow(outputData) > 2 & is.null(compareConditions)) {
+      stop("There are more than two conditions in the data,
+           please specify the two conditions to compare using 'compareConditions'!")
+    }
     
-    ## calculate the A data
-    plotData <- data.frame(rowMeans(tOutputData))
+    compareA <- compareConditions[1]
+    compareB <- compareConditions[2]
     
-    ## calculate the M data
-    plotData <- cbind(plotData, data.frame(tOutputData[,1] - tOutputData[,2]))
+    plotData <- data.frame(A = colMeans(outputData),
+                           M = as.numeric(outputData[compareA,]-outputData[compareB,])) %>%
+      mutate(Significant = cut(M, breaks = c(-Inf, -1, 1, Inf),
+                               labels = c("Down", "No", "Up"))) %>%
+      mutate(delabel = ifelse(Significant != "No",
+                              gsub("_.*", "", rownames(plotData)), NA))
     
-    ## label the columns with their A and M names
-    colnames(plotData) <- c("A", "M")
-    
-    ## add a column of NAs for coloring indication
-    plotData$diffexpressed <- "NO"
-    
-    ## add a column of NAs for labeling
-    plotData$delabel <- NA
-    
-    ## If M > 1, set it as "Diff" for both coloring and naming
-    plotData$diffexpressed[plotData$M >= 1|plotData$M <= -1] <- "Change"
-    
-    ## only label genes that are differentially expressed
-    plotData$delabel[plotData$diffexpressed != "NO"] <-
-      row.names(plotData[plotData$diffexpressed != "NO",])
-    
-    ############# Ugly current fix to remove species names
-    plotData$delabel <- gsub("_.*", "", plotData$delabel)
-    #############
-    
-    ## create an MA plot with M = +- 1 cutoff
-    p2 <- ggplot(plotData, aes(x = A, y = M, col = diffexpressed, label = delabel)) +
+    plot <- ggplot(plotData, aes(x = A, y = M, color = Significant, label = delabel)) +
+      geom_hline(yintercept = c(-1, 1), linetype = "dashed") +
       geom_point() +
       geom_text_repel() +
-      scale_color_manual(values = c("red", "black")) +
-      geom_hline(yintercept = 1, col="red") +
-      geom_hline(yintercept = -1, col="red") +
-      theme_minimal() +
-      ggtitle(sprintf("%s Transformed MA Plot", transformType))
+      scale_color_manual(values = c("Down" = "blue", "No" = "gray", "Up" = "red")) +
+      labs(title = paste(transformType, "Transformed MA Plot")) +
+      theme_bw() +
+      theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
     
-    return(p2)
+    return(plot)
     
   } else if (graphType == "normalize") {
     

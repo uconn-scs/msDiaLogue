@@ -12,8 +12,9 @@ visualize(
   cluster_rows = FALSE,
   show_colnames = TRUE,
   show_rownames = TRUE,
+  compareConditions = c(),
+  transformType = NULL,
   fileName,
-  transformType,
   conditionLabels
 )
 }
@@ -51,10 +52,14 @@ This argument only works when \code{graphType = "heatmap"} and \code{pkg = "phea
 \item{show_rownames}{A boolean (default = TRUE) specifying if row names are be shown.
 This argument only works when \code{graphType = "heatmap"} and \code{pkg = "pheatmap"}.}
 
+\item{compareConditions}{A string specifying which two conditions to compare. This
+argument only works when there are more than two conditions in \code{outputData}.}
+
+\item{transformType}{A string used to label the title of the transformation type for
+the transformed MA plot.}
+
 \item{fileName}{Filename specifying the name for Venn image output, or if NULL, it
 returns the grid object itself.}
-
-\item{transformType}{transformType ## TODO}
 
 \item{conditionLabels}{conditionLabels ## TODO}
 }
