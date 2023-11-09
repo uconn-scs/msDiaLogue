@@ -14,6 +14,9 @@ visualize(
   show_rownames = TRUE,
   compareConditions = c(),
   transformType = NULL,
+  conditionLabels = c(),
+  P.thres = 0.05,
+  logF.thres = 0.6,
   fileName
 )
 }
@@ -24,7 +27,7 @@ visualize(
 \item{graphType}{A string indicating the graph type.
 Current options are:
 \enumerate{
-\item "heatmap": heatmap.
+\item "heatmap"
 \item "MA"
 \item "normalize"
 \item "pca"
@@ -56,6 +59,17 @@ argument only works when there are more than two conditions in \code{outputData}
 
 \item{transformType}{A string used to label the title of the transformation type for
 the transformed MA plot.}
+
+\item{conditionLabels}{A string used to label the title of the two conditions for the
+volcano plot. This argument only works when \code{graphType = "volcano"}.}
+
+\item{P.thres}{THe threshold value of P-value (default = 0.05) used to plot the
+horizontal line (-log10(P.thres)) on the volcano plot. This argument only works when
+\code{graphType = "volcano"}.}
+
+\item{logF.thres}{The absolute threshold value of log2(fold change) (default = 0.6) used
+to plot the two vertical lines (-logF.thres and logF.thres) on the volcano plot. This
+argument only works when \code{graphType = "volcano"}.}
 
 \item{fileName}{Filename specifying the name for Venn image output, or if NULL, it
 returns the grid object itself.}

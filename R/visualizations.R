@@ -13,7 +13,7 @@
 #' @param graphType A string indicating the graph type.
 #' Current options are:
 #' \enumerate{
-#' \item "heatmap": heatmap.
+#' \item "heatmap"
 #' \item "MA"
 #' \item "normalize"
 #' \item "pca"
@@ -46,6 +46,17 @@
 #' @param transformType A string used to label the title of the transformation type for
 #' the transformed MA plot.
 #' 
+#' @param conditionLabels A string used to label the title of the two conditions for the
+#' volcano plot. This argument only works when \code{graphType = "volcano"}.
+#' 
+#' @param P.thres THe threshold value of P-value (default = 0.05) used to plot the
+#' horizontal line (-log10(P.thres)) on the volcano plot. This argument only works when
+#' \code{graphType = "volcano"}.
+#' 
+#' @param logF.thres The absolute threshold value of log2(fold change) (default = 0.6) used
+#' to plot the two vertical lines (-logF.thres and logF.thres) on the volcano plot. This
+#' argument only works when \code{graphType = "volcano"}.
+#' 
 #' @param fileName Filename specifying the name for Venn image output, or if NULL, it
 #' returns the grid object itself.
 #' 
@@ -75,6 +86,9 @@ visualize <- function(outputData,
                       show_colnames = TRUE, show_rownames = TRUE,
                       compareConditions = c(),
                       transformType = NULL,
+                      conditionLabels = c(),
+                      P.thres = 0.05,
+                      logF.thres = 0.6,
                       fileName) {
   
   if (graphType == "heatmap") {
@@ -196,39 +210,30 @@ visualize <- function(outputData,
     
   } else if (graphType == "volcano") {
     
-    ## transpose the data for easy manipulation
-    plotData <- data.frame(t(outputData))
-    
-    ## add a column of NAs for coloring indication
-    plotData$diffexpressed <- "NO"
-    
-    # if P-value < 0.05, set it as "Diff" for both coloring and naming
-    plotData$diffexpressed[plotData$P.value < 0.05] <- "Diff"
-    
-    ## add a column of NAs for labeling
-    plotData$delabel <- NA
-    
-    ## only label genes that are differentially expressed
-    plotData$delabel[plotData$diffexpressed != "NO"] <-
-      row.names(plotData[plotData$diffexpressed != "NO",])
-    
-    ############# Ugly current fix to remove species names
-    plotData$delabel <- gsub("_.*", "", plotData$delabel)
-    #############
-    
-    ## create a volcano plot with P-value = 0.05 cutoff and hard-coded range and scope
-    p1 <- ggplot(plotData, aes(x = Log.Fold.Change, y = -log10(P.value),
-                               col = diffexpressed, label = delabel)) +
+    plotData <- data.frame(t(outputData)) %>%
+      mutate(Significant = case_when(
+        P.value < P.thres & Log.Fold.Change > logF.thres ~ "Up",
+        P.value < P.thres & Log.Fold.Change < -logF.thres ~ "Down",
+        P.value < P.thres & Log.Fold.Change >= -logF.thres & Log.Fold.Change <= logF.thres ~ "Inconclusive",
+        P.value >= P.thres ~ "No",
+        TRUE ~ "Unknows")) %>% ## optional catch-all for other cases
+      mutate(delabel = ifelse(! Significant %in% c("No", "Inconclusive"),
+                              gsub("_.*", "", rownames(plotData)), NA))
+
+    plot <- ggplot(plotData, aes(x = Log.Fold.Change, y = -log10(P.value),
+                                 col = Significant, label = delabel)) +
+      geom_vline(xintercept = c(-logF.thres, logF.thres), linetype = "dashed") +
+      geom_hline(yintercept = -log10(P.thres), linetype = "dashed") +
       geom_point() +
-      # set more force to make data labels closer, ideally to eliminate long lines
-      geom_text_repel(force_pull = 3) +
-      scale_color_manual(values = c("red", "black")) +
-      geom_hline(yintercept = -log10(0.05), col = "red") +
-      xlab(sprintf("%s Transformed Fold Change", transformType)) +
-      labs(title = paste(conditionLabels[1], "vs.", conditionLabels[2])) +
-      theme_minimal()
+      geom_text_repel() +
+      scale_color_manual(values = c("Down" = "blue", "Up" = "red",
+                                    "Inconclusive" = "gray", "No" = "gray20")) +
+      labs(title = paste(conditionLabels[1], "vs", conditionLabels[2]),
+           x = expression("log"[2]*"FC"), y = expression("-log"[10]*"P-value")) +
+      theme_bw() +
+      theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
     
-    return(p1)
+    return(plot)
   }
 }
 
