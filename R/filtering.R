@@ -159,9 +159,12 @@ filterOutIn <- function(dataSet,
 #' Filtering NA's post-imputation
 #' 
 #' @description 
-#' Remove all proteins from the data.
+#' Remove proteins with NA values.
 #' 
 #' @param dataSet The 2d data set of experimental values.
+#' 
+#' @param saveRm A boolean (default = TRUE) specifying whether to save removed data to
+#' current working directory.
 #' 
 #' @details 
 #' If proteins that do not meet the imputation requirement are removed, a .csv file is
@@ -175,23 +178,20 @@ filterOutIn <- function(dataSet,
 #' 
 #' @export
 
-
-filterNA <- function(dataSet) {
+filterNA <- function(dataSet, saveRm = TRUE) {
   
-  ## relabel the data frame
-  filteredData <- dataSet
-  
-  ## create a dataframe of the removed data
-  removedData <- filteredData %>% select_if(function(x) any(is.na(x)))
-  
-  ## add label columns back into data table
-  removedData <- bind_cols(dataSet[,1:3], removedData)
-  
-  ## save removed data to current working directory
-  write.csv(removedData, "filtered_NA_data.csv")
+  if (saveRm) {
+    
+    ## create a dataframe of the removed data
+    removeData <- bind_cols(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
+                            select_if(dataSet, ~any(is.na(.))))
+    
+    ## save removed data to current working directory
+    write.csv(removedData, "filtered_NA_data.csv")
+  }
   
   ## remove all of the contaminants if they are present
-  filteredData <- filteredData %>% select_if(function(x) !any(is.na(x)))
+  filteredData <- dataSet %>% select_if(~!any(is.na(.)))
   
   ## return the filtered data 
   return(filteredData)

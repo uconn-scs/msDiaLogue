@@ -4,16 +4,19 @@
 \alias{filterNA}
 \title{Filtering NA's post-imputation}
 \usage{
-filterNA(dataSet)
+filterNA(dataSet, saveRm = TRUE)
 }
 \arguments{
 \item{dataSet}{The 2d data set of experimental values.}
+
+\item{saveRm}{A boolean (default = TRUE) specifying whether to save removed data to
+current working directory.}
 }
 \value{
 A filtered 2d dataframe.
 }
 \description{
-Remove all proteins from the data.
+Remove proteins with NA values.
 }
 \details{
 If proteins that do not meet the imputation requirement are removed, a .csv file is

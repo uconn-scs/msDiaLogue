@@ -1,12 +1,18 @@
-test_that("NA Filter", {
+
+test_that("filterNA", {
   
-  #Load data from previous step in work flow
-  dataImput <- read.csv("../Unit_Test_Data/ImputedToy.csv")
-  #execute current filter NA function on data file
-  dataNAFilter <- filterNA(dataImput)
-  #load stored correct data
-  storedData <- read.csv("../Unit_Test_Data/NAFilteredToy.csv")
-  #test if current function yields equal results to previous version
-  expect_equal(dataNAFilter, storedData)
+  ## load data from previous step in work flow
+  dataSet <- read.csv("../storedData/impute_Toy.csv")
+  
+  ## execute current function 'filterNA' on data file
+  invisible(capture.output(
+    data <- filterNA(dataSet, saveRm = FALSE)
+  ))
+  
+  ## load stored correct data
+  storedData <- read.csv("../storedData/filterNA_Toy.csv")
+  
+  ## test if current function yields equal results to previous version
+  expect_equal(data, storedData)
   
 })
