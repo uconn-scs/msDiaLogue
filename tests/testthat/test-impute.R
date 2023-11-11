@@ -1,13 +1,18 @@
 
-test_that("imputation", {
+test_that("impute", {
   
-  #Load data from previous step in work flow
-  dataTrans <- read.csv("../Unit_Test_Data/TransformedToy.csv")
-  #execute current imputation function on data file
-  dataImput <- impute(dataTrans)
-  #load stored correct data
-  storedData <- read.csv("../Unit_Test_Data/ImputedToy.csv")
-  #test if current function yields equal results to previous version
-  expect_equal(dataImput, storedData)
+  ## load data from previous step in work flow
+  dataSet <- read.csv("../storedData/transform_Toy.csv")
+  
+  ## execute current function 'impute' on data file
+  invisible(capture.output(
+    data <- impute(dataSet)
+  ))
+  
+  ## load stored correct data
+  storedData <- read.csv("../storedData/impute_Toy.csv")
+  
+  ## test if current function yields equal results to previous version
+  expect_equal(data, storedData)
   
 })

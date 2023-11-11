@@ -24,6 +24,8 @@
 #' Boxplots are also generated for before and after the normalization to give a visual
 #' indicator of the changes.
 #' 
+#' @import dplyr
+#' 
 #' @returns A normalized 2d dataframe.
 #' 
 #' @export
