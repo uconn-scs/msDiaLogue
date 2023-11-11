@@ -183,7 +183,7 @@ filterNA <- function(dataSet, saveRm = TRUE) {
   if (saveRm) {
     
     ## create a dataframe of the removed data
-    removeData <- bind_cols(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
+    removedData <- bind_cols(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
                             select_if(dataSet, ~any(is.na(.))))
     
     ## save removed data to current working directory
