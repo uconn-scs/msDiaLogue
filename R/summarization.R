@@ -2,7 +2,7 @@
 #### Code for data summary ####
 ###############################
 #' 
-#' Summarize protein intensities across replicates 
+#' Summarize protein intensities across conditions 
 #' 
 #' @description
 #' Calculate the mean, standard deviation, and replicate count for protein across every
@@ -10,61 +10,52 @@
 #' 
 #' @param dataSet A data frame containing the data signals and labels.
 #' 
-#' @param fileName A string which can be used to generate a csv file of the summary
+#' @param digits An integer (default = 2) indicating the number of decimal places.
+#' 
+#' @param saveSumm A boolean (default = TRUE) specifying whether to save the summary
+#' statistics to current working directory.
+#' 
+#' A string which can be used to generate a csv file of the summary
 #' statistics.
 #' 
 #' @import dplyr
-#' @import tidyr
+#' @importFrom psych describeBy
+#' @importFrom tibble rownames_to_column
 #' 
 #' @returns A 2d summarized data frame.
 #' 
 #' @export
 
-summarize <- function(dataSet, fileName = "") {
+summarize <- function(dataSet, digits = 2, saveSumm = TRUE) {
   
-  ## create a list of all protein names in the data
-  proteinList <- names(dataSet)[-c(1:3)]
+  ## list of conditions in the data set
+  conditionsList <- unique(dataSet$R.Condition)
   
-  ## create a list of all samples in the data
-  sampleList <- unique(dataSet$R.Condition)
+  ## summarize each protein by conditions
+  proteinSummary <- dataSet %>%
+    select(-c(R.FileName, R.Replicate)) %>%
+    describeBy(group = .$R.Condition, digits = digits)
   
-  ## group all of the data by sample number
-  sampleGrouping <- dataSet %>% group_by(R.Condition)
-  
-  ## define the list of functions that will be applied to each protein
-  funcList <- list(mean = ~mean(., na.rm = TRUE),
-                   sd = ~sd(., na.rm = TRUE),
-                   n = ~sum(!is.na(.)))
-  
-  ## summarize each protein by the sample dataset using the 3 functions defined above
-  proteinSummary <- sampleGrouping %>% summarize_at(c(proteinList), funcList)
-  
-  ## sort the summary so that values for each protein are in sequential order
-  proteinSummary <- proteinSummary %>% select(starts_with(proteinList))
-  
-  ## if only two samples are present, calculate the fold change automatically
-  if (length(sampleList) == 2) {
-    
-    foldChange <- proteinSummary[2,]/proteinSummary[1,]
-    
-    proteinSummary <- rbind(proteinSummary, foldChange)
-    
-    rowNames <- c("Condition 1", "Condition 2", "Fold Change")
-    
-    proteinSummary <- cbind(rowNames, proteinSummary)
-    
-    for (i in 2:length(proteinSummary[1,])) {
-      print(!grepl("*_mean", colnames(proteinSummary)[i]))
-      if (!grepl("*_mean", colnames(proteinSummary)[i])) {
-        proteinSummary[3,i] <- NA
-      }
-    }
+  ## if only two conditions exist, calculate the fold change automatically
+  if (length(conditionsList) == 2) {
+    proteinSummary[["Fold Change"]] <- (proteinSummary[[2]] - proteinSummary[[1]]) %>%
+      select(-n)
+    conditionsList <- c(conditionsList, "Fold Change")
   }
   
-  if (fileName != "") {
+  ## combine summaries into a single data frame
+  proteinSummary <- do.call(rbind, lapply(conditionsList, function(k) {
+    data.frame(t(proteinSummary[[k]])) %>%
+      select(-"R.Condition.") %>%
+      rownames_to_column("Stat") %>%
+      filter(Stat != "vars") %>%
+      mutate(Condition = k, .before = "Stat")
+  }))
+  
+  if (saveSumm) {
     
     ## save file to current working directory
-    write.csv(proteinSummary, fileName, row.names = sampleList)
+    write.csv(proteinSummary, file = "summarize_data.csv")
   } 
   
   ## return protein data summary

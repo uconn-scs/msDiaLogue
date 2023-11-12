@@ -2,14 +2,19 @@
 % Please edit documentation in R/summarization.R
 \name{summarize}
 \alias{summarize}
-\title{Summarize protein intensities across replicates}
+\title{Summarize protein intensities across conditions}
 \usage{
-summarize(dataSet, fileName = "")
+summarize(dataSet, digits = 2, saveSumm = TRUE)
 }
 \arguments{
 \item{dataSet}{A data frame containing the data signals and labels.}
 
-\item{fileName}{A string which can be used to generate a csv file of the summary
+\item{digits}{An integer (default = 2) indicating the number of decimal places.}
+
+\item{saveSumm}{A boolean (default = TRUE) specifying whether to save the summary
+statistics to current working directory.
+
+A string which can be used to generate a csv file of the summary
 statistics.}
 }
 \value{

@@ -23,7 +23,9 @@ Imports:
     pheatmap,
     seqinr,
     tictoc,
-    ggplotify
+    ggplotify,
+    psych,
+    tibble
 Suggests:
     testthat (>= 3.0.0)
 Encoding: UTF-8
