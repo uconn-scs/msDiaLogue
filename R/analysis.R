@@ -9,8 +9,8 @@
 #' 
 #' @param dataSet The 2d data set of data.
 #' 
-#' @param conditions A string specifying which two conditions to compare. This
-#' argument only works when there are more than two conditions in \code{dataSet}.
+#' @param conditions A string specifying which two conditions to compare. This argument
+#' only works when there are more than two conditions in \code{dataSet}.
 #' 
 #' @param testType A string (default = "t-test") specifying which statistical test to use:
 #' \enumerate{

@@ -15,7 +15,6 @@ Depends:
 Imports:
     tidyr (>= 1.3.0),
     dplyr (>= 1.0.10),
-    FactoMineR,
     VennDiagram,
     data.table,
     ggplot2,
@@ -25,7 +24,8 @@ Imports:
     tictoc,
     ggplotify,
     psych,
-    tibble
+    tibble,
+    factoextra
 Suggests:
     testthat (>= 3.0.0)
 Encoding: UTF-8

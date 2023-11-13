@@ -7,7 +7,7 @@
 #' @description
 #' Create specific graphics to illustrate the results of the data analysis function.
 #' 
-#' @param outputData A 2D data frame that corresponds to the output from the function
+#' @param dataSet A 2D data frame that corresponds to the output from the function
 #' \code{analyze()} for the same name.
 #' 
 #' @param graphType A string indicating the graph type.
@@ -16,7 +16,10 @@
 #' \item "heatmap"
 #' \item "MA"
 #' \item "normalize"
-#' \item "pca"
+#' \item "PCA_biplot"
+#' \item "PCA_ind"
+#' \item "PCA_scree"
+#' \item "PCA_var"
 #' \item "t-test"
 #' \item "venn"
 #' \item "volcano"
@@ -40,22 +43,53 @@
 #' @param show_rownames A boolean (default = TRUE) specifying if row names are be shown.
 #' This argument only works when \code{graphType = "heatmap"} and \code{pkg = "pheatmap"}.
 #' 
-#' @param compareConditions A string specifying which two conditions to compare. This
-#' argument only works when there are more than two conditions in \code{outputData}.
+#' @param conditions A string specifying which two conditions to compare when
+#' \code{graphType = "MA"}. This argument only works when there are more than two
+#' conditions in \code{dataSet}.
 #' 
 #' @param transformType A string used to label the title of the transformation type for
-#' the transformed MA plot.
+#' the transformed MA plot when \code{graphType = "MA"}.
 #' 
-#' @param conditionLabels A string used to label the title of the two conditions for the
-#' volcano plot. This argument only works when \code{graphType = "volcano"}.
+#' @param addlabels A boolean (default = TRUE) specifying whether the elements are labeled.
+#' \itemize{
+#' \item For \code{graphType = "PCA_scree"}, it specifies whether labels are added at the
+#' top of bars or points to show the information retained by each dimension.
+#' \item For \code{graphType = "PCA_ind"}, it specifies whether the active individuals to
+#' be labeled.
+#' \item For \code{graphType = "PCA_var"}, it specifies whether the active variables to be
+#' labeled.
+#' }
+#' 
+#' @param choice A text (default = "variance") specifying the PCA data to be plotted the
+#' scree plot when \code{graphType = "PCA_scree"}. Allowed values are "variance" or
+#' "eigenvalue".
+#' 
+#' @param ncp	A numeric value (default = 10) specifying the number of dimensions to be
+#' shown when \code{graphType = "PCA_scree"}.
+#' 
+#' @param addEllipses A boolean (default = TRUE) specifying whether to draw ellipses
+#' around the individuals when \code{graphType = "PCA_ind"} or
+#' \code{graphType = "PCA_biplot"}.
+#' 
+#' @param ellipse.level A numeric value (default = 0.95) specifying the size of the
+#' concentration ellipse in normal probability when \code{graphType = "PCA_ind"} or
+#' \code{graphType = "PCA_biplot"}.
+#' 
+#' @param label A text (default = "all") specifying the elements to be labelled when
+#' \code{graphType = "PCA_biplot"}. Allowed values:
+#' \itemize{
+#' \item "all": label both active individuals and active variables.
+#' \item "ind": label only active individuals.
+#' \item "var": label only active variables.
+#' \item "none": no labels.
+#' }
 #' 
 #' @param P.thres THe threshold value of P-value (default = 0.05) used to plot the
-#' horizontal line (-log10(P.thres)) on the volcano plot. This argument only works when
-#' \code{graphType = "volcano"}.
+#' horizontal line (-log10(P.thres)) on the volcano plot when \code{graphType = "volcano"}.
 #' 
-#' @param logF.thres The absolute threshold value of log2(fold change) (default = 0.6) used
-#' to plot the two vertical lines (-logF.thres and logF.thres) on the volcano plot. This
-#' argument only works when \code{graphType = "volcano"}.
+#' @param logF.thres The absolute threshold value of log2(fold change) (default = 0.6)
+#' used to plot the two vertical lines (-logF.thres and logF.thres) on the volcano plot
+#' when \code{graphType = "volcano"}.
 #' 
 #' @param fileName Filename specifying the name for Venn image output, or if NULL, it
 #' returns the grid object itself.
@@ -66,53 +100,50 @@
 #' \code{testType} match.
 #' 
 #' @import dplyr
-#' @import FactoMineR
-#' @import ggrepel
+#' @import factoextra
 #' @import ggplot2
+#' @import ggrepel
 #' @import pheatmap
 #' @import tidyr
 #' @import VennDiagram
 #' @importFrom ggplotify as.ggplot
-#' @importFrom graphics hist
+#' @importFrom stats density prcomp t.test
+#' @importFrom tibble column_to_rownames
 #' 
 #' @returns An object of class \code{ggplot}.
 #' 
 #' @export
 
-visualize <- function(outputData,
-                      graphType = "volcano",
-                      pkg = "pheatmap",
-                      cluster_cols = TRUE, cluster_rows = FALSE,
-                      show_colnames = TRUE, show_rownames = TRUE,
-                      compareConditions = c(),
-                      transformType = NULL,
-                      conditionLabels = c(),
-                      P.thres = 0.05,
-                      logF.thres = 0.6,
-                      fileName) {
+visualize <- function(
+    dataSet, graphType = "volcano",
+    pkg = "pheatmap", cluster_cols = TRUE, cluster_rows = FALSE, show_colnames = TRUE, show_rownames = TRUE,
+    conditions = c(), transformType = NULL,
+    addlabels = TRUE, choice = "variance", ncp = 10, addEllipses = TRUE, ellipse.level = 0.95, label = "all",
+    fileName,
+    P.thres = 0.05, logF.thres = 0.6) {
   
   if (graphType == "heatmap") {
     
     if(pkg == "pheatmap") {
       
       ## organize the data for pheatmap plotting
-      plotData <- t(select(outputData, -c(R.Condition, R.FileName, R.Replicate)))
-      colnames(plotData) <- paste0(outputData$R.Condition, "_", outputData$R.Replicate)
+      plotData <- t(select(dataSet, -c(R.Condition, R.FileName, R.Replicate)))
+      colnames(plotData) <- paste0(dataSet$R.Condition, "_", dataSet$R.Replicate)
       
       plot <- pheatmap(mat = plotData,
                        cluster_cols = cluster_cols, cluster_rows = cluster_rows,
                        show_colnames = show_colnames, show_rownames = show_rownames)
-      plot <- ggplotify::as.ggplot(plot)
+      ggplotify::as.ggplot(plot)
       
     } else if (pkg == "ggplot2") {
       
       ## performing wide-to-long data reshaping for ggplot2 plotting
-      plotData <- outputData %>%
+      plotData <- dataSet %>%
         mutate(R.ConRep = paste0(R.Condition, "_", R.Replicate)) %>%
         select(-c(R.Condition, R.FileName, R.Replicate)) %>%
         pivot_longer(-R.ConRep)
       
-      plot <- ggplot(plotData, aes(x= R.ConRep, y = name, fill = value)) +
+      ggplot(plotData, aes(x= R.ConRep, y = name, fill = value)) +
         geom_tile(aes(width = 1.1, height = 1.1), color = "grey60", lwd = .5) +
         guides(fill = guide_colourbar(title = NULL)) +
         scale_y_discrete(limits = rev) +
@@ -122,28 +153,27 @@ visualize <- function(outputData,
         ylab(NULL)
     }
     
-    return(plot)
-    
   } else if (graphType == "MA") {
     
-    if (nrow(outputData) == 2) {
-      compareConditions <- rownames(outputData)
-    } else if (nrow(outputData) > 2 & is.null(compareConditions)) {
+    if (nrow(dataSet) == 2) {
+      conditions <- rownames(dataSet)
+    } else if (nrow(dataSet) > 2 & is.null(conditions)) {
       stop("There are more than two conditions in the data,
-           please specify the two conditions to compare using 'compareConditions'!")
+           please specify the two conditions to compare using 'conditions'!")
     }
     
-    compareA <- compareConditions[1]
-    compareB <- compareConditions[2]
+    ## list of two conditions
+    conditionA <- conditions[1]
+    conditionB <- conditions[2]
     
-    plotData <- data.frame(A = colMeans(outputData),
-                           M = as.numeric(outputData[compareA,]-outputData[compareB,])) %>%
+    plotData <- data.frame(A = colMeans(dataSet),
+                           M = as.numeric(dataSet[conditionA,] - dataSet[conditionB,])) %>%
       mutate(Significant = cut(M, breaks = c(-Inf, -1, 1, Inf),
                                labels = c("Down", "No", "Up"))) %>%
       mutate(delabel = ifelse(Significant != "No",
-                              gsub("_.*", "", colnames(outputData)), NA))
+                              gsub("_.*", "", colnames(dataSet)), NA))
     
-    plot <- ggplot(plotData, aes(x = A, y = M, color = Significant, label = delabel)) +
+    ggplot(plotData, aes(x = A, y = M, color = Significant, label = delabel)) +
       geom_hline(yintercept = c(-1, 1), linetype = "dashed") +
       geom_point() +
       geom_text_repel() +
@@ -152,15 +182,13 @@ visualize <- function(outputData,
       theme_bw() +
       theme(legend.position = "bottom", plot.title = element_text(hjust = .5))
     
-    return(plot)
-    
   } else if (graphType == "normalize") {
     
-    plotData <- outputData %>%
+    plotData <- dataSet %>%
       select(-R.FileName) %>%
       pivot_longer(-c(R.Condition, R.Replicate))
 
-    plot <- ggplot(plotData, aes(x = R.Condition, y = value, fill = as.character(R.Replicate))) +
+    ggplot(plotData, aes(x = R.Condition, y = value, fill = as.character(R.Replicate))) +
       geom_boxplot(varwidth = TRUE) +
       guides(fill = guide_legend(title = "Repilcate")) +
       labs(title = "Normalization Boxplot") +
@@ -170,38 +198,72 @@ visualize <- function(outputData,
       theme_bw() +
       theme(legend.position = "bottom", plot.title = element_text(hjust = .5))
     
-    return(plot)
+  } else if (grepl("^PCA_", graphType)) {
     
-  } else if (graphType == "pca") {
+    plotData <- dataSet %>%
+      mutate(R.ConRep = paste0(R.Condition, "_", R.Replicate)) %>%
+      column_to_rownames(var = "R.ConRep") %>%
+      select(-c(R.Condition, R.FileName, R.Replicate))
     
-    row.names(outputData) <- outputData$R.FileName
+    res.pca <- prcomp(plotData, scale = TRUE)
     
-    outputData_trim.trans <- outputData[,-1:-3]
-    
-    res.pca <- PCA(outputData_trim.trans, scale.unit = TRUE, ncp = 5, graph = T)
-    
-    #TODO: screeplot appears to be deprecated or not found in current factoextra
-    #fviz_screeplot(res.pca, addlabels = TRUE, ylim = c(0, 99))
-    
-    return(res.pca)
+    if (graphType == "PCA_scree") {
+      
+      fviz_screeplot(res.pca, choice = choice, ncp = ncp, addlabels = addlabels,
+                     barcolor = "gray", barfill = "gray") +
+        theme_bw() +
+        theme(plot.title = element_text(hjust = 0.5))
+      
+    } else if (graphType == "PCA_ind") {
+      
+      fviz_pca_ind(res.pca, habillage = dataSet$R.Condition,
+                   label = ifelse(addlabels, "ind", "none"),
+                   addEllipses = addEllipses, ellipse.level = ellipse.level) +
+        ggtitle("PCA graph of individuals") +
+        theme_bw() +
+        theme(legend.position = "bottom",
+              plot.title = element_text(hjust = 0.5))
+      
+    } else if (graphType == "PCA_var") {
+      
+      fviz_pca_var(res.pca, label = ifelse(addlabels, "var", "none")) +
+        ggtitle("PCA graph of variables") +
+        theme_bw() +
+        theme(plot.title = element_text(hjust = 0.5))
+      
+    } else if (graphType == "PCA_biplot") {
+      
+      fviz_pca_biplot(res.pca, habillage = dataSet$R.Condition,
+                      label = label, col.var = "black",
+                      addEllipses = addEllipses, ellipse.level = ellipse.level) +
+        ggtitle("PCA graph of individuals and variables") +
+        theme_bw() +
+        theme(legend.position = "bottom",
+              plot.title = element_text(hjust = 0.5))
+    }
     
   } else if (graphType == "t-test") {
     
-    df.tmp <- data.frame(t(outputData))
-    
-    ## create a histogram of the difference in means
-    hist(df.tmp$Difference.in.Means, main = "Histogram of Differences in Means",
-         xlab = "Difference in Means", breaks = "Scott")
-    
-    ## create a histogram of the p-values
-    hist(df.tmp$P.value, main = "Histogram of P-Values",
-         xlab = "P-Value", breaks = "Scott")
+    plotData <- as.data.frame(t(dataSet)) %>%
+      rownames_to_column(var = "RowName") %>%
+      pivot_longer(-RowName) %>%
+      group_by(name) %>%
+      ## binwidth information for reference
+      mutate(binwidth = ceiling(density(value)$bw/0.05)*0.05)
+
+    Reduce("+", plyr::llply(unique(plotData$binwidth), function(k) {
+      geom_histogram(data = plotData %>% filter(binwidth == k), aes(x = value),
+                     binwidth = k, fill = "gray70", color = "black")
+    }), init = ggplot()) +
+      ylab("Frequency") +
+      facet_wrap(.~name, scales = "free") +
+      theme_bw()
     
   } else if (graphType == "venn") {
     
     paletteTemp <- c("red", "blue", "yellow", "green", "white")
     
-    combos.list <- outputData
+    combos.list <- dataSet
     
     venn.diagram(x = combos.list[1:length(combos.list)],
                  filename = fileName,
@@ -210,7 +272,7 @@ visualize <- function(outputData,
     
   } else if (graphType == "volcano") {
     
-    plotData <- data.frame(t(outputData)) %>%
+    plotData <- data.frame(t(dataSet)) %>%
       mutate(Significant = case_when(
         P.value < P.thres & Log.Fold.Change > logF.thres ~ "Up",
         P.value < P.thres & Log.Fold.Change < -logF.thres ~ "Down",
@@ -218,22 +280,20 @@ visualize <- function(outputData,
         P.value >= P.thres ~ "No",
         TRUE ~ "Unknows")) %>% ## optional catch-all for other cases
       mutate(delabel = ifelse(! Significant %in% c("No", "Inconclusive"),
-                              gsub("_.*", "", rownames(plotData)), NA))
+                              gsub("_.*", "", colnames(dataSet)), NA))
 
-    plot <- ggplot(plotData, aes(x = Log.Fold.Change, y = -log10(P.value),
-                                 col = Significant, label = delabel)) +
+    ggplot(plotData, aes(x = Log.Fold.Change, y = -log10(P.value),
+                         col = Significant, label = delabel)) +
       geom_vline(xintercept = c(-logF.thres, logF.thres), linetype = "dashed") +
       geom_hline(yintercept = -log10(P.thres), linetype = "dashed") +
       geom_point() +
       geom_text_repel() +
       scale_color_manual(values = c("Down" = "blue", "Up" = "red",
                                     "Inconclusive" = "gray", "No" = "gray20")) +
-      labs(title = paste(conditionLabels[1], "vs", conditionLabels[2]),
-           x = expression("log"[2]*"FC"), y = expression("-log"[10]*"P-value")) +
+      labs(x = expression("log"[2]*"FC"), y = expression("-log"[10]*"P-value")) +
       theme_bw() +
       theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
     
-    return(plot)
   }
 }
 

@@ -5,23 +5,28 @@
 \title{Generating visualizations for MS Data}
 \usage{
 visualize(
-  outputData,
+  dataSet,
   graphType = "volcano",
   pkg = "pheatmap",
   cluster_cols = TRUE,
   cluster_rows = FALSE,
   show_colnames = TRUE,
   show_rownames = TRUE,
-  compareConditions = c(),
+  conditions = c(),
   transformType = NULL,
-  conditionLabels = c(),
+  addlabels = TRUE,
+  choice = "variance",
+  ncp = 10,
+  addEllipses = TRUE,
+  ellipse.level = 0.95,
+  label = "all",
+  fileName,
   P.thres = 0.05,
-  logF.thres = 0.6,
-  fileName
+  logF.thres = 0.6
 )
 }
 \arguments{
-\item{outputData}{A 2D data frame that corresponds to the output from the function
+\item{dataSet}{A 2D data frame that corresponds to the output from the function
 \code{analyze()} for the same name.}
 
 \item{graphType}{A string indicating the graph type.
@@ -30,7 +35,10 @@ Current options are:
 \item "heatmap"
 \item "MA"
 \item "normalize"
-\item "pca"
+\item "PCA_biplot"
+\item "PCA_ind"
+\item "PCA_scree"
+\item "PCA_var"
 \item "t-test"
 \item "venn"
 \item "volcano"
@@ -54,25 +62,56 @@ This argument only works when \code{graphType = "heatmap"} and \code{pkg = "phea
 \item{show_rownames}{A boolean (default = TRUE) specifying if row names are be shown.
 This argument only works when \code{graphType = "heatmap"} and \code{pkg = "pheatmap"}.}
 
-\item{compareConditions}{A string specifying which two conditions to compare. This
-argument only works when there are more than two conditions in \code{outputData}.}
+\item{conditions}{A string specifying which two conditions to compare when
+\code{graphType = "MA"}. This argument only works when there are more than two
+conditions in \code{dataSet}.}
 
 \item{transformType}{A string used to label the title of the transformation type for
-the transformed MA plot.}
+the transformed MA plot when \code{graphType = "MA"}.}
 
-\item{conditionLabels}{A string used to label the title of the two conditions for the
-volcano plot. This argument only works when \code{graphType = "volcano"}.}
+\item{addlabels}{A boolean (default = TRUE) specifying whether the elements are labeled.
+\itemize{
+\item For \code{graphType = "PCA_scree"}, it specifies whether labels are added at the
+top of bars or points to show the information retained by each dimension.
+\item For \code{graphType = "PCA_ind"}, it specifies whether the active individuals to
+be labeled.
+\item For \code{graphType = "PCA_var"}, it specifies whether the active variables to be
+labeled.
+}}
 
-\item{P.thres}{THe threshold value of P-value (default = 0.05) used to plot the
-horizontal line (-log10(P.thres)) on the volcano plot. This argument only works when
-\code{graphType = "volcano"}.}
+\item{choice}{A text (default = "variance") specifying the PCA data to be plotted the
+scree plot when \code{graphType = "PCA_scree"}. Allowed values are "variance" or
+"eigenvalue".}
 
-\item{logF.thres}{The absolute threshold value of log2(fold change) (default = 0.6) used
-to plot the two vertical lines (-logF.thres and logF.thres) on the volcano plot. This
-argument only works when \code{graphType = "volcano"}.}
+\item{ncp}{A numeric value (default = 10) specifying the number of dimensions to be
+shown when \code{graphType = "PCA_scree"}.}
+
+\item{addEllipses}{A boolean (default = TRUE) specifying whether to draw ellipses
+around the individuals when \code{graphType = "PCA_ind"} or
+\code{graphType = "PCA_biplot"}.}
+
+\item{ellipse.level}{A numeric value (default = 0.95) specifying the size of the
+concentration ellipse in normal probability when \code{graphType = "PCA_ind"} or
+\code{graphType = "PCA_biplot"}.}
+
+\item{label}{A text (default = "all") specifying the elements to be labelled when
+\code{graphType = "PCA_biplot"}. Allowed values:
+\itemize{
+\item "all": label both active individuals and active variables.
+\item "ind": label only active individuals.
+\item "var": label only active variables.
+\item "none": no labels.
+}}
 
 \item{fileName}{Filename specifying the name for Venn image output, or if NULL, it
 returns the grid object itself.}
+
+\item{P.thres}{THe threshold value of P-value (default = 0.05) used to plot the
+horizontal line (-log10(P.thres)) on the volcano plot when \code{graphType = "volcano"}.}
+
+\item{logF.thres}{The absolute threshold value of log2(fold change) (default = 0.6)
+used to plot the two vertical lines (-logF.thres and logF.thres) on the volcano plot
+when \code{graphType = "volcano"}.}
 }
 \value{
 An object of class \code{ggplot}.

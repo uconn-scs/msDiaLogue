@@ -9,8 +9,8 @@ analyze(dataSet, conditions, testType = "t-test")
 \arguments{
 \item{dataSet}{The 2d data set of data.}
 
-\item{conditions}{A string specifying which two conditions to compare. This
-argument only works when there are more than two conditions in \code{dataSet}.}
+\item{conditions}{A string specifying which two conditions to compare. This argument
+only works when there are more than two conditions in \code{dataSet}.}
 
 \item{testType}{A string (default = "t-test") specifying which statistical test to use:
 \enumerate{
