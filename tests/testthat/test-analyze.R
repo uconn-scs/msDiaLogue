@@ -1,51 +1,56 @@
-test_that("analyze (Volcano)", {
-  
-  #Load data from previous step in work flow
-  dataNorm <- read.csv("../Unit_Test_Data/MeanNormalizedToy.csv")
-  #set the condiions to compare
-  compareValues <- c("100fmol","50fmol") 
-  #execute current analyze function on data file
-  testOutput <- analyze(dataNorm, compareValues, testType = "volcano")
-  #load stored correct data, making sure to enter row names
-  storedData <- read.csv("../Unit_Test_Data/VolcanoDataToy.csv")
-  rownames(storedData) <- storedData$X
-  storedData$X <- NULL
-  #test if current function yields equal results to previous version
-  expect_equal(testOutput, storedData)
-  
-})
 
-test_that("analyze (T-Test)", {
+test_that("analyze_t-test", {
   
-  #Load data from previous step in work flow
-  dataNorm <- read.csv("../Unit_Test_Data/MeanNormalizedToy.csv")
-  #set the condiions to compare
-  compareValues <- c("100fmol","50fmol") 
-  #execute current analyze function on data file
-  testOutput <- analyze(dataNorm, compareValues, testType = "t-test")
-  #load stored correct data, making sure to enter row names
-  storedData <- read.csv("../Unit_Test_Data/TTestDataToy.csv")
-  rownames(storedData) <- storedData$X
-  storedData$X <- NULL
-  #test if current function yields equal results to previous version
-  expect_equal(testOutput, storedData)
+  ## load data from previous step in work flow
+  dataSet <- read.csv("../storedData/normalize_Toy.csv")
+  
+  ## execute current function 'analyze' on data file
+  invisible(capture.output(
+    data <- analyze(dataSet, testType = "t-test")
+  ))
+  
+  ## load stored correct data
+  storedData <- read.csv("../storedData/analyze_t-test_Toy.csv", row.names = 1)
+  
+  ## test if current function yields equal results to previous version
+  expect_equal(data, storedData)
   
 })
 
 
-test_that("analyze (MA)", {
+test_that("analyze_volcano", {
   
-  #Load data from previous step in work flow
-  dataNorm <- read.csv("../Unit_Test_Data/MeanNormalizedToy.csv")
-  #set the condiions to compare
-  compareValues <- c("100fmol","50fmol") 
-  #execute current analyze function on data file
-  testOutput <<- analyze(dataNorm, compareValues, testType = "MA")
-  #load stored correct data, making sure to enter row names
-  storedData <- read.csv("../Unit_Test_Data/MADataToy.csv")
-  rownames(storedData) <- storedData$X
-  storedData$X <- NULL
-  #test if current function yields equal results to previous version
-  expect_equal(testOutput, storedData)
+  ## load data from previous step in work flow
+  dataSet <- read.csv("../storedData/normalize_Toy.csv")
+  
+  ## execute current function 'analyze' on data file
+  invisible(capture.output(
+    data <- analyze(dataSet, testType = "volcano")
+  ))
+  
+  ## load stored correct data
+  storedData <- read.csv("../storedData/analyze_volcano_Toy.csv", row.names = 1)
+  
+  ## test if current function yields equal results to previous version
+  expect_equal(data, storedData)
+  
+})
+
+
+test_that("analyze_MA", {
+  
+  ## load data from previous step in work flow
+  dataSet <- read.csv("../storedData/normalize_Toy.csv")
+  
+  ## execute current function 'analyze' on data file
+  invisible(capture.output(
+    data <- analyze(dataSet, testType = "MA")
+  ))
+  
+  ## load stored correct data
+  storedData <- read.csv("../storedData/analyze_MA_Toy.csv", row.names = 1)
+  
+  ## test if current function yields equal results to previous version
+  expect_equal(data, storedData)
   
 })
