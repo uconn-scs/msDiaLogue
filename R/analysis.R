@@ -26,7 +26,7 @@
 #' @importFrom tibble rownames_to_column
 #' 
 #' @returns A 2d dataframe with differences of means and P-values for every protein across
-#' the two conditions, sorted in ascending order by P-value.
+#' the two conditions.
 #' 
 #' @export
 

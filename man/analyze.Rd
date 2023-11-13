@@ -22,7 +22,7 @@ only works when there are more than two conditions in \code{dataSet}.}
 }
 \value{
 A 2d dataframe with differences of means and P-values for every protein across
-the two conditions, sorted in ascending order by P-value.
+the two conditions.
 }
 \description{
 Apply a statistical test to the data.
