@@ -15,6 +15,7 @@ only works when there are more than two conditions in \code{dataSet}.}
 \item{testType}{A string (default = "t-test") specifying which statistical test to use:
 \enumerate{
 \item "t-test": unequal variance t-test.
+\item "mod.t-test": moderated t-test.
 \item "volcano": output to plot a volcano plot.
 \item "MA": output to plot an MA plot.
 }}

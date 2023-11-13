@@ -13,22 +13,24 @@ License: GPL-3 + file LICENSE
 Depends:
   R (>= 4.1.0)
 Imports:
-    tidyr (>= 1.3.0),
-    dplyr (>= 1.0.10),
-    VennDiagram,
     data.table,
+    dplyr (>= 1.0.10),
+    factoextra,
+    ggplotify,
     ggplot2,
     ggrepel,
+    limma,
     pheatmap,
-    seqinr,
-    tictoc,
-    ggplotify,
     psych,
+    seqinr,
+    tidyr (>= 1.3.0),
     tibble,
-    factoextra
+    tictoc,
+    VennDiagram
 Suggests:
     testthat (>= 3.0.0)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Config/testthat/edition: 3
+biocViews: limma

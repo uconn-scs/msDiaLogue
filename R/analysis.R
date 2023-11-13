@@ -15,11 +15,14 @@
 #' @param testType A string (default = "t-test") specifying which statistical test to use:
 #' \enumerate{
 #' \item "t-test": unequal variance t-test.
+#' \item "mod.t-test": moderated t-test.
 #' \item "volcano": output to plot a volcano plot.
 #' \item "MA": output to plot an MA plot.
 #' }
 #' 
 #' @import dplyr
+#' @import limma
+#' @importFrom stats model.matrix
 #' @importFrom tibble rownames_to_column
 #' 
 #' @returns A 2d dataframe with differences of means and P-values for every protein across
@@ -50,11 +53,11 @@ analyze <- function(dataSet, conditions, testType = "t-test") {
     filter(R.Condition %in% conditions) %>%
     arrange(R.Condition, R.Replicate)
   
-  ## index of the two conditions
-  indexA <- which(filteredData$R.Condition == conditions[1])
-  indexB <- which(filteredData$R.Condition == conditions[2])
-  
   if (testType %in% c("t-test", "volcano")) {
+    
+    ## index of the two conditions
+    indexA <- which(filteredData$R.Condition == conditions[1])
+    indexB <- which(filteredData$R.Condition == conditions[2])
     
     result <- tryCatch({
       ## the difference in means (log fold change for volcano) and the P-value of t-test
@@ -75,6 +78,28 @@ analyze <- function(dataSet, conditions, testType = "t-test") {
     rownames(result) <- c(ifelse(testType == "t-test",
                                  "Difference in Means", "Log Fold Change"),
                           "P-value")
+    
+  } else if (testType == "mod.t-test") {
+    
+    ## construct the design matrix
+    conditions <- factor(filteredData$R.Condition, labels = LETTERS[1:2])
+    design <- model.matrix(~ 0 + conditions)
+    
+    ## fit linear model for each protein
+    fit1 <- limma::lmFit(
+      t(select(filteredData, -c("R.Condition", "R.FileName", "R.Replicate"))), design)
+    
+    ## construct the contrast matrix
+    cont.matrix <- limma::makeContrasts("conditionsA - conditionsB", levels = design)
+    
+    ## compute contrasts from linear model 'fit1'
+    fit2 <- limma::contrasts.fit(fit1, cont.matrix)
+    
+    ## empirical Bayes statistics
+    fit3 <- limma::eBayes(fit2)
+    
+    result <- as.data.frame(t(cbind(fit3$coefficients, fit3$p.value)))
+    rownames(result) <- c("Difference in Means", "P-value")
     
   } else if (testType == "MA") {
     
