@@ -75,9 +75,8 @@ analyze <- function(dataSet, conditions, testType = "t-test") {
       return(1)
     })
     
-    rownames(result) <- c(ifelse(testType == "t-test",
-                                 "Difference in Means", "Log Fold Change"),
-                          "P-value")
+    rownames(result) <- c(
+      ifelse(testType == "t-test", "Difference in Means", "Log Fold Change"), "P-value")
     
   } else if (testType == "mod.t-test") {
     
