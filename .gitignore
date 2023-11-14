@@ -15,5 +15,3 @@ FASTA Conversion/test.txt
 preprocess_Filtered_Out_Unique.csv
 preprocess_Filtered_Out_NaN.csv
 
-/.quarto/
-docs
