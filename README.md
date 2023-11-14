@@ -1,4 +1,4 @@
-# msDiaLogue <img src="man/figure/logo.png" align="right" height="170"/>
+# msDiaLogue <img src="man/figure/logo.png" style="float:right; height:200px;">
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/uconn-scs/msDiaLogue/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/uconn-scs/msDiaLogue/actions/workflows/R-CMD-check.yaml)

@@ -14,3 +14,6 @@ FASTA Conversion/test.txt
 20230530_103340_20230525_HeLa-6mix_cleanedMQdb_MS1quant_Report.csv
 preprocess_Filtered_Out_Unique.csv
 preprocess_Filtered_Out_NaN.csv
+
+/.quarto/
+docs
