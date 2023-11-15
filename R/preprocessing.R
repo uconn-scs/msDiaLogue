@@ -77,17 +77,20 @@ preprocessing <- function(fileName,
   cat("\n")
   
   ## generate a histogram of the log2-transformed values for full data set
-  ggplot(data.frame(value = log2(selectedData$PG.Quantity))) +
+  temp <- log2(selectedData$PG.Quantity)
+  plot <- ggplot(data.frame(value = temp)) +
     geom_histogram(aes(x = value),
-                   breaks = seq(floor(min(log2(selectedData$PG.Quantity))),
-                                ceiling(max(log2(selectedData$PG.Quantity))), 1),
+                   breaks = seq(floor(min(temp, na.rm = TRUE)),
+                                ceiling(max(temp, na.rm = TRUE)), 1),
                    color = "black", fill = "gray") +
-    scale_x_continuous(breaks = seq(floor(min(log2(selectedData$PG.Quantity))),
-                                    ceiling(max(log2(selectedData$PG.Quantity))), 2)) +
+    scale_x_continuous(breaks = seq(floor(min(temp, na.rm = TRUE)),
+                                    ceiling(max(temp, na.rm = TRUE)), 2)) +
     labs(title = "Histogram of Full Data Set",
          x = expression("log"[2]*"(Data)"), y = "Frequency") +
     theme_bw() +
     theme(plot.title = element_text(hjust = 0.5))
+   print(plot)
+  
   
   ## warning catching for duplicated protein names
   reformatedData <- tryCatch({
