@@ -274,15 +274,15 @@ visualize <- function(
     
     plotData <- data.frame(t(dataSet)) %>%
       mutate(Significant = case_when(
-        P.value < P.thres & Log.Fold.Change > logF.thres ~ "Up",
-        P.value < P.thres & Log.Fold.Change < -logF.thres ~ "Down",
-        P.value < P.thres & Log.Fold.Change >= -logF.thres & Log.Fold.Change <= logF.thres ~ "Inconclusive",
+        P.value < P.thres & Difference > logF.thres ~ "Up",
+        P.value < P.thres & Difference < -logF.thres ~ "Down",
+        P.value < P.thres & Difference >= -logF.thres & Difference <= logF.thres ~ "Inconclusive",
         P.value >= P.thres ~ "No",
         TRUE ~ "Unknows")) %>% ## optional catch-all for other cases
       mutate(delabel = ifelse(! Significant %in% c("No", "Inconclusive"),
                               gsub("_.*", "", colnames(dataSet)), NA))
 
-    ggplot(plotData, aes(x = Log.Fold.Change, y = -log10(P.value),
+    ggplot(plotData, aes(x = Difference, y = -log10(P.value),
                          col = Significant, label = delabel)) +
       geom_vline(xintercept = c(-logF.thres, logF.thres), linetype = "dashed") +
       geom_hline(yintercept = -log10(P.thres), linetype = "dashed") +

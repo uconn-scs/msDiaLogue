@@ -35,17 +35,13 @@ analyze <- function(dataSet, conditions, testType = "t-test") {
   ## check for exactly two conditions
   if (missing(conditions)) {
     conditions <- unique(dataSet$R.Condition)
-    stopifnot(
-      "Please provide exactly two conditions for comparison." =
-        length(conditions) == 2
-    )
-  } else {
-    stopifnot(
-      "This analysis can only be performed on two conditions at a time.
-      Please select exactly two conditions to compare.
-      Alternatively, please consider using ANOVA." =
-        length(conditions) == 2
-    )
+    if (length(conditions) != 2) {
+      stop("Please provide exactly two conditions for comparison.")
+    }
+  } else if (length(conditions) != 2) {
+    stop("This analysis can only be performed on two conditions at a time.
+         Please select exactly two conditions to compare.
+         Alternatively, please consider using ANOVA.")
   }
   
   ## filter data set by the conditions
@@ -64,7 +60,8 @@ analyze <- function(dataSet, conditions, testType = "t-test") {
       as.data.frame(apply(
         select(filteredData, -c("R.Condition", "R.FileName", "R.Replicate")),
         2, function(x) {
-          c(mean(x[indexA])-mean(x[indexB]), t.test(x[indexA], x[indexB])$p.value)
+          c("Difference" = mean(x[indexA])-mean(x[indexB]),
+            "P-value" = t.test(x[indexA], x[indexB])$p.value)
         }
       ))
       
@@ -74,9 +71,6 @@ analyze <- function(dataSet, conditions, testType = "t-test") {
       message("Data are essentially constant.")
       return(1)
     })
-    
-    rownames(result) <- c(
-      ifelse(testType == "t-test", "Difference in Means", "Log Fold Change"), "P-value")
     
   } else if (testType == "mod.t-test") {
     
