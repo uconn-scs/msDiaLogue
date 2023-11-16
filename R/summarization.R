@@ -10,8 +10,6 @@
 #' 
 #' @param dataSet A data frame containing the data signals and labels.
 #' 
-#' @param digits An integer (default = 2) indicating the number of decimal places.
-#' 
 #' @param saveSumm A boolean (default = TRUE) specifying whether to save the summary
 #' statistics to current working directory.
 #' 
@@ -26,7 +24,7 @@
 #' 
 #' @export
 
-summarize <- function(dataSet, digits = 2, saveSumm = TRUE) {
+summarize <- function(dataSet, saveSumm = TRUE) {
   
   ## list of conditions in the data set
   conditionsList <- unique(dataSet$R.Condition)
@@ -34,7 +32,7 @@ summarize <- function(dataSet, digits = 2, saveSumm = TRUE) {
   ## summarize each protein by conditions
   proteinSummary <- dataSet %>%
     select(-c(R.FileName, R.Replicate)) %>%
-    describeBy(group = .$R.Condition, digits = digits)
+    describeBy(group = .$R.Condition)
   
   ## if only two conditions exist, calculate the fold change automatically
   if (length(conditionsList) == 2) {

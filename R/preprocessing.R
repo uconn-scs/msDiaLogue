@@ -91,7 +91,6 @@ preprocessing <- function(fileName,
     theme(plot.title = element_text(hjust = 0.5))
    print(plot)
   
-  
   ## warning catching for duplicated protein names
   reformatedData <- tryCatch({
     

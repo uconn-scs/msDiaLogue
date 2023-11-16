@@ -25,6 +25,7 @@
 #' indicator of the changes.
 #' 
 #' @import dplyr
+#' @importFrom limma normalizeQuantiles
 #' 
 #' @returns A normalized 2d dataframe.
 #' 
@@ -41,21 +42,13 @@ normalize <- function(dataSet, normalizeType = "quant") {
   
   if (normalizeType == "quant") {
     
-    ## create a ranking database for the original data
-    rankSet <- apply(dataPoints, 2, rank, ties.method = "min")
+    normDataPoints <- limma::normalizeQuantiles(dataPoints)
     
-    ## sort each column
-    sortSet <- apply(dataPoints, 2, sort)
-    
-    ## calculate row-wise averages of the sorted data
-    rowAverages <- rowMeans(sortSet)
-    
-    ## Rank the rowAverages using the ranking database
-    normDataPoints <- apply(rankSet, 2, function(k) {rowAverages[k]})
-  
     ## subtracts the median intensity of each protein from every value for that protein
   } else if (normalizeType == "median") {
-    normDataPoints <- scale(dataPoints, center = apply(dataPoints, 2, median), scale = FALSE)
+    normDataPoints <- scale(dataPoints,
+                            center = apply(dataPoints, 2, median, na.rm = TRUE),
+                            scale = FALSE)
     
     ## subtracts the average intensity of each protein from every value for that protein
   } else if (normalizeType == "mean") {
@@ -78,8 +71,9 @@ normalize <- function(dataSet, normalizeType = "quant") {
   colnames(normDataSet) <- colnames(dataSet)
   
   ## create a boxplot for post-normalization
-  visualize(normDataSet, graphType = "normalize") +
+  plot <- visualize(normDataSet, graphType = "normalize") +
     ggtitle("Post-Normalization Boxplot")
+  print(plot)
   
   ## return pre-processed data
   return(normDataSet)

@@ -4,12 +4,10 @@
 \alias{summarize}
 \title{Summarize protein intensities across conditions}
 \usage{
-summarize(dataSet, digits = 2, saveSumm = TRUE)
+summarize(dataSet, saveSumm = TRUE)
 }
 \arguments{
 \item{dataSet}{A data frame containing the data signals and labels.}
-
-\item{digits}{An integer (default = 2) indicating the number of decimal places.}
 
 \item{saveSumm}{A boolean (default = TRUE) specifying whether to save the summary
 statistics to current working directory.
