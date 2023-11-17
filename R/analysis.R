@@ -58,18 +58,24 @@ analyze <- function(dataSet, conditions, testType = "t-test") {
     result <- tryCatch({
       ## the difference in means (log fold change for volcano) and the P-value of t-test
       as.data.frame(apply(
-        select(filteredData, -c("R.Condition", "R.FileName", "R.Replicate")),
-        2, function(x) {
+        select(filteredData, -c("R.Condition", "R.FileName", "R.Replicate")), 2,
+        function(x) {
           c("Difference" = mean(x[indexA])-mean(x[indexB]),
             "P-value" = t.test(x[indexA], x[indexB])$p.value)
         }
       ))
       
     }, error = function(cond) {
-      ## if an error is thrown, catch it and print that the data are constant to keep the
-      ## program from ending.
+      ## if an error is thrown, return the fold change and set the P-value to 'NA'.
+      ## Also, print that the data are constant to keep the program from ending.
       message("Data are essentially constant.")
-      return(1)
+      as.data.frame(apply(
+        select(filteredData, -c("R.Condition", "R.FileName", "R.Replicate")), 2,
+        function(x) {
+          c("Difference" = mean(x[indexA])-mean(x[indexB]),
+            "P-value" = NA)
+        }
+      ))
     })
     
   } else if (testType == "mod.t-test") {
