@@ -20,14 +20,14 @@ Imports:
     ggplotify,
     ggplot2,
     ggrepel,
+    ggvenn,
     limma,
     pheatmap,
     psych,
     seqinr,
     tidyr (>= 1.3.0),
     tibble,
-    tictoc,
-    VennDiagram
+    tictoc
 Suggests:
     testthat (>= 3.0.0)
 Encoding: UTF-8

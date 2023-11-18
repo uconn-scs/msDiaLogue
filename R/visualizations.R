@@ -21,7 +21,7 @@
 #' \item "PCA_scree"
 #' \item "PCA_var"
 #' \item "t-test"
-#' \item "venn"
+#' \item "Venn"
 #' \item "volcano"
 #' }
 #' 
@@ -84,15 +84,21 @@
 #' \item "none": no labels.
 #' }
 #' 
+#' @param show_percentage A boolean (default = TRUE) specifying whether to show the
+#' percentage for each set when \code{graphType = "Venn"}.
+#' 
+#' @param fill_color A text (default = c("blue", "yellow", "green", "red")) specifying the
+#' colors to fill in circles when \code{graphType = "Venn"}.
+#' 
+#' @param show_universal A boolean (default = FALSE) specifying whether to return a
+#' data.frame with logical columns representing sets when \code{graphType = "Venn"}.
+#' 
 #' @param P.thres THe threshold value of P-value (default = 0.05) used to plot the
 #' horizontal line (-log10(P.thres)) on the volcano plot when \code{graphType = "volcano"}.
 #' 
 #' @param logF.thres The absolute threshold value of log2(fold change) (default = 0.6)
 #' used to plot the two vertical lines (-logF.thres and logF.thres) on the volcano plot
 #' when \code{graphType = "volcano"}.
-#' 
-#' @param fileName Filename specifying the name for Venn image output, or if NULL, it
-#' returns the grid object itself.
 #' 
 #' @details 
 #' The function \code{visualize()} is designed to work directly with output from the
@@ -103,9 +109,9 @@
 #' @import factoextra
 #' @import ggplot2
 #' @import ggrepel
+#' @import ggvenn
 #' @import pheatmap
 #' @import tidyr
-#' @import VennDiagram
 #' @importFrom ggplotify as.ggplot
 #' @importFrom stats density prcomp t.test
 #' @importFrom tibble column_to_rownames
@@ -119,7 +125,7 @@ visualize <- function(
     pkg = "pheatmap", cluster_cols = TRUE, cluster_rows = FALSE, show_colnames = TRUE, show_rownames = TRUE,
     conditions = c(), transformType = NULL,
     addlabels = TRUE, choice = "variance", ncp = 10, addEllipses = TRUE, ellipse.level = 0.95, label = "all",
-    fileName,
+    show_percentage = TRUE, fill_color = c("blue", "yellow", "green", "red"), show_universal = FALSE,
     P.thres = 0.05, logF.thres = 0.6) {
   
   if (graphType == "heatmap") {
@@ -259,16 +265,23 @@ visualize <- function(
       facet_wrap(.~name, scales = "free") +
       theme_bw()
     
-  } else if (graphType == "venn") {
+  } else if (graphType == "Venn") {
     
-    paletteTemp <- c("red", "blue", "yellow", "green", "white")
+    if (length(dataSet) > 4) {
+      message("More than 4 sets in a Venn diagram
+              may result in crowded visualization and information overload.")
+    } else {
+      plot <- ggvenn::ggvenn(dataSet, show_percentage = show_percentage, fill_color = fill_color)
+      print(plot)
+    }
     
-    combos.list <- dataSet
-    
-    venn.diagram(x = combos.list[1:length(combos.list)],
-                 filename = fileName,
-                 fill = c(paletteTemp[1:length(combos.list)]),
-                 alpha = 0.2)
+    if (show_universal) {
+      df <- tibble(protein = unique(unlist(dataSet)))
+      for (name in names(dataSet)) {
+        df[, name] <- df$protein %in% dataSet[[name]]
+      }
+      return(df)
+    }
     
   } else if (graphType == "volcano") {
     
@@ -295,42 +308,5 @@ visualize <- function(
       theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
     
   }
-}
-
-
-##----------------------------------------------------------------------------------------
-#' 
-#' Operate the Venn diagram functions
-#' 
-#' @description
-#' Create a Venn diagram if useful, and provide a universal protein list.
-#' 
-#' @param combos.list The output from \code{sortCondition}, lists of condition combinations.
-#' 
-#' @param showUniversal A boolean specifying whether to return a list of proteins that are
-#' present in every condition.
-#' 
-#' @param fileName A string ending in .tiff, specifying the name for the Venn diagram.
-#' 
-#' @returns The unions of conditions with each proteins present.
-#' 
-#' @export
-
-vennMain <- function(combos.list, showUniversal = FALSE, fileName = "test.tiff") {
-  
-  ## above 4 conditions, Venn diagrams become less useful
-  if (length(combos.list) <= 4) {
-    visualize(combos.list, "venn", fileName)
-  }
-  
-  if (showUniversal) {
-    a <- get.venn.partitions(combos.list[1:length(combos.list)])
-    universalProt <- a$..values..[[1]]
-    
-    ## return the filtered data
-    return(a)
-  }
-  
-  return()
 }
 

@@ -11,6 +11,7 @@
 #' @param dataSet The 2d data set of experimental values.
 #' 
 #' @import dplyr
+#' @importFrom stats setNames
 #' @importFrom tibble column_to_rownames
 #' 
 #' @returns A list of lists.

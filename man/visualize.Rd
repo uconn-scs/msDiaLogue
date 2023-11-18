@@ -20,7 +20,9 @@ visualize(
   addEllipses = TRUE,
   ellipse.level = 0.95,
   label = "all",
-  fileName,
+  show_percentage = TRUE,
+  fill_color = c("blue", "yellow", "green", "red"),
+  show_universal = FALSE,
   P.thres = 0.05,
   logF.thres = 0.6
 )
@@ -40,7 +42,7 @@ Current options are:
 \item "PCA_scree"
 \item "PCA_var"
 \item "t-test"
-\item "venn"
+\item "Venn"
 \item "volcano"
 }}
 
@@ -103,8 +105,14 @@ concentration ellipse in normal probability when \code{graphType = "PCA_ind"} or
 \item "none": no labels.
 }}
 
-\item{fileName}{Filename specifying the name for Venn image output, or if NULL, it
-returns the grid object itself.}
+\item{show_percentage}{A boolean (default = TRUE) specifying whether to show the
+percentage for each set when \code{graphType = "Venn"}.}
+
+\item{fill_color}{A text (default = c("blue", "yellow", "green", "red")) specifying the
+colors to fill in circles when \code{graphType = "Venn"}.}
+
+\item{show_universal}{A boolean (default = FALSE) specifying whether to return a
+data.frame with logical columns representing sets when \code{graphType = "Venn"}.}
 
 \item{P.thres}{THe threshold value of P-value (default = 0.05) used to plot the
 horizontal line (-log10(P.thres)) on the volcano plot when \code{graphType = "volcano"}.}
