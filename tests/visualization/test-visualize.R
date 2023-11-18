@@ -2,7 +2,7 @@
 ## heatmap ##
 #############
 
-dataSet <- read.csv("../storedData/normalize_Toy.csv")
+dataSet <- read.csv("../storedData/filterOutIn_Toy.csv")
 
 pdf("heatmap_pheatmap.pdf")
 
@@ -34,7 +34,7 @@ dev.off()
 ## normalize ##
 ###############
 
-dataSet <- read.csv("../storedData/normalize_Toy.csv")
+dataSet <- read.csv("../storedData/normalize_quant_Toy.csv")
 
 pdf("normalize.pdf")
 
@@ -47,29 +47,29 @@ dev.off()
 ## PCA ##
 #########
 
-dataSet <- read.csv("../storedData/normalize_Toy.csv")
+dataSet <- read.csv("../storedData/filterNA_Toy.csv")
 
 pdf("PCA_scree.pdf")
 
-visualize(dataSet, graphType = "PCA_scree")
+visualize(dataSet[,colnames(dataSet) != c("TEBP_HUMAN", "T126B_HUMAN")], graphType = "PCA_scree")
 
 dev.off()
 
 pdf("PCA_ind.pdf")
 
-visualize(dataSet, graphType = "PCA_ind")
+visualize(dataSet[,colnames(dataSet) != c("TEBP_HUMAN", "T126B_HUMAN")], graphType = "PCA_ind")
 
 dev.off()
 
 pdf("PCA_var.pdf")
 
-visualize(dataSet, graphType = "PCA_var")
+visualize(dataSet[,colnames(dataSet) != c("TEBP_HUMAN", "T126B_HUMAN")], graphType = "PCA_var")
 
 dev.off()
 
 pdf("PCA_biplot.pdf")
 
-visualize(dataSet, graphType = "PCA_biplot")
+visualize(dataSet[,colnames(dataSet) != c("TEBP_HUMAN", "T126B_HUMAN")], graphType = "PCA_biplot")
 
 dev.off()
 
@@ -78,7 +78,7 @@ dev.off()
 ## t-test ##
 ############
 
-dataSet <- read.csv("../storedData/analyze_t-test_Toy.csv", row.names = 1)
+dataSet <- read.csv("../storedData/analyze_mod.t-test_Toy.csv", row.names = 1)
 
 pdf("t-test.pdf")
 
@@ -90,6 +90,14 @@ dev.off()
 ##########
 ## Venn ##
 ##########
+
+load("../storedData/sortcondition_Toy.RData")
+
+pdf("Venn.pdf")
+
+visualize(storedData, graphType = "Venn")
+
+dev.off()
 
 ##----------------------------------------------------------------------------------------
 #############

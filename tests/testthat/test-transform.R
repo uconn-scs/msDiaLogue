@@ -2,7 +2,7 @@
 test_that("transformation", {
   
   ## load data from previous step in work flow
-  dataSet <- read.csv("../storedData/preprocessing_Toy.csv")
+  dataSet <- read.csv("../storedData/filterOutIn_Toy.csv")
   
   ## execute current function 'transform' on data file
   invisible(capture.output(

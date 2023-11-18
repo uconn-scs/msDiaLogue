@@ -2,7 +2,7 @@
 test_that("analyze_t-test", {
   
   ## load data from previous step in work flow
-  dataSet <- read.csv("../storedData/normalize_Toy.csv")
+  dataSet <- read.csv("../storedData/filterNA_Toy.csv")
   
   ## execute current function 'analyze' on data file
   invisible(capture.output(
@@ -21,7 +21,7 @@ test_that("analyze_t-test", {
 test_that("analyze_mod.t-test", {
   
   ## load data from previous step in work flow
-  dataSet <- read.csv("../storedData/normalize_Toy.csv")
+  dataSet <- read.csv("../storedData/filterNA_Toy.csv")
   
   ## execute current function 'analyze' on data file
   invisible(capture.output(
@@ -40,11 +40,11 @@ test_that("analyze_mod.t-test", {
 test_that("analyze_volcano", {
   
   ## load data from previous step in work flow
-  dataSet <- read.csv("../storedData/normalize_Toy.csv")
+  dataSet <- read.csv("../storedData/filterNA_Toy.csv")
   
   ## execute current function 'analyze' on data file
   invisible(capture.output(
-    data <- analyze(dataSet, testType = "volcano")
+    data <- analyze(dataSet[,colnames(dataSet) != c("TEBP_HUMAN", "T126B_HUMAN")], testType = "volcano")
   ))
   
   ## load stored correct data
@@ -59,7 +59,7 @@ test_that("analyze_volcano", {
 test_that("analyze_MA", {
   
   ## load data from previous step in work flow
-  dataSet <- read.csv("../storedData/normalize_Toy.csv")
+  dataSet <- read.csv("../storedData/filterNA_Toy.csv")
   
   ## execute current function 'analyze' on data file
   invisible(capture.output(

@@ -1,15 +1,18 @@
+
 test_that("sortcondition", {
   
-  #Load data from previous step in work flow
-  dataFilter <- read.csv("../Unit_Test_Data/HorseFilteredToy.csv")
-  #execute current venn diagram data creation function on data file
-  combos.list <- sortcondition(dataFilter)
-  #load stored correct data
-  storedData <- read.csv("../Unit_Test_Data/VennDiagramData.csv")
+  ## load data from previous step in work flow
+  dataSet <- read.csv("../storedData/preprocessing_Toy.csv")
   
-  #Currently doesn't pass expect_equal, since lists cannot be stored as csvs easily
-  skip(message = "Skipping due to csv storage of lists")
-  #test if current function yields equal results to previous version
-  expect_equal(combos.list, storedData)
+  ## execute current function 'sortcondition' on data file
+  invisible(capture.output(
+    data <- sortcondition(dataSet)
+  ))
+  
+  ## load stored correct data
+  load("../storedData/sortcondition_Toy.RData")
+  
+  ## test if current function yields equal results to previous version
+  expect_equal(data, storedData)
   
 })

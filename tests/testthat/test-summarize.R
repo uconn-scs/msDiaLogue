@@ -2,7 +2,7 @@
 test_that("summarize", {
   
   ## load data from previous step in work flow
-  dataSet <- read.csv("../storedData/normalize_Toy.csv")
+  dataSet <- read.csv("../storedData/filterNA_Toy.csv")
   
   ## execute current function 'summarize' on data file
   invisible(capture.output(
