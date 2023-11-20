@@ -1,0 +1,6 @@
+"0","dataSet <- preprocessing(fileName, filterNaN = TRUE, filterUnique = 2,
+                         replaceBlank = TRUE, saveRm = TRUE)
+"
+"2","Warning: cannot open file 'tests/testData/Toy_Spectronaut_Data.csv': No such file or directory"
+"2","Error in file(file, ""rt"") : cannot open the connection
+"
