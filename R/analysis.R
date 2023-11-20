@@ -98,7 +98,7 @@ analyze <- function(dataSet, conditions, testType = "t-test") {
     fit3 <- limma::eBayes(fit2)
     
     result <- as.data.frame(t(cbind(fit3$coefficients, fit3$p.value)))
-    rownames(result) <- c("Difference in Means", "P-value")
+    rownames(result) <- c("Difference", "P-value")
     
   } else if (testType == "MA") {
     
