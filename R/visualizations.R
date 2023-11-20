@@ -112,7 +112,6 @@
 #' @import ggvenn
 #' @import pheatmap
 #' @import tidyr
-#' @importFrom ggplotify as.ggplot
 #' @importFrom stats density prcomp t.test
 #' @importFrom tibble column_to_rownames
 #' 
@@ -136,10 +135,9 @@ visualize <- function(
       plotData <- t(select(dataSet, -c(R.Condition, R.FileName, R.Replicate)))
       colnames(plotData) <- paste0(dataSet$R.Condition, "_", dataSet$R.Replicate)
       
-      plot <- pheatmap(mat = plotData,
-                       cluster_cols = cluster_cols, cluster_rows = cluster_rows,
-                       show_colnames = show_colnames, show_rownames = show_rownames)
-      ggplotify::as.ggplot(plot)
+      pheatmap(mat = plotData,
+               cluster_cols = cluster_cols, cluster_rows = cluster_rows,
+               show_colnames = show_colnames, show_rownames = show_rownames)
       
     } else if (pkg == "ggplot2") {
       
