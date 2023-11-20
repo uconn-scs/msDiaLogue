@@ -2,17 +2,20 @@ home:
   title: msDiaLogue
   description: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
 
-url: https://uconn-scs.github.io/msDiaLogue/
+url: https://uconn-scs.github.io/msDiaLogue
 
 template:
-  params:
-    bootswatch: flatly
+  bootstrap: 5
   opengraph:
     image:
-      src: man/figure/logo.png
+      src: https://github.com/uconn-scs/msDiaLogue/blob/main/man/figure/logo.png
 
-navbar:
-  right:
-    - icon: fa-github
-      href: https://github.com/uconn-scs/msDiaLogue
-  
+authors:
+  Shiying Xiao:
+    href: http://shiying-xiao.com
+  Timothy Moore:
+    href: https://statsconsulting.uconn.edu/the-consulting-team
+  Charles Watt:
+
+development:
+  mode: auto

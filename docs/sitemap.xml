@@ -1,63 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/404.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/404.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/LICENSE-text.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/authors.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/index.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/articles/template.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/reference/analyze.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/articles/usage_template.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/reference/filterNA.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/authors.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/reference/filterOutIn.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/index.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/reference/impute.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/analyze.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/reference/index.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/filterNA.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/reference/normalize.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/filterOutIn.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/reference/preProcessFiltering.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/impute.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/reference/preprocessing.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/reference/pullProteinPath.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/normalize.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/reference/sortcondition.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/preProcessFiltering.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/reference/summarize.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/preprocessing.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/reference/transform.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/pullProteinPath.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/reference/trimFASTA.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/sortcondition.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/reference/trimFASTA2.0.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/summarize.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/reference/vennMain.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/transform.html</loc>
   </url>
   <url>
-    <loc>https://github.com/uconn-scs/msDiaLogue/reference/visualize.html</loc>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/trimFASTA.html</loc>
+  </url>
+  <url>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/trimFASTA2.0.html</loc>
+  </url>
+  <url>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/visualize.html</loc>
   </url>
 </urlset>
