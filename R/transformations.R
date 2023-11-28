@@ -78,7 +78,8 @@ transform <- function(dataSet, logFold = 2) {
   dataPoints <- dataSet[,4:ncol(dataSet)]
   
   ## calculate and plot a mean-variance plot 
-  meanVarPlot(dataPoints, title = "Pre-Transformation")
+  plot <- meanVarPlot(dataPoints, title = "Pre-Transformation")
+  print(plot)
   
   ## take the log of the numerical data
   transDataPoints <- log(dataPoints, logFold)
