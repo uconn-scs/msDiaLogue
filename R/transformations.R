@@ -84,7 +84,8 @@ transform <- function(dataSet, logFold = 2) {
   transDataPoints <- log(dataPoints, logFold)
   
   ## calculate and plot a mean-variance plot 
-  meanVarPlot(transDataPoints,  title = "Post-Transformation")
+  plot <- meanVarPlot(transDataPoints,  title = "Post-Transformation")
+  print(plot)
   
   ## recombine the labels and transformed data into a single data frame
   transDataSet <- cbind(dataLabels, transDataPoints)
