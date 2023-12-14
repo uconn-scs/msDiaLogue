@@ -10,10 +10,7 @@ summarize(dataSet, saveSumm = TRUE)
 \item{dataSet}{A data frame containing the data signals and labels.}
 
 \item{saveSumm}{A boolean (default = TRUE) specifying whether to save the summary
-statistics to current working directory.
-
-A string which can be used to generate a csv file of the summary
-statistics.}
+statistics to current working directory.}
 }
 \value{
 A 2d summarized data frame.
@@ -21,4 +18,21 @@ A 2d summarized data frame.
 \description{
 Calculate the mean, standard deviation, and replicate count for protein across every
 condition.
+}
+\details{
+The column 'Stat' in the generated data.frame includes the following statistics:
+\itemize{
+\item n: number.
+\item mean: mean.
+\item sd: standard deviation.
+\item median: median.
+\item trimmed: trimmed mean with a trim of 0.1.
+\item mad: median absolute deviation (from the median).
+\item min: minimum.
+\item max: maximum.
+\item range: the difference between the maximum and minimum value.
+\item skew: skewness.
+\item kurtosis: kurtosis.
+\item se: standard error.
+}
 }

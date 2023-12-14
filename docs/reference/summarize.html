@@ -68,9 +68,7 @@ condition.</p>
 
 <dt>saveSumm</dt>
 <dd><p>A boolean (default = TRUE) specifying whether to save the summary
-statistics to current working directory.</p>
-<p>A string which can be used to generate a csv file of the summary
-statistics.</p></dd>
+statistics to current working directory.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -79,6 +77,21 @@ statistics.</p></dd>
 
 <p>A 2d summarized data frame.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The column 'Stat' in the generated data.frame includes the following statistics:</p><ul><li><p>n: number.</p></li>
+<li><p>mean: mean.</p></li>
+<li><p>sd: standard deviation.</p></li>
+<li><p>median: median.</p></li>
+<li><p>trimmed: trimmed mean with a trim of 0.1.</p></li>
+<li><p>mad: median absolute deviation (from the median).</p></li>
+<li><p>min: minimum.</p></li>
+<li><p>max: maximum.</p></li>
+<li><p>range: the difference between the maximum and minimum value.</p></li>
+<li><p>skew: skewness.</p></li>
+<li><p>kurtosis: kurtosis.</p></li>
+<li><p>se: standard error.</p></li>
+</ul></div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>

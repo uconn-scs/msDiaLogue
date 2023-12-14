@@ -13,8 +13,22 @@
 #' @param saveSumm A boolean (default = TRUE) specifying whether to save the summary
 #' statistics to current working directory.
 #' 
-#' A string which can be used to generate a csv file of the summary
-#' statistics.
+#' @details
+#' The column 'Stat' in the generated data.frame includes the following statistics:
+#' \itemize{
+#' \item n: number.
+#' \item mean: mean.
+#' \item sd: standard deviation.
+#' \item median: median.
+#' \item trimmed: trimmed mean with a trim of 0.1.
+#' \item mad: median absolute deviation (from the median).
+#' \item min: minimum.
+#' \item max: maximum.
+#' \item range: the difference between the maximum and minimum value.
+#' \item skew: skewness.
+#' \item kurtosis: kurtosis.
+#' \item se: standard error.
+#' }
 #' 
 #' @import dplyr
 #' @importFrom psych describeBy
