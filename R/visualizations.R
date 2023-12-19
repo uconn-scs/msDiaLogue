@@ -126,7 +126,6 @@ visualize <- function(
     pkg = "pheatmap", cluster_cols = TRUE, cluster_rows = FALSE, show_colnames = TRUE, show_rownames = TRUE,
     conditions = c(), transformType = NULL,
     addlabels = TRUE, choice = "variance", ncp = 10, addEllipses = TRUE, ellipse.level = 0.95, label = "all",
-    
     show_percentage = TRUE, fill_color = c("blue", "yellow", "green", "red"), show_universal = FALSE,
     P.thres = 0.05, logF.thres = 0.6) {
   
