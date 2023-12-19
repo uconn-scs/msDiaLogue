@@ -17,6 +17,8 @@
 #' \item "GlobalMinVal": replaces missing values with the lowest value found within the
 #' entire data set.
 #' \item "knn": replace missing values using the k-nearest neighbors algorithm.
+#' \item "seq-knn": replace missing values using the sequential k-nearest neighbors
+#' algorithm.
 #' }
 #' 
 #' @param reqPercentPresent An numeric value (default = 0.51) specifying the required
@@ -24,7 +26,7 @@
 #' values to be imputed when \code{imputeType = "LocalMinVal"}.
 #' 
 #' @param k An integer (default = 10) indicating the number of neighbors to be used in the
-#' imputation when \code{imputeType = "knn"}.
+#' imputation when \code{imputeType = "knn"} or \code{imputeType = "seq-knn"}.
 #' 
 #' @param rowmax A numeric value (default = 0.5) specifying the maximum percent missing
 #' data allowed in any row when \code{imputeType = "knn"}. For any rows with more than
@@ -45,6 +47,7 @@
 #' shadow data frame with imputed data labels. Alters the return structure.
 #' 
 #' @importFrom impute impute.knn
+#' @importFrom multiUS seqKNNimp
 #' 
 #' @returns
 #' \itemize{
@@ -58,6 +61,9 @@
 #' Botstein, D. and Altman, R. B. (2001).
 #' Missing Value Estimation Methods for DNA Microarrays.
 #' \emph{Bioinformatics}, 17(6), 520--525.
+#' \item Kim, KY., Kim, BJ. and Yi, GS. (2004).
+#' Reuse of Imputed Data in Microarray Analysis Increases Imputation Efficiency.
+#' \emph{BMC Bioinformatics}, 5, 160.
 #' }
 #' 
 #' @export
@@ -130,6 +136,10 @@ impute <- function(dataSet,
                                        rowmax = rowmax, colmax = colmax,
                                        maxp = maxp, rng.seed = rng.seed)$data)
     
+  } else if (imputeType == "seq-knn") {
+    
+    ## replace NAs using sequential knn algorithm
+    dataPoints <- t(multiUS::seqKNNimp(t(dataPoints), k = k))
   }
   
   ## recombine the labels and imputed data

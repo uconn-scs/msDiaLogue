@@ -142,6 +142,8 @@ entire dataset.
 
 3. "knn": It replaces missing values using the k-nearest neighbors algorithm.
 
+4. "seq-knn": It replaces missing values using the sequential k-nearest neighbors method.
+
 Additional methods will be added later.
 
 Function `dataMissing` summarizes the missingness for each protein.

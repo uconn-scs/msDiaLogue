@@ -80,6 +80,8 @@ condition combination.</p></li>
 <li><p>"GlobalMinVal": replaces missing values with the lowest value found within the
 entire data set.</p></li>
 <li><p>"knn": replace missing values using the k-nearest neighbors algorithm.</p></li>
+<li><p>"seq-knn": replace missing values using the sequential k-nearest neighbors
+algorithm.</p></li>
 </ol></dd>
 
 
@@ -91,7 +93,7 @@ values to be imputed when <code>imputeType = "LocalMinVal"</code>.</p></dd>
 
 <dt>k</dt>
 <dd><p>An integer (default = 10) indicating the number of neighbors to be used in the
-imputation when <code>imputeType = "knn"</code>.</p></dd>
+imputation when <code>imputeType = "knn"</code> or <code>imputeType = "seq-knn"</code>.</p></dd>
 
 
 <dt>rowmax</dt>
@@ -137,6 +139,9 @@ dataframe and a shadow matrix showing which proteins by replicate were imputed.<
 Botstein, D. and Altman, R. B. (2001).
 Missing Value Estimation Methods for DNA Microarrays.
 <em>Bioinformatics</em>, 17(6), 520--525.</p></li>
+<li><p>Kim, KY., Kim, BJ. and Yi, GS. (2004).
+Reuse of Imputed Data in Microarray Analysis Increases Imputation Efficiency.
+<em>BMC Bioinformatics</em>, 5, 160.</p></li>
 </ul></div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
