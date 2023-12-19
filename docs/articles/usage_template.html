@@ -3353,25 +3353,32 @@ the dendrogram.</p>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
 </div>
 <div class="section level3">
-<h3 id="venn">Venn<a class="anchor" aria-label="anchor" href="#venn"></a>
+<h3 id="upset">Upset<a class="anchor" aria-label="anchor" href="#upset"></a>
 </h3>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataSort</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sortcondition.html">sortcondition</a></span><span class="op">(</span><span class="va">dataSet</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataSort</span>, graphType <span class="op">=</span> <span class="st">"Venn"</span>,</span>
+<span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataSort</span>, graphType <span class="op">=</span> <span class="st">"Upset"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
+</div>
+<div class="section level3">
+<h3 id="venn">Venn<a class="anchor" aria-label="anchor" href="#venn"></a>
+</h3>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataSort</span>, graphType <span class="op">=</span> <span class="st">"Venn"</span>,</span>
 <span>          show_percentage <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>          fill_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>, <span class="st">"red"</span><span class="op">)</span>,</span>
 <span>          show_universal <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-38-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="volcano-1">Volcano<a class="anchor" aria-label="anchor" href="#volcano-1"></a>
 </h3>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_vol</span>, graphType <span class="op">=</span> <span class="st">"volcano"</span>,</span>
 <span>          P.thres <span class="op">=</span> <span class="fl">0.05</span>, logF.thres <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 13 rows containing missing values</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-38-1.png" width="700"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-39-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -3380,7 +3387,7 @@ the dendrogram.</p>
 <p>To observe the data changes of the protein throughout the entire
 process, this is where the function <code>pullProteinPath</code> comes
 into play.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ZC11B</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pullProteinPath.html">pullProteinPath</a></span><span class="op">(</span>proteinName <span class="op">=</span> <span class="st">"ZC11B_HUMAN"</span>,</span>
 <span>                         dataSetList <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Initial <span class="op">=</span> <span class="va">dataSet</span>,</span>
 <span>                                            Transformed <span class="op">=</span> <span class="va">dataTran</span>,</span>

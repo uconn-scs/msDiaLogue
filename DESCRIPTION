@@ -16,6 +16,7 @@ Description: Offers simple tools to manipulate and investigate mass spectrometry
 License: GPL-3 + file LICENSE
 Depends: R (>= 4.1.0)
 Imports:
+    UpSetR,
     data.table,
     dplyr (>= 1.0.10),
     factoextra,

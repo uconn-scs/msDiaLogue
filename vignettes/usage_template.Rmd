@@ -355,11 +355,16 @@ visualize(
 visualize(anlys_mod.t, graphType = "t-test")
 ```
 
+### Upset
+
+```{r}
+dataSort <- sortcondition(dataSet)
+visualize(dataSort, graphType = "Upset")
+```
 
 ### Venn
 
 ```{r}
-dataSort <- sortcondition(dataSet)
 visualize(dataSort, graphType = "Venn",
           show_percentage = TRUE,
           fill_color = c("blue", "yellow", "green", "red"),

@@ -42,6 +42,7 @@ Current options are:
 \item "PCA_scree"
 \item "PCA_var"
 \item "t-test"
+\item "Upset"
 \item "Venn"
 \item "volcano"
 }}

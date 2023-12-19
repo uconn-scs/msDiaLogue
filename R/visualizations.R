@@ -21,6 +21,7 @@
 #' \item "PCA_scree"
 #' \item "PCA_var"
 #' \item "t-test"
+#' \item "Upset"
 #' \item "Venn"
 #' \item "volcano"
 #' }
@@ -114,6 +115,7 @@
 #' @import tidyr
 #' @importFrom stats density prcomp t.test
 #' @importFrom tibble column_to_rownames
+#' @importFrom UpSetR fromList upset
 #' 
 #' @returns An object of class \code{ggplot}.
 #' 
@@ -124,6 +126,7 @@ visualize <- function(
     pkg = "pheatmap", cluster_cols = TRUE, cluster_rows = FALSE, show_colnames = TRUE, show_rownames = TRUE,
     conditions = c(), transformType = NULL,
     addlabels = TRUE, choice = "variance", ncp = 10, addEllipses = TRUE, ellipse.level = 0.95, label = "all",
+    
     show_percentage = TRUE, fill_color = c("blue", "yellow", "green", "red"), show_universal = FALSE,
     P.thres = 0.05, logF.thres = 0.6) {
   
@@ -262,6 +265,10 @@ visualize <- function(
       ylab("Frequency") +
       facet_wrap(.~name, scales = "free") +
       theme_bw()
+    
+  } else if (graphType == "Upset") {
+    
+    upset(data = fromList(dataSet), nsets = length(dataSet), nintersects = NA, order.by = "freq")
     
   } else if (graphType == "Venn") {
     

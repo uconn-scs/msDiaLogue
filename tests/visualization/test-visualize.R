@@ -87,6 +87,19 @@ visualize(dataSet, graphType = "t-test")
 dev.off()
 
 ##----------------------------------------------------------------------------------------
+###########
+## Upset ##
+###########
+
+load("../storedData/sortcondition_Toy.RData")
+
+pdf("Upset.pdf")
+
+visualize(storedData, graphType = "Upset")
+
+dev.off()
+
+##----------------------------------------------------------------------------------------
 ##########
 ## Venn ##
 ##########
