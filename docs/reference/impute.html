@@ -57,7 +57,12 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">impute</span><span class="op">(</span></span>
 <span>  <span class="va">dataSet</span>,</span>
 <span>  imputeType <span class="op">=</span> <span class="st">"LocalMinVal"</span>,</span>
-<span>  reqPercentPresent <span class="op">=</span> <span class="fl">51</span>,</span>
+<span>  reqPercentPresent <span class="op">=</span> <span class="fl">0.51</span>,</span>
+<span>  k <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  rowmax <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  colmax <span class="op">=</span> <span class="fl">0.8</span>,</span>
+<span>  maxp <span class="op">=</span> <span class="fl">1500</span>,</span>
+<span>  rng.seed <span class="op">=</span> <span class="fl">362436069</span>,</span>
 <span>  reportImputing <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -74,13 +79,42 @@ method to use:</p><ol><li><p>"LocalMinVal": replace missing values with the lowe
 condition combination.</p></li>
 <li><p>"GlobalMinVal": replaces missing values with the lowest value found within the
 entire data set.</p></li>
+<li><p>"knn": replace missing values using the k-nearest neighbors algorithm.</p></li>
 </ol></dd>
 
 
 <dt>reqPercentPresent</dt>
-<dd><p>An integer (default = 51) specifying the required percentage
-of values that must be present in a given protein by condition combination for values
-to be imputed.</p></dd>
+<dd><p>An numeric value (default = 0.51) specifying the required
+percent of values that must be present in a given protein by condition combination for
+values to be imputed when <code>imputeType = "LocalMinVal"</code>.</p></dd>
+
+
+<dt>k</dt>
+<dd><p>An integer (default = 10) indicating the number of neighbors to be used in the
+imputation when <code>imputeType = "knn"</code>.</p></dd>
+
+
+<dt>rowmax</dt>
+<dd><p>A numeric value (default = 0.5) specifying the maximum percent missing
+data allowed in any row when <code>imputeType = "knn"</code>. For any rows with more than
+<code>rowmax</code>*100% missing are imputed using the overall mean per sample.</p></dd>
+
+
+<dt>colmax</dt>
+<dd><p>A numeric value (default = 0.8) specifying the maximum percent missing
+data allowed in any column when <code>imputeType = "knn"</code>. If any column has more than
+<code>colmax</code>*100% missing data, the program halts and reports an error.</p></dd>
+
+
+<dt>maxp</dt>
+<dd><p>An integer (default = 1500) indicating the largest block of proteins
+imputed using the k-nearest neighbors algorithm when <code>imputeType = "knn"</code>. Larger
+blocks are divided by two-means clustering (recursively) prior to imputation.</p></dd>
+
+
+<dt>rng.seed</dt>
+<dd><p>An integer (default = 362436069) specifying the seed used for the
+random number generator for reproducibility when <code>imputeType = "knn"</code>.</p></dd>
 
 
 <dt>reportImputing</dt>
@@ -95,6 +129,14 @@ shadow data frame with imputed data labels. Alters the return structure.</p></dd
 <ul><li><p>If <code>reportImputing = FALSE</code>, the function returns the imputed 2d dataframe.</p></li>
 <li><p>If <code>reportImputing = TRUE</code>, the function returns a list of the imputed 2d
 dataframe and a shadow matrix showing which proteins by replicate were imputed.</p></li>
+</ul></div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    
+<ul><li><p>Troyanskaya, O., Cantor, M., Sherlock, G., Brown, P., Hastie, T., Tibshirani, R.,
+Botstein, D. and Altman, R. B. (2001).
+Missing Value Estimation Methods for DNA Microarrays.
+<em>Bioinformatics</em>, 17(6), 520--525.</p></li>
 </ul></div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

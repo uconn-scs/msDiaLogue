@@ -1412,6 +1412,8 @@ issue. So far, this package provides two imputation methods for use:</p>
 from the protein by condition combination;</p></li>
 <li><p>“GlobalMinVal”: It replaces missing values with the lowest value
 found within the entire dataset.</p></li>
+<li><p>“knn”: It replaces missing values using the k-nearest neighbors
+algorithm.</p></li>
 </ol>
 <p>Additional methods will be added later.</p>
 <p>Function <code>dataMissing</code> summarizes the missingness for each
@@ -1526,7 +1528,7 @@ present in a given protein by condition combination for values to be
 imputed to <span class="math inline">\(51\%\)</span>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataImput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/impute.html">impute</a></span><span class="op">(</span><span class="va">dataNorm</span>, imputeType <span class="op">=</span> <span class="st">"LocalMinVal"</span>,</span>
-<span>                    reqPercentPresent <span class="op">=</span> <span class="fl">51</span>, reportImputing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span>                    reqPercentPresent <span class="op">=</span> <span class="fl">0.51</span>, reportImputing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div style="overflow-x: auto;">
 <table style="width:100%;" class="table">
 <colgroup>

@@ -7,7 +7,12 @@
 impute(
   dataSet,
   imputeType = "LocalMinVal",
-  reqPercentPresent = 51,
+  reqPercentPresent = 0.51,
+  k = 10,
+  rowmax = 0.5,
+  colmax = 0.8,
+  maxp = 1500,
+  rng.seed = 362436069,
   reportImputing = FALSE
 )
 }
@@ -21,11 +26,30 @@ method to use:
 condition combination.
 \item "GlobalMinVal": replaces missing values with the lowest value found within the
 entire data set.
+\item "knn": replace missing values using the k-nearest neighbors algorithm.
 }}
 
-\item{reqPercentPresent}{An integer (default = 51) specifying the required percentage
-of values that must be present in a given protein by condition combination for values
-to be imputed.}
+\item{reqPercentPresent}{An numeric value (default = 0.51) specifying the required
+percent of values that must be present in a given protein by condition combination for
+values to be imputed when \code{imputeType = "LocalMinVal"}.}
+
+\item{k}{An integer (default = 10) indicating the number of neighbors to be used in the
+imputation when \code{imputeType = "knn"}.}
+
+\item{rowmax}{A numeric value (default = 0.5) specifying the maximum percent missing
+data allowed in any row when \code{imputeType = "knn"}. For any rows with more than
+\code{rowmax}*100\% missing are imputed using the overall mean per sample.}
+
+\item{colmax}{A numeric value (default = 0.8) specifying the maximum percent missing
+data allowed in any column when \code{imputeType = "knn"}. If any column has more than
+\code{colmax}*100\% missing data, the program halts and reports an error.}
+
+\item{maxp}{An integer (default = 1500) indicating the largest block of proteins
+imputed using the k-nearest neighbors algorithm when \code{imputeType = "knn"}. Larger
+blocks are divided by two-means clustering (recursively) prior to imputation.}
+
+\item{rng.seed}{An integer (default = 362436069) specifying the seed used for the
+random number generator for reproducibility when \code{imputeType = "knn"}.}
 
 \item{reportImputing}{A boolean (default = FALSE) specifying whether to provide a
 shadow data frame with imputed data labels. Alters the return structure.}
@@ -39,4 +63,12 @@ dataframe and a shadow matrix showing which proteins by replicate were imputed.
 }
 \description{
 Apply an imputation method to the data set.
+}
+\references{
+\itemize{
+\item Troyanskaya, O., Cantor, M., Sherlock, G., Brown, P., Hastie, T., Tibshirani, R.,
+Botstein, D. and Altman, R. B. (2001).
+Missing Value Estimation Methods for DNA Microarrays.
+\emph{Bioinformatics}, 17(6), 520--525.
+}
 }

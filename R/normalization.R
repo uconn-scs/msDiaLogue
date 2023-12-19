@@ -28,7 +28,7 @@
 #' @importFrom limma normalizeQuantiles
 #' 
 #' @returns A normalized 2d dataframe.
-#' 
+#'  
 #' @export
 
 normalize <- function(dataSet, normalizeType = "quant") {

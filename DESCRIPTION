@@ -1,10 +1,13 @@
 Package: msDiaLogue
 Title: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
 Version: 0.0.2
-Authors@R: 
-    c(person("Shiying", "Xiao", email = "shiying.xiao@uconn.edu", role = c("aut", "cre")),
-    person("Timothy", "Moore", email = "timothy.e.moore@uconn.edu", role = "aut"),
+Authors@R: c(
+    person("Shiying", "Xiao", email = "shiying.xiao@uconn.edu",
+           role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8846-3258")),
+    person("Timothy", "Moore", email = "timothy.e.moore@uconn.edu",
+           role = "aut", comment = c(ORCID = "0000-0002-9576-0517")),
     person("Charles", "Watt", email = "clw21002work@uconn.edu", role = c("aut", "ctb")))
+Maintainer: Shiying Xiao <shiying.xiao@uconn.edu>
 Description: Offers simple tools to manipulate and investigate mass spectrometry (MS)
     data from data independent aquistion (DIA) experiments. The package is designed 
     to make effective statistical methods for DIA easy and accessible to all researchers.
@@ -19,6 +22,7 @@ Imports:
     ggplot2,
     ggrepel,
     ggvenn,
+    impute,
     limma,
     pheatmap,
     psych,
@@ -35,4 +39,4 @@ BugReports: https://github.com/uconn-scs/msDiaLogue/issues
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Config/testthat/edition: 3
-biocViews: limma
+biocViews: impute, limma

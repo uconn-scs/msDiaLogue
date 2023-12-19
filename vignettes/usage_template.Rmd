@@ -140,6 +140,8 @@ condition combination;
 2. "GlobalMinVal": It replaces missing values with the lowest value found within the
 entire dataset.
 
+3. "knn": It replaces missing values using the k-nearest neighbors algorithm.
+
 Additional methods will be added later.
 
 Function `dataMissing` summarizes the missingness for each protein.
@@ -160,7 +162,7 @@ values to be imputed to $51\%$.
 
 ```{r}
 dataImput <- impute(dataNorm, imputeType = "LocalMinVal",
-                    reqPercentPresent = 51, reportImputing = FALSE)
+                    reqPercentPresent = 0.51, reportImputing = FALSE)
 ```
 
 <div style="overflow-x: auto;">
