@@ -76,3 +76,22 @@ test_that("impute_seq-knn", {
   expect_equal(data, storedData)
   
 })
+
+
+test_that("impute_trunc-knn", {
+  
+  ## load data from previous step in work flow
+  dataSet <- read.csv("../storedData/normalize_quant_Toy.csv")
+  
+  ## execute current function 'impute' on data file
+  invisible(capture.output(
+    data <- impute(dataSet, imputeType = "trunc-knn", k = 5, reportImputing = FALSE)
+  ))
+  
+  ## load stored correct data
+  storedData <- read.csv("../storedData/impute_trunc_knn_Toy.csv")
+  
+  ## test if current function yields equal results to previous version
+  expect_equal(data, storedData)
+  
+})

@@ -26,9 +26,12 @@ method to use:
 condition combination.
 \item "GlobalMinVal": replaces missing values with the lowest value found within the
 entire data set.
-\item "knn": replace missing values using the k-nearest neighbors algorithm.
+\item "knn": replace missing values using the k-nearest neighbors algorithm
+(Troyanskaya et al., 2001).
 \item "seq-knn": replace missing values using the sequential k-nearest neighbors
-algorithm.
+algorithm (Kim et al., 2004).
+\item "trunc-knn": replace missing values using the truncated k-nearest neighbors
+algorithm (Shah et al., 2017).
 }}
 
 \item{reqPercentPresent}{An numeric value (default = 0.51) specifying the required
@@ -36,7 +39,8 @@ percent of values that must be present in a given protein by condition combinati
 values to be imputed when \code{imputeType = "LocalMinVal"}.}
 
 \item{k}{An integer (default = 10) indicating the number of neighbors to be used in the
-imputation when \code{imputeType = "knn"} or \code{imputeType = "seq-knn"}.}
+imputation when \code{imputeType} is \code{"knn"}, \code{"seq-knn"}, or
+\code{"trunc-knn"}.}
 
 \item{rowmax}{A numeric value (default = 0.5) specifying the maximum percent missing
 data allowed in any row when \code{imputeType = "knn"}. For any rows with more than
@@ -75,5 +79,10 @@ Missing Value Estimation Methods for DNA Microarrays.
 \item Kim, KY., Kim, BJ. and Yi, GS. (2004).
 Reuse of Imputed Data in Microarray Analysis Increases Imputation Efficiency.
 \emph{BMC Bioinformatics}, 5, 160.
+\item Shah, J. S., Rai, S. N., DeFilippis, A. P., Hill, B. G., Bhatnagar, A. and
+Brock, G. N. (2017).
+Distribution Based Nearest Neighbor Imputation for Truncated High Dimensional Data with
+Applications to Pre-Clinical and Clinical Metabolomics Studies.
+\emph{BMC Bioinformatics}, 18, 114.
 }
 }

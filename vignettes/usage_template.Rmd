@@ -142,7 +142,9 @@ entire dataset.
 
 3. "knn": It replaces missing values using the k-nearest neighbors algorithm.
 
-4. "seq-knn": It replaces missing values using the sequential k-nearest neighbors method.
+4. "seq-knn": It replaces missing values using the sequential k-nearest neighbors algorithm.
+
+5. "trunc-knn": It replaces missing values using the truncated k-nearest neighbors algorithm.
 
 Additional methods will be added later.
 

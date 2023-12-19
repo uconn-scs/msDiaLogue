@@ -79,9 +79,12 @@ method to use:</p><ol><li><p>"LocalMinVal": replace missing values with the lowe
 condition combination.</p></li>
 <li><p>"GlobalMinVal": replaces missing values with the lowest value found within the
 entire data set.</p></li>
-<li><p>"knn": replace missing values using the k-nearest neighbors algorithm.</p></li>
+<li><p>"knn": replace missing values using the k-nearest neighbors algorithm
+(Troyanskaya et al., 2001).</p></li>
 <li><p>"seq-knn": replace missing values using the sequential k-nearest neighbors
-algorithm.</p></li>
+algorithm (Kim et al., 2004).</p></li>
+<li><p>"trunc-knn": replace missing values using the truncated k-nearest neighbors
+algorithm (Shah et al., 2017).</p></li>
 </ol></dd>
 
 
@@ -93,7 +96,8 @@ values to be imputed when <code>imputeType = "LocalMinVal"</code>.</p></dd>
 
 <dt>k</dt>
 <dd><p>An integer (default = 10) indicating the number of neighbors to be used in the
-imputation when <code>imputeType = "knn"</code> or <code>imputeType = "seq-knn"</code>.</p></dd>
+imputation when <code>imputeType</code> is <code>"knn"</code>, <code>"seq-knn"</code>, or
+<code>"trunc-knn"</code>.</p></dd>
 
 
 <dt>rowmax</dt>
@@ -142,6 +146,11 @@ Missing Value Estimation Methods for DNA Microarrays.
 <li><p>Kim, KY., Kim, BJ. and Yi, GS. (2004).
 Reuse of Imputed Data in Microarray Analysis Increases Imputation Efficiency.
 <em>BMC Bioinformatics</em>, 5, 160.</p></li>
+<li><p>Shah, J. S., Rai, S. N., DeFilippis, A. P., Hill, B. G., Bhatnagar, A. and
+Brock, G. N. (2017).
+Distribution Based Nearest Neighbor Imputation for Truncated High Dimensional Data with
+Applications to Pre-Clinical and Clinical Metabolomics Studies.
+<em>BMC Bioinformatics</em>, 18, 114.</p></li>
 </ul></div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
