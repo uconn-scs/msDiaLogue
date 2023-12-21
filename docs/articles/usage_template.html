@@ -1482,116 +1482,116 @@ k-nearest neighbors algorithm.</p></li>
 </ol>
 <p>Additional methods will be added later.</p>
 <p>Function <code>dataMissing</code> summarizes the missingness for each
-protein.</p>
+protein,</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dataMissing</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dataMissing.html">dataMissing</a></span><span class="op">(</span><span class="va">dataNorm</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dataMissing</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dataMissing.html">dataMissing</a></span><span class="op">(</span><span class="va">dataNorm</span>, show_labels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-14-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>where <code>show_labels = TRUE</code> means that the protein names
+are displayed in the plot. The percentage in the protein labels
+represents the proportion of missing data in the samples for that
+protein. For instance, the label “XPO4_HUMAN (80%)” indicates that,
+within all observations for the protein “XPO4_HUMAN”, 80% of the data is
+missing. Additionally, the percentage in the legend represents the
+proportion of missing data in the whole dataset. Here, 8.4% of the data
+in <code>dataNorm</code> is missing.</p>
 <div style="overflow-x: auto;">
-<table class="table">
+<table style="width:100%;" class="table">
+<colgroup>
+<col width="3%">
+<col width="5%">
+<col width="4%">
+<col width="4%">
+<col width="4%">
+<col width="4%">
+<col width="4%">
+<col width="5%">
+<col width="4%">
+<col width="4%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+<col width="4%">
+<col width="4%">
+<col width="4%">
+<col width="5%">
+<col width="5%">
+<col width="5%">
+</colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="right">n_miss</th>
-<th align="right">pct_miss</th>
+<th align="right">RAB3D_HUMAN</th>
+<th align="right">ADH1_YEAST</th>
+<th align="right">LYSC_CHICK</th>
+<th align="right">BGAL_HUMAN</th>
+<th align="right">SYTC_HUMAN</th>
+<th align="right">CYC_BOVIN</th>
+<th align="right">PA1B2_HUMAN</th>
+<th align="right">TEBP_HUMAN</th>
+<th align="right">UAP1_HUMAN</th>
+<th align="right">B3GLT_HUMAN</th>
+<th align="right">NFXL1_HUMAN</th>
+<th align="right">VPS36_HUMAN</th>
+<th align="right">T126B_HUMAN</th>
+<th align="right">XPO4_HUMAN</th>
+<th align="right">ORC3_HUMAN</th>
+<th align="right">BAG5_HUMAN</th>
+<th align="right">ANGL3_HUMAN</th>
+<th align="right">ZC11B_HUMAN</th>
+<th align="right">MAP11_HUMAN</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">RAB3D_HUMAN</td>
+<td align="left">n_miss</td>
 <td align="right">0</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="even">
-<td align="left">ADH1_YEAST</td>
 <td align="right">0</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="odd">
-<td align="left">LYSC_CHICK</td>
 <td align="right">0</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="even">
-<td align="left">BGAL_HUMAN</td>
 <td align="right">0</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="odd">
-<td align="left">SYTC_HUMAN</td>
 <td align="right">0</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="even">
-<td align="left">CYC_BOVIN</td>
 <td align="right">0</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="odd">
-<td align="left">PA1B2_HUMAN</td>
 <td align="right">0</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="even">
-<td align="left">TEBP_HUMAN</td>
 <td align="right">0</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="odd">
-<td align="left">UAP1_HUMAN</td>
 <td align="right">0</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="even">
-<td align="left">B3GLT_HUMAN</td>
 <td align="right">0</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="odd">
-<td align="left">NFXL1_HUMAN</td>
 <td align="right">0</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="even">
-<td align="left">VPS36_HUMAN</td>
 <td align="right">0</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="odd">
-<td align="left">T126B_HUMAN</td>
 <td align="right">0</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="even">
-<td align="left">XPO4_HUMAN</td>
 <td align="right">8</td>
-<td align="right">50.00</td>
-</tr>
-<tr class="odd">
-<td align="left">ORC3_HUMAN</td>
 <td align="right">0</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="even">
-<td align="left">BAG5_HUMAN</td>
 <td align="right">0</td>
-<td align="right">0.00</td>
-</tr>
-<tr class="odd">
-<td align="left">ANGL3_HUMAN</td>
-<td align="right">1</td>
-<td align="right">6.25</td>
-</tr>
-<tr class="even">
-<td align="left">ZC11B_HUMAN</td>
+<td align="right">1.00</td>
 <td align="right">4</td>
-<td align="right">25.00</td>
+<td align="right">3.00</td>
 </tr>
-<tr class="odd">
-<td align="left">MAP11_HUMAN</td>
-<td align="right">3</td>
+<tr class="even">
+<td align="left">pct_miss</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">50</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">6.25</td>
+<td align="right">25</td>
 <td align="right">18.75</td>
 </tr>
 </tbody>
 </table>
 </div>
+<p>In addition, the table shows the number and percentage of missing
+data for every protein. For example, for the protein “XPO4_HUMAN,” there
+are 8 NA values in the samples, constituting 50% of the missing data in
+the entire dataset.</p>
 <p>For example, to impute the NA value of <code>dataNorm</code> using
 “LocalMinVal,” set the required percentage of values that must be
 present in a given protein by condition combination for values to be

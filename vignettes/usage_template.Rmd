@@ -196,17 +196,28 @@ entire dataset.
 
 Additional methods will be added later.
 
-Function `dataMissing` summarizes the missingness for each protein.
+Function `dataMissing` summarizes the missingness for each protein,
 
 ```{r}
-dataMissing <- dataMissing(dataNorm)
+dataMissing <- dataMissing(dataNorm, show_labels = TRUE)
 ```
+
+where `show_labels = TRUE` means that the protein names are displayed in the plot. The
+percentage in the protein labels represents the proportion of missing data in the samples
+for that protein. For instance, the label "XPO4_HUMAN (80\%)" indicates that, within all
+observations for the protein "XPO4_HUMAN", 80\% of the data is missing. Additionally, the
+percentage in the legend represents the proportion of missing data in the whole dataset.
+Here, 8.4\% of the data in `dataNorm` is missing.
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
 knitr::kable(dataMissing)
 ```
 </div>
+
+In addition, the table shows the number and percentage of missing data for every protein.
+For example, for the protein "XPO4_HUMAN," there are 8 NA values in the samples,
+constituting 50\% of the missing data in the entire dataset.
 
 For example, to impute the NA value of `dataNorm` using "LocalMinVal," set the required
 percentage of values that must be present in a given protein by condition combination for

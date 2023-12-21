@@ -4,10 +4,13 @@
 \alias{dataMissing}
 \title{Counting missing data}
 \usage{
-dataMissing(dataSet)
+dataMissing(dataSet, show_labels = TRUE)
 }
 \arguments{
 \item{dataSet}{The 2d data set of experimental values.}
+
+\item{show_labels}{A boolean (default = TRUE) specifying whether protein names are
+shown in the visualization.}
 }
 \value{
 A 2d dataframe with the number and percent of missing data for every protein.

@@ -22,7 +22,8 @@ You can install the development version of **msDiaLogue** from
 devtools::install_github("uconn-scs/msDiaLogue")
 ```
 
-For Windows, the `Rtools` is needed.
+For Windows, the [RTools](https://cran.r-project.org/bin/windows/Rtools/) is required to
+build this package.
 
 ## Main areas include
 
