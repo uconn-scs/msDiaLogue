@@ -8,10 +8,7 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center")
 ```
 
 ## Load R package
@@ -23,17 +20,50 @@ library(msDiaLogue)
 
 ## Preprocessing
 
-1. Read the file [Toy_Spectronaut_Data.csv](https://github.com/uconn-scs/msDiaLogue/blob/main/tests/testData/Toy_Spectronaut_Data.csv) into **R**.
-2. Omit observations with NaN, and save the removed data in the file
-*preprocess_Filtered_Out_NaN.csv* in the current working directory.
-3. Filter out proteins with fewer than $2$ unique peptides, and save the removed data
-in the file *preprocess_Filtered_Out_Unique.csv* in the current working directory.
-4. If there are proteins without names, replace blank protein name entries with their
-protein accessions.
+**1\.** Load the raw data
 
-```{r results='hide'}
++ If the raw data is in a .csv file
+[Toy_Spectronaut_Data.csv](https://github.com/uconn-scs/msDiaLogue/blob/main/tests/testData/Toy_Spectronaut_Data.csv),
+specify the `fileName` to read the raw data file into **R**.
+
++ If the raw data is stored as an .RData file
+[Toy_Spectronaut_Data.RData](https://github.com/uconn-scs/msDiaLogue/blob/main/tests/testData/Toy_Spectronaut_Data.RData),
+first load the data file directly, then specify the `dataSet` in the function.
+     
+**2\.** Whether to omit observations with NaN
+
+NaN, which stands for 'Not a Number,' represents to protein entries in each condition that
+lack a measured quantitative value.
+
+**3\.** The number of unique peptides are required to include a protein
+
+The default is to filter out proteins with fewer than 2 unique peptides. Removing proteins
+identified by only 1 unique peptide sequence is more likely to be representatives of the
+1% false positive protein identifications. We choose to remove these protein entries from
+our downstream analysis in order to provide more confident quantitative results across the
+identified proteome. However, these can still be observed in the original protein report
+from **Spectronaut**.
+
+**4\.** Whether to rename proteins without names by their accession numbers
+
+**5\.** Whether to save removed data to current working directory
+
+If `saveRm = TRUE`, the data removed in step 2 (*preprocess_Filtered_Out_NaN.csv*) and
+step 3 (*preprocess_Filtered_Out_Unique.csv*) will be saved in the current working
+directory.
+
+```{r eval=FALSE}
+## if the raw data is in a .csv file
 fileName <- "../tests/testData/Toy_Spectronaut_Data.csv"
-dataSet <- preprocessing(fileName, filterNaN = TRUE, filterUnique = 2,
+dataSet <- preprocessing(fileName,
+                         filterNaN = TRUE, filterUnique = 2,
+                         replaceBlank = TRUE, saveRm = TRUE)
+```
+```{r results='hide'}
+## if the raw data is in an .Rdata file
+load("../tests/testData/Toy_Spectronaut_Data.RData")
+dataSet <- preprocessing(dataSet = Toy_Spectronaut_Data,
+                         filterNaN = TRUE, filterUnique = 2,
                          replaceBlank = TRUE, saveRm = TRUE)
 ```
 
@@ -65,15 +95,22 @@ knitr::kable(dataTran)
 
 ## Filtering
 
-For various reasons, such as contamination, lack of informativeness, identification in
-only a few samples, etc., data will be filtered before conducting differential analysis to
-exclude certain proteins.
+For various reasons, such as the presence of high-abundance contaminant proteins that may
+be irrelevant to the present analysis, a lack of informativeness (e.g., proteins that
+exhibit no differential abundance at all or proteins that are known with certainty to be
+false positive identifications with more than one unique peptide identified),
+identification of a protein exclusively in a small subset of samples or only one
+experimental condition, etc., we recommend data filtering before conducting differential
+analysis. The application of protein-level filters is optional and is expected to vary by
+project.
 
-For example, the protein 'XPO4_HUMAN' is chosen to be filtered out.
+**Case 1.** Remove the listed proteins and retain the remaining proteins
 
-```{r}
-dataFilt <- filterOutIn(dataTran, listName = "XPO4_HUMAN",
-                        removeList = TRUE, saveRm = TRUE)
+For example, the protein "XPO4_HUMAN" is chosen to be filtered out.
+
+```{r eval=FALSE}
+filterOutIn(dataTran, listName = "XPO4_HUMAN",
+            removeList = TRUE, saveRm = TRUE)
 ```
 
 where `removeList = TRUE` indicates the removal of proteins listed in `listName` from the
@@ -82,12 +119,15 @@ saved as a .csv file named *filtered_out_data.csv* in the current working direct
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
-knitr::kable(dataFilt)
+knitr::kable(
+  filterOutIn(dataTran, listName = "XPO4_HUMAN", removeList = TRUE, saveRm = TRUE))
 ```
 </div>
 
-Alternatively, if we would to retain proteins like "PA1B2_HUMAN" and "TEBP_HUMAN", simply
-set `removelist = FLASE`.
+**Case 2.** Keep the listed proteins and remove the rest.
+
+Alternatively, if we would to keep proteins like "PA1B2_HUMAN" and "TEBP_HUMAN", simply
+set `removelist = FALSE`.
 
 ```{r eval=FALSE}
 filterOutIn(dataTran, listName = c("PA1B2_HUMAN", "TEBP_HUMAN"),
@@ -117,8 +157,12 @@ So far, this package provides three normalization methods for use:
 Quantile normalization is generally recommended.
 
 ```{r}
-dataNorm <- normalize(dataFilt, normalizeType = "quant")
+dataNorm <- normalize(dataTran, normalizeType = "quant")
 ```
+
+Oh! The message "Warning: Removed 16 rows containing non-finite values" indicates the
+presence of 16 NA (Not Available) values in the data. These NA values are are
+automatically excluded when generating the boxplot but retained in the actual dataset.
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
@@ -129,10 +173,14 @@ knitr::kable(dataNorm)
 
 ## Imputation
 
-Mass spectrometry-based quantitative proteomics experiments often yield data with missing
-values, potentially impacting downstream analyses. Various imputation methods have been
-developed to address this issue. So far, this package provides two imputation methods for
-use:
+Traditional Data-Dependent Acquisition (DDA) mass spectrometry-based quantitative
+proteomics datasets often yield many missing quantitative values due to limits in sampling
+frequency. Data-Independent Acquisition (DIA) helps to substantially reduce the number of
+missing values compared to DDA experiments, but some will still exist due to sample
+variability, and these missing values will impact downstream analyses. Various imputation
+methods have been developed to address this issue and assign a quantitative value to
+proteins with missing quantitative values. So far, this package provides five imputation
+methods for use:
 
 1. "LocalMinVal": It replaces missing values with the lowest value from the protein by
 condition combination;

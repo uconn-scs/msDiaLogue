@@ -24,7 +24,7 @@ method to use:
 \enumerate{
 \item "LocalMinVal": replace missing values with the lowest value from the protein by
 condition combination.
-\item "GlobalMinVal": replaces missing values with the lowest value found within the
+\item "GlobalMinVal": replace missing values with the lowest value found within the
 entire data set.
 \item "knn": replace missing values using the k-nearest neighbors algorithm
 (Troyanskaya et al., 2001).

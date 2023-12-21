@@ -22,6 +22,8 @@ You can install the development version of **msDiaLogue** from
 devtools::install_github("uconn-scs/msDiaLogue")
 ```
 
+For Windows, the `Rtools` is needed.
+
 ## Main areas include
 
 * Data preprocessing: getting data from Spectronaut
