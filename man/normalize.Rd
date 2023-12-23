@@ -12,10 +12,10 @@ normalize(dataSet, normalizeType = "quant")
 \item{normalizeType}{A string (default = "quant") specifying which type of
 normalization to apply:
 \enumerate{
-\item Quantile ("quant")
-\item Column-wise Median ("median")
-\item Column-wise Mean ("mean")
-\item None ("none")
+\item "quant": Quantile (Smyth, 2004)
+\item "median": Protein-wise Median
+\item "mean": Protein-wise Mean
+\item "none": None
 }}
 }
 \value{
@@ -29,4 +29,10 @@ Quantile normalization is generally recommended. Mean and median normalization a
 going to be included as popular previous methods. No normalization is not recommended.
 Boxplots are also generated for before and after the normalization to give a visual
 indicator of the changes.
+}
+\references{
+Smyth, Gordon K. (2004).
+Linear Models and Empirical Bayes Methods for Assessing Differential Expression in
+Microarray Experiments.
+\emph{Statistical Applications in Genetics and Molecular Biology}, 3(1).
 }

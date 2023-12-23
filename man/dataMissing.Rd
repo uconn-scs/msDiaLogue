@@ -4,17 +4,25 @@
 \alias{dataMissing}
 \title{Counting missing data}
 \usage{
-dataMissing(dataSet, show_labels = TRUE)
+dataMissing(dataSet, plot = FALSE, show_labels = TRUE)
 }
 \arguments{
 \item{dataSet}{The 2d data set of experimental values.}
 
+\item{plot}{A boolean (default = FALSE) specifying whether to plot the missingness.}
+
 \item{show_labels}{A boolean (default = TRUE) specifying whether protein names are
-shown in the visualization.}
+shown in the visualization when \code{plot = TRUE}.}
 }
 \value{
-A 2d dataframe with the number and percent of missing data for every protein.
+A 2d dataframe including:
+\itemize{
+\item "count_miss": The count of missing values for each protein.
+\item "pct-miss": The percentage of missing values for each protein.
+\item "pct_total_miss": The percentage of missing values for each protein relative to
+the total missing values in the entire dataset.
+}
 }
 \description{
-Calculate the count of missing data.
+Calculate and plot the missingness.
 }

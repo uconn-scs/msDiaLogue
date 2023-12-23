@@ -12,10 +12,10 @@
 #' @param normalizeType A string (default = "quant") specifying which type of
 #' normalization to apply:
 #' \enumerate{
-#' \item Quantile ("quant")
-#' \item Column-wise Median ("median")
-#' \item Column-wise Mean ("mean")
-#' \item None ("none")
+#' \item "quant": Quantile (Smyth, 2004)
+#' \item "median": Protein-wise Median
+#' \item "mean": Protein-wise Mean
+#' \item "none": None
 #' }
 #' 
 #' @details
@@ -28,7 +28,13 @@
 #' @importFrom limma normalizeQuantiles
 #' 
 #' @returns A normalized 2d dataframe.
-#'  
+#' 
+#' @references
+#' Smyth, Gordon K. (2004).
+#' Linear Models and Empirical Bayes Methods for Assessing Differential Expression in
+#' Microarray Experiments.
+#' \emph{Statistical Applications in Genetics and Molecular Biology}, 3(1).
+#' 
 #' @export
 
 normalize <- function(dataSet, normalizeType = "quant") {

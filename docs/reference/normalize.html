@@ -65,10 +65,10 @@
 
 <dt>normalizeType</dt>
 <dd><p>A string (default = "quant") specifying which type of
-normalization to apply:</p><ol><li><p>Quantile ("quant")</p></li>
-<li><p>Column-wise Median ("median")</p></li>
-<li><p>Column-wise Mean ("mean")</p></li>
-<li><p>None ("none")</p></li>
+normalization to apply:</p><ol><li><p>"quant": Quantile (Smyth, 2004)</p></li>
+<li><p>"median": Protein-wise Median</p></li>
+<li><p>"mean": Protein-wise Mean</p></li>
+<li><p>"none": None</p></li>
 </ol></dd>
 
 </dl></div>
@@ -84,6 +84,13 @@ normalization to apply:</p><ol><li><p>Quantile ("quant")</p></li>
 going to be included as popular previous methods. No normalization is not recommended.
 Boxplots are also generated for before and after the normalization to give a visual
 indicator of the changes.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p>Smyth, Gordon K. (2004).
+Linear Models and Empirical Bayes Methods for Assessing Differential Expression in
+Microarray Experiments.
+<em>Statistical Applications in Genetics and Molecular Biology</em>, 3(1).</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

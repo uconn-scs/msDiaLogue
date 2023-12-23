@@ -6,7 +6,7 @@ test_that("dataMissing", {
   
   ## execute current function 'dataMissing' on data file
   invisible(capture.output(
-    data <- dataMissing(dataSet, show_labels = TRUE)
+    data <- dataMissing(dataSet)
   ))
   
   ## load stored correct data

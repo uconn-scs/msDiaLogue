@@ -48,7 +48,8 @@
 #' random number generator for reproducibility when \code{imputeType = "knn"}.
 #' 
 #' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
-#' shadow data frame with imputed data labels. Alters the return structure.
+#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
+#' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
 #' @importFrom impute impute.knn
 #' @importFrom multiUS seqKNNimp
