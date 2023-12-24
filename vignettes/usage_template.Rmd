@@ -151,7 +151,7 @@ Normalization is designed to address systematic biases, enhancing the comparabil
 samples while preserving the signal. Various normalization approaches have been proposed.
 So far, this package provides three normalization methods for use:
 
-1. "quant": Quantile [@smyth2004linear]
+1. "quant": Quantile [@bolstad2003comparison]
 
 2. "median": Protein-wise Median
 
@@ -308,15 +308,27 @@ The column "Stat" in the generated result includes the following statistics:
 
 ## Analysis
 
-### Student's $t$-test
+The function `analyze()` calculates the results that can be used in subsequent
+visualizations. If more than two conditions exist in the data, precisely two conditions
+for comparison must be specified via the argument `conditions`.
 
 ```{r}
-anlys_t <- analyze(dataImput, testType = "t-test")
+cond <- c("50fmol", "100fmol")
 ```
 
-Oops! The warning message shows 'Data are essentially constant,' which means that the data
-contain proteins with the same value in all samples. In this condition, the P-value of
-t-test return NA.
+### Student's t-test
+
+The Student's t-test is used to compare the means between two conditions for each protein,
+reporting both the difference in means between the conditions (calculated as Condition 1 -
+Condition 2) and the P-value of the test.
+
+```{r}
+anlys_t <- analyze(dataImput, conditions = cond, testType = "t-test")
+```
+
+Oops! The warning message shows "Data are essentially constant," which means that the data
+contain proteins with the same value in all samples. In this case, the P-value of t-test
+returns NA.
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
@@ -325,33 +337,27 @@ knitr::kable(anlys_t)
 </div>
 
 
-### Volcano
+### Moderated t-test
 
-The utility function for `testType = "volcano"` is actually the same as for
-`testType = "t-test"`. Here, we remove the proteins "TEBP_HUMAN" and "T126B_HUMAN" to plot
-the volcano plot later.
-
-```{r}
-anlys_vol <- analyze(dataImput[,colnames(dataImput) != c("TEBP_HUMAN", "T126B_HUMAN")],
-                     testType = "volcano")
-```
-
-<div style="overflow-x: auto;">
-```{r echo=FALSE}
-knitr::kable(anlys_vol)
-```
-</div>
-
-### Moderated $t$-test
-
-The main distinction between the Student's and moderated $t$-tests lies in how variance is
-computed. While the Student's $t$-test calculates variance based on the data available for
-each gene individually, the moderated $t$-est utilizes information from all the chosen
-genes to calculate variance.
+The main distinction between the Student's and moderated t-tests [@smyth2004linear] lies
+in how variance is computed. While the Student's t-test calculates variance based on the
+data available for each protein individually, the moderated t-test utilizes information
+from all the chosen proteins to calculate variance.
 
 ```{r}
-anlys_mod.t <- analyze(dataImput, testType = "mod.t-test")
+anlys_mod.t <- analyze(dataImput, conditions = cond, testType = "mod.t-test")
 ```
+
+In the moderated t-test, a warning message might occur stating, "Zero sample variances
+detected, have been offset away from zero." This warning corresponds to examples of
+proteins that exhibited identical quant values, either pre- or post-imputation, and
+therefore no variance is present across conditions for those proteins. This does not
+impede downstream analysis; it merely serves to alert users to its occurrence.
+
+<!-- This just means that for at least one protein the log ratio is identical for all samples. -->
+<!-- Since this will give a zero variance (which will end up in the denominator of your -->
+<!-- statistic and could possibly result in an infinite value for your test statistic) it has -->
+<!-- been offset to a small value to prevent that possibility. -->
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
@@ -361,6 +367,9 @@ knitr::kable(anlys_mod.t)
 
 
 ### MA
+
+The result of `testType = "MA"` is to generate the data for plotting an MA plot, which
+represents the protein-wise averages within each condition.
 
 ```{r}
 anlys_MA <- analyze(dataImput, testType = "MA")
@@ -470,7 +479,7 @@ visualize(dataSort, graphType = "Venn",
 ### Volcano
 
 ```{r}
-visualize(anlys_vol, graphType = "volcano",
+visualize(anlys_t, graphType = "volcano",
           P.thres = 0.05, logF.thres = 0.6)
 ```
 

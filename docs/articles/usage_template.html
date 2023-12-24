@@ -72,7 +72,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>A Usage Template for the R Package msDiaLogue</h1>
             
-            <h4 data-toc-skip class="date">2023-12-23</h4>
+            <h4 data-toc-skip class="date">2023-12-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -1147,8 +1147,8 @@ comparability of samples while preserving the signal. Various
 normalization approaches have been proposed. So far, this package
 provides three normalization methods for use:</p>
 <ol style="list-style-type: decimal">
-<li><p>“quant”: Quantile <span class="citation">(Smyth
-2004)</span></p></li>
+<li><p>“quant”: Quantile <span class="citation">(Bolstad et al.
+2003)</span></p></li>
 <li><p>“median”: Protein-wise Median</p></li>
 <li><p>“mean”: Protein-wise Mean</p></li>
 </ol>
@@ -3032,16 +3032,26 @@ statistics:</p>
 <div class="section level2">
 <h2 id="analysis">Analysis<a class="anchor" aria-label="anchor" href="#analysis"></a>
 </h2>
-<div class="section level3">
-<h3 id="students-t-test">Student’s <span class="math inline">\(t\)</span>-test<a class="anchor" aria-label="anchor" href="#students-t-test"></a>
-</h3>
+<p>The function <code><a href="../reference/analyze.html">analyze()</a></code> calculates the results that can
+be used in subsequent visualizations. If more than two conditions exist
+in the data, precisely two conditions for comparison must be specified
+via the argument <code>conditions</code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">anlys_t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, testType <span class="op">=</span> <span class="st">"t-test"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">cond</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"50fmol"</span>, <span class="st">"100fmol"</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="students-t-test">Student’s t-test<a class="anchor" aria-label="anchor" href="#students-t-test"></a>
+</h3>
+<p>The Student’s t-test is used to compare the means between two
+conditions for each protein, reporting both the difference in means
+between the conditions (calculated as Condition 1 - Condition 2) and the
+P-value of the test.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">anlys_t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, conditions <span class="op">=</span> <span class="va">cond</span>, testType <span class="op">=</span> <span class="st">"t-test"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Data are essentially constant.</span></span>
 <span><span class="co">#&gt; Data are essentially constant.</span></span></code></pre></div>
-<p>Oops! The warning message shows ‘Data are essentially constant,’
+<p>Oops! The warning message shows “Data are essentially constant,”
 which means that the data contain proteins with the same value in all
-samples. In this condition, the P-value of t-test return NA.</p>
+samples. In this case, the P-value of t-test returns NA.</p>
 <div style="overflow-x: auto;">
 <table style="width:100%;" class="table">
 <colgroup>
@@ -3051,7 +3061,7 @@ samples. In this condition, the P-value of t-test return NA.</p>
 <col width="5%">
 <col width="5%">
 <col width="5%">
-<col width="4%">
+<col width="5%">
 <col width="5%">
 <col width="5%">
 <col width="5%">
@@ -3087,23 +3097,23 @@ samples. In this condition, the P-value of t-test return NA.</p>
 <tbody>
 <tr class="odd">
 <td align="left">Difference</td>
-<td align="right">0.3415628</td>
+<td align="right">-0.3415628</td>
 <td align="right">0</td>
-<td align="right">0.2020687</td>
-<td align="right">-0.3430288</td>
+<td align="right">-0.2020687</td>
+<td align="right">0.3430288</td>
 <td align="right">0</td>
-<td align="right">1.0964727</td>
-<td align="right">-0.0084981</td>
+<td align="right">-1.0964727</td>
+<td align="right">0.0084981</td>
 <td align="right">0</td>
-<td align="right">-0.2973479</td>
-<td align="right">-0.4549624</td>
-<td align="right">0.0664000</td>
-<td align="right">-0.3024055</td>
+<td align="right">0.2973479</td>
+<td align="right">0.4549624</td>
+<td align="right">-0.0664000</td>
+<td align="right">0.3024055</td>
 <td align="right">0</td>
-<td align="right">-0.0669305</td>
-<td align="right">-0.0243987</td>
-<td align="right">0.5823461</td>
-<td align="right">0.9278932</td>
+<td align="right">0.0669305</td>
+<td align="right">0.0243987</td>
+<td align="right">-0.5823461</td>
+<td align="right">-0.9278932</td>
 </tr>
 <tr class="even">
 <td align="left">P-value</td>
@@ -3130,105 +3140,27 @@ samples. In this condition, the P-value of t-test return NA.</p>
 </div>
 </div>
 <div class="section level3">
-<h3 id="volcano">Volcano<a class="anchor" aria-label="anchor" href="#volcano"></a>
+<h3 id="moderated-t-test">Moderated t-test<a class="anchor" aria-label="anchor" href="#moderated-t-test"></a>
 </h3>
-<p>The utility function for <code>testType = "volcano"</code> is
-actually the same as for <code>testType = "t-test"</code>. Here, we
-remove the proteins “TEBP_HUMAN” and “T126B_HUMAN” to plot the volcano
-plot later.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">anlys_vol</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">)</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TEBP_HUMAN"</span>, <span class="st">"T126B_HUMAN"</span><span class="op">)</span><span class="op">]</span>,</span>
-<span>                     testType <span class="op">=</span> <span class="st">"volcano"</span><span class="op">)</span></span></code></pre></div>
-<div style="overflow-x: auto;">
-<table class="table">
-<colgroup>
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="5%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-</colgroup>
-<thead><tr class="header">
-<th align="left"></th>
-<th align="right">RAB3D_HUMAN</th>
-<th align="right">ADH1_YEAST</th>
-<th align="right">LYSC_CHICK</th>
-<th align="right">BGAL_HUMAN</th>
-<th align="right">SYTC_HUMAN</th>
-<th align="right">CYC_BOVIN</th>
-<th align="right">PA1B2_HUMAN</th>
-<th align="right">UAP1_HUMAN</th>
-<th align="right">B3GLT_HUMAN</th>
-<th align="right">NFXL1_HUMAN</th>
-<th align="right">VPS36_HUMAN</th>
-<th align="right">ORC3_HUMAN</th>
-<th align="right">BAG5_HUMAN</th>
-<th align="right">ANGL3_HUMAN</th>
-<th align="right">ZC11B_HUMAN</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">Difference</td>
-<td align="right">0.3415628</td>
-<td align="right">0</td>
-<td align="right">0.2020687</td>
-<td align="right">-0.3430288</td>
-<td align="right">0</td>
-<td align="right">1.0964727</td>
-<td align="right">-0.0084981</td>
-<td align="right">-0.2973479</td>
-<td align="right">-0.4549624</td>
-<td align="right">0.0664000</td>
-<td align="right">-0.3024055</td>
-<td align="right">-0.0669305</td>
-<td align="right">-0.0243987</td>
-<td align="right">0.5823461</td>
-<td align="right">0.9278932</td>
-</tr>
-<tr class="even">
-<td align="left">P-value</td>
-<td align="right">0.0296551</td>
-<td align="right">1</td>
-<td align="right">0.2229593</td>
-<td align="right">0.0005694</td>
-<td align="right">1</td>
-<td align="right">0.0000852</td>
-<td align="right">0.9473757</td>
-<td align="right">0.0084762</td>
-<td align="right">0.0156987</td>
-<td align="right">0.7406309</td>
-<td align="right">0.0049582</td>
-<td align="right">0.3919954</td>
-<td align="right">0.7731339</td>
-<td align="right">0.0000073</td>
-<td align="right">0.0135214</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="section level3">
-<h3 id="moderated-t-test">Moderated <span class="math inline">\(t\)</span>-test<a class="anchor" aria-label="anchor" href="#moderated-t-test"></a>
-</h3>
-<p>The main distinction between the Student’s and moderated <span class="math inline">\(t\)</span>-tests lies in how variance is computed.
-While the Student’s <span class="math inline">\(t\)</span>-test
-calculates variance based on the data available for each gene
-individually, the moderated <span class="math inline">\(t\)</span>-est
-utilizes information from all the chosen genes to calculate
+<p>The main distinction between the Student’s and moderated t-tests
+<span class="citation">(Smyth 2004)</span> lies in how variance is
+computed. While the Student’s t-test calculates variance based on the
+data available for each protein individually, the moderated t-test
+utilizes information from all the chosen proteins to calculate
 variance.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">anlys_mod.t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, testType <span class="op">=</span> <span class="st">"mod.t-test"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">anlys_mod.t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, conditions <span class="op">=</span> <span class="va">cond</span>, testType <span class="op">=</span> <span class="st">"mod.t-test"</span><span class="op">)</span></span></code></pre></div>
+<p>In the moderated t-test, a warning message might occur stating, “Zero
+sample variances detected, have been offset away from zero.” This
+warning corresponds to examples of proteins that exhibited identical
+quant values, either pre- or post-imputation, and therefore no variance
+is present across conditions for those proteins. This does not impede
+downstream analysis; it merely serves to alert users to its
+occurrence.</p>
+<!-- This just means that for at least one protein the log ratio is identical for all samples. -->
+<!-- Since this will give a zero variance (which will end up in the denominator of your -->
+<!-- statistic and could possibly result in an infinite value for your test statistic) it has -->
+<!-- been offset to a small value to prevent that possibility. -->
 <div style="overflow-x: auto;">
 <table style="width:100%;" class="table">
 <colgroup>
@@ -3319,6 +3251,9 @@ variance.</p>
 <div class="section level3">
 <h3 id="ma">MA<a class="anchor" aria-label="anchor" href="#ma"></a>
 </h3>
+<p>The result of <code>testType = "MA"</code> is to generate the data
+for plotting an MA plot, which represents the protein-wise averages
+within each condition.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">anlys_MA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, testType <span class="op">=</span> <span class="st">"MA"</span><span class="op">)</span></span></code></pre></div>
 <div style="overflow-x: auto;">
@@ -3425,10 +3360,10 @@ the dendrogram.</p>
 <span>          pkg <span class="op">=</span> <span class="st">"pheatmap"</span>,</span>
 <span>          cluster_cols <span class="op">=</span> <span class="cn">TRUE</span>, cluster_rows <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>          show_colnames <span class="op">=</span> <span class="cn">TRUE</span>, show_rownames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-30-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-29-1.png" width="700" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataImput</span>, graphType <span class="op">=</span> <span class="st">"heatmap"</span>, pkg <span class="op">=</span> <span class="st">"ggplot2"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-30-2.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-29-2.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="ma-1">MA<a class="anchor" aria-label="anchor" href="#ma-1"></a>
@@ -3437,7 +3372,7 @@ the dendrogram.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_MA</span>, graphType <span class="op">=</span> <span class="st">"MA"</span>, transformType <span class="op">=</span> <span class="st">"Log2"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 16 rows containing missing values</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-31-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-30-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="normalize">Normalize<a class="anchor" aria-label="anchor" href="#normalize"></a>
@@ -3446,7 +3381,7 @@ the dendrogram.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataNorm</span>, graphType <span class="op">=</span> <span class="st">"normalize"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 16 rows containing non-finite values</span></span>
 <span><span class="co">#&gt; (`stat_boxplot()`).</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-32-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-31-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="pca_scree">PCA_scree<a class="anchor" aria-label="anchor" href="#pca_scree"></a>
@@ -3456,7 +3391,7 @@ the dendrogram.</p>
 <span>  <span class="va">dataImput</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">)</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TEBP_HUMAN"</span>, <span class="st">"T126B_HUMAN"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  graphType <span class="op">=</span> <span class="st">"PCA_scree"</span>,</span>
 <span>  addlabels <span class="op">=</span> <span class="cn">TRUE</span>, choice <span class="op">=</span> <span class="st">"variance"</span>, ncp <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-33-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-32-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="pca_ind">PCA_ind<a class="anchor" aria-label="anchor" href="#pca_ind"></a>
@@ -3466,7 +3401,7 @@ the dendrogram.</p>
 <span>  <span class="va">dataImput</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">)</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TEBP_HUMAN"</span>, <span class="st">"T126B_HUMAN"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  graphType <span class="op">=</span> <span class="st">"PCA_ind"</span>,</span>
 <span>  addlabels <span class="op">=</span> <span class="cn">TRUE</span>, addEllipses <span class="op">=</span> <span class="cn">TRUE</span>, ellipse.level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-34-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-33-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="pca_var">PCA_var<a class="anchor" aria-label="anchor" href="#pca_var"></a>
@@ -3476,7 +3411,7 @@ the dendrogram.</p>
 <span>  <span class="va">dataImput</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">)</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TEBP_HUMAN"</span>, <span class="st">"T126B_HUMAN"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  graphType <span class="op">=</span> <span class="st">"PCA_var"</span>,</span>
 <span>  addlabels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-35-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-34-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="pca_biplot">PCA_biplot<a class="anchor" aria-label="anchor" href="#pca_biplot"></a>
@@ -3486,14 +3421,14 @@ the dendrogram.</p>
 <span>  <span class="va">dataImput</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">)</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TEBP_HUMAN"</span>, <span class="st">"T126B_HUMAN"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  graphType <span class="op">=</span> <span class="st">"PCA_biplot"</span>,</span>
 <span>  addEllipses <span class="op">=</span> <span class="cn">TRUE</span>, ellipse.level <span class="op">=</span> <span class="fl">0.95</span>, label <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-36-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-35-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="t-test">t-test<a class="anchor" aria-label="anchor" href="#t-test"></a>
 </h3>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_mod.t</span>, graphType <span class="op">=</span> <span class="st">"t-test"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-37-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-36-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="upset">Upset<a class="anchor" aria-label="anchor" href="#upset"></a>
@@ -3501,7 +3436,7 @@ the dendrogram.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataSort</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sortcondition.html">sortcondition</a></span><span class="op">(</span><span class="va">dataSet</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataSort</span>, graphType <span class="op">=</span> <span class="st">"Upset"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-38-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-37-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="venn">Venn<a class="anchor" aria-label="anchor" href="#venn"></a>
@@ -3511,17 +3446,18 @@ the dendrogram.</p>
 <span>          show_percentage <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>          fill_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>, <span class="st">"red"</span><span class="op">)</span>,</span>
 <span>          show_universal <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-39-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-38-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
-<h3 id="volcano-1">Volcano<a class="anchor" aria-label="anchor" href="#volcano-1"></a>
+<h3 id="volcano">Volcano<a class="anchor" aria-label="anchor" href="#volcano"></a>
 </h3>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_vol</span>, graphType <span class="op">=</span> <span class="st">"volcano"</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_t</span>, graphType <span class="op">=</span> <span class="st">"volcano"</span>,</span>
 <span>          P.thres <span class="op">=</span> <span class="fl">0.05</span>, logF.thres <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 13 rows containing missing values</span></span>
+<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values (`geom_point()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 15 rows containing missing values</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-40-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-39-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">
@@ -3655,6 +3591,12 @@ into play.</p>
 <h2 class="unnumbered" id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-bolstad2003comparison" class="csl-entry">
+Bolstad, B. M., R. A. Irizarry, M. Astrand, and T. P. Speed. 2003.
+<span>“A Comparison of Normalization Methods for High Density
+Oligonucleotide Array Data Based on Variance and Bias.”</span>
+<em>Bioinformatics</em> 19 (2): 185–93. <a href="https://doi.org/10.1093/bioinformatics/19.2.185" class="external-link">https://doi.org/10.1093/bioinformatics/19.2.185</a>.
+</div>
 <div id="ref-kim2004reuse" class="csl-entry">
 Kim, Ki-Yeol, Byoung-Jin Kim, and Gwan-Su Yi. 2004. <span>“Reuse of
 Imputed Data in Microarray Analysis Increases Imputation

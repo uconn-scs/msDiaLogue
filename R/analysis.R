@@ -15,8 +15,7 @@
 #' @param testType A string (default = "t-test") specifying which statistical test to use:
 #' \enumerate{
 #' \item "t-test": unequal variance t-test.
-#' \item "mod.t-test": moderated t-test.
-#' \item "volcano": output to plot a volcano plot.
+#' \item "mod.t-test": moderated t-test (Smyth, 2004).
 #' \item "MA": output to plot an MA plot.
 #' }
 #' 
@@ -25,8 +24,19 @@
 #' @importFrom stats model.matrix
 #' @importFrom tibble rownames_to_column
 #' 
-#' @returns A 2d dataframe with differences of means and P-values for every protein across
-#' the two conditions.
+#' @returns A 2d dataframe includes the following information: \itemize{
+#' \item "t-test" or "mod.t-test": The differences in means and P-values for each protein
+#' between the two conditions. Note that the differences are calculated by subtracting the
+#' mean of the second condition from the mean of the first condition (Condition 1 -
+#' Condition 2).
+#' \item "MA": Protein-wise averages within each condition.
+#' }
+#' 
+#' @references
+#' Smyth, Gordon K. (2004).
+#' Linear Models and Empirical Bayes Methods for Assessing Differential Expression in
+#' Microarray Experiments.
+#' \emph{Statistical Applications in Genetics and Molecular Biology}, 3(1).
 #' 
 #' @export
 
@@ -49,7 +59,7 @@ analyze <- function(dataSet, conditions, testType = "t-test") {
     filter(R.Condition %in% conditions) %>%
     arrange(R.Condition, R.Replicate)
   
-  if (testType %in% c("t-test", "volcano")) {
+  if (testType == "t-test") {
     
     ## index of the two conditions
     indexA <- which(filteredData$R.Condition == conditions[1])

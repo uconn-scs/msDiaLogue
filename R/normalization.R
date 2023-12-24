@@ -12,7 +12,7 @@
 #' @param normalizeType A string (default = "quant") specifying which type of
 #' normalization to apply:
 #' \enumerate{
-#' \item "quant": Quantile (Smyth, 2004)
+#' \item "quant": Quantile (Bolstad et al., 2003)
 #' \item "median": Protein-wise Median
 #' \item "mean": Protein-wise Mean
 #' \item "none": None
@@ -30,10 +30,10 @@
 #' @returns A normalized 2d dataframe.
 #' 
 #' @references
-#' Smyth, Gordon K. (2004).
-#' Linear Models and Empirical Bayes Methods for Assessing Differential Expression in
-#' Microarray Experiments.
-#' \emph{Statistical Applications in Genetics and Molecular Biology}, 3(1).
+#' Bolstad, B. M., Irizarry, R. A., Astrand, M. and Speed, T. P. (2003).
+#' A Comparison of Normalization Methods for High Density Oligonucleotide Array Data Based
+#' on Variance and Bias.
+#' \emph{Bioinformatics}, 19(2): 185--193.
 #' 
 #' @export
 
