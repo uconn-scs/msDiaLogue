@@ -23,6 +23,8 @@ library(msDiaLogue)
 
 ## Preprocessing
 
+The preprocessing function takes a `.csv` file of summarized protein abundances, exported from Spectronut. The most important columns that need to be included in this file are: `R.Condition`, `R.Replicate`, `PG.ProteinAccessions`, `PG.ProteinNames` `PG.IsSingleHit`, and `PG.Quantity`. This function will reformat the data and provides fuctionality for some initial filtering (based on number of unique peptides)
+
 **1\.** Load the raw data
 
 + If the raw data is in a .csv file
@@ -55,6 +57,8 @@ If `saveRm = TRUE`, the data removed in step 2 (*preprocess_Filtered_Out_NaN.csv
 step 3 (*preprocess_Filtered_Out_Unique.csv*) will be saved in the current working
 directory.
 
+As part of `prerpocessing`, a histogram of $log_2$-transformed protein abundances are provided. This is a helpful way to confirm that the data have been read in correctly, and there are no issues with the numerical values of the protein abundances. Ideally, this histogram will look fairly symmetrical (bell-shaped), without too much skew towards smaller, or larger, values. 
+
 ```{r eval=FALSE}
 ## if the raw data is in a .csv file
 fileName <- "../tests/testData/Toy_Spectronaut_Data.csv"
@@ -62,6 +66,10 @@ dataSet <- preprocessing(fileName,
                          filterNaN = TRUE, filterUnique = 2,
                          replaceBlank = TRUE, saveRm = TRUE)
 ```
+
+**NOTE:** `preprocessing` does not perform a transformation on your data. You still need to use the `transform` functon
+
+
 ```{r results='hide'}
 ## if the raw data is in an .Rdata file
 load("../tests/testData/Toy_Spectronaut_Data.RData")
