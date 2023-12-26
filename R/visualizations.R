@@ -44,11 +44,11 @@
 #' @param show_rownames A boolean (default = TRUE) specifying if row names are be shown.
 #' This argument only works when \code{graphType = "heatmap"} and \code{pkg = "pheatmap"}.
 #' 
-#' @param conditions A string specifying which two conditions to compare when
-#' \code{graphType = "MA"}. This argument only works when there are more than two
-#' conditions in \code{dataSet}.
+#' @param M.thres The absolute threshold value of M (log fold-change) (default = 1) used
+#' to plot the two vertical lines (-M.thres and M.thres) on the MA plot when
+#' \code{graphType = "MA"}.
 #' 
-#' @param transformType A string used to label the title of the transformation type for
+#' @param transformLabel A string used to label the title of the transformation type for
 #' the transformed MA plot when \code{graphType = "MA"}.
 #' 
 #' @param addlabels A boolean (default = TRUE) specifying whether the elements are labeled.
@@ -124,7 +124,7 @@
 visualize <- function(
     dataSet, graphType = "volcano",
     pkg = "pheatmap", cluster_cols = TRUE, cluster_rows = FALSE, show_colnames = TRUE, show_rownames = TRUE,
-    conditions = c(), transformType = NULL,
+    M.thres = 1 , transformLabel = NULL,
     addlabels = TRUE, choice = "variance", ncp = 10, addEllipses = TRUE, ellipse.level = 0.95, label = "all",
     show_percentage = TRUE, fill_color = c("blue", "yellow", "green", "red"), show_universal = FALSE,
     P.thres = 0.05, logF.thres = 0.6) {
@@ -150,7 +150,7 @@ visualize <- function(
         pivot_longer(-R.ConRep)
       
       ggplot(plotData, aes(x= R.ConRep, y = name, fill = value)) +
-        geom_tile(aes(width = 1.1, height = 1.1), color = "grey60", lwd = .5) +
+        geom_tile() +
         guides(fill = guide_colourbar(title = NULL)) +
         scale_y_discrete(limits = rev) +
         scale_fill_distiller(palette = "RdYlBu") +
@@ -161,30 +161,26 @@ visualize <- function(
     
   } else if (graphType == "MA") {
     
-    if (nrow(dataSet) == 2) {
-      conditions <- rownames(dataSet)
-    } else if (nrow(dataSet) > 2 & is.null(conditions)) {
-      stop("There are more than two conditions in the data,
-           please specify the two conditions to compare using 'conditions'!")
-    }
-    
     ## list of two conditions
-    conditionA <- conditions[1]
-    conditionB <- conditions[2]
+    conditionA <- rownames(dataSet)[1]
+    conditionB <- rownames(dataSet)[2]
     
     plotData <- data.frame(A = colMeans(dataSet),
                            M = as.numeric(dataSet[conditionA,] - dataSet[conditionB,])) %>%
-      mutate(Significant = cut(M, breaks = c(-Inf, -1, 1, Inf),
-                               labels = c("Down", "No", "Up"))) %>%
+      mutate(Significant = case_when(
+        M > M.thres & M < Inf ~ "Up",
+        M < -M.thres & M > -Inf ~ "Down",
+        M >= -M.thres & M <= M.thres ~ "No",
+        TRUE ~ "Unknown")) %>% ## optional catch-all for other cases
       mutate(delabel = ifelse(Significant != "No",
                               gsub("_.*", "", colnames(dataSet)), NA))
     
     ggplot(plotData, aes(x = A, y = M, color = Significant, label = delabel)) +
-      geom_hline(yintercept = c(-1, 1), linetype = "dashed") +
+      geom_hline(yintercept = c(-M.thres, M.thres), linetype = "dashed") +
       geom_point() +
       geom_text_repel() +
       scale_color_manual(values = c("Down" = "blue", "No" = "gray", "Up" = "red")) +
-      labs(title = paste(transformType, "Transformed MA Plot")) +
+      labs(title = paste(transformLabel, "Transformed MA Plot")) +
       theme_bw() +
       theme(legend.position = "bottom", plot.title = element_text(hjust = .5))
     
@@ -295,7 +291,7 @@ visualize <- function(
         P.value < P.thres & Difference < -logF.thres ~ "Down",
         P.value < P.thres & Difference >= -logF.thres & Difference <= logF.thres ~ "Inconclusive",
         P.value >= P.thres ~ "No",
-        TRUE ~ "Unknows")) %>% ## optional catch-all for other cases
+        TRUE ~ "Unknown")) %>% ## optional catch-all for other cases
       mutate(delabel = ifelse(! Significant %in% c("No", "Inconclusive"),
                               gsub("_.*", "", colnames(dataSet)), NA))
 

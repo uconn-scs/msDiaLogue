@@ -72,7 +72,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>A Usage Template for the R Package msDiaLogue</h1>
             
-            <h4 data-toc-skip class="date">2023-12-24</h4>
+            <h4 data-toc-skip class="date">2023-12-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -89,6 +89,15 @@
 <div class="section level2">
 <h2 id="preprocessing">Preprocessing<a class="anchor" aria-label="anchor" href="#preprocessing"></a>
 </h2>
+<p>The function <code><a href="../reference/preprocessing.html">preprocessing()</a></code> takes a <code>.csv</code>
+file of summarized protein abundances, exported from
+<strong>Spectronaut</strong>. The most important columns that need to be
+included in this file are: <code>R.Condition</code>,
+<code>R.Replicate</code>, <code>PG.ProteinAccessions</code>,
+<code>PG.ProteinNames</code>, <code>PG.IsSingleHit</code>, and
+<code>PG.Quantity</code>. This function will reformat the data and
+provide functionality for some initial filtering (based on the number of
+unique peptides).</p>
 <p><strong>1.</strong> Load the raw data</p>
 <ul>
 <li><p>If the raw data is in a .csv file <a href="https://github.com/uconn-scs/msDiaLogue/blob/main/tests/testData/Toy_Spectronaut_Data.csv" class="external-link">Toy_Spectronaut_Data.csv</a>,
@@ -119,12 +128,21 @@ directory</p>
 (<em>preprocess_Filtered_Out_NaN.csv</em>) and step 3
 (<em>preprocess_Filtered_Out_Unique.csv</em>) will be saved in the
 current working directory.</p>
+<p>As part of the <code><a href="../reference/preprocessing.html">preprocessing()</a></code>, a histogram of <span class="math inline">\(log_2\)</span>-transformed protein abundances is
+provided. This is a helpful way to confirm that the data have been read
+in correctly, and there are no issues with the numerical values of the
+protein abundances. Ideally, this histogram will appear fairly
+symmetrical (bell-shaped) without too much skew towards smaller or
+larger values.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## if the raw data is in a .csv file</span></span>
 <span><span class="va">fileName</span> <span class="op">&lt;-</span> <span class="st">"../tests/testData/Toy_Spectronaut_Data.csv"</span></span>
 <span><span class="va">dataSet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocessing.html">preprocessing</a></span><span class="op">(</span><span class="va">fileName</span>,</span>
 <span>                         filterNaN <span class="op">=</span> <span class="cn">TRUE</span>, filterUnique <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>                         replaceBlank <span class="op">=</span> <span class="cn">TRUE</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><strong>NOTE:</strong> <code><a href="../reference/preprocessing.html">preprocessing()</a></code> does not perform
+a transformation on your data. You still need to use the functon
+<code><a href="../reference/transform.html">transform()</a></code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## if the raw data is in an .Rdata file</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="st">"../tests/testData/Toy_Spectronaut_Data.RData"</span><span class="op">)</span></span>
@@ -3255,7 +3273,7 @@ occurrence.</p>
 for plotting an MA plot, which represents the protein-wise averages
 within each condition.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">anlys_MA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, testType <span class="op">=</span> <span class="st">"MA"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">anlys_MA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, conditions <span class="op">=</span> <span class="va">cond</span>, testType <span class="op">=</span> <span class="st">"MA"</span><span class="op">)</span></span></code></pre></div>
 <div style="overflow-x: auto;">
 <table style="width:100%;" class="table">
 <colgroup>
@@ -3350,29 +3368,69 @@ within each condition.</p>
 <div class="section level3">
 <h3 id="heatmap">heatmap<a class="anchor" aria-label="anchor" href="#heatmap"></a>
 </h3>
-<p>The package offers two options for plotting the heatmap. Option 1
-utilizes the source package <code>pheatmap</code>, capable of plotting
-the dendrogram simultaneously. Option 2 use the source package
-<code>ggplot2</code> to generates a ggplot object but does not include
-the dendrogram.</p>
+<p>The package offers two options for plotting the heatmap.</p>
+<ul>
+<li>Option 1 utilizes the source package <code>pheatmap</code>, capable
+of plotting the dendrogram simultaneously. It is the default choice for
+heatmaps in this package.</li>
+</ul>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataImput</span>, graphType <span class="op">=</span> <span class="st">"heatmap"</span>,</span>
 <span>          pkg <span class="op">=</span> <span class="st">"pheatmap"</span>,</span>
 <span>          cluster_cols <span class="op">=</span> <span class="cn">TRUE</span>, cluster_rows <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>          show_colnames <span class="op">=</span> <span class="cn">TRUE</span>, show_rownames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-29-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>When protein names are excessively long, it is recommended to set
+<code>show_rownames = FALSE</code> to view the full heatmap.</p>
+<ul>
+<li>Option 2 use the source package <code>ggplot2</code> to generates a
+ggplot object but does not include the dendrogram.</li>
+</ul>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataImput</span>, graphType <span class="op">=</span> <span class="st">"heatmap"</span>, pkg <span class="op">=</span> <span class="st">"ggplot2"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-29-2.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-30-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>In a heatmap, similar colors within a row indicate relatively
+consistent values, suggesting similar protein expression levels across
+different samples.</p>
 </div>
 <div class="section level3">
 <h3 id="ma-1">MA<a class="anchor" aria-label="anchor" href="#ma-1"></a>
 </h3>
+<!-- An MA plot visualizes the differences between measurements taken in two samples, -->
+<!-- by transforming the data onto M (log ratio or fold change) and A (mean average) scales. -->
+<!-- The MA plot puts the variable M on the y-axis and A on the x-axis and gives a quick -->
+<!-- overview of the distribution of the data. Most proteins are expected to show little -->
+<!-- variation, and so the majority of the points will be concentrated around the M = 0 line -->
+<!-- (no difference between group means). Typically, points falling above $abs(1)$ are -->
+<!-- highlighted. -->
+<p>An MA plot, short for “M vs. A plot,” which uses two axes:</p>
+<ul>
+<li>M axis (vertical): Represents the logarithm (usually base 2) of the
+fold change, or the ratio of the expression levels, between two
+conditions. It is calculated as: <span class="math display">\[M =
+log_2(X/Y) = log_2 X - log_2 Y\]</span>
+</li>
+<li>A axis (horizontal): Represents the average intensity of the two
+conditions, calculated as: <span class="math display">\[A =
+\frac{1}{2}log_2(XY) =
+\frac{1}{2}\left[log_2(X)+log_2(Y)\right]\]</span>
+</li>
+</ul>
+<!-- So, the M value represents the log ratio of protein expression in a treated condition --><!-- compared to a control condition, where higher M values indicate greater differences in --><!-- expression between the conditions. Meanwhile, the A value helps to account for overall --><!-- differences in expression levels and reduce the influence of technical biases. --><p>Most proteins are expected to exhibit little variation, leading to
+the majority of points concentrating around the line M = 0 (indicating
+no difference between group means).</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_MA</span>, graphType <span class="op">=</span> <span class="st">"MA"</span>, transformType <span class="op">=</span> <span class="st">"Log2"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_MA</span>, graphType <span class="op">=</span> <span class="st">"MA"</span>, M.thres <span class="op">=</span> <span class="fl">1</span>, transformLabel <span class="op">=</span> <span class="st">"Log2"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 16 rows containing missing values</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-30-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-31-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>where <code>M.thres = 1</code> means the M thresholds are set to −1
+and 1. The scatters are split into three parts: significant up (M &gt;
+1), no significant (-1 <span class="math inline">\(\leq\)</span> M <span class="math inline">\(\leq\)</span> 1), and significant down (M &lt;
+-1). And <code>transformLabel = "Log2"</code> is used to label the
+title. Additionally, the warning message “Removed 16 rows containing
+missing values” indicates that there are 16 proteins with no
+significance.</p>
 </div>
 <div class="section level3">
 <h3 id="normalize">Normalize<a class="anchor" aria-label="anchor" href="#normalize"></a>
@@ -3381,91 +3439,139 @@ the dendrogram.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataNorm</span>, graphType <span class="op">=</span> <span class="st">"normalize"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 16 rows containing non-finite values</span></span>
 <span><span class="co">#&gt; (`stat_boxplot()`).</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-31-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-32-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="pca_scree">PCA_scree<a class="anchor" aria-label="anchor" href="#pca_scree"></a>
 </h3>
+<p>One way to help identify how many Principal Components (PCs) to
+retain, is to explore a scree plot. The scree plot shows the eigenvalues
+of each principal component, which represent the proportion of variance
+explained by that component.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span></span>
 <span>  <span class="va">dataImput</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">)</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TEBP_HUMAN"</span>, <span class="st">"T126B_HUMAN"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  graphType <span class="op">=</span> <span class="st">"PCA_scree"</span>,</span>
 <span>  addlabels <span class="op">=</span> <span class="cn">TRUE</span>, choice <span class="op">=</span> <span class="st">"variance"</span>, ncp <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-32-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-33-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="pca_ind">PCA_ind<a class="anchor" aria-label="anchor" href="#pca_ind"></a>
 </h3>
+<p>The primary Principal Component Analysis (PCA) plot of individual
+data visually represents the distribution of individual observations in
+a reduced-dimensional space, typically defined by the principal
+components. The x and y axes of the PCA plot represent the principal
+components. Each axis corresponds to a linear combination of the
+original variables. Individual data points on the PCA plot represent
+observations (e.g., samples) from the original dataset. Points that are
+close to the origin (0, 0), are close to the “average” across all
+protein abundances. If sufficient samples are present, the plot will
+also produce a 95% confidence ellipse, as well as a centroid (mean for
+each group provided), for each groups (condition) provided.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span></span>
 <span>  <span class="va">dataImput</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">)</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TEBP_HUMAN"</span>, <span class="st">"T126B_HUMAN"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  graphType <span class="op">=</span> <span class="st">"PCA_ind"</span>,</span>
 <span>  addlabels <span class="op">=</span> <span class="cn">TRUE</span>, addEllipses <span class="op">=</span> <span class="cn">TRUE</span>, ellipse.level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-33-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-34-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="pca_var">PCA_var<a class="anchor" aria-label="anchor" href="#pca_var"></a>
 </h3>
+<p>This plot will be more useful if your analyses are based on a
+relatively small number of proteins. It represents the assocation, or
+loading of each protein on the first two PCs. Longer arrows represents
+stronger associations. It is important to note that proteins that are
+weakly associated with PC 1 or PC2 may still be highly correlated with
+other PCs that are not being plotted. Use the scree plot (and other
+available methods) to determing the appropriate number of PCs to
+investigate.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span></span>
 <span>  <span class="va">dataImput</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">)</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TEBP_HUMAN"</span>, <span class="st">"T126B_HUMAN"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  graphType <span class="op">=</span> <span class="st">"PCA_var"</span>,</span>
 <span>  addlabels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-34-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-35-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="pca_biplot">PCA_biplot<a class="anchor" aria-label="anchor" href="#pca_biplot"></a>
 </h3>
+<p>The PCA biplot includes the individual and the variable plots. Again,
+with too many proteins, this plot can be unwieldy.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span></span>
 <span>  <span class="va">dataImput</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">)</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TEBP_HUMAN"</span>, <span class="st">"T126B_HUMAN"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>  graphType <span class="op">=</span> <span class="st">"PCA_biplot"</span>,</span>
 <span>  addEllipses <span class="op">=</span> <span class="cn">TRUE</span>, ellipse.level <span class="op">=</span> <span class="fl">0.95</span>, label <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-35-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-36-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="t-test">t-test<a class="anchor" aria-label="anchor" href="#t-test"></a>
 </h3>
+<p>The ‘visualize’ function can be applied to any t-test output. It
+generates two useful plots: a histgram of fold changes across the
+analyzed proteins and a histogram of p-values. We expect that the
+majority of proteins will show very small change between conditions, and
+so the fold change histogram will have a peak at around zero. For the
+p-values, we would expect most p-values to be non-significant (above
+0.05). Depending on the strength of the treatment effect, there may be a
+peak of p-values near 0.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_mod.t</span>, graphType <span class="op">=</span> <span class="st">"t-test"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-36-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-37-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="upset">Upset<a class="anchor" aria-label="anchor" href="#upset"></a>
 </h3>
+<p>The upset plot is visual representation that helps display the
+overlap and intersection of sets or categories in a dataset. It is
+particularly useful for illustrating the presence or absence of elements
+in combinations of sets. Here, we can see that there are 18 proteins in
+common between 100fmol and 50fmol, and 1 protein that is unique to
+100fmol.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataSort</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sortcondition.html">sortcondition</a></span><span class="op">(</span><span class="va">dataSet</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataSort</span>, graphType <span class="op">=</span> <span class="st">"Upset"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-37-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-38-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="venn">Venn<a class="anchor" aria-label="anchor" href="#venn"></a>
 </h3>
+<p>The Venn plot is visual representation that helps display the overlap
+and intersection of sets or categories in a dataset. It is particularly
+useful for illustrating the presence or absence of elements in
+combinations of sets. In the exampl below, we can see that the 100fmol
+and 50fmol groups share 18 proteins from this sample. There is 1 protein
+only found in the 100fmol group, and zero unique proteins in the 50fmol
+group</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataSort</span>, graphType <span class="op">=</span> <span class="st">"Venn"</span>,</span>
 <span>          show_percentage <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>          fill_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>, <span class="st">"red"</span><span class="op">)</span>,</span>
 <span>          show_universal <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-38-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-39-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="volcano">Volcano<a class="anchor" aria-label="anchor" href="#volcano"></a>
 </h3>
+<p>One of the most widely used proteomics plots is the volcano plot. The
+x-axis represents the fold change, and the y-value represents the <span class="math inline">\(-log_{10}p-value\)</span>.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_t</span>, graphType <span class="op">=</span> <span class="st">"volcano"</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_mod.t</span>, graphType <span class="op">=</span> <span class="st">"volcano"</span>,</span>
 <span>          P.thres <span class="op">=</span> <span class="fl">0.05</span>, logF.thres <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 2 rows containing missing values (`geom_point()`).</span></span>
 <span><span class="co">#&gt; Warning: Removed 15 rows containing missing values</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-39-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-40-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="other-useful-function">Other useful function<a class="anchor" aria-label="anchor" href="#other-useful-function"></a>
 </h2>
-<p>To observe the data changes of the protein throughout the entire
-process, this is where the function <code>pullProteinPath</code> comes
-into play.</p>
+<p>To easily extract all quantitative data for a single protein or set
+of proteins by name as it was processed throughout the entire msDiaLogue
+workflow, use the function <code>pullProteinPath</code> and the
+protein’s unique name.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ZC11B</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pullProteinPath.html">pullProteinPath</a></span><span class="op">(</span>proteinName <span class="op">=</span> <span class="st">"ZC11B_HUMAN"</span>,</span>
 <span>                         dataSetList <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Initial <span class="op">=</span> <span class="va">dataSet</span>,</span>

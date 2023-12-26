@@ -12,8 +12,8 @@ visualize(
   cluster_rows = FALSE,
   show_colnames = TRUE,
   show_rownames = TRUE,
-  conditions = c(),
-  transformType = NULL,
+  M.thres = 1,
+  transformLabel = NULL,
   addlabels = TRUE,
   choice = "variance",
   ncp = 10,
@@ -65,11 +65,11 @@ This argument only works when \code{graphType = "heatmap"} and \code{pkg = "phea
 \item{show_rownames}{A boolean (default = TRUE) specifying if row names are be shown.
 This argument only works when \code{graphType = "heatmap"} and \code{pkg = "pheatmap"}.}
 
-\item{conditions}{A string specifying which two conditions to compare when
-\code{graphType = "MA"}. This argument only works when there are more than two
-conditions in \code{dataSet}.}
+\item{M.thres}{The absolute threshold value of M (log fold-change) (default = 1) used
+to plot the two vertical lines (-M.thres and M.thres) on the MA plot when
+\code{graphType = "MA"}.}
 
-\item{transformType}{A string used to label the title of the transformation type for
+\item{transformLabel}{A string used to label the title of the transformation type for
 the transformed MA plot when \code{graphType = "MA"}.}
 
 \item{addlabels}{A boolean (default = TRUE) specifying whether the elements are labeled.

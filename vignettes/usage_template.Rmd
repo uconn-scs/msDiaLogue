@@ -23,7 +23,11 @@ library(msDiaLogue)
 
 ## Preprocessing
 
-The preprocessing function takes a `.csv` file of summarized protein abundances, exported from Spectronut. The most important columns that need to be included in this file are: `R.Condition`, `R.Replicate`, `PG.ProteinAccessions`, `PG.ProteinNames` `PG.IsSingleHit`, and `PG.Quantity`. This function will reformat the data and provides fuctionality for some initial filtering (based on number of unique peptides)
+The function `preprocessing()` takes a `.csv` file of summarized protein abundances,
+exported from **Spectronaut**. The most important columns that need to be included in this
+file are: `R.Condition`, `R.Replicate`, `PG.ProteinAccessions`, `PG.ProteinNames`,
+`PG.IsSingleHit`, and `PG.Quantity`. This function will reformat the data and provide
+functionality for some initial filtering (based on the number of unique peptides).
 
 **1\.** Load the raw data
 
@@ -57,7 +61,11 @@ If `saveRm = TRUE`, the data removed in step 2 (*preprocess_Filtered_Out_NaN.csv
 step 3 (*preprocess_Filtered_Out_Unique.csv*) will be saved in the current working
 directory.
 
-As part of `prerpocessing`, a histogram of $log_2$-transformed protein abundances are provided. This is a helpful way to confirm that the data have been read in correctly, and there are no issues with the numerical values of the protein abundances. Ideally, this histogram will look fairly symmetrical (bell-shaped), without too much skew towards smaller, or larger, values. 
+As part of the `preprocessing()`, a histogram of $log_2$-transformed protein abundances is
+provided. This is a helpful way to confirm that the data have been read in correctly, and
+there are no issues with the numerical values of the protein abundances. Ideally, this
+histogram will appear fairly symmetrical (bell-shaped) without too much skew towards
+smaller or larger values.
 
 ```{r eval=FALSE}
 ## if the raw data is in a .csv file
@@ -67,8 +75,8 @@ dataSet <- preprocessing(fileName,
                          replaceBlank = TRUE, saveRm = TRUE)
 ```
 
-**NOTE:** `preprocessing` does not perform a transformation on your data. You still need to use the `transform` function.
-
+**NOTE:** `preprocessing()` does not perform a transformation on your data. You still need
+to use the functon `transform()`.
 
 ```{r results='hide'}
 ## if the raw data is in an .Rdata file
@@ -377,10 +385,10 @@ knitr::kable(anlys_mod.t)
 ### MA
 
 The result of `testType = "MA"` is to generate the data for plotting an MA plot, which
-represents the protein-wise averages within each condition. 
+represents the protein-wise averages within each condition.
 
 ```{r}
-anlys_MA <- analyze(dataImput, testType = "MA")
+anlys_MA <- analyze(dataImput, conditions = cond, testType = "MA")
 ```
 
 <div style="overflow-x: auto;">
@@ -394,26 +402,67 @@ knitr::kable(anlys_MA)
 
 ### heatmap
 
-The package offers two options for plotting the heatmap. Option 1 utilizes the source
-package `pheatmap`, capable of plotting the dendrogram simultaneously. Option 2 use the
-source package `ggplot2` to generates a ggplot object but does not include the dendrogram.
+The package offers two options for plotting the heatmap.
+
++ Option 1 utilizes the source package `pheatmap`, capable of plotting the dendrogram
+simultaneously. It is the default choice for heatmaps in this package.
 
 ```{r}
 visualize(dataImput, graphType = "heatmap",
           pkg = "pheatmap",
           cluster_cols = TRUE, cluster_rows = FALSE,
           show_colnames = TRUE, show_rownames = TRUE)
+```
+
+When protein names are excessively long, it is recommended to set `show_rownames = FALSE`
+to view the full heatmap.
+
++ Option 2 use the source package `ggplot2` to generates a ggplot object but does not
+include the dendrogram.
+
+```{r}
 visualize(dataImput, graphType = "heatmap", pkg = "ggplot2")
 ```
+
+In a heatmap, similar colors within a row indicate relatively consistent values,
+suggesting similar protein expression levels across different samples.
 
 
 ### MA
 
-An MA plot visualizes the differences between measurements taken in two samples, by transforming the data onto M (log ratio or fold change) and A (mean average) scales. The MA plot puts the variable M on the y-axis and A on the x-axis and gives a quick overview of the distribution of the data. Most proteins are expected to show little variation, and so the majority of the points will be concentrated around the M = 0 line (no difference between group means). Typically, points falling above $abs(1)$ are highlighted. 
+<!-- An MA plot visualizes the differences between measurements taken in two samples, -->
+<!-- by transforming the data onto M (log ratio or fold change) and A (mean average) scales. -->
+<!-- The MA plot puts the variable M on the y-axis and A on the x-axis and gives a quick -->
+<!-- overview of the distribution of the data. Most proteins are expected to show little -->
+<!-- variation, and so the majority of the points will be concentrated around the M = 0 line -->
+<!-- (no difference between group means). Typically, points falling above $abs(1)$ are -->
+<!-- highlighted. -->
+
+An MA plot, short for "M vs. A plot," which uses two axes:
+
++ M axis (vertical): Represents the logarithm (usually base 2) of the fold change, or the
+ratio of the expression levels, between two conditions. It is calculated as:
+$$M = log_2(X/Y) = log_2 X - log_2 Y$$
++ A axis (horizontal): Represents the average intensity of the two conditions, calculated
+as:
+$$A = \frac{1}{2}log_2(XY) = \frac{1}{2}\left[log_2(X)+log_2(Y)\right]$$
+
+<!-- So, the M value represents the log ratio of protein expression in a treated condition -->
+<!-- compared to a control condition, where higher M values indicate greater differences in -->
+<!-- expression between the conditions. Meanwhile, the A value helps to account for overall -->
+<!-- differences in expression levels and reduce the influence of technical biases. -->
+Most proteins are expected to exhibit little variation, leading to the majority of points
+concentrating around the line M = 0 (indicating no difference between group means).
 
 ```{r}
-visualize(anlys_MA, graphType = "MA", transformType = "Log2")
+visualize(anlys_MA, graphType = "MA", M.thres = 1, transformLabel = "Log2")
 ```
+
+where `M.thres = 1` means the M thresholds are set to −1 and 1. The scatters are split
+into three parts: significant up (M > 1), no significant (-1 $\leq$ M $\leq$ 1), and
+significant down (M < -1). And `transformLabel = "Log2"` is used to label the title.
+Additionally, the warning message "Removed 16 rows containing missing values" indicates
+that there are 16 proteins with no significance.
 
 
 ### Normalize
@@ -424,6 +473,7 @@ visualize(dataNorm, graphType = "normalize")
 
 
 ### PCA_scree
+
 
 One way to help identify how many Principal Components (PCs) to retain, is to explore a scree plot. The scree plot shows the eigenvalues of each principal component, which represent the proportion of variance explained by that component. 
 
@@ -482,7 +532,7 @@ visualize(anlys_mod.t, graphType = "t-test")
 
 ### Upset
 
-The upset plot is visual representation that helps display the overlap and intersection of sets or categories in a dataset. It is particularly useful for illustrating the presence or absence of elements in combinations of sets. Here, we can see that there are 18 proteins in common between 100fmol and 50fmol, and 1 protein that is unique to 100fmol. 
+The upset plot is visual representation that helps display the overlap and intersection of sets or categories in a dataset. It is particularly useful for illustrating the presence or absence of elements in combinations of sets. Here, we can see that there are 18 proteins in common between 100fmol and 50fmol, and 1 protein that is unique to 100fmol.
 
 ```{r}
 dataSort <- sortcondition(dataSet)
@@ -507,7 +557,7 @@ visualize(dataSort, graphType = "Venn",
 One of the most widely used proteomics plots is the volcano plot. The x-axis represents the fold change, and the y-value represents the $-log_{10}p-value$.
 
 ```{r}
-visualize(anlys_t, graphType = "volcano",
+visualize(anlys_mod.t, graphType = "volcano",
           P.thres = 0.05, logF.thres = 0.6)
 ```
 

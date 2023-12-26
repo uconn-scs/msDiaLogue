@@ -117,7 +117,7 @@ dev.off()
 ## volcano ##
 #############
 
-dataSet <- read.csv("../storedData/analyze_volcano_Toy.csv", row.names = 1)
+dataSet <- read.csv("../storedData/analyze_mod.t-test_Toy.csv", row.names = 1)
 
 pdf("volcano.pdf")
 
