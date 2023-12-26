@@ -67,7 +67,7 @@ dataSet <- preprocessing(fileName,
                          replaceBlank = TRUE, saveRm = TRUE)
 ```
 
-**NOTE:** `preprocessing` does not perform a transformation on your data. You still need to use the `transform` functon
+**NOTE:** `preprocessing` does not perform a transformation on your data. You still need to use the `transform` function.
 
 
 ```{r results='hide'}
@@ -377,7 +377,7 @@ knitr::kable(anlys_mod.t)
 ### MA
 
 The result of `testType = "MA"` is to generate the data for plotting an MA plot, which
-represents the protein-wise averages within each condition.
+represents the protein-wise averages within each condition. 
 
 ```{r}
 anlys_MA <- analyze(dataImput, testType = "MA")
@@ -409,6 +409,8 @@ visualize(dataImput, graphType = "heatmap", pkg = "ggplot2")
 
 ### MA
 
+An MA plot visualizes the differences between measurements taken in two samples, by transforming the data onto M (log ratio or fold change) and A (mean average) scales. The MA plot puts the variable M on the y-axis and A on the x-axis and gives a quick overview of the distribution of the data. Most proteins are expected to show little variation, and so the majority of the points will be concentrated around the M = 0 line (no difference between group means). Typically, points falling above $abs(1)$ are highlighted. 
+
 ```{r}
 visualize(anlys_MA, graphType = "MA", transformType = "Log2")
 ```
@@ -423,6 +425,8 @@ visualize(dataNorm, graphType = "normalize")
 
 ### PCA_scree
 
+One way to help identify how many Principal Components (PCs) to retain, is to explore a scree plot. The scree plot shows the eigenvalues of each principal component, which represent the proportion of variance explained by that component. 
+
 ```{r}
 visualize(
   dataImput[,colnames(dataImput) != c("TEBP_HUMAN", "T126B_HUMAN")],
@@ -432,6 +436,8 @@ visualize(
 
 
 ### PCA_ind
+
+The primary Principal Component Analysis (PCA) plot of individual data visually represents the distribution of individual observations in a reduced-dimensional space, typically defined by the principal components. The x and y axes of the PCA plot represent the principal components. Each axis corresponds to a linear combination of the original variables. Individual data points on the PCA plot represent observations (e.g., samples) from the original dataset. Points that are close to the origin (0, 0), are close to the "average" across all protein abundances. If sufficient samples are present, the plot will also produce a 95% confidence ellipse, as well as a centroid (mean for each group provided), for each groups (condition) provided.
 
 ```{r}
 visualize(
@@ -443,6 +449,9 @@ visualize(
 
 ### PCA_var
 
+This plot will be more useful if your analyses are based on a relatively small number of proteins. It represents the assocation, or loading of each protein on the first two PCs. Longer arrows represents stronger associations. It is important to note that proteins that are weakly associated with PC 1 or PC2 may still be highly correlated with other PCs that are not being plotted. Use the scree plot (and other available methods) to determing the appropriate number of PCs to investigate. 
+
+
 ```{r}
 visualize(
   dataImput[,colnames(dataImput) != c("TEBP_HUMAN", "T126B_HUMAN")],
@@ -452,6 +461,8 @@ visualize(
 
 
 ### PCA_biplot
+
+The PCA biplot includes the individual and the variable plots. Again, with too many proteins, this plot can be unwieldy.
 
 ```{r}
 visualize(
@@ -463,11 +474,15 @@ visualize(
 
 ### t-test
 
+The 'visualize' function can be applied to any t-test output. It generates two useful plots: a histgram of fold changes across the analyzed proteins and a histogram of p-values. We expect that the majority of proteins will show very small change between conditions, and so the fold change histogram will have a peak at around zero. For the p-values, we would expect most p-values to be non-significant (above 0.05). Depending on the strength of the treatment effect, there may be a peak of p-values near 0.  
+
 ```{r}
 visualize(anlys_mod.t, graphType = "t-test")
 ```
 
 ### Upset
+
+The upset plot is visual representation that helps display the overlap and intersection of sets or categories in a dataset. It is particularly useful for illustrating the presence or absence of elements in combinations of sets. Here, we can see that there are 18 proteins in common between 100fmol and 50fmol, and 1 protein that is unique to 100fmol. 
 
 ```{r}
 dataSort <- sortcondition(dataSet)
@@ -475,6 +490,9 @@ visualize(dataSort, graphType = "Upset")
 ```
 
 ### Venn
+
+The Venn plot is visual representation that helps display the overlap and intersection of sets or categories in a dataset. It is particularly useful for illustrating the presence or absence of elements in combinations of sets. In the exampl below, we can see that the 100fmol and 50fmol groups share 18 proteins from this sample. There is 1 protein only found in the 100fmol group, and zero unique proteins in the 50fmol group
+
 
 ```{r}
 visualize(dataSort, graphType = "Venn",
@@ -486,6 +504,8 @@ visualize(dataSort, graphType = "Venn",
 
 ### Volcano
 
+One of the most widely used proteomics plots is the volcano plot. The x-axis represents the fold change, and the y-value represents the $-log_{10}p-value$.
+
 ```{r}
 visualize(anlys_t, graphType = "volcano",
           P.thres = 0.05, logF.thres = 0.6)
@@ -494,8 +514,7 @@ visualize(anlys_t, graphType = "volcano",
 
 ## Other useful function
 
-To observe the data changes of the protein throughout the entire process, this is where
-the function `pullProteinPath` comes into play.
+To easily extract all quantitative data for a single protein or set of proteins by name as it was processed throughout the entire msDiaLogue workflow, use the function `pullProteinPath` and the protein's unique name.
 
 ```{r}
 ZC11B <- pullProteinPath(proteinName = "ZC11B_HUMAN",
