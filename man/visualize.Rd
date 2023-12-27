@@ -14,6 +14,8 @@ visualize(
   show_rownames = TRUE,
   M.thres = 1,
   transformLabel = NULL,
+  center = TRUE,
+  scale = TRUE,
   addlabels = TRUE,
   choice = "variance",
   ncp = 10,
@@ -71,6 +73,16 @@ to plot the two vertical lines (-M.thres and M.thres) on the MA plot when
 
 \item{transformLabel}{A string used to label the title of the transformation type for
 the transformed MA plot when \code{graphType = "MA"}.}
+
+\item{center}{A boolean (default = TRUE) indicating whether the variables should be
+shifted to be zero centered when \code{graphType = "PCA_scree"},
+\code{graphType = "PCA_ind"}, \code{graphType = "PCA_var"}, or
+\code{graphType = "PCA_biplot"}.}
+
+\item{scale}{A boolean (default = TRUE) indicating whether the variables should be
+scaled to have unit variance before the analysis takes place when
+\code{graphType = "PCA_scree"}, \code{graphType = "PCA_ind"},
+\code{graphType = "PCA_var"}, or \code{graphType = "PCA_biplot"}.}
 
 \item{addlabels}{A boolean (default = TRUE) specifying whether the elements are labeled.
 \itemize{

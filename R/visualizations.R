@@ -51,6 +51,16 @@
 #' @param transformLabel A string used to label the title of the transformation type for
 #' the transformed MA plot when \code{graphType = "MA"}.
 #' 
+#' @param center A boolean (default = TRUE) indicating whether the variables should be
+#' shifted to be zero centered when \code{graphType = "PCA_scree"},
+#' \code{graphType = "PCA_ind"}, \code{graphType = "PCA_var"}, or
+#' \code{graphType = "PCA_biplot"}.
+#' 
+#' @param scale A boolean (default = TRUE) indicating whether the variables should be
+#' scaled to have unit variance before the analysis takes place when
+#' \code{graphType = "PCA_scree"}, \code{graphType = "PCA_ind"},
+#' \code{graphType = "PCA_var"}, or \code{graphType = "PCA_biplot"}.
+#' 
 #' @param addlabels A boolean (default = TRUE) specifying whether the elements are labeled.
 #' \itemize{
 #' \item For \code{graphType = "PCA_scree"}, it specifies whether labels are added at the
@@ -125,6 +135,7 @@ visualize <- function(
     dataSet, graphType = "volcano",
     pkg = "pheatmap", cluster_cols = TRUE, cluster_rows = FALSE, show_colnames = TRUE, show_rownames = TRUE,
     M.thres = 1 , transformLabel = NULL,
+    center = TRUE, scale = TRUE,
     addlabels = TRUE, choice = "variance", ncp = 10, addEllipses = TRUE, ellipse.level = 0.95, label = "all",
     show_percentage = TRUE, fill_color = c("blue", "yellow", "green", "red"), show_universal = FALSE,
     P.thres = 0.05, logF.thres = 0.6) {
@@ -207,7 +218,7 @@ visualize <- function(
       column_to_rownames(var = "R.ConRep") %>%
       select(-c(R.Condition, R.FileName, R.Replicate))
     
-    res.pca <- prcomp(plotData, scale = TRUE)
+    res.pca <- prcomp(plotData, center = center, scale = scale)
     
     if (graphType == "PCA_scree") {
       
