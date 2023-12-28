@@ -765,20 +765,121 @@ only one experimental condition, etc., we recommend data filtering
 before conducting differential analysis. The application of
 protein-level filters is optional and is expected to vary by
 project.</p>
-<p><strong>Case 1.</strong> Remove the listed proteins and retain the
+<p><strong>NOTE:</strong> The proteins to be selected or removed is the
+union of those specified in <code>listName</code> and those matching the
+regular expression pattern in <code>regexName</code>.</p>
+<p><strong>Case 1.</strong> Remove the inputted proteins and retain the
 remaining proteins</p>
-<p>For example, the protein “XPO4_HUMAN” is chosen to be filtered
-out.</p>
+<p>For example, the proteins named “ADH1_YEAST” and those containing
+“HUMAN” are chosen to be filtered out.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/filterOutIn.html">filterOutIn</a></span><span class="op">(</span><span class="va">dataTran</span>, listName <span class="op">=</span> <span class="st">"XPO4_HUMAN"</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/filterOutIn.html">filterOutIn</a></span><span class="op">(</span><span class="va">dataTran</span>, listName <span class="op">=</span> <span class="st">"ADH1_YEAST"</span>, regexName <span class="op">=</span> <span class="st">"HUMAN"</span>,</span>
 <span>            removeList <span class="op">=</span> <span class="cn">TRUE</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>where <code>removeList = TRUE</code> indicates the removal of
-proteins listed in <code>listName</code> from the <code>dataTran</code>.
-Please note that if <code>saveRm = TRUE</code>, the excluded data
-(“XPO4_HUMAN”) will be saved as a .csv file named
-<em>filtered_out_data.csv</em> in the current working directory.</p>
+proteins from the union of <code>listName</code> and
+<code>regexName</code> in <code>dataTran</code>. Please note that if
+<code>saveRm = TRUE</code>, the excluded data (“ADH1_YEAS” + “*HUMAN”)
+will be saved as a .csv file named <em>filtered_out_data.csv</em> in the
+current working directory.</p>
 <div style="overflow-x: auto;">
-<table style="width:100%;" class="table">
+<table class="table">
+<colgroup>
+<col width="10%">
+<col width="59%">
+<col width="10%">
+<col width="10%">
+<col width="9%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">R.Condition</th>
+<th align="left">R.FileName</th>
+<th align="right">R.Replicate</th>
+<th align="right">LYSC_CHICK</th>
+<th align="right">CYC_BOVIN</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">100fmol</td>
+<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_100fmol_60min_DIA_Wat25cmBEH_1</td>
+<td align="right">1</td>
+<td align="right">20.01639</td>
+<td align="right">18.82649</td>
+</tr>
+<tr class="even">
+<td align="left">100fmol</td>
+<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_100fmol_60min_DIA_Wat25cmBEH_2</td>
+<td align="right">2</td>
+<td align="right">20.01550</td>
+<td align="right">18.86651</td>
+</tr>
+<tr class="odd">
+<td align="left">100fmol</td>
+<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_100fmol_60min_DIA_Wat25cmBEH_3</td>
+<td align="right">3</td>
+<td align="right">20.00970</td>
+<td align="right">18.76881</td>
+</tr>
+<tr class="even">
+<td align="left">100fmol</td>
+<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_100fmol_60min_DIA_Wat25cmBEH_4</td>
+<td align="right">4</td>
+<td align="right">20.01598</td>
+<td align="right">18.80707</td>
+</tr>
+<tr class="odd">
+<td align="left">100fmol</td>
+<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_100fmol_60min_DIA_Wat25cmBEH_5</td>
+<td align="right">5</td>
+<td align="right">19.96276</td>
+<td align="right">18.85385</td>
+</tr>
+<tr class="even">
+<td align="left">50fmol</td>
+<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_50fmol_60min_DIA_Wat25cmBEH_1</td>
+<td align="right">1</td>
+<td align="right">19.19702</td>
+<td align="right">17.93870</td>
+</tr>
+<tr class="odd">
+<td align="left">50fmol</td>
+<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_50fmol_60min_DIA_Wat25cmBEH_2</td>
+<td align="right">2</td>
+<td align="right">19.14678</td>
+<td align="right">18.05573</td>
+</tr>
+<tr class="even">
+<td align="left">50fmol</td>
+<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_50fmol_60min_DIA_Wat25cmBEH_3</td>
+<td align="right">3</td>
+<td align="right">19.16708</td>
+<td align="right">17.99735</td>
+</tr>
+<tr class="odd">
+<td align="left">50fmol</td>
+<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_50fmol_60min_DIA_Wat25cmBEH_4</td>
+<td align="right">4</td>
+<td align="right">19.15964</td>
+<td align="right">17.85207</td>
+</tr>
+<tr class="even">
+<td align="left">50fmol</td>
+<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_50fmol_60min_DIA_Wat25cmBEH_5</td>
+<td align="right">5</td>
+<td align="right">19.16132</td>
+<td align="right">17.90887</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Case 2.</strong> Keep the inputted proteins and remove the
+rest.</p>
+<p>Alternatively, if we would to keep proteins like “ADH1_YEAS” and
+“*HUMAN”, simply set <code>removelist = FALSE</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/filterOutIn.html">filterOutIn</a></span><span class="op">(</span><span class="va">dataTran</span>, listName <span class="op">=</span> <span class="st">"ADH1_YEAST"</span>, regexName <span class="op">=</span> <span class="st">"HUMAN"</span>,</span>
+<span>            removeList <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div style="overflow-x: auto;">
+<table class="table">
 <colgroup>
 <col width="4%">
 <col width="22%">
@@ -787,8 +888,6 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <col width="3%">
 <col width="3%">
 <col width="3%">
-<col width="3%">
-<col width="3%">
 <col width="4%">
 <col width="3%">
 <col width="3%">
@@ -796,6 +895,7 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <col width="4%">
 <col width="4%">
 <col width="4%">
+<col width="3%">
 <col width="3%">
 <col width="3%">
 <col width="4%">
@@ -808,10 +908,8 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <th align="right">R.Replicate</th>
 <th align="right">RAB3D_HUMAN</th>
 <th align="right">ADH1_YEAST</th>
-<th align="right">LYSC_CHICK</th>
 <th align="right">BGAL_HUMAN</th>
 <th align="right">SYTC_HUMAN</th>
-<th align="right">CYC_BOVIN</th>
 <th align="right">PA1B2_HUMAN</th>
 <th align="right">TEBP_HUMAN</th>
 <th align="right">UAP1_HUMAN</th>
@@ -819,6 +917,7 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <th align="right">NFXL1_HUMAN</th>
 <th align="right">VPS36_HUMAN</th>
 <th align="right">T126B_HUMAN</th>
+<th align="right">XPO4_HUMAN</th>
 <th align="right">ORC3_HUMAN</th>
 <th align="right">BAG5_HUMAN</th>
 <th align="right">ANGL3_HUMAN</th>
@@ -832,10 +931,8 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">1</td>
 <td align="right">16.68685</td>
 <td align="right">20.25893</td>
-<td align="right">20.01639</td>
 <td align="right">17.77434</td>
 <td align="right">21.20094</td>
-<td align="right">18.82649</td>
 <td align="right">17.46953</td>
 <td align="right">21.99844</td>
 <td align="right">18.39916</td>
@@ -843,6 +940,7 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">16.07887</td>
 <td align="right">16.48738</td>
 <td align="right">13.70435</td>
+<td align="right">18.70169</td>
 <td align="right">16.43551</td>
 <td align="right">17.79841</td>
 <td align="right">14.97157</td>
@@ -855,10 +953,8 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">2</td>
 <td align="right">16.57184</td>
 <td align="right">20.21888</td>
-<td align="right">20.01550</td>
 <td align="right">17.79824</td>
 <td align="right">21.19265</td>
-<td align="right">18.86651</td>
 <td align="right">17.41799</td>
 <td align="right">22.01232</td>
 <td align="right">18.37508</td>
@@ -866,6 +962,7 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">16.08265</td>
 <td align="right">16.39482</td>
 <td align="right">13.19218</td>
+<td align="right">18.59392</td>
 <td align="right">16.42339</td>
 <td align="right">17.72967</td>
 <td align="right">14.95169</td>
@@ -878,10 +975,8 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">3</td>
 <td align="right">16.49578</td>
 <td align="right">20.37810</td>
-<td align="right">20.00970</td>
 <td align="right">17.74101</td>
 <td align="right">21.16971</td>
-<td align="right">18.76881</td>
 <td align="right">17.47208</td>
 <td align="right">22.06394</td>
 <td align="right">18.31756</td>
@@ -889,6 +984,7 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">16.12958</td>
 <td align="right">16.48643</td>
 <td align="right">13.31020</td>
+<td align="right">NA</td>
 <td align="right">16.44042</td>
 <td align="right">17.62873</td>
 <td align="right">15.08285</td>
@@ -901,10 +997,8 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">4</td>
 <td align="right">16.62059</td>
 <td align="right">20.27705</td>
-<td align="right">20.01598</td>
 <td align="right">17.67858</td>
 <td align="right">21.18764</td>
-<td align="right">18.80707</td>
 <td align="right">17.33602</td>
 <td align="right">22.02670</td>
 <td align="right">18.34590</td>
@@ -912,6 +1006,7 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">16.03170</td>
 <td align="right">16.59599</td>
 <td align="right">13.75561</td>
+<td align="right">NA</td>
 <td align="right">16.41022</td>
 <td align="right">17.81518</td>
 <td align="right">14.85037</td>
@@ -924,10 +1019,8 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">5</td>
 <td align="right">16.59566</td>
 <td align="right">20.23536</td>
-<td align="right">19.96276</td>
 <td align="right">17.65893</td>
 <td align="right">21.14901</td>
-<td align="right">18.85385</td>
 <td align="right">17.40526</td>
 <td align="right">21.95543</td>
 <td align="right">18.34613</td>
@@ -935,6 +1028,7 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">16.01485</td>
 <td align="right">16.52160</td>
 <td align="right">13.69617</td>
+<td align="right">NA</td>
 <td align="right">16.34524</td>
 <td align="right">17.77694</td>
 <td align="right">14.52853</td>
@@ -947,10 +1041,8 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">1</td>
 <td align="right">16.46218</td>
 <td align="right">19.38908</td>
-<td align="right">19.19702</td>
 <td align="right">18.16243</td>
 <td align="right">21.45069</td>
-<td align="right">17.93870</td>
 <td align="right">17.53559</td>
 <td align="right">22.26172</td>
 <td align="right">18.48974</td>
@@ -958,6 +1050,7 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">16.01155</td>
 <td align="right">16.85196</td>
 <td align="right">13.06623</td>
+<td align="right">NA</td>
 <td align="right">16.80018</td>
 <td align="right">18.05619</td>
 <td align="right">14.59416</td>
@@ -970,10 +1063,8 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">2</td>
 <td align="right">16.66106</td>
 <td align="right">19.54470</td>
-<td align="right">19.14678</td>
 <td align="right">18.25496</td>
 <td align="right">21.55949</td>
-<td align="right">18.05573</td>
 <td align="right">17.68779</td>
 <td align="right">22.26483</td>
 <td align="right">18.65343</td>
@@ -981,6 +1072,7 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">16.14245</td>
 <td align="right">16.83424</td>
 <td align="right">13.96785</td>
+<td align="right">NA</td>
 <td align="right">16.78080</td>
 <td align="right">18.22009</td>
 <td align="right">14.87041</td>
@@ -993,10 +1085,8 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">3</td>
 <td align="right">16.64862</td>
 <td align="right">19.50293</td>
-<td align="right">19.16708</td>
 <td align="right">18.30158</td>
 <td align="right">21.50761</td>
-<td align="right">17.99735</td>
 <td align="right">17.49622</td>
 <td align="right">22.26617</td>
 <td align="right">18.56519</td>
@@ -1004,6 +1094,7 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">16.12555</td>
 <td align="right">16.80165</td>
 <td align="right">14.19149</td>
+<td align="right">NA</td>
 <td align="right">16.76843</td>
 <td align="right">18.15563</td>
 <td align="right">NA</td>
@@ -1016,10 +1107,8 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">4</td>
 <td align="right">16.63910</td>
 <td align="right">19.37445</td>
-<td align="right">19.15964</td>
 <td align="right">17.98465</td>
 <td align="right">21.30561</td>
-<td align="right">17.85207</td>
 <td align="right">17.30274</td>
 <td align="right">22.18561</td>
 <td align="right">18.46220</td>
@@ -1027,6 +1116,7 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">16.06182</td>
 <td align="right">16.66201</td>
 <td align="right">13.35676</td>
+<td align="right">NA</td>
 <td align="right">16.57745</td>
 <td align="right">17.98380</td>
 <td align="right">14.56535</td>
@@ -1039,10 +1129,8 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">5</td>
 <td align="right">16.61782</td>
 <td align="right">19.40820</td>
-<td align="right">19.16132</td>
 <td align="right">18.05653</td>
 <td align="right">21.32361</td>
-<td align="right">17.90887</td>
 <td align="right">17.24776</td>
 <td align="right">22.18529</td>
 <td align="right">18.48633</td>
@@ -1050,108 +1138,12 @@ Please note that if <code>saveRm = TRUE</code>, the excluded data
 <td align="right">16.04620</td>
 <td align="right">16.73720</td>
 <td align="right">13.70341</td>
+<td align="right">NA</td>
 <td align="right">16.53576</td>
 <td align="right">17.98874</td>
 <td align="right">14.78049</td>
 <td align="right">NA</td>
 <td align="right">19.04711</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p><strong>Case 2.</strong> Keep the listed proteins and remove the
-rest.</p>
-<p>Alternatively, if we would to keep proteins like “PA1B2_HUMAN” and
-“TEBP_HUMAN”, simply set <code>removelist = FALSE</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/filterOutIn.html">filterOutIn</a></span><span class="op">(</span><span class="va">dataTran</span>, listName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PA1B2_HUMAN"</span>, <span class="st">"TEBP_HUMAN"</span><span class="op">)</span>,</span>
-<span>            removeList <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<div style="overflow-x: auto;">
-<table style="width:100%;" class="table">
-<colgroup>
-<col width="10%">
-<col width="58%">
-<col width="10%">
-<col width="10%">
-<col width="9%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">R.Condition</th>
-<th align="left">R.FileName</th>
-<th align="right">R.Replicate</th>
-<th align="right">PA1B2_HUMAN</th>
-<th align="right">TEBP_HUMAN</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">100fmol</td>
-<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_100fmol_60min_DIA_Wat25cmBEH_1</td>
-<td align="right">1</td>
-<td align="right">17.46953</td>
-<td align="right">21.99844</td>
-</tr>
-<tr class="even">
-<td align="left">100fmol</td>
-<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_100fmol_60min_DIA_Wat25cmBEH_2</td>
-<td align="right">2</td>
-<td align="right">17.41799</td>
-<td align="right">22.01232</td>
-</tr>
-<tr class="odd">
-<td align="left">100fmol</td>
-<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_100fmol_60min_DIA_Wat25cmBEH_3</td>
-<td align="right">3</td>
-<td align="right">17.47208</td>
-<td align="right">22.06394</td>
-</tr>
-<tr class="even">
-<td align="left">100fmol</td>
-<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_100fmol_60min_DIA_Wat25cmBEH_4</td>
-<td align="right">4</td>
-<td align="right">17.33602</td>
-<td align="right">22.02670</td>
-</tr>
-<tr class="odd">
-<td align="left">100fmol</td>
-<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_100fmol_60min_DIA_Wat25cmBEH_5</td>
-<td align="right">5</td>
-<td align="right">17.40526</td>
-<td align="right">21.95543</td>
-</tr>
-<tr class="even">
-<td align="left">50fmol</td>
-<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_50fmol_60min_DIA_Wat25cmBEH_1</td>
-<td align="right">1</td>
-<td align="right">17.53559</td>
-<td align="right">22.26172</td>
-</tr>
-<tr class="odd">
-<td align="left">50fmol</td>
-<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_50fmol_60min_DIA_Wat25cmBEH_2</td>
-<td align="right">2</td>
-<td align="right">17.68779</td>
-<td align="right">22.26483</td>
-</tr>
-<tr class="even">
-<td align="left">50fmol</td>
-<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_50fmol_60min_DIA_Wat25cmBEH_3</td>
-<td align="right">3</td>
-<td align="right">17.49622</td>
-<td align="right">22.26617</td>
-</tr>
-<tr class="odd">
-<td align="left">50fmol</td>
-<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_50fmol_60min_DIA_Wat25cmBEH_4</td>
-<td align="right">4</td>
-<td align="right">17.30274</td>
-<td align="right">22.18561</td>
-</tr>
-<tr class="even">
-<td align="left">50fmol</td>
-<td align="left">20230414_jcl_msDIAlogue_HeLa-6mix_50fmol_60min_DIA_Wat25cmBEH_5</td>
-<td align="right">5</td>
-<td align="right">17.24776</td>
-<td align="right">22.18529</td>
 </tr>
 </tbody>
 </table>
@@ -3460,7 +3452,7 @@ constant/zero column to unit variance.” This clearly occurs when columns
 representing proteins contain only zeros or have constant values.
 Typically, there are two ways to address this error: one is to remove
 these proteins, and the other is to set <code>scale = FALSE</code>.</p>
-<p><strong>NOTE:</strong> data scaling is done to ensure that the scale
+<p><strong>NOTE:</strong> Data scaling is done to ensure that the scale
 differences between different features do not affect the results of PCA.
 If not scaled, features with larger scales will dominate the computation
 of principal components (PCs).</p>

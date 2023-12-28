@@ -94,7 +94,10 @@ preProcessFiltering <- function(dataSet,
 #' 
 #' @param dataSet The 2d data set of experimental values.
 #' 
-#' @param listName A list of proteins or contaminants to select or to remove.
+#' @param listName A character vector of proteins to select or remove.
+#' 
+#' @param regexName A character vector specifying proteins for regular expression pattern
+#' matching to select or remove.
 #' 
 #' @param removeList A boolean (default = TRUE) specifying whether the list of proteins
 #' should be removed or selected.
@@ -106,6 +109,11 @@ preProcessFiltering <- function(dataSet,
 #' @param saveRm A boolean (default = TRUE) specifying whether to save removed data to
 #' current working directory. This option only works when \code{removeList = TRUE}.
 #' 
+#' @details
+#' If both \code{listName} and \code{regexName} are provided, the protein names selected
+#' or removed will be the union of those specified in \code{listName} and those matching
+#' the regex pattern in \code{regexName}.
+#' 
 #' @import dplyr
 #' @import tidyr
 #' @importFrom utils write.csv
@@ -116,37 +124,48 @@ preProcessFiltering <- function(dataSet,
 
 filterOutIn <- function(dataSet,
                         listName = c(),
+                        regexName = c(),
                         removeList = TRUE,
                         saveRm = TRUE) {
   
   ## relabel the data frame
-  filteredData <- dataSet
+  filteredData <- dataSet %>%
+    select(-c("R.Condition", "R.FileName", "R.Replicate"))
   
-  ## only list filter if a list is present
+  ## only list filter if listName is present
   if (length(listName) != 0) {
+    listIndex <- which(colnames(filteredData) %in% listName)
+  }
+  
+  ## only regex filter if regexName is present
+  if (length(regexName) != 0) {
+    regexIndex <- grep(paste(regexName, collapse = "|"), colnames(filteredData))
+  }
+  
+  ## combine protein names from list and regex filters
+  unionName <- colnames(filteredData)[sort(union(listIndex, regexIndex))]
+  
+  ## create a dataframe of the data of proteins
+  unionData <- dataSet %>%
+    select(any_of(c("R.Condition", "R.FileName", "R.Replicate", unionName)))
+  
+  ## if contaminants are being removed
+  if (removeList == TRUE) {
     
-    ## create a dataframe of the data of proteins
-    listedData <- filteredData %>%
-      select(any_of(c("R.Condition", "R.FileName", "R.Replicate", listName)))
-    
-    ## if contaminants are being removed
-    if (removeList == TRUE) {
+    if (saveRm) {
       
-      if (saveRm) {
-        
-        ## save removed data to current working directory
-        write.csv(listedData, "filtered_out_data.csv")
-      }
-      
-      ## remove all of the contaminants if they are present
-      filteredData <- filteredData %>% select(-any_of(listName))
-      
-      ## if certain proteins are being selected
-    } else if (removeList == FALSE) {
-      
-      ## select only proteins of interest
-      filteredData <- listedData
+      ## save removed data to current working directory
+      write.csv(unionData, "filtered_out_data.csv")
     }
+    
+    ## remove all of the contaminants if they are present
+    filteredData <- dataSet %>% select(-any_of(unionName))
+    
+    ## if certain proteins are being selected
+  } else if (removeList == FALSE) {
+    
+    ## select only proteins of interest
+    filteredData <- unionData
   }
   
   ## return the filtered data 

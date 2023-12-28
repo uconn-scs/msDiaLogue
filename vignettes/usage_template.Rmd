@@ -123,40 +123,46 @@ experimental condition, etc., we recommend data filtering before conducting diff
 analysis. The application of protein-level filters is optional and is expected to vary by
 project.
 
-**Case 1.** Remove the listed proteins and retain the remaining proteins
+**NOTE:** The proteins to be selected or removed is the union of those specified in
+`listName` and those matching the regular expression pattern in `regexName`.
 
-For example, the protein "XPO4_HUMAN" is chosen to be filtered out.
+**Case 1.** Remove the inputted proteins and retain the remaining proteins
+
+For example, the proteins named "ADH1_YEAST" and those containing "HUMAN" are chosen to be
+filtered out.
 
 ```{r eval=FALSE}
-filterOutIn(dataTran, listName = "XPO4_HUMAN",
+filterOutIn(dataTran, listName = "ADH1_YEAST", regexName = "HUMAN",
             removeList = TRUE, saveRm = TRUE)
 ```
 
-where `removeList = TRUE` indicates the removal of proteins listed in `listName` from the
-`dataTran`. Please note that if `saveRm = TRUE`, the excluded data ("XPO4_HUMAN") will be
-saved as a .csv file named *filtered_out_data.csv* in the current working directory.
+where `removeList = TRUE` indicates the removal of proteins from the union of `listName`
+and `regexName` in `dataTran`. Please note that if `saveRm = TRUE`, the excluded data
+("ADH1_YEAS" + "\*HUMAN") will be saved as a .csv file named *filtered_out_data.csv* in
+the current working directory.
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
 knitr::kable(
-  filterOutIn(dataTran, listName = "XPO4_HUMAN", removeList = TRUE, saveRm = TRUE))
+  filterOutIn(dataTran, listName = "ADH1_YEAST", regexName = "HUMAN",
+              removeList = TRUE, saveRm = TRUE))
 ```
 </div>
 
-**Case 2.** Keep the listed proteins and remove the rest.
+**Case 2.** Keep the inputted proteins and remove the rest.
 
-Alternatively, if we would to keep proteins like "PA1B2_HUMAN" and "TEBP_HUMAN", simply
+Alternatively, if we would to keep proteins like "ADH1_YEAS" and "\*HUMAN", simply
 set `removelist = FALSE`.
 
 ```{r eval=FALSE}
-filterOutIn(dataTran, listName = c("PA1B2_HUMAN", "TEBP_HUMAN"),
+filterOutIn(dataTran, listName = "ADH1_YEAST", regexName = "HUMAN",
             removeList = FALSE)
 ```
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
-knitr::kable(filterOutIn(
-  dataTran, listName = c("PA1B2_HUMAN", "TEBP_HUMAN"), removeList = FALSE))
+knitr::kable(
+  filterOutIn(dataTran, listName = "ADH1_YEAST", regexName = "HUMAN", removeList = FALSE))
 ```
 </div>
 
@@ -488,7 +494,7 @@ variance." This clearly occurs when columns representing proteins contain only z
 have constant values. Typically, there are two ways to address this error: one is to
 remove these proteins, and the other is to set `scale = FALSE`.
 
-**NOTE:** data scaling is done to ensure that the scale differences between different
+**NOTE:** Data scaling is done to ensure that the scale differences between different
 features do not affect the results of PCA. If not scaled, features with larger scales will
 dominate the computation of principal components (PCs).
 

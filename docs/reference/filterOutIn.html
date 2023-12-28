@@ -54,7 +54,13 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">filterOutIn</span><span class="op">(</span><span class="va">dataSet</span>, listName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>, removeList <span class="op">=</span> <span class="cn">TRUE</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">filterOutIn</span><span class="op">(</span></span>
+<span>  <span class="va">dataSet</span>,</span>
+<span>  listName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  regexName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  removeList <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  saveRm <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -64,7 +70,12 @@
 
 
 <dt>listName</dt>
-<dd><p>A list of proteins or contaminants to select or to remove.</p></dd>
+<dd><p>A character vector of proteins to select or remove.</p></dd>
+
+
+<dt>regexName</dt>
+<dd><p>A character vector specifying proteins for regular expression pattern
+matching to select or remove.</p></dd>
 
 
 <dt>removeList</dt>
@@ -84,6 +95,12 @@ current working directory. This option only works when <code>removeList = TRUE</
     
 
 <p>A filtered 2d dataframe.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>If both <code>listName</code> and <code>regexName</code> are provided, the protein names selected
+or removed will be the union of those specified in <code>listName</code> and those matching
+the regex pattern in <code>regexName</code>.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

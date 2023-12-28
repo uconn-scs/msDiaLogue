@@ -4,12 +4,21 @@
 \alias{filterOutIn}
 \title{Filtering proteins or contaminants}
 \usage{
-filterOutIn(dataSet, listName = c(), removeList = TRUE, saveRm = TRUE)
+filterOutIn(
+  dataSet,
+  listName = c(),
+  regexName = c(),
+  removeList = TRUE,
+  saveRm = TRUE
+)
 }
 \arguments{
 \item{dataSet}{The 2d data set of experimental values.}
 
-\item{listName}{A list of proteins or contaminants to select or to remove.}
+\item{listName}{A character vector of proteins to select or remove.}
+
+\item{regexName}{A character vector specifying proteins for regular expression pattern
+matching to select or remove.}
 
 \item{removeList}{A boolean (default = TRUE) specifying whether the list of proteins
 should be removed or selected.
@@ -26,4 +35,9 @@ A filtered 2d dataframe.
 }
 \description{
 Apply a series of filtering steps to the data set.
+}
+\details{
+If both \code{listName} and \code{regexName} are provided, the protein names selected
+or removed will be the union of those specified in \code{listName} and those matching
+the regex pattern in \code{regexName}.
 }
