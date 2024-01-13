@@ -41,19 +41,44 @@ first load the data file directly, then specify the `dataSet` in the function.
      
 **2\.** Whether to omit observations with NaN
 
-NaN, which stands for 'Not a Number,' represents to protein entries in each condition that
+NaN, which stands for 'Not a Number,' represents protein entries in each condition that
 lack a measured quantitative value.
+
+NaN, which stands for 'Not a Number,' represents proteins that were detected by the
+instrument but for which the quantitative peak area could not be determined. This is
+usually due to having an abundance value too close to the limit of detection to establish
+good signal-to-noise.
 
 **3\.** The number of unique peptides are required to include a protein
 
-The default is to filter out proteins with fewer than 2 unique peptides. Removing proteins
-identified by only 1 unique peptide sequence is more likely to be representatives of the
-1% false positive protein identifications. We choose to remove these protein entries from
-our downstream analysis in order to provide more confident quantitative results across the
-identified proteome. However, these can still be observed in the original protein report
-from **Spectronaut**.
+General practice is to filter out proteins where only 1 unique peptide was identified.
+Because the 1\% false discovery rate for the dataset is calculated at the peptide level,
+proteins with 2 or more peptides identified are less likely to be false positives. We
+recommend filtering out these protein entries in order to focus on more confident targets
+in the identified proteome. However, 1-peptide proteins can still be observed in the
+original protein report from **Spectronaut**.
 
 **4\.** Whether to rename proteins without names by their accession numbers
+
+**Spectronaut** reports contain 4 different columns of identifying information:
+
++ `PG.Genes`, which is the gene name (e.g. CDK1).
++ `PG.ProteinAccessions`, which is the UniProt identifier number for a unique entry in the
+  online database (e.g. P06493).
++ `PG.ProteinDescriptions`, which is the protein name as provided on UniProt (e.g.
+   cyclin-dependent kinase 1).
++ `PG.ProteinNames`, which is a concatenation of an identifier and the species (e.g. CDK1_HUMAN).
+
+Every entry in UniProt will have an accession number, but may or may not have any of the
+other identifiers, depending on how completely the online entry has been annotated.
+Because UniProt includes entries for fragments of proteins, a peptide can match to
+multiple entries for the same protein, which generates multiple possible identifiers in
+**Spectronaut**. Further, the `ProteinNames` entry in **Spectronaut** can switch formats:
+the preference is accession number and species, but can also be gene name and species
+instead.
+
+This option tells **msDiaLogue** to substitute the accession number for an identifier if
+it tries to pull an identifier from a column with no information.
 
 **5\.** Whether to save removed data to current working directory
 
@@ -95,11 +120,11 @@ knitr::kable(dataSet, align = "l")
 
 ## Transformation
 
-Raw intensity measurements, often unsuitable for direct statistical modeling, prompt
-transformation in most quantitative proteomics workflow. The preferred solution is
-log-transformation, effectively addressing this issue. The log$_2$ transformation is
-commonly employed due to its ability to facilitate the straightforward interpretation of
-fold changes in protein levels.
+Raw mass spectrometry intensity measurements are often unsuitable for direct statistical
+modeling because they do not necessarily follow the distribution assumed by a statistical
+test. Most proteomic workflows will convert these raw values with a log$_2$ transformation,
+which tends to reshape the data into a more Gaussian-type distribution that better meets
+common statistical test assumptions.
 
 ```{r}
 dataTran <- transform(dataSet, logFold = 2)
@@ -114,17 +139,20 @@ knitr::kable(dataTran)
 
 ## Filtering
 
-For various reasons, such as the presence of high-abundance contaminant proteins that may
-be irrelevant to the present analysis, a lack of informativeness (e.g., proteins that
-exhibit no differential abundance at all or proteins that are known with certainty to be
-false positive identifications with more than one unique peptide identified),
-identification of a protein exclusively in a small subset of samples or only one
-experimental condition, etc., we recommend data filtering before conducting differential
-analysis. The application of protein-level filters is optional and is expected to vary by
-project.
+
+In some cases, a researcher may wish to filter out a specific protein or proteins from the
+dataset. The most common instance of this would be proteins identified from the common
+contaminants database, where the identification is necessary but the results are
+irrelevant and should not be included in data visualization. Other scenarios might include
+a mixed-species experiment where the researcher wants to evaluate data from only one
+species at a time. This step allows you to set aside specific proteins from downstream
+analysis, using the gene-species identifier format.
 
 **NOTE:** The proteins to be selected or removed is the union of those specified in
 `listName` and those matching the regular expression pattern in `regexName`.
+
+**KEEP IN MIND:** Removal will affect any global calculations performed after this step
+(such as normalization).
 
 **Case 1.** Remove the inputted proteins and retain the remaining proteins
 
@@ -169,17 +197,43 @@ knitr::kable(
 
 ## Normalization
 
-Normalization is designed to address systematic biases, enhancing the comparability of
-samples while preserving the signal. Various normalization approaches have been proposed.
+Normalization is designed to address systematic biases in the data if they exist. Biases
+can arise from inadvertent sample grouping during generation or preparation, from
+instrument drift if the acquisition lasted for a significant length of time, or from
+analyzing different amounts of material across experiments. These factors can mask or
+artificially enhance actual biological differences of interest. The presence of bias
+should be determined independently.
+
+Many normalization methods have been developed for large datasets, each with its own
+strengths and weaknesses. The following factors should be considered when choosing a
+normalization method:
+
+a) Experiment-Specific Normalization: \
+Most experiments run with [UConn PMF](https://proteomics.uconn.edu) are normalized by
+injection amount at the time of analysis to facilitate comparison. "Amount" is measured by
+UV absorbance at 280 nm, a standard method for generic protein quantification.
+
+b) Assumption of Non-Changing Species: \
+Most biological experiments implicitly assume that the majority of measured species in an
+experiment will not change across conditions. This assumption is more robust for thousands
+of species than for hundreds or tens, so for experiments of wildly different complexities
+(e.g. a purified protein vs. an immunoprecipitation vs. a full lysate), normalization
+should not be applied as a global process, but instead only on subsets of experiments that
+are relatively similar to each other.
+
 So far, this package provides three normalization methods for use:
 
-1. "quant": Quantile [@bolstad2003comparison]
+1. "quant": Quantile [@bolstad2003comparison] (values in each run are ranked, quantile
+bins are applied to the entire dataset, and values in each run adjusted to their closest
+bin value)
 
-2. "median": Protein-wise Median
+2. "median": Protein-wise Median (a scalar factor is applied to each protein entry to make
+the median of each sample equal to every other sample)
 
-3. "mean": Protein-wise Mean
+3. "mean": Protein-wise Mean (a scalar factor is applied to each protein entry to make the
+mean of each sample equal to every other sample)
 
-Quantile normalization is generally recommended.
+Quantile normalization is generally recommended by [UConn SCS](https://statsconsulting.uconn.edu).
 
 ```{r}
 dataNorm <- normalize(dataTran, normalizeType = "quant")
@@ -198,11 +252,19 @@ knitr::kable(dataNorm)
 
 ## Imputation
 
-Traditional Data-Dependent Acquisition (DDA) mass spectrometry-based quantitative
-proteomics datasets often yield many missing quantitative values due to limits in sampling
-frequency. Data-Independent Acquisition (DIA) helps to substantially reduce the number of
-missing values compared to DDA experiments, but some will still exist due to sample
-variability, and these missing values will impact downstream analyses.
+In any mass spectrometry experiment, there is a trade-off between the quantity of data
+obtained and its quality. Traditional Data-Dependent Acquisition (DDA) methods trade scan
+quantity for simpler and cleaner scans, thereby improving the quality of the peptide
+identification. Data sampling is prioritized by abundance in each scan, so for peptides at
+lower intensities in that scan, DDA is less likely to acquire an identifying scan, which
+is a common sources of missing data in the final dataset.
+
+Data-Independent Acquisition (DIA) makes the opposite trade, where data sampling is
+scheduled to cover a set mass range systematically. This allows regular scans of every
+peptide species, but these scans will include information from multiple peptides, making
+them more difficult to interpret. DIA thus reduces missingness substantially, though not
+entirely, but often requires custom libraries or machine learning algorithms for data
+processing.
 
 Function `dataMissing()` is designed to summarize the missingness for each protein, where
 `plot = TRUE` indicates plotting the missingness, and `show_labels = TRUE` means that the
@@ -239,14 +301,14 @@ For example, in the case of the protein "XPO4_HUMAN," there are 8 NA values in t
 total missing data in the entire dataset.
 
 Various imputation methods have been developed to address the missing-value issue and
-assign a quantitative value to proteins with missing quantitative values. So far, this
-package provides five imputation methods for use:
+assign a reasonable guess of quantitative value to proteins with missing values. So far,
+this package provides five imputation methods for use:
 
-1. "LocalMinVal": Replaces missing values with the lowest value from the corresponding
-protein by condition combination;
+1. "LocalMinVal": Replaces missing values with the lowest measured value for that protein
+in that condition.
 
-2. "GlobalMinVal": Replaces missing values with the lowest value found within the entire
-dataset.
+2. "GlobalMinVal": Replaces missing values with the lowest measured value from any protein
+found within the entire dataset.
 
 3. "knn": Replaces missing values using the k-nearest neighbors algorithm
 [@troyanskaya2001missing].
@@ -262,6 +324,14 @@ Additional methods will be added later. And "LocalMinVal" is currently the defau
 For example, to impute the NA value of `dataNorm` using "LocalMinVal," set the required
 percentage of values that must be present in a given protein by condition combination for
 values to be imputed to 51\%.
+
+**NOTE:** There is no rule in the field of proteomics for filtering based on percentage of
+missingness, similar to there being no rule for the number of replicates required to draw
+a conclusion. However, reproducible observations make conclusions more credible. Setting
+the `reqPercentPresent` to 0.51 requires that any protein be observed in a majority of the
+replicates by condition in order to be considered. For 3 replicates, this would require 2
+measurements to allow imputation of the 3rd value. 1 measurement would be treated as not
+detected.
 
 ```{r}
 dataImput <- impute(dataNorm, imputeType = "LocalMinVal",
@@ -299,9 +369,10 @@ knitr::kable(dataImput)
 
 ## Summarization
 
-Summarization proves valuable in distilling meaningful insights from vast and intricate
-data, facilitating the efficient identification, quantification, and interpretation of
-protein profiles within complex biological samples.
+This summarization section provides a table of values for each protein in the final
+dataset that include the final processed abundances and fold changes in each condition,
+and that protein's statistical relation to the global dataset in terms of its mean, median,
+standard deviation, and other parameters.
 
 ```{r}
 dataSumm <- summarize(dataImput, saveSumm = TRUE)
@@ -406,6 +477,12 @@ knitr::kable(anlys_MA)
 
 ## Visualization
 
+This section provides a variety of options for getting a global view of your data, making
+comparisons, and highlighting trends. Keep in mind that data visualization is most
+effective when illustrating a point or answering a question you have about your data, and
+not as a means to find a point/question.
+
+
 ### heatmap
 
 The package offers two options for plotting the heatmap.
@@ -423,7 +500,7 @@ visualize(dataImput, graphType = "heatmap",
 When protein names are excessively long, it is recommended to set `show_rownames = FALSE`
 to view the full heatmap.
 
-+ Option 2 use the source package `ggplot2` to generates a ggplot object but does not
++ Option 2 use the source package `ggplot2` to generate a ggplot object but does not
 include the dendrogram.
 
 ```{r}
@@ -641,9 +718,11 @@ visualize(anlys_mod.t, graphType = "volcano",
 
 ## Other useful function
 
-To easily extract all quantitative data for a single protein or set of proteins by name as
-it was processed throughout the entire **msDiaLogue** workflow, use the function
-`pullProteinPath()` and the protein's unique name.
+The function `pullProteinPath()` allows you to see the values associated with a specific
+protein at each step of processing. This can be useful for questions such as, "Were all of
+the values for my favorite protein actually measured, or were some imputed?" or "Why didn't
+my favorite protein make it to the final list? Where was it filtered out?". It can also be
+used to check whether a given protein's fold-change might have been a processing artifact.
 
 ```{r}
 ZC11B <- pullProteinPath(proteinName = "ZC11B_HUMAN",

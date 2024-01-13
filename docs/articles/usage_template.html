@@ -72,7 +72,7 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>A Usage Template for the R Package msDiaLogue</h1>
             
-            <h4 data-toc-skip class="date">2023-12-27</h4>
+            <h4 data-toc-skip class="date">2024-01-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -108,20 +108,52 @@ first load the data file directly, then specify the <code>dataSet</code>
 in the function.</p></li>
 </ul>
 <p><strong>2.</strong> Whether to omit observations with NaN</p>
-<p>NaN, which stands for ‘Not a Number,’ represents to protein entries
-in each condition that lack a measured quantitative value.</p>
+<p>NaN, which stands for ‘Not a Number,’ represents protein entries in
+each condition that lack a measured quantitative value.</p>
+<p>NaN, which stands for ‘Not a Number,’ represents proteins that were
+detected by the instrument but for which the quantitative peak area
+could not be determined. This is usually due to having an abundance
+value too close to the limit of detection to establish good
+signal-to-noise.</p>
 <p><strong>3.</strong> The number of unique peptides are required to
 include a protein</p>
-<p>The default is to filter out proteins with fewer than 2 unique
-peptides. Removing proteins identified by only 1 unique peptide sequence
-is more likely to be representatives of the 1% false positive protein
-identifications. We choose to remove these protein entries from our
-downstream analysis in order to provide more confident quantitative
-results across the identified proteome. However, these can still be
-observed in the original protein report from
+<p>General practice is to filter out proteins where only 1 unique
+peptide was identified. Because the 1% false discovery rate for the
+dataset is calculated at the peptide level, proteins with 2 or more
+peptides identified are less likely to be false positives. We recommend
+filtering out these protein entries in order to focus on more confident
+targets in the identified proteome. However, 1-peptide proteins can
+still be observed in the original protein report from
 <strong>Spectronaut</strong>.</p>
 <p><strong>4.</strong> Whether to rename proteins without names by their
 accession numbers</p>
+<p><strong>Spectronaut</strong> reports contain 4 different columns of
+identifying information:</p>
+<ul>
+<li>
+<code>PG.Genes</code>, which is the gene name (e.g. CDK1).</li>
+<li>
+<code>PG.ProteinAccessions</code>, which is the UniProt identifier
+number for a unique entry in the online database (e.g. P06493).</li>
+<li>
+<code>PG.ProteinDescriptions</code>, which is the protein name as
+provided on UniProt (e.g. cyclin-dependent kinase 1).</li>
+<li>
+<code>PG.ProteinNames</code>, which is a concatenation of an
+identifier and the species (e.g. CDK1_HUMAN).</li>
+</ul>
+<p>Every entry in UniProt will have an accession number, but may or may
+not have any of the other identifiers, depending on how completely the
+online entry has been annotated. Because UniProt includes entries for
+fragments of proteins, a peptide can match to multiple entries for the
+same protein, which generates multiple possible identifiers in
+<strong>Spectronaut</strong>. Further, the <code>ProteinNames</code>
+entry in <strong>Spectronaut</strong> can switch formats: the preference
+is accession number and species, but can also be gene name and species
+instead.</p>
+<p>This option tells <strong>msDiaLogue</strong> to substitute the
+accession number for an identifier if it tries to pull an identifier
+from a column with no information.</p>
 <p><strong>5.</strong> Whether to save removed data to current working
 directory</p>
 <p>If <code>saveRm = TRUE</code>, the data removed in step 2
@@ -448,12 +480,12 @@ a transformation on your data. You still need to use the functon
 <div class="section level2">
 <h2 id="transformation">Transformation<a class="anchor" aria-label="anchor" href="#transformation"></a>
 </h2>
-<p>Raw intensity measurements, often unsuitable for direct statistical
-modeling, prompt transformation in most quantitative proteomics
-workflow. The preferred solution is log-transformation, effectively
-addressing this issue. The log<span class="math inline">\(_2\)</span>
-transformation is commonly employed due to its ability to facilitate the
-straightforward interpretation of fold changes in protein levels.</p>
+<p>Raw mass spectrometry intensity measurements are often unsuitable for
+direct statistical modeling because they do not necessarily follow the
+distribution assumed by a statistical test. Most proteomic workflows
+will convert these raw values with a log<span class="math inline">\(_2\)</span> transformation, which tends to reshape
+the data into a more Gaussian-type distribution that better meets common
+statistical test assumptions.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataTran</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/transform.html">transform</a></span><span class="op">(</span><span class="va">dataSet</span>, logFold <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-6-1.png" width="700" style="display: block; margin: auto;"><img src="usage_template_files/figure-html/unnamed-chunk-6-2.png" width="700" style="display: block; margin: auto;"></p>
@@ -755,19 +787,20 @@ straightforward interpretation of fold changes in protein levels.</p>
 <div class="section level2">
 <h2 id="filtering">Filtering<a class="anchor" aria-label="anchor" href="#filtering"></a>
 </h2>
-<p>For various reasons, such as the presence of high-abundance
-contaminant proteins that may be irrelevant to the present analysis, a
-lack of informativeness (e.g., proteins that exhibit no differential
-abundance at all or proteins that are known with certainty to be false
-positive identifications with more than one unique peptide identified),
-identification of a protein exclusively in a small subset of samples or
-only one experimental condition, etc., we recommend data filtering
-before conducting differential analysis. The application of
-protein-level filters is optional and is expected to vary by
-project.</p>
+<p>In some cases, a researcher may wish to filter out a specific protein
+or proteins from the dataset. The most common instance of this would be
+proteins identified from the common contaminants database, where the
+identification is necessary but the results are irrelevant and should
+not be included in data visualization. Other scenarios might include a
+mixed-species experiment where the researcher wants to evaluate data
+from only one species at a time. This step allows you to set aside
+specific proteins from downstream analysis, using the gene-species
+identifier format.</p>
 <p><strong>NOTE:</strong> The proteins to be selected or removed is the
 union of those specified in <code>listName</code> and those matching the
 regular expression pattern in <code>regexName</code>.</p>
+<p><strong>KEEP IN MIND:</strong> Removal will affect any global
+calculations performed after this step (such as normalization).</p>
 <p><strong>Case 1.</strong> Remove the inputted proteins and retain the
 remaining proteins</p>
 <p>For example, the proteins named “ADH1_YEAST” and those containing
@@ -1152,17 +1185,47 @@ rest.</p>
 <div class="section level2">
 <h2 id="normalization">Normalization<a class="anchor" aria-label="anchor" href="#normalization"></a>
 </h2>
-<p>Normalization is designed to address systematic biases, enhancing the
-comparability of samples while preserving the signal. Various
-normalization approaches have been proposed. So far, this package
-provides three normalization methods for use:</p>
+<p>Normalization is designed to address systematic biases in the data if
+they exist. Biases can arise from inadvertent sample grouping during
+generation or preparation, from instrument drift if the acquisition
+lasted for a significant length of time, or from analyzing different
+amounts of material across experiments. These factors can mask or
+artificially enhance actual biological differences of interest. The
+presence of bias should be determined independently.</p>
+<p>Many normalization methods have been developed for large datasets,
+each with its own strengths and weaknesses. The following factors should
+be considered when choosing a normalization method:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Experiment-Specific Normalization:<br>
+Most experiments run with <a href="https://proteomics.uconn.edu" class="external-link">UConn
+PMF</a> are normalized by injection amount at the time of analysis to
+facilitate comparison. “Amount” is measured by UV absorbance at 280 nm,
+a standard method for generic protein quantification.</p></li>
+<li><p>Assumption of Non-Changing Species:<br>
+Most biological experiments implicitly assume that the majority of
+measured species in an experiment will not change across conditions.
+This assumption is more robust for thousands of species than for
+hundreds or tens, so for experiments of wildly different complexities
+(e.g. a purified protein vs. an immunoprecipitation vs. a full lysate),
+normalization should not be applied as a global process, but instead
+only on subsets of experiments that are relatively similar to each
+other.</p></li>
+</ol>
+<p>So far, this package provides three normalization methods for
+use:</p>
 <ol style="list-style-type: decimal">
 <li><p>“quant”: Quantile <span class="citation">(Bolstad et al.
-2003)</span></p></li>
-<li><p>“median”: Protein-wise Median</p></li>
-<li><p>“mean”: Protein-wise Mean</p></li>
+2003)</span> (values in each run are ranked, quantile bins are applied
+to the entire dataset, and values in each run adjusted to their closest
+bin value)</p></li>
+<li><p>“median”: Protein-wise Median (a scalar factor is applied to each
+protein entry to make the median of each sample equal to every other
+sample)</p></li>
+<li><p>“mean”: Protein-wise Mean (a scalar factor is applied to each
+protein entry to make the mean of each sample equal to every other
+sample)</p></li>
 </ol>
-<p>Quantile normalization is generally recommended.</p>
+<p>Quantile normalization is generally recommended by <a href="https://statsconsulting.uconn.edu" class="external-link">UConn SCS</a>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataNorm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/normalize.html">normalize</a></span><span class="op">(</span><span class="va">dataTran</span>, normalizeType <span class="op">=</span> <span class="st">"quant"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 16 rows containing non-finite values</span></span>
@@ -1470,13 +1533,21 @@ boxplot but retained in the actual dataset.</p>
 <div class="section level2">
 <h2 id="imputation">Imputation<a class="anchor" aria-label="anchor" href="#imputation"></a>
 </h2>
-<p>Traditional Data-Dependent Acquisition (DDA) mass spectrometry-based
-quantitative proteomics datasets often yield many missing quantitative
-values due to limits in sampling frequency. Data-Independent Acquisition
-(DIA) helps to substantially reduce the number of missing values
-compared to DDA experiments, but some will still exist due to sample
-variability, and these missing values will impact downstream
-analyses.</p>
+<p>In any mass spectrometry experiment, there is a trade-off between the
+quantity of data obtained and its quality. Traditional Data-Dependent
+Acquisition (DDA) methods trade scan quantity for simpler and cleaner
+scans, thereby improving the quality of the peptide identification. Data
+sampling is prioritized by abundance in each scan, so for peptides at
+lower intensities in that scan, DDA is less likely to acquire an
+identifying scan, which is a common sources of missing data in the final
+dataset.</p>
+<p>Data-Independent Acquisition (DIA) makes the opposite trade, where
+data sampling is scheduled to cover a set mass range systematically.
+This allows regular scans of every peptide species, but these scans will
+include information from multiple peptides, making them more difficult
+to interpret. DIA thus reduces missingness substantially, though not
+entirely, but often requires custom libraries or machine learning
+algorithms for data processing.</p>
 <p>Function <code><a href="../reference/dataMissing.html">dataMissing()</a></code> is designed to summarize the
 missingness for each protein, where <code>plot = TRUE</code> indicates
 plotting the missingness, and <code>show_labels = TRUE</code> means that
@@ -1626,14 +1697,14 @@ values in the samples, representing 80% of the missing data for
 “XPO4_HUMAN” within that sample and 50% of the total missing data in the
 entire dataset.</p>
 <p>Various imputation methods have been developed to address the
-missing-value issue and assign a quantitative value to proteins with
-missing quantitative values. So far, this package provides five
+missing-value issue and assign a reasonable guess of quantitative value
+to proteins with missing values. So far, this package provides five
 imputation methods for use:</p>
 <ol style="list-style-type: decimal">
-<li><p>“LocalMinVal”: Replaces missing values with the lowest value from
-the corresponding protein by condition combination;</p></li>
-<li><p>“GlobalMinVal”: Replaces missing values with the lowest value
-found within the entire dataset.</p></li>
+<li><p>“LocalMinVal”: Replaces missing values with the lowest measured
+value for that protein in that condition.</p></li>
+<li><p>“GlobalMinVal”: Replaces missing values with the lowest measured
+value from any protein found within the entire dataset.</p></li>
 <li><p>“knn”: Replaces missing values using the k-nearest neighbors
 algorithm <span class="citation">(Troyanskaya et al.
 2001)</span>.</p></li>
@@ -1650,6 +1721,15 @@ currently the default method.</p>
 “LocalMinVal,” set the required percentage of values that must be
 present in a given protein by condition combination for values to be
 imputed to 51%.</p>
+<p><strong>NOTE:</strong> There is no rule in the field of proteomics
+for filtering based on percentage of missingness, similar to there being
+no rule for the number of replicates required to draw a conclusion.
+However, reproducible observations make conclusions more credible.
+Setting the <code>reqPercentPresent</code> to 0.51 requires that any
+protein be observed in a majority of the replicates by condition in
+order to be considered. For 3 replicates, this would require 2
+measurements to allow imputation of the 3rd value. 1 measurement would
+be treated as not detected.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataImput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/impute.html">impute</a></span><span class="op">(</span><span class="va">dataNorm</span>, imputeType <span class="op">=</span> <span class="st">"LocalMinVal"</span>,</span>
 <span>                    reqPercentPresent <span class="op">=</span> <span class="fl">0.51</span>, reportImputing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
@@ -2233,10 +2313,11 @@ current working directory.</p>
 <div class="section level2">
 <h2 id="summarization">Summarization<a class="anchor" aria-label="anchor" href="#summarization"></a>
 </h2>
-<p>Summarization proves valuable in distilling meaningful insights from
-vast and intricate data, facilitating the efficient identification,
-quantification, and interpretation of protein profiles within complex
-biological samples.</p>
+<p>This summarization section provides a table of values for each
+protein in the final dataset that include the final processed abundances
+and fold changes in each condition, and that protein’s statistical
+relation to the global dataset in terms of its mean, median, standard
+deviation, and other parameters.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataSumm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarize.html">summarize</a></span><span class="op">(</span><span class="va">dataImput</span>, saveSumm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div style="overflow-x: auto;">
@@ -3357,6 +3438,11 @@ within each condition.</p>
 <div class="section level2">
 <h2 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
 </h2>
+<p>This section provides a variety of options for getting a global view
+of your data, making comparisons, and highlighting trends. Keep in mind
+that data visualization is most effective when illustrating a point or
+answering a question you have about your data, and not as a means to
+find a point/question.</p>
 <div class="section level3">
 <h3 id="heatmap">heatmap<a class="anchor" aria-label="anchor" href="#heatmap"></a>
 </h3>
@@ -3375,7 +3461,7 @@ heatmaps in this package.</li>
 <p>When protein names are excessively long, it is recommended to set
 <code>show_rownames = FALSE</code> to view the full heatmap.</p>
 <ul>
-<li>Option 2 use the source package <code>ggplot2</code> to generates a
+<li>Option 2 use the source package <code>ggplot2</code> to generate a
 ggplot object but does not include the dendrogram.</li>
 </ul>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -3592,10 +3678,13 @@ log10 of the P-value.</p></li>
 <div class="section level2">
 <h2 id="other-useful-function">Other useful function<a class="anchor" aria-label="anchor" href="#other-useful-function"></a>
 </h2>
-<p>To easily extract all quantitative data for a single protein or set
-of proteins by name as it was processed throughout the entire
-<strong>msDiaLogue</strong> workflow, use the function
-<code><a href="../reference/pullProteinPath.html">pullProteinPath()</a></code> and the protein’s unique name.</p>
+<p>The function <code><a href="../reference/pullProteinPath.html">pullProteinPath()</a></code> allows you to see the
+values associated with a specific protein at each step of processing.
+This can be useful for questions such as, “Were all of the values for my
+favorite protein actually measured, or were some imputed?” or “Why
+didn’t my favorite protein make it to the final list? Where was it
+filtered out?”. It can also be used to check whether a given protein’s
+fold-change might have been a processing artifact.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ZC11B</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pullProteinPath.html">pullProteinPath</a></span><span class="op">(</span>proteinName <span class="op">=</span> <span class="st">"ZC11B_HUMAN"</span>,</span>
 <span>                         dataSetList <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Initial <span class="op">=</span> <span class="va">dataSet</span>,</span>
