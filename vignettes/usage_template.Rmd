@@ -1,9 +1,16 @@
 ---
 title: "A Usage Template for the R Package msDiaLogue"
 output: rmarkdown::html_vignette
+author: 
+  - |
+    Jeremy L. Balsbaugh$^1$, Jennifer C. Liddle$^1$, Timothy E. Moore$^2$ and Shiying Xiao$^3$
+  - |
+    $^1$Proteomics and Metabolomics Facility, UConn \
+    $^2$Statistical Consulting Services, UConn \
+    $^3$Department of Statistics, UConn
 date: "`r Sys.Date()`"
 bibliography:
-  - ../inst/bib/msDiaLogue.bib
+  - ../inst/REFERENCES.bib
 vignette: >
   %\VignetteIndexEntry{A Usage Template}
   %\VignetteEngine{knitr::rmarkdown}
@@ -318,6 +325,9 @@ found within the entire dataset.
 
 5. "trunc-knn": Replaces missing values using the truncated k-nearest neighbors algorithm
 [@shah2017distribution].
+
+6. "nuc-norm": Replaces missing values using the nuclear-norm regularization
+[@hastie2015matrix].
 
 Additional methods will be added later. And "LocalMinVal" is currently the default method.
 

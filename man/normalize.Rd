@@ -12,7 +12,7 @@ normalize(dataSet, normalizeType = "quant")
 \item{normalizeType}{A string (default = "quant") specifying which type of
 normalization to apply:
 \enumerate{
-\item "quant": Quantile (Bolstad et al., 2003)
+\item "quant": Quantile \insertCite{bolstad2003compariso}{msDiaLogue}
 \item "median": Protein-wise Median
 \item "mean": Protein-wise Mean
 \item "none": None
@@ -31,8 +31,5 @@ Boxplots are also generated for before and after the normalization to give a vis
 indicator of the changes.
 }
 \references{
-Bolstad, B. M., Irizarry, R. A., Astrand, M. and Speed, T. P. (2003).
-A Comparison of Normalization Methods for High Density Oligonucleotide Array Data Based
-on Variance and Bias.
-\emph{Bioinformatics}, 19(2): 185--193.
+\insertAllCited{}
 }

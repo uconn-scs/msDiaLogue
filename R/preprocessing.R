@@ -63,8 +63,20 @@ preprocessing <- function(fileName,
     dataSet <- read.csv(fileName)
   }
   
+  proteinInformation <- dataSet %>%
+    select(c("PG.Genes", "PG.ProteinAccessions",
+             "PG.ProteinDescriptions", "PG.ProteinNames"))
+  
+  write.csv(proteinInformation, file = "full_protein_information.csv", row.names = FALSE)
+  
   ## filter data by NaN and unique peptide count
   filteredData <- preProcessFiltering(dataSet, filterNaN, filterUnique, replaceBlank, saveRm)
+  
+  proteinInformation <- filteredData %>%
+    select(c("PG.Genes", "PG.ProteinAccessions",
+             "PG.ProteinDescriptions", "PG.ProteinNames"))
+  
+  write.csv(proteinInformation, file = "preprocess_protein_information.csv", row.names = FALSE)
   
   ## select columns necessary for analysis
   selectedData <- filteredData %>%

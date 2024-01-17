@@ -67,7 +67,7 @@ summarize <- function(dataSet, saveSumm = TRUE) {
   if (saveSumm) {
     
     ## save file to current working directory
-    write.csv(proteinSummary, file = "summarize_data.csv")
+    write.csv(proteinSummary, file = "summarize_data.csv", row.names = FALSE)
   } 
   
   ## return protein data summary

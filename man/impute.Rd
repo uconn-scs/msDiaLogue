@@ -13,41 +13,48 @@ impute(
   colmax = 0.8,
   maxp = 1500,
   rng.seed = 362436069,
+  rank.max = NULL,
+  lambda = NULL,
+  thresh = 1e-05,
+  maxit = 100,
+  final.svd = TRUE,
   reportImputing = FALSE
 )
 }
 \arguments{
 \item{dataSet}{The 2d data set of experimental values.}
 
-\item{imputeType}{A string (default = "LocalMinVal") specifying which imputation
-method to use:
+\item{imputeType}{A character string (default = "LocalMinVal") specifying which
+imputation method to use:
 \enumerate{
 \item "LocalMinVal": replace missing values with the lowest value from the protein by
 condition combination.
 \item "GlobalMinVal": replace missing values with the lowest value found within the
 entire data set.
 \item "knn": replace missing values using the k-nearest neighbors algorithm
-(Troyanskaya et al., 2001).
+\insertCite{troyanskaya2001missing}{msDiaLogue}.
 \item "seq-knn": replace missing values using the sequential k-nearest neighbors
-algorithm (Kim et al., 2004).
+algorithm \insertCite{kim2004reuse}{msDiaLogue}.
 \item "trunc-knn": replace missing values using the truncated k-nearest neighbors
-algorithm (Shah et al., 2017).
+algorithm \insertCite{shah2017distribution}{msDiaLogue}.
+\item "nuc-norm": replace missing values using the nuclear-norm regularization
+\insertCite{hastie2015matrix}{msDiaLogue}.
 }}
 
-\item{reqPercentPresent}{An numeric value (default = 0.51) specifying the required
-percent of values that must be present in a given protein by condition combination for
-values to be imputed when \code{imputeType = "LocalMinVal"}.}
+\item{reqPercentPresent}{A scalar (default = 0.51) specifying the required percent of
+values that must be present in a given protein by condition combination for
+values to be imputed for \code{imputeType = "LocalMinVal"}.}
 
 \item{k}{An integer (default = 10) indicating the number of neighbors to be used in the
 imputation when \code{imputeType} is \code{"knn"}, \code{"seq-knn"}, or
 \code{"trunc-knn"}.}
 
-\item{rowmax}{A numeric value (default = 0.5) specifying the maximum percent missing
-data allowed in any row when \code{imputeType = "knn"}. For any rows with more than
+\item{rowmax}{A scalar (default = 0.5) specifying the maximum percent missing data
+allowed in any row when \code{imputeType = "knn"}. For any rows with more than
 \code{rowmax}*100\% missing are imputed using the overall mean per sample.}
 
-\item{colmax}{A numeric value (default = 0.8) specifying the maximum percent missing
-data allowed in any column when \code{imputeType = "knn"}. If any column has more than
+\item{colmax}{A scalar (default = 0.8) specifying the maximum percent missing data
+allowed in any column when \code{imputeType = "knn"}. If any column has more than
 \code{colmax}*100\% missing data, the program halts and reports an error.}
 
 \item{maxp}{An integer (default = 1500) indicating the largest block of proteins
@@ -56,6 +63,26 @@ blocks are divided by two-means clustering (recursively) prior to imputation.}
 
 \item{rng.seed}{An integer (default = 362436069) specifying the seed used for the
 random number generator for reproducibility when \code{imputeType = "knn"}.}
+
+\item{rank.max}{An integer specifying the restriction on the rank of the solution for
+\code{imputeType = "nuc-norm"}. The default is set to one less than the minimum
+dimension of the dataset.}
+
+\item{lambda}{A scalar specifying the nuclear-norm regularization parameter for
+\code{imputeType = "nuc-norm"}. If \code{lambda = 0}, the algorithm convergence is
+typically slower. The default is set to the maximum singular value obtained from the
+singular value decomposition (SVD) of the dataset.}
+
+\item{thresh}{A scalar (default = 1e-5) specifying the convergence threshold for
+\code{imputeType = "nuc-norm"}, measured as the relative change in the Frobenius norm
+between two successive estimates.}
+
+\item{maxit}{An integer (default = 100) specifying the maximum number of iterations
+before the convergence is reached for \code{imputeType = "nuc-norm"}.}
+
+\item{final.svd}{A boolean (default = TRUE) specifying whether to perform a one-step
+unregularized iteration at the final iteration, followed by soft-thresholding of the
+singular values, resulting in hard zeros.}
 
 \item{reportImputing}{A boolean (default = FALSE) specifying whether to provide a
 shadow data frame with imputed data labels, where 1 indicates the corresponding entries
@@ -72,18 +99,5 @@ dataframe and a shadow matrix showing which proteins by replicate were imputed.
 Apply an imputation method to the data set.
 }
 \references{
-\itemize{
-\item Troyanskaya, O., Cantor, M., Sherlock, G., Brown, P., Hastie, T., Tibshirani, R.,
-Botstein, D. and Altman, R. B. (2001).
-Missing Value Estimation Methods for DNA Microarrays.
-\emph{Bioinformatics}, 17(6), 520--525.
-\item Kim, KY., Kim, BJ. and Yi, GS. (2004).
-Reuse of Imputed Data in Microarray Analysis Increases Imputation Efficiency.
-\emph{BMC Bioinformatics}, 5, 160.
-\item Shah, J. S., Rai, S. N., DeFilippis, A. P., Hill, B. G., Bhatnagar, A. and
-Brock, G. N. (2017).
-Distribution Based Nearest Neighbor Imputation for Truncated High Dimensional Data with
-Applications to Pre-Clinical and Clinical Metabolomics Studies.
-\emph{BMC Bioinformatics}, 18, 114.
-}
+\insertAllCited{}
 }

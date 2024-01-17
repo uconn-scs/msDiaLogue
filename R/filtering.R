@@ -47,7 +47,7 @@ preProcessFiltering <- function(dataSet,
       removedData <- filteredData %>% filter(is.nan(PG.Quantity))
       
       ## save removed data to current working directory
-      write.csv(removedData, "preprocess_Filtered_Out_NaN.csv")
+      write.csv(removedData, file = "preprocess_Filtered_Out_NaN.csv", row.names = FALSE)
     }
     
     ## filter out the proteins that have no recorded value
@@ -64,7 +64,7 @@ preProcessFiltering <- function(dataSet,
         filter(PG.NrOfStrippedSequencesIdentified < filterUnique)
       
       ## save removed data to current working directory
-      write.csv(removedData, "preprocess_Filtered_Out_Unique.csv")
+      write.csv(removedData, file = "preprocess_Filtered_Out_Unique.csv", row.names = FALSE)
     }
     
     ## filter out proteins that have only 1 unique peptide
@@ -155,7 +155,7 @@ filterOutIn <- function(dataSet,
     if (saveRm) {
       
       ## save removed data to current working directory
-      write.csv(unionData, "filtered_out_data.csv")
+      write.csv(unionData, file = "filtered_out_data.csv", row.names = FALSE)
     }
     
     ## remove all of the contaminants if they are present
@@ -206,7 +206,7 @@ filterNA <- function(dataSet, saveRm = TRUE) {
                             select_if(dataSet, ~any(is.na(.))))
     
     ## save removed data to current working directory
-    write.csv(removedData, "filtered_NA_data.csv")
+    write.csv(removedData, file = "filtered_NA_data.csv", row.names = FALSE)
   }
   
   ## remove all of the contaminants if they are present

@@ -1,7 +1,3 @@
-##################################
-#### Code for data imputation ####
-##################################
-#' 
 #' Creating a keyed list of conditions to the list of proteins that are present
 #' 
 #' @description

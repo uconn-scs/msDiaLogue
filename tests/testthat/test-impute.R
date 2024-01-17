@@ -95,3 +95,4 @@ test_that("impute_trunc-knn", {
   expect_equal(data, storedData)
   
 })
+
