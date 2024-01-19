@@ -65,7 +65,8 @@ preprocessing <- function(fileName,
   
   proteinInformation <- dataSet %>%
     select(c("PG.Genes", "PG.ProteinAccessions",
-             "PG.ProteinDescriptions", "PG.ProteinNames"))
+             "PG.ProteinDescriptions", "PG.ProteinNames")) %>%
+    distinct()
   
   write.csv(proteinInformation, file = "full_protein_information.csv", row.names = FALSE)
   
@@ -74,7 +75,8 @@ preprocessing <- function(fileName,
   
   proteinInformation <- filteredData %>%
     select(c("PG.Genes", "PG.ProteinAccessions",
-             "PG.ProteinDescriptions", "PG.ProteinNames"))
+             "PG.ProteinDescriptions", "PG.ProteinNames")) %>%
+    distinct()
   
   write.csv(proteinInformation, file = "preprocess_protein_information.csv", row.names = FALSE)
   
