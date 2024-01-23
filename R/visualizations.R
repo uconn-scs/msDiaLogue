@@ -199,17 +199,21 @@ visualize <- function(
     
     plotData <- dataSet %>%
       select(-R.FileName) %>%
-      pivot_longer(-c(R.Condition, R.Replicate))
-
-    ggplot(plotData, aes(x = R.Condition, y = value, fill = as.character(R.Replicate))) +
+      pivot_longer(-c(R.Condition, R.Replicate)) %>%
+      mutate(across(c(R.Condition, R.Replicate), as.character))
+    
+    ggplot(plotData, aes(x = R.Condition, y = value,
+                         fill = if (length(unique(R.Replicate)) == 1) R.Condition else R.Replicate)) +
       geom_boxplot(varwidth = TRUE) +
-      guides(fill = guide_legend(title = "Repilcate")) +
+      guides(fill = guide_legend(
+        title = ifelse(length(unique(plotData$R.Replicate)) == 1, "Condition", "Repilcate"))) +
       labs(title = "Normalization Boxplot") +
       xlab("Condition") +
       ylab("Signal value") +
       scale_fill_brewer(palette = "RdYlBu") +
       theme_bw() +
-      theme(legend.position = "bottom", plot.title = element_text(hjust = .5))
+      theme(legend.position = ifelse(length(unique(plotData$R.Replicate)) == 1, "none", "bottom"),
+            plot.title = element_text(hjust = .5))
     
   } else if (grepl("^PCA_", graphType)) {
     
