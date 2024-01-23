@@ -62,6 +62,7 @@ preprocessing <- function(fileName,
     ## read in the protein quantitative csv file generated from Spectranaut
     dataSet <- read.csv(fileName)
   }
+  dataSet$R.Condition <- as.character(dataSet$R.Condition)
   
   proteinInformation <- dataSet %>%
     select(c("PG.Genes", "PG.ProteinAccessions",

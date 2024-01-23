@@ -58,7 +58,7 @@ summarize <- function(dataSet, saveSumm = TRUE) {
   ## combine summaries into a single data frame
   proteinSummary <- do.call(rbind, lapply(conditionsList, function(k) {
     data.frame(t(proteinSummary[[k]])) %>%
-      select(-"R.Condition.") %>%
+      select(-"R.Condition") %>%
       rownames_to_column("Stat") %>%
       filter(Stat != "vars") %>%
       mutate(Condition = k, .before = "Stat")
