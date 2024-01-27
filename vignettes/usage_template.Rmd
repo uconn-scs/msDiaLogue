@@ -3,11 +3,11 @@ title: "A Usage Template for the R Package msDiaLogue"
 output: rmarkdown::html_vignette
 author: 
   - |
-    Shiying Xiao$^3$, Charles Watt$^3$, Jennifer C. Liddle$^1$, Jeremy L. Balsbaugh$^1$, and Timothy E. Moore$^2$
+    Shiying Xiao$^1$, Charles Watt$^1$, Jennifer C. Liddle$^2$, Jeremy L. Balsbaugh$^2$, and Timothy E. Moore$^3$
   - |
-    $^1$Proteomics and Metabolomics Facility, UConn \
-    $^2$Statistical Consulting Services, UConn \
-    $^3$Department of Statistics, UConn
+    $^1$Department of Statistics, UConn \
+    $^2$Proteomics and Metabolomics Facility, UConn \
+    $^3$Statistical Consulting Services, UConn
 date: "`r Sys.Date()`"
 bibliography:
   - ../inst/REFERENCES.bib
@@ -74,7 +74,8 @@ original protein report from **Spectronaut**.
   online database (e.g. P06493).
 + `PG.ProteinDescriptions`, which is the protein name as provided on UniProt (e.g.
    cyclin-dependent kinase 1).
-+ `PG.ProteinNames`, which is a concatenation of an identifier and the species (e.g. CDK1_HUMAN).
++ `PG.ProteinNames`, which is a concatenation of an identifier and the species (e.g.
+   CDK1_HUMAN).
 
 Every entry in UniProt will have an accession number, but may or may not have any of the
 other identifiers, depending on how completely the online entry has been annotated.
@@ -249,11 +250,11 @@ UV absorbance at 280 nm, a standard method for generic protein quantification.
 
 b) Assumption of Non-Changing Species: \
 Most biological experiments implicitly assume that the majority of measured species in an
-experiment will not change across conditions. This assumption is more robust if there are thousands
-of species, compared to only hundreds, or tens, so for experiments of very different complexities
-(e.g. a purified protein vs. an immunoprecipitation vs. a full lysate), normalization
-should not be applied as a global process, but instead only on subsets of experiments that
-are relatively similar to each other.
+experiment will not change across conditions. This assumption is more robust if there are
+thousands of species, compared to only hundreds, or tens, so for experiments of very
+different complexities (e.g. a purified protein vs. an immunoprecipitation vs. a full
+lysate), normalization should not be applied as a global process, but instead only on
+subsets of experiments that are relatively similar to each other.
 
 So far, this package provides three normalization methods for use:
 
@@ -331,7 +332,8 @@ knitr::kable(dataMissing)
 ```
 </div>
 
-For example, in the case of the protein "XPO4_HUMAN," there are 8 NA values in the samples, representing 80\% of the missing data for "XPO4_HUMAN" within that sample and 50\% of the
+For example, in the case of the protein "XPO4_HUMAN," there are 8 NA values in the samples,
+representing 80\% of the missing data for "XPO4_HUMAN" within that sample and 50\% of the
 total missing data in the entire dataset.
 
 Various imputation methods have been developed to address the missing-value issue and

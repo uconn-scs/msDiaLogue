@@ -72,16 +72,14 @@
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>A Usage Template for the R Package msDiaLogue</h1>
                         <h4 data-toc-skip class="author"></h4>
-<p>Jeremy L.
-Balsbaugh<span class="math inline">\(^1\)</span>, Jennifer C.
-Liddle<span class="math inline">\(^1\)</span>, Timothy E. Moore<span class="math inline">\(^2\)</span> and Shiying Xiao<span class="math inline">\(^3\)</span></p>
+<p>Shiying
+Xiao<span class="math inline">\(^1\)</span>, Charles Watt<span class="math inline">\(^1\)</span>, Jennifer C. Liddle<span class="math inline">\(^2\)</span>, Jeremy L. Balsbaugh<span class="math inline">\(^2\)</span>, and Timothy E. Moore<span class="math inline">\(^3\)</span></p>
                         <h4 data-toc-skip class="author"></h4>
-<p><span class="math inline">\(^1\)</span>Proteomics and Metabolomics Facility,
-UConn<br><span class="math inline">\(^2\)</span>Statistical Consulting Services,
-UConn<br><span class="math inline">\(^3\)</span>Department of Statistics,
+<p><span class="math inline">\(^1\)</span>Department of Statistics, UConn<br><span class="math inline">\(^2\)</span>Proteomics and Metabolomics
+Facility, UConn<br><span class="math inline">\(^3\)</span>Statistical Consulting Services,
 UConn</p>
             
-            <h4 data-toc-skip class="date">2024-01-23</h4>
+            <h4 data-toc-skip class="date">2024-01-26</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -149,7 +147,7 @@ number for a unique entry in the online database (e.g. P06493).</li>
 provided on UniProt (e.g. cyclin-dependent kinase 1).</li>
 <li>
 <code>PG.ProteinNames</code>, which is a concatenation of an
-identifier and the species (e.g. CDK1_HUMAN).</li>
+identifier and the species (e.g. CDK1_HUMAN).</li>
 </ul>
 <p>Every entry in UniProt will have an accession number, but may or may
 not have any of the other identifiers, depending on how completely the
@@ -490,11 +488,13 @@ a transformation on your data. You still need to use the functon
 <h2 id="transformation">Transformation<a class="anchor" aria-label="anchor" href="#transformation"></a>
 </h2>
 <p>Raw mass spectrometry intensity measurements are often unsuitable for
-direct statistical modeling because they do not necessarily follow the
-distribution assumed by a statistical test. Most proteomic workflows
-will convert these raw values with a log<span class="math inline">\(_2\)</span> transformation, which tends to reshape
-the data into a more Gaussian-type distribution that better meets common
-statistical test assumptions.</p>
+direct statistical modeling because the shape of the data is usually not
+symmetrical and the variance is not consistent across the range of
+intensities. Most proteomic workflows will convert these raw values with
+a log<span class="math inline">\(_2\)</span> transformation, which both
+reshapes the data into a more symmetrical distribution, making it easier
+to interpret mean-based fold changes, and also stabilizes the variance
+across the intensity range (i.e. reduces heteroscedasticity).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataTran</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/transform.html">transform</a></span><span class="op">(</span><span class="va">dataSet</span>, logFold <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-6-1.png" width="700" style="display: block; margin: auto;"><img src="usage_template_files/figure-html/unnamed-chunk-6-2.png" width="700" style="display: block; margin: auto;"></p>
@@ -810,8 +810,8 @@ union of those specified in <code>listName</code> and those matching the
 regular expression pattern in <code>regexName</code>.</p>
 <p><strong>KEEP IN MIND:</strong> Removal will affect any global
 calculations performed after this step (such as normalization).</p>
-<p><strong>Case 1.</strong> Remove the inputted proteins and retain the
-remaining proteins</p>
+<p><strong>Case 1.</strong> Remove proteins specified by the user in
+this step and keep everything else.</p>
 <p>For example, the proteins named “ADH1_YEAST” and those containing
 “HUMAN” are chosen to be filtered out.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -913,9 +913,9 @@ current working directory.</p>
 </tbody>
 </table>
 </div>
-<p><strong>Case 2.</strong> Keep the inputted proteins and remove the
-rest.</p>
-<p>Alternatively, if we would to keep proteins like “ADH1_YEAS” and
+<p><strong>Case 2.</strong> Keep the proteins specified by the user in
+this step and remove everything else.</p>
+<p>Alternatively, if we would to keep proteins like “ADH1_YEAST” and
 “*HUMAN”, simply set <code>removelist = FALSE</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/filterOutIn.html">filterOutIn</a></span><span class="op">(</span><span class="va">dataTran</span>, listName <span class="op">=</span> <span class="st">"ADH1_YEAST"</span>, regexName <span class="op">=</span> <span class="st">"HUMAN"</span>,</span>
@@ -1298,13 +1298,12 @@ or “Alcohol dehydrogenase 1” will be kept. Note that the search value
 <div class="section level2">
 <h2 id="normalization">Normalization<a class="anchor" aria-label="anchor" href="#normalization"></a>
 </h2>
-<p>Normalization is designed to address systematic biases in the data if
-they exist. Biases can arise from inadvertent sample grouping during
-generation or preparation, from instrument drift if the acquisition
-lasted for a significant length of time, or from analyzing different
-amounts of material across experiments. These factors can mask or
-artificially enhance actual biological differences of interest. The
-presence of bias should be determined independently.</p>
+<p>Normalization is designed to address systematic biases in the data.
+Biases can arise from inadvertent sample grouping during generation or
+preparation, from instrument drift if the acquisition lasted for a
+significant length of time, or from analyzing different amounts of
+material across experiments. These factors can mask or artificially
+enhance actual biological differences of interest.</p>
 <p>Many normalization methods have been developed for large datasets,
 each with its own strengths and weaknesses. The following factors should
 be considered when choosing a normalization method:</p>
@@ -1317,12 +1316,12 @@ a standard method for generic protein quantification.</p></li>
 <li><p>Assumption of Non-Changing Species:<br>
 Most biological experiments implicitly assume that the majority of
 measured species in an experiment will not change across conditions.
-This assumption is more robust for thousands of species than for
-hundreds or tens, so for experiments of wildly different complexities
-(e.g. a purified protein vs. an immunoprecipitation vs. a full lysate),
-normalization should not be applied as a global process, but instead
-only on subsets of experiments that are relatively similar to each
-other.</p></li>
+This assumption is more robust if there are thousands of species,
+compared to only hundreds, or tens, so for experiments of very different
+complexities (e.g. a purified protein vs. an immunoprecipitation vs. a
+full lysate), normalization should not be applied as a global process,
+but instead only on subsets of experiments that are relatively similar
+to each other.</p></li>
 </ol>
 <p>So far, this package provides three normalization methods for
 use:</p>
@@ -1652,7 +1651,7 @@ Acquisition (DDA) methods trade scan quantity for simpler and cleaner
 scans, thereby improving the quality of the peptide identification. Data
 sampling is prioritized by abundance in each scan, so for peptides at
 lower intensities in that scan, DDA is less likely to acquire an
-identifying scan, which is a common sources of missing data in the final
+identifying scan, which is a common source of missing data in the final
 dataset.</p>
 <p>Data-Independent Acquisition (DIA) makes the opposite trade, where
 data sampling is scheduled to cover a set mass range systematically.
@@ -1844,8 +1843,9 @@ However, reproducible observations make conclusions more credible.
 Setting the <code>reqPercentPresent</code> to 0.51 requires that any
 protein be observed in a majority of the replicates by condition in
 order to be considered. For 3 replicates, this would require 2
-measurements to allow imputation of the 3rd value. 1 measurement would
-be treated as not detected.</p>
+measurements to allow imputation of the 3rd value. If only 1 measurement
+is seen, the other values will remain NA, and will be filtered out in a
+subsequent step.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataImput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/impute.html">impute</a></span><span class="op">(</span><span class="va">dataNorm</span>, imputeType <span class="op">=</span> <span class="st">"LocalMinVal"</span>,</span>
 <span>                    reqPercentPresent <span class="op">=</span> <span class="fl">0.51</span>, reportImputing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
@@ -2147,8 +2147,9 @@ be treated as not detected.</p>
 will be altered to a list, adding a shadow data frame with imputed data
 labels, where 1 indicates the corresponding entries have been imputed,
 and 0 indicates otherwise.</p>
-<p>After the above imputation, there may still be some NA values that
-consequently need to be filtered out.</p>
+<p>After the above imputation, any entries that did not pass the percent
+present threshold will still have NA values and will need to be filtered
+out.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataImput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filterNA.html">filterNA</a></span><span class="op">(</span><span class="va">dataImput</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>where <code>saveRm = TRUE</code> indicates that the filtered data
