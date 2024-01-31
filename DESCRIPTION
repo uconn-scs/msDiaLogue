@@ -1,6 +1,6 @@
 Package: msDiaLogue
 Title: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: c(
     person("Shiying", "Xiao", email = "shiying.xiao@uconn.edu",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8846-3258")),
@@ -41,7 +41,7 @@ Encoding: UTF-8
 URL: https://github.com/uconn-scs/msDiaLogue
 BugReports: https://github.com/uconn-scs/msDiaLogue/issues
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.0
+RoxygenNote: 7.3.1
 Config/testthat/edition: 3
 biocViews: impute, limma
 RdMacros: Rdpack
