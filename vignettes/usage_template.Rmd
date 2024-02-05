@@ -338,31 +338,37 @@ total missing data in the entire dataset.
 
 Various imputation methods have been developed to address the missing-value issue and
 assign a reasonable guess of quantitative value to proteins with missing values. So far,
-this package provides five imputation methods for use:
+this package provides eight imputation methods for use:
 
-1. "LocalMinVal": Replaces missing values with the lowest measured value for that protein
-in that condition.
+1. `impute.min_local()`: Replaces missing values with the lowest measured value for that
+protein in that condition.
 
-2. "GlobalMinVal": Replaces missing values with the lowest measured value from any protein
-found within the entire dataset.
+2. `impute.min_global()`: Replaces missing values with the lowest measured value from any
+protein found within the entire dataset.
 
-3. "knn": Replaces missing values using the k-nearest neighbors algorithm
+3. `impute.knn()`: Replaces missing values using the k-nearest neighbors algorithm
 [@troyanskaya2001missing].
 
-4. "seq-knn": Replaces missing values using the sequential k-nearest neighbors algorithm
-[@kim2004reuse].
+4. `impute.knn_seq()`: Replaces missing values using the sequential k-nearest neighbors
+algorithm [@kim2004reuse].
 
-5. "trunc-knn": Replaces missing values using the truncated k-nearest neighbors algorithm
-[@shah2017distribution].
+5. `impute.knn_trunc()`: Replaces missing values using the truncated k-nearest neighbors
+algorithm [@shah2017distribution].
 
-6. "nuc-norm": Replaces missing values using the nuclear-norm regularization
+6. `impute.nuc_norm()`: Replaces missing values using the nuclear-norm regularization
 [@hastie2015matrix].
 
-Additional methods will be added later. And "LocalMinVal" is currently the default method.
+7. `impute.mice_cart()`: Replaces missing values using the classification and regression
+trees [@breiman1984classification; @doove2014recursive; @van2018flexible].
 
-For example, to impute the NA value of `dataNorm` using "LocalMinVal," set the required
-percentage of values that must be present in a given protein by condition combination for
-values to be imputed to 51\%.
+8. `impute.mice_norm()`: Replaces missing values using the Bayesian linear regression
+[@rubin1987multiple; @schafer1997analysis; @van2011mice].
+
+Additional methods will be added later.
+
+For example, to impute the NA value of `dataNorm` using `impute.min_local()`, set the
+required percentage of values that must be present in a given protein by condition
+combination for values to be imputed to 51\%.
 
 **NOTE:** There is no rule in the field of proteomics for filtering based on percentage of
 missingness, similar to there being no rule for the number of replicates required to draw
@@ -373,8 +379,8 @@ measurements to allow imputation of the 3rd value. If only 1 measurement is seen
 values will remain NA, and will be filtered out in a subsequent step.
 
 ```{r}
-dataImput <- impute(dataNorm, imputeType = "LocalMinVal",
-                    reqPercentPresent = 0.51, reportImputing = FALSE)
+dataImput <- impute.min_local(dataNorm, reportImputing = FALSE,
+                              reqPercentPresent = 0.51)
 ```
 
 <div style="overflow-x: auto;">

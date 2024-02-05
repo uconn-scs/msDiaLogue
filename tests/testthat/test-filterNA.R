@@ -2,7 +2,7 @@
 test_that("filterNA", {
   
   ## load data from previous step in work flow
-  dataSet <- read.csv("../storedData/impute_LocalMinVal_Toy.csv")
+  dataSet <- read.csv("../storedData/impute.min_local_Toy.csv")
   
   ## execute current function 'filterNA' on data file
   invisible(capture.output(

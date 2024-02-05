@@ -81,8 +81,8 @@ between two successive estimates.}
 before the convergence is reached for \code{imputeType = "nuc-norm"}.}
 
 \item{final.svd}{A boolean (default = TRUE) specifying whether to perform a one-step
-unregularized iteration at the final iteration, followed by soft-thresholding of the
-singular values, resulting in hard zeros.}
+unregularized iteration at the final iteration for \code{imputeType = "nuc-norm"},
+followed by soft-thresholding of the singular values, resulting in hard zeros.}
 
 \item{reportImputing}{A boolean (default = FALSE) specifying whether to provide a
 shadow data frame with imputed data labels, where 1 indicates the corresponding entries

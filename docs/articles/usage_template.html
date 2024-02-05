@@ -28,7 +28,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">msDiaLogue</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,7 +79,7 @@ Xiao<span class="math inline">\(^1\)</span>, Charles Watt<span class="math inlin
 Facility, UConn<br><span class="math inline">\(^3\)</span>Statistical Consulting Services,
 UConn</p>
             
-            <h4 data-toc-skip class="date">2024-01-31</h4>
+            <h4 data-toc-skip class="date">2024-02-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -1810,32 +1810,39 @@ values in the samples, representing 80% of the missing data for
 entire dataset.</p>
 <p>Various imputation methods have been developed to address the
 missing-value issue and assign a reasonable guess of quantitative value
-to proteins with missing values. So far, this package provides five
+to proteins with missing values. So far, this package provides eight
 imputation methods for use:</p>
 <ol style="list-style-type: decimal">
-<li><p>“LocalMinVal”: Replaces missing values with the lowest measured
-value for that protein in that condition.</p></li>
-<li><p>“GlobalMinVal”: Replaces missing values with the lowest measured
-value from any protein found within the entire dataset.</p></li>
-<li><p>“knn”: Replaces missing values using the k-nearest neighbors
-algorithm <span class="citation">(Troyanskaya et al.
+<li><p><code><a href="../reference/impute.min_local.html">impute.min_local()</a></code>: Replaces missing values with the
+lowest measured value for that protein in that condition.</p></li>
+<li><p><code><a href="../reference/impute.min_global.html">impute.min_global()</a></code>: Replaces missing values with
+the lowest measured value from any protein found within the entire
+dataset.</p></li>
+<li><p><code><a href="../reference/impute.knn.html">impute.knn()</a></code>: Replaces missing values using the
+k-nearest neighbors algorithm <span class="citation">(Troyanskaya et al.
 2001)</span>.</p></li>
-<li><p>“seq-knn”: Replaces missing values using the sequential k-nearest
-neighbors algorithm <span class="citation">(Kim, Kim, and Yi
-2004)</span>.</p></li>
-<li><p>“trunc-knn”: Replaces missing values using the truncated
-k-nearest neighbors algorithm <span class="citation">(Shah et al.
-2017)</span>.</p></li>
-<li><p>“nuc-norm”: Replaces missing values using the nuclear-norm
-regularization <span class="citation">(Hastie et al.
+<li><p><code><a href="../reference/impute.knn_seq.html">impute.knn_seq()</a></code>: Replaces missing values using the
+sequential k-nearest neighbors algorithm <span class="citation">(Kim,
+Kim, and Yi 2004)</span>.</p></li>
+<li><p><code><a href="../reference/impute.knn_trunc.html">impute.knn_trunc()</a></code>: Replaces missing values using
+the truncated k-nearest neighbors algorithm <span class="citation">(Shah
+et al. 2017)</span>.</p></li>
+<li><p><code><a href="../reference/impute.nuc_norm.html">impute.nuc_norm()</a></code>: Replaces missing values using the
+nuclear-norm regularization <span class="citation">(Hastie et al.
 2015)</span>.</p></li>
+<li><p><code><a href="../reference/impute.mice_cart.html">impute.mice_cart()</a></code>: Replaces missing values using
+the classification and regression trees <span class="citation">(Breiman
+et al. 1984; Doove, van Buuren, and Dusseldorp 2014; van Buuren
+2018)</span>.</p></li>
+<li><p><code><a href="../reference/impute.mice_norm.html">impute.mice_norm()</a></code>: Replaces missing values using
+the Bayesian linear regression <span class="citation">(Rubin 1987;
+Schafer 1997; van Buuren and Groothuis-Oudshoorn 2011)</span>.</p></li>
 </ol>
-<p>Additional methods will be added later. And “LocalMinVal” is
-currently the default method.</p>
+<p>Additional methods will be added later.</p>
 <p>For example, to impute the NA value of <code>dataNorm</code> using
-“LocalMinVal,” set the required percentage of values that must be
-present in a given protein by condition combination for values to be
-imputed to 51%.</p>
+<code><a href="../reference/impute.min_local.html">impute.min_local()</a></code>, set the required percentage of values
+that must be present in a given protein by condition combination for
+values to be imputed to 51%.</p>
 <p><strong>NOTE:</strong> There is no rule in the field of proteomics
 for filtering based on percentage of missingness, similar to there being
 no rule for the number of replicates required to draw a conclusion.
@@ -1847,8 +1854,8 @@ measurements to allow imputation of the 3rd value. If only 1 measurement
 is seen, the other values will remain NA, and will be filtered out in a
 subsequent step.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dataImput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/impute.html">impute</a></span><span class="op">(</span><span class="va">dataNorm</span>, imputeType <span class="op">=</span> <span class="st">"LocalMinVal"</span>,</span>
-<span>                    reqPercentPresent <span class="op">=</span> <span class="fl">0.51</span>, reportImputing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dataImput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/impute.min_local.html">impute.min_local</a></span><span class="op">(</span><span class="va">dataNorm</span>, reportImputing <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                              reqPercentPresent <span class="op">=</span> <span class="fl">0.51</span><span class="op">)</span></span></code></pre></div>
 <div style="overflow-x: auto;">
 <table style="width:100%;" class="table">
 <colgroup>
@@ -3933,6 +3940,17 @@ Bolstad, B. M., R. A. Irizarry, M. Astrand, and T. P. Speed. 2003.
 Oligonucleotide Array Data Based on Variance and Bias.”</span>
 <em>Bioinformatics</em> 19 (2): 185–93. <a href="https://doi.org/10.1093/bioinformatics/19.2.185" class="external-link">https://doi.org/10.1093/bioinformatics/19.2.185</a>.
 </div>
+<div id="ref-breiman1984classification" class="csl-entry">
+Breiman, L., J. Friedman, R. A. Olshen, and C. J. Stone. 1984.
+<em>Classification and Regression Trees</em>. New York, NY, USA:
+Routledge.
+</div>
+<div id="ref-doove2014recursive" class="csl-entry">
+Doove, Lisa L., Stef van Buuren, and Elise Dusseldorp. 2014.
+<span>“Recursive Partitioning for Missing Data Imputation in the
+Presence of Interaction Effects.”</span> <em>Computational Statistics
+&amp; Data Analysis</em> 72: 92–104. <a href="https://doi.org/10.1016/j.csda.2013.10.025" class="external-link">https://doi.org/10.1016/j.csda.2013.10.025</a>.
+</div>
 <div id="ref-hastie2015matrix" class="csl-entry">
 Hastie, Trevor, Rahul Mazumder, Jason D. Lee, and Reza Zadeh. 2015.
 <span>“Matrix Completion and Low-Rank <span>SVD</span> via Fast
@@ -3943,6 +3961,14 @@ Research</em> 16 (104): 3367—3402. <a href="http://jmlr.org/papers/v16/hastie1
 Kim, Ki-Yeol, Byoung-Jin Kim, and Gwan-Su Yi. 2004. <span>“Reuse of
 Imputed Data in Microarray Analysis Increases Imputation
 Efficiency.”</span> <em>BMC Bioinformatics</em> 5: 160. <a href="https://doi.org/10.1186/1471-2105-5-160" class="external-link">https://doi.org/10.1186/1471-2105-5-160</a>.
+</div>
+<div id="ref-rubin1987multiple" class="csl-entry">
+Rubin, Donald B. 1987. <em>Multiple Imputation for Nonresponse in
+Surveys</em>. New York, NY, USA: John Wiley &amp; Sons.
+</div>
+<div id="ref-schafer1997analysis" class="csl-entry">
+Schafer, Joseph L. 1997. <em>Analysis of Incomplete Multivariate
+Data</em>. New York, NY, USA: Chapman &amp; Hall/CRC.
 </div>
 <div id="ref-shah2017distribution" class="csl-entry">
 Shah, Jasmit S., Shesh N. Rai, Andrew P. DeFilippis, Bradford G. Hill,
@@ -3962,6 +3988,16 @@ Troyanskaya, Olga, Michael Cantor, Gavin Sherlock, Pat Brown, Trevor
 Hastie, Robert Tibshirani, David Botstein, and Russ B. Altman. 2001.
 <span>“Missing Value Estimation Methods for <span>DNA</span>
 Microarrays.”</span> <em>Bioinformatics</em> 17 (6): 520–25. <a href="https://doi.org/10.1093/bioinformatics/17.6.520" class="external-link">https://doi.org/10.1093/bioinformatics/17.6.520</a>.
+</div>
+<div id="ref-van2018flexible" class="csl-entry">
+van Buuren, Stef. 2018. <em>Flexible Imputation of Missing Data</em>.
+New York, NY, USA: Chapman &amp; Hall/CRC.
+</div>
+<div id="ref-van2011mice" class="csl-entry">
+van Buuren, Stef, and Karin Groothuis-Oudshoorn. 2011. <span>“Mice:
+<span>M</span>ultivariate Imputation by Chained Equations in
+<span>R</span>.”</span> <em>Journal of Statistical Software</em> 45 (3):
+1–67. <a href="https://doi.org/10.18637/jss.v045.i03" class="external-link">https://doi.org/10.18637/jss.v045.i03</a>.
 </div>
 </div>
 </div>

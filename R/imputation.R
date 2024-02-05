@@ -66,8 +66,8 @@
 #' before the convergence is reached for \code{imputeType = "nuc-norm"}.
 #' 
 #' @param final.svd A boolean (default = TRUE) specifying whether to perform a one-step
-#' unregularized iteration at the final iteration, followed by soft-thresholding of the
-#' singular values, resulting in hard zeros.
+#' unregularized iteration at the final iteration for \code{imputeType = "nuc-norm"},
+#' followed by soft-thresholding of the singular values, resulting in hard zeros.
 #' 
 #' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
@@ -97,97 +97,549 @@ impute <- function(dataSet,
                    rank.max = NULL, lambda = NULL, thresh = 1e-05, maxit = 100, final.svd = TRUE,
                    reportImputing = FALSE) {
   
+  if (imputeType == "LocalMinVal") {
+    warning("The function `impute()` in msDiaLogue 0.0.3 was deprecated.
+            Please use `impute.mim_local()` instead.")
+    result <- impute.min_local(dataSet, reportImputing = reportImputing,
+                               reqPercentPresent = reqPercentPresent)
+    
+  } else if (imputeType == "GlobalMinVal") {
+    warning("The function `impute()` in msDiaLogue 0.0.3 was deprecated.
+            Please use `impute.mim_global()` instead.")
+    result <- impute.min_global(dataSet, reportImputing = reportImputing)
+    
+  } else if (imputeType == "knn") {
+    warning("The function `impute()` in msDiaLogue 0.0.3 was deprecated.
+            Please use `impute.knn()` instead.")
+    result <- impute.knn(dataSet, reportImputing = reportImputing,
+                         k = k, rowmax = rowmax, colmax = colmax,
+                         maxp = maxp, seed = rng.seed)
+    
+  } else if (imputeType == "seq-knn") {
+    warning("The function `impute()` in msDiaLogue 0.0.3 was deprecated.
+            Please use `impute.knn_seq()` instead.")
+    result <- impute.knn_seq(dataSet, reportImputing = reportImputing,
+                             k = k)
+    
+  } else if (imputeType == "trunc-knn") {
+    warning("The function `impute()` in msDiaLogue 0.0.3 was deprecated.
+            Please use `impute.knn_trunc()` instead.")
+    result <- impute.knn_trunc(dataSet, reportImputing = reportImputing,
+                               k = k)
+    
+  } else if (imputeType == "nuc-norm") {
+    warning("The function `impute()` in msDiaLogue 0.0.3 was deprecated.
+            Please use `impute.nuc_norm()` instead.")
+    result <- impute.nuc_norm(dataSet, reportImputing = reportImputing,
+                              rank.max = rank.max, lambda = lambda, thresh = thresh,
+                              maxit = maxit, final.svd = final.svd)
+  }
+  return(result)
+}
+
+
+##----------------------------------------------------------------------------------------
+#'
+#' Imputation by the global minimum
+#' 
+#' @description
+#' Apply imputation to the dataset by the minimum measured value from any protein found
+#' within the entire dataset.
+#' 
+#' @param dataSet The 2d dataset of experimental values.
+#' 
+#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
+#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
+#' have been imputed, and 0 indicates otherwise. Alters the return structure.
+#' 
+#' @returns
+#' \itemize{
+#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
+#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
+#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
+#' }
+#' 
+#' @export
+
+impute.min_global <- function(dataSet, reportImputing = FALSE) {
+  
   ## select the numerical data
   dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
   
-  if (imputeType == "LocalMinVal") {
+  ## replace all NAs with the global smallest value in the data set
+  dataPoints <- replace(dataPoints, is.na(dataPoints), min(dataPoints, na.rm = TRUE))
+  
+  ## recombine the labels and imputed data
+  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
+                       dataPoints)
+  
+  if (reportImputing) {
+    ## return the imputed data and the shadow matrix
+    return(list(imputedData = imputedData,
+                shadowMatrix = ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0)))
+  } else {
+    return(imputedData)
+  }
+}
+
+
+##----------------------------------------------------------------------------------------
+#'
+#' Imputation by the local minimum
+#' 
+#' @description
+#' Apply imputation to the dataset by the minimum measured value for that protein in that
+#' condition.
+#' 
+#' @param dataSet The 2d dataset of experimental values.
+#' 
+#' @param reqPercentPresent A scalar (default = 0.51) specifying the required percent of
+#' values that must be present in a given protein by condition combination for values to
+#' be imputed.
+#' 
+#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
+#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
+#' have been imputed, and 0 indicates otherwise. Alters the return structure.
+#' 
+#' @returns
+#' \itemize{
+#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
+#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
+#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
+#' }
+#' 
+#' @export
+
+impute.min_local <- function(dataSet, reportImputing = FALSE,
+                             reqPercentPresent = 0.51) {
+  
+  ## select the numerical data
+  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  
+  ## number of proteins in the data set
+  numProteins <- ncol(dataPoints)
+  
+  ## create a frequency table for conditions
+  frq <- table(dataSet$R.Condition)
+  
+  ## list of conditions in the data set
+  conditionsList <- names(frq)
+  
+  ## number of conditions in the data set
+  numConditions <- length(conditionsList)
+  
+  ## number of replicates for each condition in the data set
+  numReplicates <- as.vector(frq)
+  
+  ## loop over proteins
+  for (j in 1:numProteins) {
     
-    ## number of proteins in the data set
-    numProteins <- ncol(dataPoints)
-    
-    ## create a frequency table for conditions
-    frq <- table(dataSet$R.Condition)
-    
-    ## list of conditions in the data set
-    conditionsList <- names(frq)
-    
-    ## number of conditions in the data set
-    numConditions <- length(conditionsList)
-    
-    ## number of replicates for each condition in the data set
-    numReplicates <- as.vector(frq)
-    
-    ## loop over proteins
-    for (j in 1:numProteins) {
+    ## loop over conditions
+    for (i in 1:numConditions) {
       
-      ## loop over conditions
-      for (i in 1:numConditions) {
+      ## condition for subsetting the data
+      conditionIndex <- dataSet$R.Condition == conditionsList[i]
+      
+      ## select and isolate the data from each protein by condition combination
+      localData <- dataPoints[conditionIndex, j]
+      
+      ## calculate the percent of samples that are present in that protein by
+      ## condition combination
+      percentPresent <- sum(!is.na(localData)) / numReplicates[i]
+      
+      ## impute missing values if the threshold is met
+      if (percentPresent >= reqPercentPresent) {
         
-        ## condition for subsetting the data
-        conditionIndex <- dataSet$R.Condition == conditionsList[i]
+        ## identify missing values
+        missingValues <- is.na(localData)
         
-        ## select and isolate the data from each protein by condition combination
-        localData <- dataPoints[conditionIndex, j]
-        
-        ## calculate the percent of samples that are present in that protein by
+        ## replace missing values with the minimum (non-NA) value of the protein by
         ## condition combination
-        percentPresent <- sum(!is.na(localData)) / numReplicates[i]
-        
-        ## impute missing values if the threshold is met
-        if (percentPresent >= reqPercentPresent) {
-          
-          ## identify missing values
-          missingValues <- is.na(localData)
-          
-          ## replace missing values with the minimum (non-NA) value of the protein by
-          ## condition combination
-          dataPoints[conditionIndex, j] <- replace(localData, missingValues,
-                                                   min(localData, na.rm = TRUE))
-        }
+        dataPoints[conditionIndex, j] <- replace(localData, missingValues,
+                                                 min(localData, na.rm = TRUE))
       }
     }
-    
-  } else if (imputeType == "GlobalMinVal") {
-    ## replace all NAs with the global smallest value in the data set
-    
-    dataPoints <- replace(dataPoints, is.na(dataPoints), min(dataPoints, na.rm = TRUE))
-    
-  } else if (imputeType == "knn") {
-    ## replace NAs using knn algorithm
-    
-    dataPoints <- t(impute::impute.knn(t(dataPoints), k = k,
-                                       rowmax = rowmax, colmax = colmax,
-                                       maxp = maxp, rng.seed = rng.seed)$data)
-    
-  } else if (imputeType == "seq-knn") {
-    ## replace NAs using sequential knn algorithm
-    
-    dataPoints <- t(multiUS::seqKNNimp(t(dataPoints), k = k))
-    
-  } else if (imputeType == "trunc-knn") {
-    ## replace NAs using truncated knn algorithm
-    ## source: trunc-knn.R
-    
-    dataPoints <- imputeKNN(data = as.matrix(dataPoints), k = k,
-                            distance = "truncation", perc = 0)
-    
-  } else if (imputeType == "nuc-norm") {
-    ## replace NAs using nuclear-norm regularization
-    
-    if(is.null(rank.max)) {
-      rank.max <- min(dim(dataPoints) - 1)
-    }
-    
-    if(is.null(lambda)) {
-      lambda <- svd(replace(dataPoints, is.na(dataPoints), 0))$d[1]
-    }
-    
-    fit <- softImpute::softImpute(t(dataPoints), type = "als",
-                                  rank.max = rank.max, lambda = lambda, thresh = thresh,
-                                  maxit = maxit, final.svd = final.svd)
-    
-    dataPoints <- t(softImpute::complete(t(dataPoints), fit))
   }
+  
+  ## recombine the labels and imputed data
+  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
+                       dataPoints)
+  
+  if (reportImputing) {
+    ## return the imputed data and the shadow matrix
+    return(list(imputedData = imputedData,
+                shadowMatrix = ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0)))
+  } else {
+    return(imputedData)
+  }
+}
+
+
+##----------------------------------------------------------------------------------------
+#'
+#' Imputation by the k-nearest neighbors algorithm
+#' 
+#' @description
+#' Apply imputation to the dataset by the k-nearest neighbors algorithm
+#' \insertCite{troyanskaya2001missing}{msDiaLogue}.
+#' 
+#' @param dataSet The 2d dataset of experimental values.
+#' 
+#' @param k An integer (default = 10) indicating the number of neighbors to be used in the
+#' imputation.
+#' 
+#' @param rowmax A scalar (default = 0.5) specifying the maximum percent missing data
+#' allowed in any row. For any rows with more than \code{rowmax}*100% missing are imputed
+#' using the overall mean per sample.
+#' 
+#' @param colmax A scalar (default = 0.8) specifying the maximum percent missing data
+#' allowed in any column. If any column has more than \code{colmax}*100% missing data, the
+#' program halts and reports an error.
+#' 
+#' @param maxp An integer (default = 1500) indicating the largest block of proteins
+#' imputed using the k-nearest neighbors algorithm. Larger blocks are divided by two-means
+#' clustering (recursively) prior to imputation.
+#' 
+#' @param seed An integer (default = 362436069) specifying the seed used for the
+#' random number generator for reproducibility.
+#' 
+#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
+#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
+#' have been imputed, and 0 indicates otherwise. Alters the return structure.
+#' 
+#' @importFrom impute impute.knn
+#' 
+#' @returns
+#' \itemize{
+#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
+#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
+#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
+#' }
+#' 
+#' @references
+#' \insertAllCited{}
+#' 
+#' @export
+
+impute.knn <- function(dataSet, reportImputing = FALSE,
+                       k = 10, rowmax = 0.5, colmax = 0.8, maxp = 1500, seed = 362436069) {
+  
+  ## select the numerical data
+  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  
+  ## replace NAs using knn algorithm
+  dataPoints <- t(impute::impute.knn(t(dataPoints), k = k,
+                                     rowmax = rowmax, colmax = colmax,
+                                     maxp = maxp, rng.seed = seed)$data)
+  
+  ## recombine the labels and imputed data
+  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
+                       dataPoints)
+  
+  if (reportImputing) {
+    ## return the imputed data and the shadow matrix
+    return(list(imputedData = imputedData,
+                shadowMatrix = ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0)))
+  } else {
+    return(imputedData)
+  }
+}
+
+
+##----------------------------------------------------------------------------------------
+#'
+#' Imputation by the k-nearest neighbors algorithm
+#' 
+#' @description
+#' Apply imputation to the dataset by the sequential k-nearest neighbors algorithm
+#' \insertCite{kim2004reuse}{msDiaLogue}.
+#' 
+#' @param dataSet The 2d dataset of experimental values.
+#' 
+#' @param k An integer (default = 10) indicating the number of neighbors to be used in the
+#' imputation.
+#' 
+#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
+#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
+#' have been imputed, and 0 indicates otherwise. Alters the return structure.
+#' 
+#' @importFrom multiUS seqKNNimp
+#' 
+#' @returns
+#' \itemize{
+#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
+#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
+#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
+#' }
+#' 
+#' @references
+#' \insertAllCited{}
+#' 
+#' @export
+
+impute.knn_seq <- function(dataSet, reportImputing = FALSE,
+                           k = 10) {
+  
+  ## select the numerical data
+  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  
+  ## replace NAs using sequential knn algorithm
+  dataPoints <- t(multiUS::seqKNNimp(t(dataPoints), k = k))
+  
+  ## recombine the labels and imputed data
+  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
+                       dataPoints)
+  
+  if (reportImputing) {
+    ## return the imputed data and the shadow matrix
+    return(list(imputedData = imputedData,
+                shadowMatrix = ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0)))
+  } else {
+    return(imputedData)
+  }
+}
+
+
+##----------------------------------------------------------------------------------------
+#'
+#' Imputation by the truncated k-nearest neighbors algorithm
+#' 
+#' @description
+#' Apply imputation to the dataset by the truncated k-nearest neighbors algorithm
+#' \insertCite{shah2017distribution}{msDiaLogue}.
+#' 
+#' @param dataSet The 2d dataset of experimental values.
+#' 
+#' @param k An integer (default = 10) indicating the number of neighbors to be used in the
+#' imputation.
+#' 
+#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
+#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
+#' have been imputed, and 0 indicates otherwise. Alters the return structure.
+#' 
+#' @returns
+#' \itemize{
+#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
+#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
+#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
+#' }
+#' 
+#' @references
+#' \insertAllCited{}
+#' 
+#' @export
+
+impute.knn_trunc <- function(dataSet, reportImputing = FALSE,
+                             k = 10) {
+  
+  ## select the numerical data
+  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  
+  ## replace NAs using truncated knn algorithm
+  ## source: trunc-knn.R
+  dataPoints <- imputeKNN(data = as.matrix(dataPoints), k = k,
+                          distance = "truncation", perc = 0)
+  
+  ## recombine the labels and imputed data
+  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
+                       dataPoints)
+  
+  if (reportImputing) {
+    ## return the imputed data and the shadow matrix
+    return(list(imputedData = imputedData,
+                shadowMatrix = ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0)))
+  } else {
+    return(imputedData)
+  }
+}
+
+
+##----------------------------------------------------------------------------------------
+#'
+#' Imputation by the nuclear-norm regularization
+#' 
+#' @description
+#' Apply imputation to the dataset by the nuclear-norm regularization
+#' \insertCite{hastie2015matrix}{msDiaLogue}.
+#' 
+#' @param dataSet The 2d dataset of experimental values.
+#' 
+#' @param rank.max An integer specifying the restriction on the rank of the solution. The
+#' default is set to one less than the minimum dimension of the dataset.
+#' 
+#' @param lambda A scalar specifying the nuclear-norm regularization parameter. If
+#' \code{lambda = 0}, the algorithm convergence is typically slower. The default is set to
+#' the maximum singular value obtained from the singular value decomposition (SVD) of the
+#' dataset.
+#' 
+#' @param thresh A scalar (default = 1e-5) specifying the convergence threshold, measured
+#' as the relative change in the Frobenius norm between two successive estimates.
+#' 
+#' @param maxit An integer (default = 100) specifying the maximum number of iterations
+#' before the convergence is reached.
+#' 
+#' @param final.svd A boolean (default = TRUE) specifying whether to perform a one-step
+#' unregularized iteration at the final iteration, followed by soft-thresholding of the
+#' singular values, resulting in hard zeros.
+#' 
+#' @param seed An integer (default = 362436069) specifying the seed used for the
+#' random number generator for reproducibility.
+#' 
+#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
+#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
+#' have been imputed, and 0 indicates otherwise. Alters the return structure.
+#' 
+#' @importFrom softImpute complete softImpute
+#' 
+#' @returns
+#' \itemize{
+#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
+#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
+#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
+#' }
+#' 
+#' @references
+#' \insertAllCited{}
+#' 
+#' @export
+
+impute.nuc_norm <- function(dataSet, reportImputing = FALSE,
+                            rank.max = NULL, lambda = NULL, thresh = 1e-05, maxit = 100,
+                            final.svd = TRUE, seed = 362436069) {
+  
+  ## select the numerical data
+  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  
+  ## replace NAs using nuclear-norm regularization
+  if(is.null(rank.max)) {
+    rank.max <- min(dim(dataPoints) - 1)
+  }
+  
+  if(is.null(lambda)) {
+    lambda <- svd(replace(dataPoints, is.na(dataPoints), 0))$d[1]
+  }
+  
+  set.seed(seed)
+  
+  fit <- softImpute::softImpute(t(dataPoints), type = "als",
+                                rank.max = rank.max, lambda = lambda, thresh = thresh,
+                                maxit = maxit, final.svd = final.svd)
+  
+  dataPoints <- t(softImpute::complete(t(dataPoints), fit))
+  
+  ## recombine the labels and imputed data
+  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
+                       dataPoints)
+  
+  if (reportImputing) {
+    ## return the imputed data and the shadow matrix
+    return(list(imputedData = imputedData,
+                shadowMatrix = ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0)))
+  } else {
+    return(imputedData)
+  }
+}
+
+
+##----------------------------------------------------------------------------------------
+#'
+#' Imputation by Bayesian linear regression
+#' 
+#' @description
+#' Apply imputation to the dataset by Bayesian linear regression
+#' \insertCite{rubin1987multiple,schafer1997analysis,van2011mice}{msDiaLogue}.
+#' 
+#' @param dataSet The 2d dataset of experimental values.
+#' 
+#' @param m An integer (default = 5) specifying the number of multiple imputations.
+#' 
+#' @param seed An integer (default = 362436069) specifying the seed used for the random
+#' number generator for reproducibility.
+#' 
+#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
+#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
+#' have been imputed, and 0 indicates otherwise. Alters the return structure.
+#' 
+#' @import mice
+#' 
+#' @returns
+#' \itemize{
+#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
+#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
+#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
+#' }
+#' 
+#' @references
+#' \insertAllCited{}
+#' 
+#' @export
+
+impute.mice_norm <- function(dataSet, reportImputing = FALSE,
+                             m = 5, seed = 362436069) {
+  
+  ## select the numerical data
+  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  
+  ## replace NAs using Bayesian linear regression
+  dataPoints <- mice(dataPoints, m = m, seed = seed, method = "norm", printFlag = FALSE)
+  dataPoints <- Reduce(`+`, mice::complete(dataPoints, "all")) / m
+  
+  ## recombine the labels and imputed data
+  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
+                       dataPoints)
+  
+  if (reportImputing) {
+    ## return the imputed data and the shadow matrix
+    return(list(imputedData = imputedData,
+                shadowMatrix = ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0)))
+  } else {
+    return(imputedData)
+  }
+}
+
+
+##----------------------------------------------------------------------------------------
+#'
+#' Imputation by classification and regression trees
+#' 
+#' @description
+#' Apply imputation to the dataset by classification and regression trees
+#' \insertCite{breiman1984classification,doove2014recursive,van2018flexible}{msDiaLogue}.
+#' 
+#' @param dataSet The 2d dataset of experimental values.
+#' 
+#' @param m An integer (default = 5) specifying the number of multiple imputations.
+#' 
+#' @param seed An integer (default = 362436069) specifying the seed used for the random
+#' number generator for reproducibility.
+#' 
+#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
+#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
+#' have been imputed, and 0 indicates otherwise. Alters the return structure.
+#' 
+#' @import mice
+#' 
+#' @returns
+#' \itemize{
+#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
+#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
+#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
+#' }
+#' 
+#' @references
+#' \insertAllCited{}
+#' 
+#' @export
+
+impute.mice_cart <- function(dataSet, reportImputing = FALSE,
+                             m = 5, seed = 362436069) {
+  
+  ## select the numerical data
+  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  
+  ## replace NAs using classification and regression trees
+  dataPoints <- mice(dataPoints, m = m, seed = seed, method = "cart", printFlag = FALSE)
+  dataPoints <- Reduce(`+`, mice::complete(dataPoints, "all")) / m
   
   ## recombine the labels and imputed data
   imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),

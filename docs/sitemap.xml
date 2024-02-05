@@ -40,6 +40,30 @@
     <loc>https://uconn-scs.github.io/msDiaLogue/reference/impute.html</loc>
   </url>
   <url>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/impute.knn.html</loc>
+  </url>
+  <url>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/impute.knn_seq.html</loc>
+  </url>
+  <url>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/impute.knn_trunc.html</loc>
+  </url>
+  <url>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/impute.mice_cart.html</loc>
+  </url>
+  <url>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/impute.mice_norm.html</loc>
+  </url>
+  <url>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/impute.min_global.html</loc>
+  </url>
+  <url>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/impute.min_local.html</loc>
+  </url>
+  <url>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/impute.nuc_norm.html</loc>
+  </url>
+  <url>
     <loc>https://uconn-scs.github.io/msDiaLogue/reference/index.html</loc>
   </url>
   <url>
