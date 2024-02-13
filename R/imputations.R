@@ -73,9 +73,6 @@
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
-#' @importFrom impute impute.knn
-#' @importFrom multiUS seqKNNimp
-#' @importFrom softImpute complete softImpute
 #' @importFrom Rdpack reprompt
 #' 
 #' @returns
@@ -87,6 +84,8 @@
 #' 
 #' @references
 #' \insertAllCited{}
+#' 
+#' @autoglobal
 #' 
 #' @export
 
@@ -152,12 +151,16 @@ impute <- function(dataSet,
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
+#' @import dplyr
+#' 
 #' @returns
 #' \itemize{
 #' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
 #' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
 #' dataframe and a shadow matrix showing which proteins by replicate were imputed.
 #' }
+#' 
+#' @autoglobal
 #' 
 #' @export
 
@@ -201,12 +204,16 @@ impute.min_global <- function(dataSet, reportImputing = FALSE) {
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
+#' @import dplyr
+#' 
 #' @returns
 #' \itemize{
 #' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
 #' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
 #' dataframe and a shadow matrix showing which proteins by replicate were imputed.
 #' }
+#' 
+#' @autoglobal
 #' 
 #' @export
 
@@ -307,6 +314,7 @@ impute.min_local <- function(dataSet, reportImputing = FALSE,
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
+#' @import dplyr
 #' @importFrom impute impute.knn
 #' 
 #' @returns
@@ -318,6 +326,8 @@ impute.min_local <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @references
 #' \insertAllCited{}
+#' 
+#' @autoglobal
 #' 
 #' @export
 
@@ -363,6 +373,7 @@ impute.knn <- function(dataSet, reportImputing = FALSE,
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
+#' @import dplyr
 #' @importFrom multiUS seqKNNimp
 #' 
 #' @returns
@@ -374,6 +385,8 @@ impute.knn <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @references
 #' \insertAllCited{}
+#' 
+#' @autoglobal
 #' 
 #' @export
 
@@ -417,6 +430,7 @@ impute.knn_seq <- function(dataSet, reportImputing = FALSE,
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
+#' @importFrom stats cor integrate na.omit pnorm sd
 #' @returns
 #' \itemize{
 #' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
@@ -426,6 +440,8 @@ impute.knn_seq <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @references
 #' \insertAllCited{}
+#' 
+#' @autoglobal
 #' 
 #' @export
 
@@ -489,6 +505,7 @@ impute.knn_trunc <- function(dataSet, reportImputing = FALSE,
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
+#' @import dplyr
 #' @importFrom softImpute complete softImpute
 #' 
 #' @returns
@@ -500,6 +517,8 @@ impute.knn_trunc <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @references
 #' \insertAllCited{}
+#' 
+#' @autoglobal
 #' 
 #' @export
 
@@ -560,7 +579,8 @@ impute.nuc_norm <- function(dataSet, reportImputing = FALSE,
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
-#' @import mice
+#' @import dplyr
+#' @importFrom mice complete mice
 #' 
 #' @returns
 #' \itemize{
@@ -571,6 +591,8 @@ impute.nuc_norm <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @references
 #' \insertAllCited{}
+#' 
+#' @autoglobal
 #' 
 #' @export
 
@@ -617,7 +639,8 @@ impute.mice_norm <- function(dataSet, reportImputing = FALSE,
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
-#' @import mice
+#' @import dplyr
+#' @importFrom mice complete mice
 #' 
 #' @returns
 #' \itemize{
@@ -628,6 +651,8 @@ impute.mice_norm <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @references
 #' \insertAllCited{}
+#' 
+#' @autoglobal
 #' 
 #' @export
 
@@ -640,6 +665,135 @@ impute.mice_cart <- function(dataSet, reportImputing = FALSE,
   ## replace NAs using classification and regression trees
   dataPoints <- mice(dataPoints, m = m, seed = seed, method = "cart", printFlag = FALSE)
   dataPoints <- Reduce(`+`, mice::complete(dataPoints, "all")) / m
+  
+  ## recombine the labels and imputed data
+  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
+                       dataPoints)
+  
+  if (reportImputing) {
+    ## return the imputed data and the shadow matrix
+    return(list(imputedData = imputedData,
+                shadowMatrix = ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0)))
+  } else {
+    return(imputedData)
+  }
+}
+
+
+##----------------------------------------------------------------------------------------
+#'
+#' Imputation by Bayesian principal components analysis
+#' 
+#' @description
+#' Apply imputation to the dataset by Bayesian principal components analysis
+#' \insertCite{oba2003bayesian}{msDiaLogue}.
+#' 
+#' @param dataSet The 2d dataset of experimental values.
+#' 
+#' @param nPcs An integer specifying the number of principal components to calculate. The
+#' default is set to the minimum between the number of samples and the number of proteins.
+#' 
+#' @param maxSteps An integer (default = 100) specifying the maximum number of estimation
+#' steps.
+#' 
+#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
+#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
+#' have been imputed, and 0 indicates otherwise. Alters the return structure.
+#' 
+#' @import dplyr
+#' @importFrom pcaMethods completeObs pca
+#' 
+#' @returns
+#' \itemize{
+#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
+#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
+#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
+#' }
+#' 
+#' @references
+#' \insertAllCited{}
+#' 
+#' @autoglobal
+#' 
+#' @export
+
+impute.pca_bayes <- function(dataSet, reportImputing = FALSE,
+                             nPcs = NULL, maxSteps = 100) {
+  
+  ## select the numerical data
+  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  
+  ## replace NAs using Bayesian principal components analysis
+  dataPoints <- pcaMethods::pca(dataPoints, method = "bpca", verbose = FALSE,
+                                nPcs = ifelse(is.null(nPcs), min(dim(dataPoints)), nPcs),
+                                maxSteps = maxSteps)
+  dataPoints <- pcaMethods::completeObs(dataPoints)
+  
+  ## recombine the labels and imputed data
+  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
+                       dataPoints)
+  
+  if (reportImputing) {
+    ## return the imputed data and the shadow matrix
+    return(list(imputedData = imputedData,
+                shadowMatrix = ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0)))
+  } else {
+    return(imputedData)
+  }
+}
+
+
+##----------------------------------------------------------------------------------------
+#'
+#' Imputation by probabilistic principal components analysis
+#' 
+#' @description
+#' Apply imputation to the dataset by probabilistic principal components analysis
+#' \insertCite{stacklies2007pcamethods}{msDiaLogue}.
+#' 
+#' @param dataSet The 2d dataset of experimental values.
+#' 
+#' @param nPcs An integer specifying the number of principal components to calculate. The
+#' default is set to the minimum between the number of samples and the number of proteins.
+#' 
+#' @param maxIterations An integer (default = 1000) specifying the maximum number of
+#' allowed iterations.
+#' 
+#' @param seed An integer (default = 362436069) specifying the seed used for the random
+#' number generator for reproducibility.
+#' 
+#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
+#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
+#' have been imputed, and 0 indicates otherwise. Alters the return structure.
+#' 
+#' @import dplyr
+#' @importFrom pcaMethods completeObs pca
+#' 
+#' @returns
+#' \itemize{
+#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
+#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
+#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
+#' }
+#' 
+#' @references
+#' \insertAllCited{}
+#' 
+#' @autoglobal
+#' 
+#' @export
+
+impute.pca_prob <- function(dataSet, reportImputing = FALSE,
+                            nPcs = NULL, maxIterations = 1000, seed = 362436069) {
+  
+  ## select the numerical data
+  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  
+  ## replace NAs using Bayesian principal components analysis
+  dataPoints <- pcaMethods::pca(dataPoints, method = "ppca", verbose = FALSE,
+                                nPcs = ifelse(is.null(nPcs), min(dim(dataPoints)), nPcs),
+                                maxIterations = maxIterations, seed = seed)
+  dataPoints <- pcaMethods::completeObs(dataPoints)
   
   ## recombine the labels and imputed data
   imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),

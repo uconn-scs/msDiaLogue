@@ -12,6 +12,8 @@
 #' 
 #' @returns A list of lists.
 #' 
+#' @autoglobal
+#' 
 #' @export
 
 sortcondition <- function(dataSet) {

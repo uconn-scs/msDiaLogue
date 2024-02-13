@@ -15,6 +15,7 @@
 #' shown in the visualization when \code{plot = TRUE}.
 #' 
 #' @import dplyr
+#' @import ggplot2
 #' @importFrom visdat vis_miss
 #' 
 #' @returns A 2d dataframe including:
@@ -24,6 +25,8 @@
 #' \item "pct_total_miss": The percentage of missing values for each protein relative to
 #' the total missing values in the entire dataset.
 #' }
+#' 
+#' @autoglobal
 #' 
 #' @export
 

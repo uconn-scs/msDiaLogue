@@ -29,6 +29,8 @@
 #' 
 #' @returns An object of class \code{plot}.
 #' 
+#' @autoglobal
+#' 
 #' @noRd
 
 meanVarPlot <- function(datMV, title = "") {
@@ -67,6 +69,8 @@ meanVarPlot <- function(datMV, title = "") {
 #' }
 #' 
 #' @returns The transformed data.
+#'
+#' @autoglobal
 #' 
 #' @export
 

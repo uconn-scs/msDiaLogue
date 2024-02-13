@@ -122,12 +122,14 @@
 #' @import ggrepel
 #' @import ggvenn
 #' @import pheatmap
+#' @import tibble
 #' @import tidyr
-#' @importFrom stats density prcomp t.test
-#' @importFrom tibble column_to_rownames
+#' @importFrom stats density prcomp
 #' @importFrom UpSetR fromList upset
 #' 
 #' @returns An object of class \code{ggplot}.
+#' 
+#' @autoglobal
 #' 
 #' @export
 

@@ -21,8 +21,8 @@
 #' 
 #' @import dplyr
 #' @import limma
-#' @importFrom stats model.matrix
-#' @importFrom tibble rownames_to_column
+#' @importFrom stats model.matrix t.test
+#' @importFrom tibble column_to_rownames
 #' @importFrom Rdpack reprompt
 #' 
 #' @returns A 2d dataframe includes the following information: \itemize{
@@ -35,6 +35,8 @@
 #' 
 #' @references
 #' \insertAllCited{}
+#' 
+#' @autoglobal
 #' 
 #' @export
 

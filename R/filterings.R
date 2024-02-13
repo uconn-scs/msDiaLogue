@@ -25,9 +25,11 @@
 #' All forms of filtering are recommended for most use cases.
 #' 
 #' @import dplyr
-#' @import tidyr
-#' 
+#' @importFrom utils write.csv
+#'  
 #' @returns A filtered 2d dataframe.
+#' 
+#' @autoglobal
 #' 
 #' @export
 
@@ -115,10 +117,11 @@ preProcessFiltering <- function(dataSet,
 #' the regex pattern in \code{regexName}.
 #' 
 #' @import dplyr
-#' @import tidyr
 #' @importFrom utils write.csv
 #' 
 #' @returns A filtered 2d dataframe.
+#' 
+#' @autoglobal
 #' 
 #' @export
 
@@ -207,6 +210,13 @@ filterOutIn <- function(dataSet,
 #' The function is an extension of the function \code{\link[msDiaLogue]{preprocessing}}
 #' that allows for filtering proteins based on additional information.
 #' 
+#' @import dplyr
+#' @importFrom utils read.csv write.csv
+#' 
+#' @returns A filtered 2d dataframe.
+#' 
+#' @autoglobal
+#' 
 #' @export
 
 filterProtein <- function(dataSet,
@@ -273,10 +283,11 @@ filterProtein <- function(dataSet,
 #' created with the removed data.
 #' 
 #' @import dplyr
-#' @import tidyr
 #' @importFrom utils write.csv
 #' 
 #' @returns A filtered 2d dataframe.
+#' 
+#' @autoglobal
 #' 
 #' @export
 
@@ -286,7 +297,7 @@ filterNA <- function(dataSet, saveRm = TRUE) {
     
     ## create a dataframe of the removed data
     removedData <- bind_cols(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
-                            select_if(dataSet, ~any(is.na(.))))
+                             select_if(dataSet, ~any(is.na(.))))
     
     ## save removed data to current working directory
     write.csv(removedData, file = "filtered_NA_data.csv", row.names = FALSE)

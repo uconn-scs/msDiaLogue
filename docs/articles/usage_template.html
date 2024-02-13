@@ -73,13 +73,13 @@
       <img src="" class="logo" alt=""><h1>A Usage Template for the R Package msDiaLogue</h1>
                         <h4 data-toc-skip class="author"></h4>
 <p>Shiying
-Xiao<span class="math inline">\(^1\)</span>, Charles Watt<span class="math inline">\(^1\)</span>, Jennifer C. Liddle<span class="math inline">\(^2\)</span>, Jeremy L. Balsbaugh<span class="math inline">\(^2\)</span>, and Timothy E. Moore<span class="math inline">\(^3\)</span></p>
+Xiao<span class="math inline">\(^1\)</span>, Charles Watt<span class="math inline">\(^1\)</span>, Jennifer C. Liddle<span class="math inline">\(^2\)</span>, Jeremy L. Balsbaugh<span class="math inline">\(^2\)</span>, Timothy E. Moore<span class="math inline">\(^3\)</span></p>
                         <h4 data-toc-skip class="author"></h4>
 <p><span class="math inline">\(^1\)</span>Department of Statistics, UConn<br><span class="math inline">\(^2\)</span>Proteomics and Metabolomics
 Facility, UConn<br><span class="math inline">\(^3\)</span>Statistical Consulting Services,
 UConn</p>
             
-            <h4 data-toc-skip class="date">2024-02-05</h4>
+            <h4 data-toc-skip class="date">2024-02-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -180,7 +180,7 @@ larger values.</p>
 <span>                         filterNaN <span class="op">=</span> <span class="cn">TRUE</span>, filterUnique <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>                         replaceBlank <span class="op">=</span> <span class="cn">TRUE</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><strong>NOTE:</strong> <code><a href="../reference/preprocessing.html">preprocessing()</a></code> does not perform
-a transformation on your data. You still need to use the functon
+a transformation on your data. You still need to use the function
 <code><a href="../reference/transform.html">transform()</a></code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## if the raw data is in an .Rdata file</span></span>
@@ -1810,7 +1810,7 @@ values in the samples, representing 80% of the missing data for
 entire dataset.</p>
 <p>Various imputation methods have been developed to address the
 missing-value issue and assign a reasonable guess of quantitative value
-to proteins with missing values. So far, this package provides eight
+to proteins with missing values. So far, this package provides 10
 imputation methods for use:</p>
 <ol style="list-style-type: decimal">
 <li><p><code><a href="../reference/impute.min_local.html">impute.min_local()</a></code>: Replaces missing values with the
@@ -1837,6 +1837,11 @@ et al. 1984; Doove, van Buuren, and Dusseldorp 2014; van Buuren
 <li><p><code><a href="../reference/impute.mice_norm.html">impute.mice_norm()</a></code>: Replaces missing values using
 the Bayesian linear regression <span class="citation">(Rubin 1987;
 Schafer 1997; van Buuren and Groothuis-Oudshoorn 2011)</span>.</p></li>
+<li><p><code><a href="../reference/impute.pca_bayes.html">impute.pca_bayes()</a></code>: Replaces missing values using
+the Bayesian principal components analysis <span class="citation">(Oba
+et al. 2003)</span>.</p></li>
+<li><p><code><a href="../reference/impute.pca_prob.html">impute.pca_prob()</a></code>: Replaces missing values using the
+probabilistic principal components analysis <span class="citation">(Stacklies et al. 2007)</span>.</p></li>
 </ol>
 <p>Additional methods will be added later.</p>
 <p>For example, to impute the NA value of <code>dataNorm</code> using
@@ -2437,11 +2442,11 @@ current working directory.</p>
 <div class="section level2">
 <h2 id="summarization">Summarization<a class="anchor" aria-label="anchor" href="#summarization"></a>
 </h2>
-<p>This summarization section provides a table of values for each
-protein in the final dataset that include the final processed abundances
-and fold changes in each condition, and that protein’s statistical
-relation to the global dataset in terms of its mean, median, standard
-deviation, and other parameters.</p>
+<p>This summarization provides a table of values for each protein in the
+final dataset that include the final processed abundances and fold
+changes in each condition, and that protein’s statistical relation to
+the global dataset in terms of its mean, median, standard deviation, and
+other parameters.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataSumm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarize.html">summarize</a></span><span class="op">(</span><span class="va">dataImput</span>, saveSumm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div style="overflow-x: auto;">
@@ -3962,6 +3967,12 @@ Kim, Ki-Yeol, Byoung-Jin Kim, and Gwan-Su Yi. 2004. <span>“Reuse of
 Imputed Data in Microarray Analysis Increases Imputation
 Efficiency.”</span> <em>BMC Bioinformatics</em> 5: 160. <a href="https://doi.org/10.1186/1471-2105-5-160" class="external-link">https://doi.org/10.1186/1471-2105-5-160</a>.
 </div>
+<div id="ref-oba2003bayesian" class="csl-entry">
+Oba, Shigeyuki, Masa-aki Sato, Ichiro Takemasa, Morito Monden, Ken-ichi
+Matsubara, and Shin Ishii. 2003. <span>“A <span>B</span>ayesian Missing
+Value Estimation Method for Gene Expression Profile Data.”</span>
+<em>Bioinformatics</em> 19 (16): 2088–96. <a href="https://doi.org/10.1093/bioinformatics/btg287" class="external-link">https://doi.org/10.1093/bioinformatics/btg287</a>.
+</div>
 <div id="ref-rubin1987multiple" class="csl-entry">
 Rubin, Donald B. 1987. <em>Multiple Imputation for Nonresponse in
 Surveys</em>. New York, NY, USA: John Wiley &amp; Sons.
@@ -3982,6 +3993,12 @@ Smyth, Gordon K. 2004. <span>“Linear Models and Empirical Bayes Methods
 for Assessing Differential Expression in Microarray Experiments.”</span>
 <em>Statistical Applications in Genetics and Molecular Biology</em> 3
 (1). <a href="https://doi.org/10.2202/1544-6115.1027" class="external-link">https://doi.org/10.2202/1544-6115.1027</a>.
+</div>
+<div id="ref-stacklies2007pcamethods" class="csl-entry">
+Stacklies, Wolfram, Henning Redestig, Matthias Scholz, Dirk Walther, and
+Joachim Selbig. 2007. <span>“<span class="nocase">pcaMethods</span>–a
+Bioconductor Package Providing <span>PCA</span> Methods for Incomplete
+Data.”</span> <em>Bioinformatics</em> 23 (9): 1164–67. <a href="https://doi.org/10.1093/bioinformatics/btm069" class="external-link">https://doi.org/10.1093/bioinformatics/btm069</a>.
 </div>
 <div id="ref-troyanskaya2001missing" class="csl-entry">
 Troyanskaya, Olga, Michael Cantor, Gavin Sherlock, Pat Brown, Trevor

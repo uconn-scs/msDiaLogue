@@ -3,7 +3,7 @@ title: "A Usage Template for the R Package msDiaLogue"
 output: rmarkdown::html_vignette
 author: 
   - |
-    Shiying Xiao$^1$, Charles Watt$^1$, Jennifer C. Liddle$^2$, Jeremy L. Balsbaugh$^2$, and Timothy E. Moore$^3$
+    Shiying Xiao$^1$, Charles Watt$^1$, Jennifer C. Liddle$^2$, Jeremy L. Balsbaugh$^2$, Timothy E. Moore$^3$
   - |
     $^1$Department of Statistics, UConn \
     $^2$Proteomics and Metabolomics Facility, UConn \
@@ -109,7 +109,7 @@ dataSet <- preprocessing(fileName,
 ```
 
 **NOTE:** `preprocessing()` does not perform a transformation on your data. You still need
-to use the functon `transform()`.
+to use the function `transform()`.
 
 ```{r results='hide'}
 ## if the raw data is in an .Rdata file
@@ -338,7 +338,7 @@ total missing data in the entire dataset.
 
 Various imputation methods have been developed to address the missing-value issue and
 assign a reasonable guess of quantitative value to proteins with missing values. So far,
-this package provides eight imputation methods for use:
+this package provides 10 imputation methods for use:
 
 1. `impute.min_local()`: Replaces missing values with the lowest measured value for that
 protein in that condition.
@@ -363,6 +363,12 @@ trees [@breiman1984classification; @doove2014recursive; @van2018flexible].
 
 8. `impute.mice_norm()`: Replaces missing values using the Bayesian linear regression
 [@rubin1987multiple; @schafer1997analysis; @van2011mice].
+
+9. `impute.pca_bayes()`: Replaces missing values using the Bayesian principal components
+analysis [@oba2003bayesian].
+
+10. `impute.pca_prob()`: Replaces missing values using the probabilistic principal
+components analysis [@stacklies2007pcamethods].
 
 Additional methods will be added later.
 
@@ -414,9 +420,9 @@ knitr::kable(dataImput)
 
 ## Summarization
 
-This summarization section provides a table of values for each protein in the final
-dataset that include the final processed abundances and fold changes in each condition,
-and that protein's statistical relation to the global dataset in terms of its mean, median,
+This summarization provides a table of values for each protein in the final dataset that
+include the final processed abundances and fold changes in each condition, and that
+protein's statistical relation to the global dataset in terms of its mean, median,
 standard deviation, and other parameters.
 
 ```{r}

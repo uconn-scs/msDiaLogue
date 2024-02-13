@@ -157,3 +157,43 @@ test_that("impute.mice_cart", {
   expect_equal(data, storedData)
   
 })
+
+
+test_that("impute.pca_bayes", {
+  
+  ## load data from previous step in work flow
+  dataSet <- read.csv("../storedData/normalize_quant_Toy.csv")
+  
+  ## execute current function 'impute' on data file
+  invisible(capture.output(
+    data <- impute.pca_bayes(dataSet, reportImputing = FALSE,
+                             nPcs = NULL, maxSteps = 100)
+  ))
+  
+  ## load stored correct data
+  storedData <- read.csv("../storedData/impute.pca_bayes_Toy.csv")
+  
+  ## test if current function yields equal results to previous version
+  expect_equal(data, storedData)
+  
+})
+
+
+test_that("impute.pca_prob", {
+  
+  ## load data from previous step in work flow
+  dataSet <- read.csv("../storedData/normalize_quant_Toy.csv")
+  
+  ## execute current function 'impute' on data file
+  invisible(capture.output(
+    data <- impute.pca_prob(dataSet, reportImputing = FALSE,
+                            nPcs = NULL, maxIterations = 1000, seed = 362436069)
+  ))
+  
+  ## load stored correct data
+  storedData <- read.csv("../storedData/impute.pca_prob_Toy.csv")
+  
+  ## test if current function yields equal results to previous version
+  expect_equal(data, storedData)
+  
+})

@@ -33,8 +33,11 @@
 #' @import dplyr
 #' @importFrom psych describeBy
 #' @importFrom tibble rownames_to_column
+#' @importFrom utils write.csv
 #' 
 #' @returns A 2d summarized data frame.
+#' 
+#' @autoglobal
 #' 
 #' @export
 

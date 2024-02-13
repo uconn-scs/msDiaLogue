@@ -1,5 +1,5 @@
 ######################################
-#### Code for data pre-processing ####. ### show the header of the data
+#### Code for data pre-processing ####
 ######################################
 #'
 #' Loading, filtering and reformatting of MS DIA data
@@ -41,9 +41,11 @@
 #' @import dplyr
 #' @import ggplot2
 #' @import tidyr
-#' @importFrom utils read.csv
+#' @importFrom utils read.csv write.csv
 #' 
 #' @returns A 2d dataframe.
+#' 
+#' @autoglobal
 #' 
 #' @export
 

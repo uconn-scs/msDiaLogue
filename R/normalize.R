@@ -12,7 +12,7 @@
 #' @param normalizeType A string (default = "quant") specifying which type of
 #' normalization to apply:
 #' \enumerate{
-#' \item "quant": Quantile \insertCite{bolstad2003compariso}{msDiaLogue}
+#' \item "quant": Quantile \insertCite{bolstad2003comparison}{msDiaLogue}
 #' \item "median": Protein-wise Median
 #' \item "mean": Protein-wise Mean
 #' \item "none": None
@@ -25,6 +25,7 @@
 #' indicator of the changes.
 #' 
 #' @import dplyr
+#' @import ggplot2
 #' @importFrom limma normalizeQuantiles
 #' @importFrom Rdpack reprompt
 #' 
@@ -32,6 +33,8 @@
 #' 
 #' @references
 #' \insertAllCited{}
+#' 
+#' @autoglobal
 #' 
 #' @export
 

@@ -44,7 +44,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Normalization of preprocessed data</h1>
-      <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/R/normalization.R" class="external-link"><code>R/normalization.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/R/normalize.R" class="external-link"><code>R/normalize.R</code></a></small>
       <div class="d-none name"><code>normalize.Rd</code></div>
     </div>
 
@@ -65,7 +65,7 @@
 
 <dt>normalizeType</dt>
 <dd><p>A string (default = "quant") specifying which type of
-normalization to apply:</p><ol><li><p>"quant": Quantile</p></li>
+normalization to apply:</p><ol><li><p>"quant": Quantile (Bolstad et al. 2003)</p></li>
 <li><p>"median": Protein-wise Median</p></li>
 <li><p>"mean": Protein-wise Mean</p></li>
 <li><p>"none": None</p></li>
@@ -87,11 +87,10 @@ indicator of the changes.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Adummy A (2024).
-“Some keys from package msDiaLogue are not avalable.”
-Failed to insert reference with keys:
-    bolstad2003compariso
-from package = 'msDiaLogue'. Possible cause - missing REFERENCES.bib in package 'msDiaLogue' or 'msDiaLogue' not installed.</p>
+    <p>Bolstad BM, Irizarry RA, Astrand M, Speed TP (2003).
+“A Comparison of Normalization Methods for High Density Oligonucleotide Array Data Based on Variance and Bias.”
+<em>Bioinformatics</em>, <b>19</b>(2), 185--193.
+<a href="https://doi.org/10.1093/bioinformatics/19.2.185" class="external-link">https://doi.org/10.1093/bioinformatics/19.2.185</a>.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
