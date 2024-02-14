@@ -79,7 +79,7 @@ Xiao<span class="math inline">\(^1\)</span>, Charles Watt<span class="math inlin
 Facility, UConn<br><span class="math inline">\(^3\)</span>Statistical Consulting Services,
 UConn</p>
             
-            <h4 data-toc-skip class="date">2024-02-12</h4>
+            <h4 data-toc-skip class="date">2024-02-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -114,26 +114,28 @@ specify the <code>fileName</code> to read the raw data file into
 first load the data file directly, then specify the <code>dataSet</code>
 in the function.</p></li>
 </ul>
-<p><strong>2.</strong> Whether to omit observations with NaN</p>
-<p>NaN, which stands for ‘Not a Number,’ represents protein entries in
-each condition that lack a measured quantitative value.</p>
-<p>NaN, which stands for ‘Not a Number,’ represents proteins that were
-detected by the instrument but for which the quantitative peak area
-could not be determined. This is usually due to having an abundance
-value too close to the limit of detection to establish good
-signal-to-noise.</p>
-<p><strong>3.</strong> The number of unique peptides are required to
-include a protein</p>
-<p>General practice is to filter out proteins where only 1 unique
-peptide was identified. Because the 1% false discovery rate for the
-dataset is calculated at the peptide level, proteins with 2 or more
-peptides identified are less likely to be false positives. We recommend
-filtering out these protein entries in order to focus on more confident
-targets in the identified proteome. However, 1-peptide proteins can
-still be observed in the original protein report from
-<strong>Spectronaut</strong>.</p>
-<p><strong>4.</strong> Whether to rename proteins without names by their
-accession numbers</p>
+<p><strong>2.</strong> Filter out identified proteins that exhibit “NaN”
+quantitative values</p>
+<p>NaN, which stands for ‘Not a Number,’ can be found in the PG.Quantity
+column for proteins that were identified by MS and MS/MS evidence in the
+raw data, but all peptides from that protein lack an associated
+integrated peak area or intensity. This usually occurs in low abundance
+peptides that exhibit intensities close to the limit of detection
+resulting in poor signal-to-noise (S/N) and/or when there is
+interference from other co-eluting peptide ions with very similar or
+identical m/z values that lead to difficulty in parsing out individual
+intensity profiles.</p>
+<p><strong>3.</strong> Apply a unique peptides per protein filter</p>
+<p>General practice in the proteomics field is to filter out proteins
+from which only 1 unique peptide was identified. This adds increased
+confidence to results already filtered to a 1% false discovery rate
+(FDR), since proteins that are identified with 2 or more peptides are
+less likely to be false positives. We recommend filtering out these
+protein entries in order to focus on more confident targets in the
+identified proteome. However, 1-peptide proteins can still be observed
+in the original protein report from <strong>Spectronaut</strong>.</p>
+<p><strong>4.</strong> Add accession numbers to identified proteins
+without informative names</p>
 <p><strong>Spectronaut</strong> reports contain 4 different columns of
 identifying information:</p>
 <ul>
@@ -149,10 +151,10 @@ provided on UniProt (e.g. cyclin-dependent kinase 1).</li>
 <code>PG.ProteinNames</code>, which is a concatenation of an
 identifier and the species (e.g. CDK1_HUMAN).</li>
 </ul>
-<p>Every entry in UniProt will have an accession number, but may or may
-not have any of the other identifiers, depending on how completely the
-online entry has been annotated. Because UniProt includes entries for
-fragments of proteins, a peptide can match to multiple entries for the
+<p>Every entry in UniProt will have an accession number, but may not
+have all of the other identifiers, due to incomplete annotation. Because
+Uniprot includes entries for fragments of proteins and some proteins
+entries are redundant, a peptide can match to multiple entries for the
 same protein, which generates multiple possible identifiers in
 <strong>Spectronaut</strong>. Further, the <code>ProteinNames</code>
 entry in <strong>Spectronaut</strong> can switch formats: the preference
@@ -161,8 +163,8 @@ instead.</p>
 <p>This option tells <strong>msDiaLogue</strong> to substitute the
 accession number for an identifier if it tries to pull an identifier
 from a column with no information.</p>
-<p><strong>5.</strong> Whether to save removed data to current working
-directory</p>
+<p><strong>5.</strong> Save a document to your working directory with
+all filtered out data, if desired</p>
 <p>If <code>saveRm = TRUE</code>, the data removed in step 2
 (<em>preprocess_Filtered_Out_NaN.csv</em>) and step 3
 (<em>preprocess_Filtered_Out_Unique.csv</em>) will be saved in the
@@ -808,8 +810,10 @@ identifier format.</p>
 <p><strong>NOTE:</strong> The proteins to be selected or removed is the
 union of those specified in <code>listName</code> and those matching the
 regular expression pattern in <code>regexName</code>.</p>
-<p><strong>KEEP IN MIND:</strong> Removal will affect any global
-calculations performed after this step (such as normalization).</p>
+<p><strong>KEEP IN MIND:</strong> Removal of any proteins, including
+common contaminants, will affect any global calculations performed after
+this step (such as normalization). This should not be done without a
+clear understanding of how this will affect your results.</p>
 <p><strong>Case 1.</strong> Remove proteins specified by the user in
 this step and keep everything else.</p>
 <p>For example, the proteins named “ADH1_YEAST” and those containing
@@ -1300,10 +1304,10 @@ or “Alcohol dehydrogenase 1” will be kept. Note that the search value
 </h2>
 <p>Normalization is designed to address systematic biases in the data.
 Biases can arise from inadvertent sample grouping during generation or
-preparation, from instrument drift if the acquisition lasted for a
-significant length of time, or from analyzing different amounts of
-material across experiments. These factors can mask or artificially
-enhance actual biological differences of interest.</p>
+preparation, from variations in instrument performance during
+acquisition, analysis of different peptide amounts across experiments,
+or other reasons. These factors can mask or artificially mask or enhance
+actual biological changes.</p>
 <p>Many normalization methods have been developed for large datasets,
 each with its own strengths and weaknesses. The following factors should
 be considered when choosing a normalization method:</p>
@@ -1345,8 +1349,9 @@ sample)</p></li>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-14-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Oh! The message “Warning: Removed 16 rows containing non-finite
 values” indicates the presence of 16 NA (Not Available) values in the
-data. These NA values are are automatically excluded when generating the
-boxplot but retained in the actual dataset.</p>
+data. These NA values arise when a protein was not identified in a
+particular sample or condition and are automatically excluded when
+generating the boxplot but retained in the actual dataset.</p>
 <div style="overflow-x: auto;">
 <table style="width:100%;" class="table">
 <colgroup>
@@ -1645,21 +1650,33 @@ boxplot but retained in the actual dataset.</p>
 <div class="section level2">
 <h2 id="imputation">Imputation<a class="anchor" aria-label="anchor" href="#imputation"></a>
 </h2>
-<p>In any mass spectrometry experiment, there is a trade-off between the
-quantity of data obtained and its quality. Traditional Data-Dependent
-Acquisition (DDA) methods trade scan quantity for simpler and cleaner
-scans, thereby improving the quality of the peptide identification. Data
-sampling is prioritized by abundance in each scan, so for peptides at
-lower intensities in that scan, DDA is less likely to acquire an
-identifying scan, which is a common source of missing data in the final
-dataset.</p>
-<p>Data-Independent Acquisition (DIA) makes the opposite trade, where
-data sampling is scheduled to cover a set mass range systematically.
-This allows regular scans of every peptide species, but these scans will
-include information from multiple peptides, making them more difficult
-to interpret. DIA thus reduces missingness substantially, though not
-entirely, but often requires custom libraries or machine learning
-algorithms for data processing.</p>
+<p>The two primary MS/MS acquisition types implemented in large scale
+MS-based proteomics have unique advantages and disadvantages.
+Traditional Data-Dependent Acquisition (DDA) methods favor specificity
+in MS/MS sampling over comprehensive proteome coverage. Small peptide
+isolation windows (&lt;3 m/z) result in MS/MS spectra that contain
+fragmentation data from ideally only one peptide. This specificity
+promotes clear peptide identifications but comes at the expense of added
+scan time. In DDA experiments, the number of peptides that can be
+selected for MS/MS is limited by instrument scan speeds and is therefore
+prioritized by highest peptide abundance. Low abundance peptides are
+sampled less frequently for MS/MS and this can result in variable
+peptide coverage and many missing protein data across large sample
+datasets.</p>
+<p>Data-Independent Acquisition (DIA) methods promote comprehensive
+peptide coverage over specificity by sampling many peptides for MS/MS
+simultaneously. Sequential and large mass isolation windows (4-50 m/z)
+are used to isolate large numbers of peptides at once for concurrent
+MS/MS. This produces complicated fragmentation spectra, but these
+spectra contain data on every observable peptide. A major disadvantage
+with this type of acquisition is that DIA MS/MS spectra are incredibly
+complex and difficult to deconvolve. Powerful and relatively new
+software programs like Spectronaut are capable of successfully parsing
+out which fragment ions came from each co-fragmented peptide using
+custom libraries, machine learning algorithms, and precisely determined
+retention times or measured ion mobility data. Because all observable
+ions are sampled for MS/MS, DIA reduces missingness substantially
+compared to DDA, though not entirely.</p>
 <p>Function <code><a href="../reference/dataMissing.html">dataMissing()</a></code> is designed to summarize the
 missingness for each protein, where <code>plot = TRUE</code> indicates
 plotting the missingness, and <code>show_labels = TRUE</code> means that

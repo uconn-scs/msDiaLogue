@@ -48,11 +48,22 @@ first load the data file directly, then specify the `dataSet` in the function.
      
 **2\.** Filter out identified proteins that exhibit "NaN" quantitative values
 
-NaN, which stands for 'Not a Number,' can be found in the PG.Quantity column for proteins that were identified by MS and MS/MS evidence in the raw data, but all peptides from that protein lack an associated integrated peak area or intensity.  This usually occurs in low abundance peptides that exhibit intensities close to the limit of detection resulting in poor signal-to-noise (S/N) and/or when there is interference from other co-eluting peptide ions with very similar or identical m/z values that lead to difficulty in parsing out individual intensity profiles.
+NaN, which stands for 'Not a Number,' can be found in the PG.Quantity column for proteins
+that were identified by MS and MS/MS evidence in the raw data, but all peptides from that
+protein lack an associated integrated peak area or intensity.  This usually occurs in low
+abundance peptides that exhibit intensities close to the limit of detection resulting in
+poor signal-to-noise (S/N) and/or when there is interference from other co-eluting peptide
+ions with very similar or identical m/z values that lead to difficulty in parsing out
+individual intensity profiles.
 
 **3\.** Apply a unique peptides per protein filter
 
-General practice in the proteomics field is to filter out proteins from which only 1 unique peptide was identified.  This adds increased confidence to results already filtered to a 1% false discovery rate (FDR), since proteins that are identified with 2 or more peptides are less likely to be false positives. We recommend filtering out these protein entries in order to focus on more confident targets in the identified proteome. However, 1-peptide proteins can still be observed in the original protein report from **Spectronaut**.
+General practice in the proteomics field is to filter out proteins from which only 1 unique
+peptide was identified.  This adds increased confidence to results already filtered to a
+1\% false discovery rate (FDR), since proteins that are identified with 2 or more peptides
+are less likely to be false positives. We recommend filtering out these protein entries in
+order to focus on more confident targets in the identified proteome. However, 1-peptide
+proteins can still be observed in the original protein report from **Spectronaut**.
 
 **4\.** Add accession numbers to identified proteins without informative names
 
@@ -67,7 +78,10 @@ General practice in the proteomics field is to filter out proteins from which on
    CDK1_HUMAN).
 
 Every entry in UniProt will have an accession number, but may not have all of the
-other identifiers, due to incomplete annotation.  Because Uniprot includes entries for fragments of proteins and some proteins entries are redundant, a peptide can match to multiple entries for the same protein, which generates multiple possible identifiers in **Spectronaut**. Further, the `ProteinNames` entry in **Spectronaut** can switch formats:
+other identifiers, due to incomplete annotation.  Because Uniprot includes entries for
+fragments of proteins and some proteins entries are redundant, a peptide can match to
+multiple entries for the same protein, which generates multiple possible identifiers in
+**Spectronaut**. Further, the `ProteinNames` entry in **Spectronaut** can switch formats:
 the preference is accession number and species, but can also be gene name and species
 instead.
 
@@ -146,7 +160,9 @@ analysis, using the gene-species identifier format.
 **NOTE:** The proteins to be selected or removed is the union of those specified in
 `listName` and those matching the regular expression pattern in `regexName`.
 
-**KEEP IN MIND:** Removal of any proteins, including common contaminants, will affect any global calculations performed after this step (such as normalization). This should not be done without a clear understanding of how this will affect your results.
+**KEEP IN MIND:** Removal of any proteins, including common contaminants, will affect any
+global calculations performed after this step (such as normalization). This should not be
+done without a clear understanding of how this will affect your results.
 
 **Case 1.** Remove proteins specified by the user in this step and keep everything else.
 
@@ -258,8 +274,9 @@ dataNorm <- normalize(dataTran, normalizeType = "quant")
 ```
 
 Oh! The message "Warning: Removed 16 rows containing non-finite values" indicates the
-presence of 16 NA (Not Available) values in the data. These NA values arise when a protein was not identified in a particular sample or condition and are
-automatically excluded when generating the boxplot but retained in the actual dataset.
+presence of 16 NA (Not Available) values in the data. These NA values arise when a protein
+was not identified in a particular sample or condition and are automatically excluded when
+generating the boxplot but retained in the actual dataset.
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
@@ -270,8 +287,28 @@ knitr::kable(dataNorm)
 
 ## Imputation
 
-The two primary MS/MS acquisition types implemented in large scale MS-based proteomics have unique advantages and disadvantages. Traditional Data-Dependent Acquisition (DDA) methods favor specificity in MS/MS sampling over comprehensive proteome coverage.  Small peptide isolation windows (<3 m/z) result in MS/MS spectra that contain fragmentation data from ideally only one peptide. This specificity promotes clear peptide identifications but comes at the expense of added scan time. In DDA experiments, the number of peptides that can be selected for MS/MS is limited by instrument scan speeds and is therefore prioritized by highest peptide abundance.  Low abundance peptides are sampled less frequently for MS/MS and this can result in variable peptide coverage and many missing protein data across large sample datasets.
-Data-Independent Acquisition (DIA) methods promote comprehensive peptide coverage over specificity by sampling many peptides for MS/MS simultaneously. Sequential and large mass isolation windows (4-50 m/z) are used to isolate large numbers of peptides at once for concurrent MS/MS. This produces complicated fragmentation spectra, but these spectra contain data on every observable peptide.  A major disadvantage with this type of acquisition is that DIA MS/MS spectra are incredibly complex and difficult to deconvolve.  Powerful and relatively new software programs like Spectronaut are capable of successfully parsing out which fragment ions came from each co-fragmented peptide using custom libraries, machine learning algorithms, and precisely determined retention times or measured ion mobility data. Because all observable ions are sampled for MS/MS, DIA reduces missingness substantially compared to DDA, though not entirely.
+The two primary MS/MS acquisition types implemented in large scale MS-based proteomics have
+unique advantages and disadvantages. Traditional Data-Dependent Acquisition (DDA) methods
+favor specificity in MS/MS sampling over comprehensive proteome coverage.  Small peptide
+isolation windows (<3 m/z) result in MS/MS spectra that contain fragmentation data from
+ideally only one peptide. This specificity promotes clear peptide identifications but comes
+at the expense of added scan time. In DDA experiments, the number of peptides that can be
+selected for MS/MS is limited by instrument scan speeds and is therefore prioritized by
+highest peptide abundance.  Low abundance peptides are sampled less frequently for MS/MS
+and this can result in variable peptide coverage and many missing protein data across large
+sample datasets.
+
+Data-Independent Acquisition (DIA) methods promote comprehensive peptide coverage over
+specificity by sampling many peptides for MS/MS simultaneously. Sequential and large mass
+isolation windows (4-50 m/z) are used to isolate large numbers of peptides at once for
+concurrent MS/MS. This produces complicated fragmentation spectra, but these spectra contain
+data on every observable peptide.  A major disadvantage with this type of acquisition is
+that DIA MS/MS spectra are incredibly complex and difficult to deconvolve.  Powerful and
+relatively new software programs like Spectronaut are capable of successfully parsing out
+which fragment ions came from each co-fragmented peptide using custom libraries, machine
+learning algorithms, and precisely determined retention times or measured ion mobility data.
+Because all observable ions are sampled for MS/MS, DIA reduces missingness substantially
+compared to DDA, though not entirely.
 
 Function `dataMissing()` is designed to summarize the missingness for each protein, where
 `plot = TRUE` indicates plotting the missingness, and `show_labels = TRUE` means that the
