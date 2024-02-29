@@ -35,8 +35,9 @@ exported from **Spectronaut**. The most important columns that need to be includ
 file are: `R.Condition`, `R.Replicate`, `PG.ProteinAccessions`, `PG.ProteinNames`,
 `PG.IsSingleHit`, and `PG.Quantity`. This function will reformat the data and provide
 functionality for some initial filtering (based on the number of unique peptides).
+The steps below describe the functions that happen in the Preprocessing code.
 
-**1\.** Load the raw data
+**1\.** Loads the raw data
 
 + If the raw data is in a .csv file
 [Toy_Spectronaut_Data.csv](https://github.com/uconn-scs/msDiaLogue/blob/main/tests/testData/Toy_Spectronaut_Data.csv),
@@ -46,7 +47,7 @@ specify the `fileName` to read the raw data file into **R**.
 [Toy_Spectronaut_Data.RData](https://github.com/uconn-scs/msDiaLogue/blob/main/tests/testData/Toy_Spectronaut_Data.RData),
 first load the data file directly, then specify the `dataSet` in the function.
      
-**2\.** Filter out identified proteins that exhibit "NaN" quantitative values
+**2\.** Filters out identified proteins that exhibit "NaN" quantitative values
 
 NaN, which stands for 'Not a Number,' can be found in the PG.Quantity column for proteins
 that were identified by MS and MS/MS evidence in the raw data, but all peptides from that
@@ -56,7 +57,7 @@ poor signal-to-noise (S/N) and/or when there is interference from other co-eluti
 ions with very similar or identical m/z values that lead to difficulty in parsing out
 individual intensity profiles.
 
-**3\.** Apply a unique peptides per protein filter
+**3\.** Applies a unique peptides per protein filter
 
 General practice in the proteomics field is to filter out proteins from which only 1 unique
 peptide was identified.  This adds increased confidence to results already filtered to a
@@ -65,7 +66,7 @@ are less likely to be false positives. We recommend filtering out these protein 
 order to focus on more confident targets in the identified proteome. However, 1-peptide
 proteins can still be observed in the original protein report from **Spectronaut**.
 
-**4\.** Add accession numbers to identified proteins without informative names
+**4\.** Adds accession numbers to identified proteins without informative names
 
 **Spectronaut** reports contain 4 different columns of identifying information:
 
@@ -88,7 +89,14 @@ instead.
 This option tells **msDiaLogue** to substitute the accession number for an identifier if
 it tries to pull an identifier from a column with no information.
 
-**5\.** Save a document to your working directory with all filtered out data, if desired
+**NOTE:** Not all proteins can be identified unambiguously. In many cases, the identified peptides
+can be found in multiple protein sequences, which yields a protein group or protein cluster rather than
+a single protein identification. When this happens, the accession numbers for all potential matches are
+concatenated into one string, separated by periods. When you see long strings of multiple identifiers
+later in your data processing, this is why. Spectronaut sorts these alphanumerically, so you should not assume
+that the first protein in the list is most likely to be correct (as is the case in other search algorithms).
+
+**5\.** Saves a document to your working directory with all filtered out data, if desired
 
 If `saveRm = TRUE`, the data removed in step 2 (*preprocess_Filtered_Out_NaN.csv*) and
 step 3 (*preprocess_Filtered_Out_Unique.csv*) will be saved in the current working
@@ -151,11 +159,12 @@ knitr::kable(dataTran)
 
 In some cases, a researcher may wish to filter out a specific protein or proteins from the
 dataset. The most common instance of this would be proteins identified from the common
-contaminants database, where the identification is necessary but the results are
-irrelevant and should not be included in data visualization. Other scenarios might include
-a mixed-species experiment where the researcher wants to evaluate data from only one
-species at a time. This step allows you to set aside specific proteins from downstream
-analysis, using the gene-species identifier format.
+contaminants database, where the identification is necessary to avoid incorrect matching 
+but the result is irrelevant to the experimental question and would not be included in data visualization. 
+Other scenarios might include a mixed-species experiment where the researcher wants to evaluate data from only one
+species at a time. 
+This step allows you to set aside specific proteins from downstream
+analysis, using the gene_species identifier format.
 
 **NOTE:** The proteins to be selected or removed is the union of those specified in
 `listName` and those matching the regular expression pattern in `regexName`.
@@ -235,8 +244,8 @@ knitr::kable(
 ## Normalization
 
 Normalization is designed to address systematic biases in the data. Biases
-can arise from inadvertent sample grouping during generation or preparation, from variations in instrument performance during acquisition, analysis of different peptide amounts across experiments, or other reasons. These factors can mask or
-artificially mask or enhance actual biological changes. 
+can arise from inadvertent sample grouping during generation or preparation, from variations in instrument performance during acquisition, 
+analysis of different peptide amounts across experiments, or other reasons. These factors can artificially mask or enhance actual biological changes. 
 
 Many normalization methods have been developed for large datasets, each with its own
 strengths and weaknesses. The following factors should be considered when choosing a
