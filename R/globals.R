@@ -7,13 +7,13 @@ utils::globalVariables(c(
   "PG.NrOfStrippedSequencesIdentified", # <preProcessFiltering>
   "PG.ProteinNames", # <preProcessFiltering>
   "PG.ProteinAccessions", # <preProcessFiltering>
+  "value", # <preprocessing>
   "R.Condition", # <preprocessing>
   "R.FileName", # <preprocessing>
   "R.Replicate", # <preprocessing>
   "PG.Quantity", # <preprocessing>
   "PG.ProteinNames", # <preprocessing>
   "PG.ProteinAccessions", # <preprocessing>
-  "value", # <preprocessing>
   "R.FileName", # <sortcondition>
   "R.Replicate", # <sortcondition>
   "R.Condition", # <sortcondition>

@@ -1,4 +1,20 @@
-######################################
+##
+## msDiaLogue: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
+## Copyright (C) 2024  Shiying Xiao, Timothy Moore and Charles Watt
+## Shiying Xiao <shiying.xiao@uconn.edu>
+##
+## This file is part of the R package msDiaLogue.
+##
+## The R package msDiaLogue is free software: You can redistribute it and/or
+## modify it under the terms of the GNU General Public License as published by
+## the Free Software Foundation, either version 3 of the License, or any later
+## version (at your option). See the GNU General Public License at
+## <https://www.gnu.org/licenses/> for details.
+##
+## The R package wdnet is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+########################################
 #### Code for data pre-processing ####
 ######################################
 #'
@@ -65,6 +81,21 @@ preprocessing <- function(fileName,
     dataSet <- read.csv(fileName)
   }
   
+  ## generate a histogram of the log2-transformed values for full raw data set
+  temp <- log2(dataSet$PG.Quantity)
+  plot <- ggplot(data.frame(value = temp)) +
+    geom_histogram(aes(x = value),
+                   breaks = seq(floor(min(temp, na.rm = TRUE)),
+                                ceiling(max(temp, na.rm = TRUE)), 1),
+                   color = "black", fill = "gray") +
+    scale_x_continuous(breaks = seq(floor(min(temp, na.rm = TRUE)),
+                                    ceiling(max(temp, na.rm = TRUE)), 2)) +
+    labs(title = "Histogram of Full Raw Data Set",
+         x = expression("log"[2]*"(Data)"), y = "Frequency") +
+    theme_bw() +
+    theme(plot.title = element_text(hjust = 0.5))
+  print(plot)
+  
   proteinInformation <- dataSet %>%
     select(c("PG.Genes", "PG.ProteinAccessions",
              "PG.ProteinDescriptions", "PG.ProteinNames")) %>%
@@ -92,7 +123,7 @@ preprocessing <- function(fileName,
   print(summary(selectedData$PG.Quantity))
   cat("\n")
   
-  ## generate a histogram of the log2-transformed values for full data set
+  ## generate a histogram of the log2-transformed values for full preprocessed data set
   temp <- log2(selectedData$PG.Quantity)
   plot <- ggplot(data.frame(value = temp)) +
     geom_histogram(aes(x = value),
@@ -101,7 +132,7 @@ preprocessing <- function(fileName,
                    color = "black", fill = "gray") +
     scale_x_continuous(breaks = seq(floor(min(temp, na.rm = TRUE)),
                                     ceiling(max(temp, na.rm = TRUE)), 2)) +
-    labs(title = "Histogram of Full Data Set",
+    labs(title = "Histogram of Full Preprocessed Data Set",
          x = expression("log"[2]*"(Data)"), y = "Frequency") +
     theme_bw() +
     theme(plot.title = element_text(hjust = 0.5))

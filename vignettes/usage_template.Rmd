@@ -89,12 +89,14 @@ instead.
 This option tells **msDiaLogue** to substitute the accession number for an identifier if
 it tries to pull an identifier from a column with no information.
 
-**NOTE:** Not all proteins can be identified unambiguously. In many cases, the identified peptides
-can be found in multiple protein sequences, which yields a protein group or protein cluster rather than
-a single protein identification. When this happens, the accession numbers for all potential matches are
-concatenated into one string, separated by periods. When you see long strings of multiple identifiers
-later in your data processing, this is why. Spectronaut sorts these alphanumerically, so you should not assume
-that the first protein in the list is most likely to be correct (as is the case in other search algorithms).
+**NOTE:** Not all proteins can be identified unambiguously. In many cases, the identified
+peptides can be found in multiple protein sequences, which yields a protein group or
+protein cluster rather than a single protein identification. When this happens, the
+accession numbers for all potential matches are concatenated into one string, separated by
+periods. When you see long strings of multiple identifiers later in your data processing,
+this is why. Spectronaut sorts these alphanumerically, so you should not assume that the
+first protein in the list is most likely to be correct (as is the case in other search
+algorithms).
 
 **5\.** Saves a document to your working directory with all filtered out data, if desired
 
@@ -160,11 +162,11 @@ knitr::kable(dataTran)
 In some cases, a researcher may wish to filter out a specific protein or proteins from the
 dataset. The most common instance of this would be proteins identified from the common
 contaminants database, where the identification is necessary to avoid incorrect matching 
-but the result is irrelevant to the experimental question and would not be included in data visualization. 
-Other scenarios might include a mixed-species experiment where the researcher wants to evaluate data from only one
-species at a time. 
-This step allows you to set aside specific proteins from downstream
-analysis, using the gene_species identifier format.
+but the result is irrelevant to the experimental question and would not be included in
+data visualization. Other scenarios might include a mixed-species experiment where the
+researcher wants to evaluate data from only one species at a time. This step allows you to
+set aside specific proteins from downstream analysis, using the gene_species identifier
+format.
 
 **NOTE:** The proteins to be selected or removed is the union of those specified in
 `listName` and those matching the regular expression pattern in `regexName`.
@@ -243,9 +245,11 @@ knitr::kable(
 
 ## Normalization
 
-Normalization is designed to address systematic biases in the data. Biases
-can arise from inadvertent sample grouping during generation or preparation, from variations in instrument performance during acquisition, 
-analysis of different peptide amounts across experiments, or other reasons. These factors can artificially mask or enhance actual biological changes. 
+Normalization is designed to address systematic biases in the data. Biases can arise from
+inadvertent sample grouping during generation or preparation, from variations in
+instrument performance during acquisition, analysis of different peptide amounts across
+experiments, or other reasons. These factors can artificially mask or enhance actual
+biological changes. 
 
 Many normalization methods have been developed for large datasets, each with its own
 strengths and weaknesses. The following factors should be considered when choosing a

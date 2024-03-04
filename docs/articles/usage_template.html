@@ -79,7 +79,7 @@ Xiao<span class="math inline">\(^1\)</span>, Charles Watt<span class="math inlin
 Facility, UConn<br><span class="math inline">\(^3\)</span>Statistical Consulting Services,
 UConn</p>
             
-            <h4 data-toc-skip class="date">2024-02-13</h4>
+            <h4 data-toc-skip class="date">2024-03-04</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -104,8 +104,9 @@ included in this file are: <code>R.Condition</code>,
 <code>PG.ProteinNames</code>, <code>PG.IsSingleHit</code>, and
 <code>PG.Quantity</code>. This function will reformat the data and
 provide functionality for some initial filtering (based on the number of
-unique peptides).</p>
-<p><strong>1.</strong> Load the raw data</p>
+unique peptides). The steps below describe the functions that happen in
+the Preprocessing code.</p>
+<p><strong>1.</strong> Loads the raw data</p>
 <ul>
 <li><p>If the raw data is in a .csv file <a href="https://github.com/uconn-scs/msDiaLogue/blob/main/tests/testData/Toy_Spectronaut_Data.csv" class="external-link">Toy_Spectronaut_Data.csv</a>,
 specify the <code>fileName</code> to read the raw data file into
@@ -114,8 +115,8 @@ specify the <code>fileName</code> to read the raw data file into
 first load the data file directly, then specify the <code>dataSet</code>
 in the function.</p></li>
 </ul>
-<p><strong>2.</strong> Filter out identified proteins that exhibit “NaN”
-quantitative values</p>
+<p><strong>2.</strong> Filters out identified proteins that exhibit
+“NaN” quantitative values</p>
 <p>NaN, which stands for ‘Not a Number,’ can be found in the PG.Quantity
 column for proteins that were identified by MS and MS/MS evidence in the
 raw data, but all peptides from that protein lack an associated
@@ -125,7 +126,7 @@ resulting in poor signal-to-noise (S/N) and/or when there is
 interference from other co-eluting peptide ions with very similar or
 identical m/z values that lead to difficulty in parsing out individual
 intensity profiles.</p>
-<p><strong>3.</strong> Apply a unique peptides per protein filter</p>
+<p><strong>3.</strong> Applies a unique peptides per protein filter</p>
 <p>General practice in the proteomics field is to filter out proteins
 from which only 1 unique peptide was identified. This adds increased
 confidence to results already filtered to a 1% false discovery rate
@@ -134,7 +135,7 @@ less likely to be false positives. We recommend filtering out these
 protein entries in order to focus on more confident targets in the
 identified proteome. However, 1-peptide proteins can still be observed
 in the original protein report from <strong>Spectronaut</strong>.</p>
-<p><strong>4.</strong> Add accession numbers to identified proteins
+<p><strong>4.</strong> Adds accession numbers to identified proteins
 without informative names</p>
 <p><strong>Spectronaut</strong> reports contain 4 different columns of
 identifying information:</p>
@@ -163,7 +164,17 @@ instead.</p>
 <p>This option tells <strong>msDiaLogue</strong> to substitute the
 accession number for an identifier if it tries to pull an identifier
 from a column with no information.</p>
-<p><strong>5.</strong> Save a document to your working directory with
+<p><strong>NOTE:</strong> Not all proteins can be identified
+unambiguously. In many cases, the identified peptides can be found in
+multiple protein sequences, which yields a protein group or protein
+cluster rather than a single protein identification. When this happens,
+the accession numbers for all potential matches are concatenated into
+one string, separated by periods. When you see long strings of multiple
+identifiers later in your data processing, this is why. Spectronaut
+sorts these alphanumerically, so you should not assume that the first
+protein in the list is most likely to be correct (as is the case in
+other search algorithms).</p>
+<p><strong>5.</strong> Saves a document to your working directory with
 all filtered out data, if desired</p>
 <p>If <code>saveRm = TRUE</code>, the data removed in step 2
 (<em>preprocess_Filtered_Out_NaN.csv</em>) and step 3
@@ -189,8 +200,10 @@ a transformation on your data. You still need to use the function
 <span><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="st">"../tests/testData/Toy_Spectronaut_Data.RData"</span><span class="op">)</span></span>
 <span><span class="va">dataSet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocessing.html">preprocessing</a></span><span class="op">(</span>dataSet <span class="op">=</span> <span class="va">Toy_Spectronaut_Data</span>,</span>
 <span>                         filterNaN <span class="op">=</span> <span class="cn">TRUE</span>, filterUnique <span class="op">=</span> <span class="fl">2</span>,</span>
-<span>                         replaceBlank <span class="op">=</span> <span class="cn">TRUE</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-4-1.png" width="700" style="display: block; margin: auto;"></p>
+<span>                         replaceBlank <span class="op">=</span> <span class="cn">TRUE</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 25 rows containing non-finite outside the scale range</span></span>
+<span><span class="co">#&gt; (`stat_bin()`).</span></span></code></pre></div>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-4-1.png" width="700" style="display: block; margin: auto;"><img src="usage_template_files/figure-html/unnamed-chunk-4-2.png" width="700" style="display: block; margin: auto;"></p>
 <div style="overflow-x: auto;">
 <table style="width:100%;" class="table">
 <colgroup>
@@ -801,12 +814,12 @@ across the intensity range (i.e. reduces heteroscedasticity).</p>
 <p>In some cases, a researcher may wish to filter out a specific protein
 or proteins from the dataset. The most common instance of this would be
 proteins identified from the common contaminants database, where the
-identification is necessary but the results are irrelevant and should
-not be included in data visualization. Other scenarios might include a
-mixed-species experiment where the researcher wants to evaluate data
-from only one species at a time. This step allows you to set aside
-specific proteins from downstream analysis, using the gene-species
-identifier format.</p>
+identification is necessary to avoid incorrect matching but the result
+is irrelevant to the experimental question and would not be included in
+data visualization. Other scenarios might include a mixed-species
+experiment where the researcher wants to evaluate data from only one
+species at a time. This step allows you to set aside specific proteins
+from downstream analysis, using the gene_species identifier format.</p>
 <p><strong>NOTE:</strong> The proteins to be selected or removed is the
 union of those specified in <code>listName</code> and those matching the
 regular expression pattern in <code>regexName</code>.</p>
@@ -1306,8 +1319,8 @@ or “Alcohol dehydrogenase 1” will be kept. Note that the search value
 Biases can arise from inadvertent sample grouping during generation or
 preparation, from variations in instrument performance during
 acquisition, analysis of different peptide amounts across experiments,
-or other reasons. These factors can mask or artificially mask or enhance
-actual biological changes.</p>
+or other reasons. These factors can artificially mask or enhance actual
+biological changes.</p>
 <p>Many normalization methods have been developed for large datasets,
 each with its own strengths and weaknesses. The following factors should
 be considered when choosing a normalization method:</p>
@@ -1344,7 +1357,7 @@ sample)</p></li>
 <p>Quantile normalization is generally recommended by <a href="https://statsconsulting.uconn.edu" class="external-link">UConn SCS</a>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataNorm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/normalize.html">normalize</a></span><span class="op">(</span><span class="va">dataTran</span>, normalizeType <span class="op">=</span> <span class="st">"quant"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 16 rows containing non-finite values</span></span>
+<span><span class="co">#&gt; Warning: Removed 16 rows containing non-finite outside the scale range</span></span>
 <span><span class="co">#&gt; (`stat_boxplot()`).</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-14-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>Oh! The message “Warning: Removed 16 rows containing non-finite
@@ -3645,7 +3658,7 @@ the majority of points concentrating around the line M = 0 (indicating
 no difference between group means).</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_MA</span>, graphType <span class="op">=</span> <span class="st">"MA"</span>, M.thres <span class="op">=</span> <span class="fl">1</span>, transformLabel <span class="op">=</span> <span class="st">"Log2"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 16 rows containing missing values</span></span>
+<span><span class="co">#&gt; Warning: Removed 16 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-33-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>where <code>M.thres = 1</code> means the M thresholds are set to −1
@@ -3661,7 +3674,7 @@ significance.</p>
 </h3>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataNorm</span>, graphType <span class="op">=</span> <span class="st">"normalize"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 16 rows containing non-finite values</span></span>
+<span><span class="co">#&gt; Warning: Removed 16 rows containing non-finite outside the scale range</span></span>
 <span><span class="co">#&gt; (`stat_boxplot()`).</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-34-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
@@ -3816,7 +3829,7 @@ log10 of the P-value.</p></li>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_mod.t</span>, graphType <span class="op">=</span> <span class="st">"volcano"</span>,</span>
 <span>          P.thres <span class="op">=</span> <span class="fl">0.05</span>, logF.thres <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 15 rows containing missing values</span></span>
+<span><span class="co">#&gt; Warning: Removed 15 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-44-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
@@ -3955,7 +3968,7 @@ fold-change might have been a processing artifact.</p>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-bolstad2003comparison" class="csl-entry">
 Bolstad, B. M., R. A. Irizarry, M. Astrand, and T. P. Speed. 2003.
 <span>“A Comparison of Normalization Methods for High Density
