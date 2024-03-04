@@ -14,7 +14,9 @@
 ## The R package wdnet is distributed in the hope that it will be useful,
 ## but WITHOUT ANY WARRANTY without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-###' Trimming down a protein FASTA file to certain proteins
+##
+
+#' Trimming down a protein FASTA file to certain proteins
 #' 
 #' @description 
 #' Trim down a FASTA file to only contain proteins present in an associated Spectronaut

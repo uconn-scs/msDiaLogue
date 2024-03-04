@@ -14,7 +14,9 @@
 ## The R package wdnet is distributed in the hope that it will be useful,
 ## but WITHOUT ANY WARRANTY without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-###' Compiling data on a single protein from each step in the process
+##
+
+#' Compiling data on a single protein from each step in the process
 #' 
 #' @description
 #' Summarize the steps performed on the data for one protein.

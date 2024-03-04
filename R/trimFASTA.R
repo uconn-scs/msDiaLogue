@@ -14,7 +14,9 @@
 ## The R package wdnet is distributed in the hope that it will be useful,
 ## but WITHOUT ANY WARRANTY without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-###TODO check if it is creating a small number of replicates
+##
+
+#TODO check if it is creating a small number of replicates
 #' Trimming down a protein FASTA file to certain proteins
 #' 
 #' @description 
