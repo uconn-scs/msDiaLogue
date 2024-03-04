@@ -156,11 +156,15 @@ filterOutIn <- function(dataSet,
   ## only list filter if listName is present
   if (length(listName) != 0) {
     listIndex <- which(colnames(filteredData) %in% listName)
+  } else {
+    listIndex <- NULL
   }
   
   ## only regex filter if regexName is present
   if (length(regexName) != 0) {
     regexIndex <- grep(paste(regexName, collapse = "|"), colnames(filteredData))
+  } else {
+    regexIndex <- NULL
   }
   
   ## combine protein names from list and regex filters
