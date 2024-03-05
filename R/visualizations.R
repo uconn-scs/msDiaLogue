@@ -209,7 +209,7 @@ visualize <- function(
     ggplot(plotData, aes(x = A, y = M, color = Significant, label = delabel)) +
       geom_hline(yintercept = c(-M.thres, M.thres), linetype = "dashed") +
       geom_point() +
-      geom_text_repel() +
+      geom_text_repel(show.legend = FALSE) +
       scale_color_manual(values = c("Down" = "blue", "No" = "gray", "Up" = "red")) +
       labs(title = paste(transformLabel, "Transformed MA Plot")) +
       theme_bw() +
@@ -335,7 +335,7 @@ visualize <- function(
       geom_vline(xintercept = c(-logF.thres, logF.thres), linetype = "dashed") +
       geom_hline(yintercept = -log10(P.thres), linetype = "dashed") +
       geom_point() +
-      geom_text_repel() +
+      geom_text_repel(show.legend = FALSE) +
       scale_color_manual(values = c("Down" = "blue", "Up" = "red",
                                     "Inconclusive" = "gray", "No" = "gray20")) +
       labs(x = expression("log"[2]*"FC"), y = expression("-log"[10]*"P-value")) +
