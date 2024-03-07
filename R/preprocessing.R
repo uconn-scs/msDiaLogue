@@ -181,7 +181,7 @@ preprocessing <- function(fileName,
   })
   
   ## store data in a data.frame structure
-  loadedData <- data.frame(reformatedData) 
+  loadedData <- as.data.frame(reformatedData) 
   
   ## provide sample data for visual inspection
   cat("Example Structure of Pre-Processed Data")
