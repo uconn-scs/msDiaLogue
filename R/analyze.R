@@ -103,7 +103,7 @@ analyze <- function(dataSet, conditions, testType = "t-test") {
   } else if (testType == "mod.t-test") {
     
     ## construct the design matrix
-    conditions <- factor(filteredData$R.Condition, labels = LETTERS[1:2])
+    conditions <- factor(filteredData$R.Condition, levels = conditions, labels = LETTERS[1:2])
     design <- model.matrix(~ 0 + conditions)
     
     ## fit linear model for each protein
