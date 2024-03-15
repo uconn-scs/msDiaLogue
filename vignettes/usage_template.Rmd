@@ -33,9 +33,9 @@ library(msDiaLogue)
 The function `preprocessing()` takes a `.csv` file of summarized protein abundances,
 exported from **Spectronaut**. The most important columns that need to be included in this
 file are: `R.Condition`, `R.Replicate`, `PG.ProteinAccessions`, `PG.ProteinNames`,
-`PG.IsSingleHit`, and `PG.Quantity`. This function will reformat the data and provide
-functionality for some initial filtering (based on the number of unique peptides).
-The steps below describe the functions that happen in the Preprocessing code.
+`PG.NrOfStrippedSequencesIdentified`, and `PG.Quantity`. This function will reformat the
+data and provide functionality for some initial filtering (based on the number of unique
+peptides). The steps below describe the functions that happen in the Preprocessing code.
 
 **1\.** Loads the raw data
 
