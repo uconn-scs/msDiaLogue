@@ -60,7 +60,8 @@ report file.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">trimFASTA</span><span class="op">(</span></span>
 <span>  <span class="va">FASTAFileName</span>,</span>
 <span>  <span class="va">reportFileName</span>,</span>
-<span>  <span class="va">outputFileName</span>,</span>
+<span>  outputFileName <span class="op">=</span> <span class="st">"trimFASTA_output.txt"</span>,</span>
+<span>  by <span class="op">=</span> <span class="st">"PG.ProteinNames"</span>,</span>
 <span>  selectString <span class="op">=</span> <span class="st">"*BOVIN"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -68,19 +69,27 @@ report file.</p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>FASTAFileName</dt>
-<dd><p>A string indicating the FASTA .txt filename.</p></dd>
+<dd><p>A character string specifying the name of the input FASTA .txt
+file.</p></dd>
 
 
 <dt>reportFileName</dt>
-<dd><p>A string indicating the Spectronaut report .csv filename.</p></dd>
+<dd><p>A character string specifying the name of the Spectronaut report
+.csv file.</p></dd>
 
 
 <dt>outputFileName</dt>
-<dd><p>A string indicating the name for the new .txt FASTA file.</p></dd>
+<dd><p>A character string (default = "trimFASTA_output.txt") specifying
+the name of the output file.</p></dd>
+
+
+<dt>by</dt>
+<dd><p>A character string (default = "PG.ProteinNames") specifying the identifier
+(column name) used for selection in the report file.</p></dd>
 
 
 <dt>selectString</dt>
-<dd><p>A string containing a regular expression for which to search.</p></dd>
+<dd><p>A character string specifying the regular expression to search for.</p></dd>
 
 </dl></div>
     <div class="section level2">

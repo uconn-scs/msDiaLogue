@@ -2,3 +2,6 @@
 .Rhistory
 .Ruserdata
 .DS_Store
+tests/testData/20230217_112231_hrf20230212_AAML1031_Plates124_Report.csv
+tests/testData/jlb20220525_BosTaurus_RefUniprotproteome_UP000009136.txt
+tests/storedData/trimFASTA_Toy.txt

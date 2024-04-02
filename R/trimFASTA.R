@@ -16,38 +16,46 @@
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ##
 
-#TODO check if it is creating a small number of replicates
 #' Trimming down a protein FASTA file to certain proteins
 #' 
 #' @description 
 #' Trim down a FASTA file to only contain proteins present in an associated Spectronaut
 #' report file.
 #' 
-#' @param FASTAFileName A string indicating the FASTA .txt filename.
+#' @param FASTAFileName A character string specifying the name of the input FASTA .txt
+#' file.
 #' 
-#' @param reportFileName A string indicating the Spectronaut report .csv filename.
+#' @param reportFileName A character string specifying the name of the Spectronaut report
+#' .csv file.
 #' 
-#' @param outputFileName A string indicating the name for the new .txt FASTA file.
+#' @param by A character string (default = "PG.ProteinNames") specifying the identifier
+#' (column name) used for selection in the report file.
 #' 
-#' @param selectString A string containing a regular expression for which to search.
+#' @param outputFileName A character string (default = "trimFASTA_output.txt") specifying
+#' the name of the output file.
+#' 
+#' @param selectString A character string specifying the regular expression to search for.
 #' 
 #' @details
 #' Depending on the size of the FASTA file, this function may run slowly and take several
 #' minutes. The FASTA file must be in .txt format; other formats will not work.
 #' 
-#' @import data.table
 #' @import dplyr
-#' @import seqinr
 #' @import tictoc
-#' @import tidyr
+#' @importFrom data.table fread
+#' @importFrom seqinr getName read.fasta write.fasta
+#' @importFrom Rdpack reprompt
 #' 
 #' @returns A FASTA file with only the specified proteins present.
+#' 
+#' @autoglobal
 #' 
 #' @export
 
 trimFASTA <- function(FASTAFileName,
                       reportFileName,
-                      outputFileName,
+                      outputFileName = "trimFASTA_output.txt",
+                      by = "PG.ProteinNames",
                       selectString = "*BOVIN") {
   
   message("Depending on the size of the FASTA files,
@@ -58,49 +66,27 @@ trimFASTA <- function(FASTAFileName,
   ## read in full fasta file
   full_Fasta <- read.fasta(FASTAFileName, seqtype = "AA", whole.header = TRUE)
   
-  ## read in just the protein names from the report file
-  namesList <- fread(reportFileName, select = "PG.ProteinNames")
-  
-  ## isolate the unique entries in the protein name list
-  proteinIDs <- unique(namesList)
-  
-  ## split all the names into individual protein names
-  SpecificIDs <- proteinIDs %>%
-    mutate(PG.ProteinNames = strsplit(as.character(PG.ProteinNames), ";")) %>%
-    unnest(PG.ProteinNames)
-  
-  uniqueSpecificIDs <- unique(SpecificIDs)
-  
-  ## keep only the protein names that meet the selectSTring criteria
-  bovinOnlyIDs <- uniqueSpecificIDs[grep(selectString, uniqueSpecificIDs$PG.ProteinNames),]
-  
-  ## pull all of the names out the fasta file
+  ## pull all of the names from the FASTA file
   allNames <- getName(full_Fasta)
   
-  ## intialize a list
-  index <- list()
+  ## read only the `selectString` from the report file;
+  ## split all selected strings into individual strings and keep only the unique ones;
+  ## filter the unique strings based on the `selectString`;
+  ## find the corresponding indices in the original data for the filtered strings
+  index <- fread(reportFileName, select = by)[[1]] %>%
+    unique() %>%
+    strsplit(split = ";") %>%
+    unlist() %>%
+    unique() %>%
+    grep(selectString, ., value = TRUE) %>%
+    lapply(grep, x = allNames) %>%
+    unlist()
   
-  ## measure how many bovine names there are in the report
-  lengthBov <- dim(bovinOnlyIDs[,1])[1]
+  ## select the names and data that correspond
+  part_names <- allNames[index]
+  part_Fasta <- full_Fasta[index]
   
-  ## for each bovin protein name
-  for (i in 1:lengthBov) {
-    
-    ## find all instances of the name in the fasta file
-    tmp <- grep(as.character(bovinOnlyIDs[i,]), allNames)
-    
-    ## save that list of instances
-    index <- append(index, as.list(tmp))
-  }
-  
-  ## transponse the index, and structure it as a data frame
-  tmp <- t(data.frame(index))
-  
-  ## select the names and data that corespond
-  part_names <- allNames[tmp]
-  part_Fasta <- full_Fasta[tmp]
-  
-  ## write a fasta file with only the selected proteins
+  ## write a fasta file with only the selected indices
   write.fasta(part_Fasta, part_names, outputFileName, nbchar = 60)
   
   toc()

@@ -22,6 +22,7 @@ utils::globalVariables(c(
   ".", # <summarize>
   "Mean", # <meanVarPlot>
   "Variance", # <meanVarPlot>
+  ".", # <trimFASTA>
   "R.Condition", # <visualize>
   "R.FileName", # <visualize>
   "R.Replicate", # <visualize>
