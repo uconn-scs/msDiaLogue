@@ -185,14 +185,13 @@ impute <- function(dataSet,
 impute.min_global <- function(dataSet, reportImputing = FALSE) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace all NAs with the global smallest value in the data set
   dataPoints <- replace(dataPoints, is.na(dataPoints), min(dataPoints, na.rm = TRUE))
   
   ## recombine the labels and imputed data
-  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
-                       dataPoints)
+  imputedData <- cbind(dataSet[,c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
     ## return the imputed data and the shadow matrix
@@ -239,7 +238,7 @@ impute.min_local <- function(dataSet, reportImputing = FALSE,
                              reqPercentPresent = 0.51) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## number of proteins in the data set
   numProteins <- ncol(dataPoints)
@@ -287,8 +286,7 @@ impute.min_local <- function(dataSet, reportImputing = FALSE,
   }
   
   ## recombine the labels and imputed data
-  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
-                       dataPoints)
+  imputedData <- cbind(dataSet[,c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
     ## return the imputed data and the shadow matrix
@@ -353,7 +351,7 @@ impute.knn <- function(dataSet, reportImputing = FALSE,
                        k = 10, rowmax = 0.5, colmax = 0.8, maxp = 1500, seed = 362436069) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace NAs using knn algorithm
   dataPoints <- t(impute::impute.knn(t(dataPoints), k = k,
@@ -361,8 +359,7 @@ impute.knn <- function(dataSet, reportImputing = FALSE,
                                      maxp = maxp, rng.seed = seed)$data)
   
   ## recombine the labels and imputed data
-  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
-                       dataPoints)
+  imputedData <- cbind(dataSet[,c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
     ## return the imputed data and the shadow matrix
@@ -412,14 +409,13 @@ impute.knn_seq <- function(dataSet, reportImputing = FALSE,
                            k = 10) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace NAs using sequential knn algorithm
   dataPoints <- t(multiUS::seqKNNimp(t(dataPoints), k = k))
   
   ## recombine the labels and imputed data
-  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
-                       dataPoints)
+  imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
     ## return the imputed data and the shadow matrix
@@ -467,7 +463,7 @@ impute.knn_trunc <- function(dataSet, reportImputing = FALSE,
                              k = 10) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace NAs using truncated knn algorithm
   ## source: trunc-knn.R
@@ -475,8 +471,7 @@ impute.knn_trunc <- function(dataSet, reportImputing = FALSE,
                           distance = "truncation", perc = 0)
   
   ## recombine the labels and imputed data
-  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
-                       dataPoints)
+  imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
     ## return the imputed data and the shadow matrix
@@ -545,7 +540,7 @@ impute.nuc_norm <- function(dataSet, reportImputing = FALSE,
                             final.svd = TRUE, seed = 362436069) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace NAs using nuclear-norm regularization
   if(is.null(rank.max)) {
@@ -565,8 +560,7 @@ impute.nuc_norm <- function(dataSet, reportImputing = FALSE,
   dataPoints <- t(softImpute::complete(t(dataPoints), fit))
   
   ## recombine the labels and imputed data
-  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
-                       dataPoints)
+  imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
     ## return the imputed data and the shadow matrix
@@ -618,15 +612,14 @@ impute.mice_norm <- function(dataSet, reportImputing = FALSE,
                              m = 5, seed = 362436069) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace NAs using Bayesian linear regression
   dataPoints <- mice(dataPoints, m = m, seed = seed, method = "norm", printFlag = FALSE)
   dataPoints <- Reduce(`+`, mice::complete(dataPoints, "all")) / m
   
   ## recombine the labels and imputed data
-  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
-                       dataPoints)
+  imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
     ## return the imputed data and the shadow matrix
@@ -678,15 +671,14 @@ impute.mice_cart <- function(dataSet, reportImputing = FALSE,
                              m = 5, seed = 362436069) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace NAs using classification and regression trees
   dataPoints <- mice(dataPoints, m = m, seed = seed, method = "cart", printFlag = FALSE)
   dataPoints <- Reduce(`+`, mice::complete(dataPoints, "all")) / m
   
   ## recombine the labels and imputed data
-  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
-                       dataPoints)
+  imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
     ## return the imputed data and the shadow matrix
@@ -739,7 +731,7 @@ impute.pca_bayes <- function(dataSet, reportImputing = FALSE,
                              nPcs = NULL, maxSteps = 100) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace NAs using Bayesian principal components analysis
   dataPoints <- pcaMethods::pca(dataPoints, method = "bpca", verbose = FALSE,
@@ -748,8 +740,7 @@ impute.pca_bayes <- function(dataSet, reportImputing = FALSE,
   dataPoints <- pcaMethods::completeObs(dataPoints)
   
   ## recombine the labels and imputed data
-  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
-                       dataPoints)
+  imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
     ## return the imputed data and the shadow matrix
@@ -805,7 +796,7 @@ impute.pca_prob <- function(dataSet, reportImputing = FALSE,
                             nPcs = NULL, maxIterations = 1000, seed = 362436069) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace NAs using Bayesian principal components analysis
   dataPoints <- pcaMethods::pca(dataPoints, method = "ppca", verbose = FALSE,
@@ -814,8 +805,7 @@ impute.pca_prob <- function(dataSet, reportImputing = FALSE,
   dataPoints <- pcaMethods::completeObs(dataPoints)
   
   ## recombine the labels and imputed data
-  imputedData <- cbind(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
-                       dataPoints)
+  imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
     ## return the imputed data and the shadow matrix

@@ -49,7 +49,7 @@
 #' @export
 
 dataMissing <- function(dataSet, plot = FALSE, show_labels = TRUE) {
-  dataMissing <- select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate"))
+  dataMissing <- select(dataSet, -c(R.Condition, R.Replicate))
   if (plot == TRUE) {
     if (show_labels == TRUE) {
       plot <- visdat::vis_miss(dataMissing)

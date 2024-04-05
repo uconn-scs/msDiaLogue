@@ -94,10 +94,9 @@ meanVarPlot <- function(datMV, title = "") {
 
 transform <- function(dataSet, logFold = 2) {
   
-  ## separate the data set into labels and numerical data
-  ## labels consist of the first 2 columns, data is everything else
-  dataLabels <- dataSet[,1:3]
-  dataPoints <- dataSet[,4:ncol(dataSet)]
+  ## organize the data for transformation
+  dataPoints <- dataSet %>%
+    select(-c(R.Condition, R.Replicate)) 
   
   ## calculate and plot a mean-variance plot 
   plotPre <- meanVarPlot(dataPoints, title = "Pre-Transformation")
@@ -111,7 +110,7 @@ transform <- function(dataSet, logFold = 2) {
   print(plotPost)
   
   ## recombine the labels and transformed data into a single data frame
-  transDataSet <- cbind(dataLabels, transDataPoints)
+  transDataSet <- cbind(dataSet[,c("R.Condition", "R.Replicate")], transDataPoints)
   
   ## return the transformed data
   return(transDataSet)

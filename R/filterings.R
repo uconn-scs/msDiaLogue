@@ -96,8 +96,9 @@ preProcessFiltering <- function(dataSet,
   if (replaceBlank) {
     
     ## replace blank protein name entries with their accession numbers
-    filteredData <- filteredData %>% mutate(PG.ProteinNames = replace(
-      PG.ProteinNames, PG.ProteinNames == "", PG.ProteinAccessions))
+    filteredData <- filteredData %>%
+      mutate(PG.ProteinNames =
+               replace(PG.ProteinNames, PG.ProteinNames == "", PG.ProteinAccessions))
   }
   
   ## return the filtered data
@@ -151,7 +152,7 @@ filterOutIn <- function(dataSet,
   
   ## relabel the data frame
   filteredData <- dataSet %>%
-    select(-c("R.Condition", "R.FileName", "R.Replicate"))
+    select(-c("R.Condition", "R.Replicate"))
   
   ## only list filter if listName is present
   if (length(listName) != 0) {
@@ -172,7 +173,7 @@ filterOutIn <- function(dataSet,
   
   ## create a dataframe of the data of proteins
   unionData <- dataSet %>%
-    select(any_of(c("R.Condition", "R.FileName", "R.Replicate", unionName)))
+    select(any_of(c("R.Condition", "R.Replicate", unionName)))
   
   ## if contaminants are being removed
   if (removeList == TRUE) {
@@ -252,7 +253,7 @@ filterProtein <- function(dataSet,
   
   ## relabel the data frame
   filteredData <- dataSet %>%
-    select(-c("R.Condition", "R.FileName", "R.Replicate"))
+    select(-c("R.Condition", "R.Replicate"))
   
   by <- paste0("PG.", if(by != "gene") {"Protein"},
                toupper(substr(by, 1, 1)), substring(by, 2), "s")
@@ -262,7 +263,7 @@ filterProtein <- function(dataSet,
   proteinName <- proteinInformation[index,]$PG.ProteinNames
   
   result <- dataSet %>%
-    select(any_of(c("R.Condition", "R.FileName", "R.Replicate", proteinName)))
+    select(any_of(c("R.Condition", "R.Replicate", proteinName)))
   
   ## if contaminants are being removed
   if (removeList == TRUE) {
@@ -318,7 +319,7 @@ filterNA <- function(dataSet, saveRm = TRUE) {
   if (saveRm) {
     
     ## create a dataframe of the removed data
-    removedData <- bind_cols(select(dataSet, c("R.Condition", "R.FileName", "R.Replicate")),
+    removedData <- bind_cols(select(dataSet, c("R.Condition", "R.Replicate")),
                              select_if(dataSet, ~any(is.na(.))))
     
     ## save removed data to current working directory

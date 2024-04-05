@@ -99,8 +99,7 @@ preprocessing <- function(fileName,
   print(plot)
   
   proteinInformation <- dataSet %>%
-    select(c("PG.Genes", "PG.ProteinAccessions",
-             "PG.ProteinDescriptions", "PG.ProteinNames")) %>%
+    select(PG.Genes, PG.ProteinAccessions, PG.ProteinDescriptions, PG.ProteinNames) %>%
     distinct()
   
   write.csv(proteinInformation, file = "full_protein_information.csv", row.names = FALSE)
@@ -109,16 +108,14 @@ preprocessing <- function(fileName,
   filteredData <- preProcessFiltering(dataSet, filterNaN, filterUnique, replaceBlank, saveRm)
   
   proteinInformation <- filteredData %>%
-    select(c("PG.Genes", "PG.ProteinAccessions",
-             "PG.ProteinDescriptions", "PG.ProteinNames")) %>%
+    select(PG.Genes, PG.ProteinAccessions, PG.ProteinDescriptions, PG.ProteinNames) %>%
     distinct()
   
   write.csv(proteinInformation, file = "preprocess_protein_information.csv", row.names = FALSE)
   
   ## select columns necessary for analysis
   selectedData <- filteredData %>%
-    select(c(R.Condition, R.FileName, R.Replicate, PG.Quantity,
-             PG.ProteinNames, PG.ProteinAccessions))
+    select(R.Condition, R.Replicate, PG.Quantity, PG.ProteinNames, PG.ProteinAccessions)
   
   ## print summary statistics for full raw data set
   cat("Summary of full data signals (raw)")
@@ -146,7 +143,7 @@ preprocessing <- function(fileName,
     ## try to reformat the data to present proteins as the columns and
     ## to group replicates under each protein
     reformatedData <- selectedData %>% pivot_wider(
-      id_cols = c(R.Condition, R.FileName, R.Replicate),
+      id_cols = c(R.Condition, R.Replicate),
       names_from = PG.ProteinNames, values_from = PG.Quantity)
     
   }, warning = function(w) {
@@ -158,7 +155,7 @@ preprocessing <- function(fileName,
     
     ## compile a database if the entries with duplicates
     warningTmp <- selectedData %>%
-      dplyr::group_by(R.Condition, R.FileName, R.Replicate, PG.ProteinNames) %>%
+      dplyr::group_by(R.Condition, R.Replicate, PG.ProteinNames) %>%
       dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
       dplyr::filter(n > 1L)
     
@@ -175,7 +172,7 @@ preprocessing <- function(fileName,
     
     ## try to reformat the data again
     reformatedData <- selectedData %>%
-      pivot_wider(id_cols = c(R.Condition, R.FileName, R.Replicate),
+      pivot_wider(id_cols = c(R.Condition, R.Replicate),
                   names_from = PG.ProteinNames, values_from = PG.Quantity)
     return(reformatedData)
   })

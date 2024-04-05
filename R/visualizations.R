@@ -165,7 +165,7 @@ visualize <- function(
     if(pkg == "pheatmap") {
       
       ## organize the data for pheatmap plotting
-      plotData <- t(select(dataSet, -c(R.Condition, R.FileName, R.Replicate)))
+      plotData <- t(select(dataSet, -c(R.Condition, R.Replicate)))
       colnames(plotData) <- paste0(dataSet$R.Condition, "_", dataSet$R.Replicate)
       
       pheatmap(mat = plotData,
@@ -177,7 +177,7 @@ visualize <- function(
       ## performing wide-to-long data reshaping for ggplot2 plotting
       plotData <- dataSet %>%
         mutate(R.ConRep = paste0(R.Condition, "_", R.Replicate)) %>%
-        select(-c(R.Condition, R.FileName, R.Replicate)) %>%
+        select(-c(R.Condition, R.Replicate)) %>%
         pivot_longer(-R.ConRep)
       
       ggplot(plotData, aes(x= R.ConRep, y = name, fill = value)) +
@@ -218,7 +218,6 @@ visualize <- function(
   } else if (graphType == "normalize") {
     
     plotData <- dataSet %>%
-      select(-R.FileName) %>%
       pivot_longer(-c(R.Condition, R.Replicate)) %>%
       mutate(across(c(R.Condition, R.Replicate), as.character))
     
@@ -240,7 +239,7 @@ visualize <- function(
     plotData <- dataSet %>%
       mutate(R.ConRep = paste0(R.Condition, "_", R.Replicate)) %>%
       column_to_rownames(var = "R.ConRep") %>%
-      select(-c(R.Condition, R.FileName, R.Replicate))
+      select(-c(R.Condition, R.Replicate))
     
     res.pca <- prcomp(plotData, center = center, scale = scale)
     

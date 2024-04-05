@@ -35,7 +35,7 @@
 
 pullProteinPath <- function(proteinName, dataSetList) {
   
-  proteinPath <- cbind(dataSetList[[1]][c("R.Condition", "R.FileName", "R.Replicate")],
+  proteinPath <- cbind(dataSetList[[1]][c("R.Condition", "R.Replicate")],
                        sapply(dataSetList, function(mat) mat[[proteinName]]))
   
   ## return the path of data for this protein

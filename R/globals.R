@@ -3,28 +3,52 @@
 utils::globalVariables(c(
   "R.Condition", # <analyze>
   "R.Replicate", # <analyze>
+  "R.Condition", # <dataMissing>
+  "R.Replicate", # <dataMissing>
   "PG.Quantity", # <preProcessFiltering>
   "PG.NrOfStrippedSequencesIdentified", # <preProcessFiltering>
   "PG.ProteinNames", # <preProcessFiltering>
   "PG.ProteinAccessions", # <preProcessFiltering>
+  "R.Condition", # <impute.min_global>
+  "R.Replicate", # <impute.min_global>
+  "R.Condition", # <impute.min_local>
+  "R.Replicate", # <impute.min_local>
+  "R.Condition", # <impute.knn>
+  "R.Replicate", # <impute.knn>
+  "R.Condition", # <impute.knn_seq>
+  "R.Replicate", # <impute.knn_seq>
+  "R.Condition", # <impute.knn_trunc>
+  "R.Replicate", # <impute.knn_trunc>
+  "R.Condition", # <impute.nuc_norm>
+  "R.Replicate", # <impute.nuc_norm>
+  "R.Condition", # <impute.mice_norm>
+  "R.Replicate", # <impute.mice_norm>
+  "R.Condition", # <impute.mice_cart>
+  "R.Replicate", # <impute.mice_cart>
+  "R.Condition", # <impute.pca_bayes>
+  "R.Replicate", # <impute.pca_bayes>
+  "R.Condition", # <impute.pca_prob>
+  "R.Replicate", # <impute.pca_prob>
+  "R.Condition", # <normalize>
+  "R.Replicate", # <normalize>
   "value", # <preprocessing>
+  "PG.Genes", # <preprocessing>
+  "PG.ProteinAccessions", # <preprocessing>
+  "PG.ProteinDescriptions", # <preprocessing>
+  "PG.ProteinNames", # <preprocessing>
   "R.Condition", # <preprocessing>
-  "R.FileName", # <preprocessing>
   "R.Replicate", # <preprocessing>
   "PG.Quantity", # <preprocessing>
-  "PG.ProteinNames", # <preprocessing>
-  "PG.ProteinAccessions", # <preprocessing>
-  "R.FileName", # <sortcondition>
   "R.Replicate", # <sortcondition>
   "R.Condition", # <sortcondition>
-  "R.FileName", # <summarize>
   "R.Replicate", # <summarize>
   ".", # <summarize>
   "Mean", # <meanVarPlot>
   "Variance", # <meanVarPlot>
+  "R.Condition", # <transform>
+  "R.Replicate", # <transform>
   ".", # <trimFASTA>
   "R.Condition", # <visualize>
-  "R.FileName", # <visualize>
   "R.Replicate", # <visualize>
   "R.ConRep", # <visualize>
   "value", # <visualize>

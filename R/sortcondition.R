@@ -27,7 +27,7 @@ sortcondition <- function(dataSet) {
   ## calculate how many values are present from each condition by protein
   dataCounts <- dataSet %>%
     ## do not include columns that are strings
-    select(!c(R.FileName, R.Replicate)) %>%
+    select(!R.Replicate) %>%
     ## group by experimental condition
     group_by(R.Condition) %>%
     ## apply to every numeric function a summation of the non-NA values

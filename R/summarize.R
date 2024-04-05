@@ -66,7 +66,7 @@ summarize <- function(dataSet, saveSumm = TRUE) {
   
   ## summarize each protein by conditions
   proteinSummary <- dataSet %>%
-    select(-c(R.FileName, R.Replicate)) %>%
+    select(-R.Replicate) %>%
     describeBy(group = .$R.Condition)
   
   ## if only two conditions exist, calculate the fold change automatically

@@ -85,7 +85,7 @@ analyze <- function(dataSet, conditions, testType = "t-test") {
     
     ## the difference in means (log fold change for volcano) and the P-value of t-test
     result <- as.data.frame(apply(
-      select(filteredData, -c("R.Condition", "R.FileName", "R.Replicate")), 2,
+      select(filteredData, -c(R.Condition, R.Replicate)), 2,
       function(x) {
         tryCatch(
           c("Difference" = mean(x[indexA])-mean(x[indexB]),
@@ -108,7 +108,7 @@ analyze <- function(dataSet, conditions, testType = "t-test") {
     
     ## fit linear model for each protein
     fit1 <- limma::lmFit(
-      t(select(filteredData, -c("R.Condition", "R.FileName", "R.Replicate"))), design)
+      t(select(filteredData, -c(R.Condition, R.Replicate))), design)
     
     ## construct the contrast matrix
     cont.matrix <- limma::makeContrasts("conditionsA - conditionsB", levels = design)
@@ -127,7 +127,7 @@ analyze <- function(dataSet, conditions, testType = "t-test") {
     ## the average of each condition individually
     result <- filteredData %>%
       group_by(R.Condition) %>%
-      summarise(across(-c("R.FileName", "R.Replicate"), mean)) %>%
+      summarise(across(-c("R.Replicate"), mean)) %>%
       column_to_rownames("R.Condition")
     
   }

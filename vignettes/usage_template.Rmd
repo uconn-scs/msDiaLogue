@@ -158,7 +158,6 @@ knitr::kable(dataTran)
 
 ## Filtering
 
-
 In some cases, a researcher may wish to filter out a specific protein or proteins from the
 dataset. The most common instance of this would be proteins identified from the common
 contaminants database, where the identification is necessary to avoid incorrect matching 
@@ -653,7 +652,7 @@ have constant values, leading to the error message. We choose to remove these tw
 in PCA.
 
 ```{r}
-dataPCA <- dataImput[,colnames(dataImput) != c("TEBP_HUMAN", "T126B_HUMAN")]
+dataPCA <- dataImput[, !(colnames(dataImput) %in% c("TEBP_HUMAN", "T126B_HUMAN"))]
 ```
 
 #### PCA_scree

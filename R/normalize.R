@@ -53,7 +53,7 @@ normalize <- function(dataSet, normalizeType = "quant") {
     ggtitle("Pre-Normalization Boxplot")
   
   ## select the numerical data
-  dataPoints <- t(select(dataSet, -c("R.Condition", "R.FileName", "R.Replicate")))
+  dataPoints <- t(select(dataSet, -c(R.Condition, R.Replicate)))
   
   if (normalizeType == "quant") {
     
@@ -79,7 +79,7 @@ normalize <- function(dataSet, normalizeType = "quant") {
   }
   
   ## recombine the labels and transformed data into a single data frame
-  normDataSet <- cbind(dataSet[,c("R.Condition", "R.FileName", "R.Replicate")],
+  normDataSet <- cbind(dataSet[,c("R.Condition", "R.Replicate")],
                        t(normDataPoints))
   
   ## replace the protein names
