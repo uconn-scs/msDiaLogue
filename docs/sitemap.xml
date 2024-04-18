@@ -10,6 +10,9 @@
     <loc>https://uconn-scs.github.io/msDiaLogue/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://uconn-scs.github.io/msDiaLogue/articles/scaffold.html</loc>
+  </url>
+  <url>
     <loc>https://uconn-scs.github.io/msDiaLogue/articles/template.html</loc>
   </url>
   <url>
@@ -80,6 +83,9 @@
   </url>
   <url>
     <loc>https://uconn-scs.github.io/msDiaLogue/reference/preprocessing.html</loc>
+  </url>
+  <url>
+    <loc>https://uconn-scs.github.io/msDiaLogue/reference/preprocessing_scaffold.html</loc>
   </url>
   <url>
     <loc>https://uconn-scs.github.io/msDiaLogue/reference/pullProteinPath.html</loc>

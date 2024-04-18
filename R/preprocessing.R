@@ -20,11 +20,11 @@
 #### Code for data pre-processing ####
 ######################################
 #'
-#' Loading, filtering and reformatting of MS DIA data
+#' Loading, filtering and reformatting of MS DIA data from Spectronaut
 #' 
 #' @description
-#' Read a .csv file, apply filtering conditions, select columns necessary for analysis,
-#' and return the reformatted data.
+#' Read a data file from Spectronaut, apply filtering conditions, select columns necessary
+#' for analysis, and return the reformatted data.
 #' 
 #' @param fileName The name of the .csv file containing MS data (including the path to the
 #' file, if needed).
@@ -52,8 +52,8 @@
 #' \item Selects columns that contain necessary information for the analysis.
 #' \item Re-formats the data to present individual proteins as columns and group replicates
 #' under each protein.
-#' \item Stores the data as a \code{data.frame} and prints a subset of columns to provide
-#' a visual example to the user.
+#' \item Stores the data as a \code{data.frame} and prints the levels of condition and
+#' replicate to the user.
 #' }
 #' 
 #' @import dplyr
@@ -118,7 +118,7 @@ preprocessing <- function(fileName,
     select(R.Condition, R.Replicate, PG.Quantity, PG.ProteinNames, PG.ProteinAccessions)
   
   ## print summary statistics for full raw data set
-  cat("Summary of full data signals (raw)")
+  cat("Summary of Full Data Signals (Raw):\n")
   print(summary(selectedData$PG.Quantity))
   cat("\n")
   
@@ -178,13 +178,137 @@ preprocessing <- function(fileName,
   })
   
   ## store data in a data.frame structure
-  loadedData <- as.data.frame(reformatedData) 
+  result <- as.data.frame(reformatedData) 
   
-  ## provide sample data for visual inspection
-  cat("Example Structure of Pre-Processed Data")
-  print(loadedData[,1:5])
+  ## print levels of condition and replicate
+  cat("Levels of Condition:", unique(result$R.Condition), "\n")
+  cat("Levels of Replicate:", unique(result$R.Replicate), "\n")
+  cat("\n")
   
   ## return pre-processed data
-  return(loadedData)
+  return(result)
+}
+
+
+##----------------------------------------------------------------------------------------
+#' 
+#' Loading and reformatting of MS data from Scaffold
+#' 
+#' @description
+#' Read a data file from Scaffold, select columns necessary for analysis, and return the
+#' reformatted data.
+#' 
+#' @param fileName The name of the .xls file containing MS data (including the path to the
+#' file, if needed).
+#' 
+#' @param dataSet The raw data set, if already loaded in R.
+#' 
+#' @details
+#' The function executes the following:
+#' \enumerate{
+#' \item Reads the file.
+#' \item Provides summary statistics and a histogram of all values reported in the data set.
+#' \item Selects columns that contain necessary information for the analysis.
+#' \item Re-formats the data to present individual proteins as columns and group replicates
+#' under each protein.
+#' \item Stores the data as a \code{data.frame} and prints the levels of condition and
+#' replicate to the user.
+#' }
+#' 
+#' @import dplyr
+#' @import ggplot2
+#' @import tidyr
+#' @importFrom readxl read_excel
+#' 
+#' @returns A 2d dataframe.
+#' 
+#' @autoglobal
+#' 
+#' @export
+
+preprocessing_scaffold <- function(fileName, dataSet = NULL) {
+  
+  if (missing(fileName)) {
+    if (is.null(dataSet)) {
+      stop("Either 'fileName' or 'dataSet' must be provided.")
+    }
+  } else {
+    ## read in the protein quantitative csv file generated from Scaffold
+    dataSet <- suppressWarnings(readxl::read_excel(fileName))
+  }
+  
+  dataSet <- dataSet  %>%
+    select(-"#") %>%
+    slice(-n()) %>%
+    rename(ProteinDescriptions = names(.)[3],
+           ProteinAccessions = "Accession Number",
+           Genes = "Alternate ID",
+           MolecularWeight = "Molecular Weight",
+           ProteinGroupingAmbiguity = "Protein Grouping Ambiguity")
+  
+  infoColName <- c("Visible?", "Starred?",
+                   "ProteinDescriptions", "ProteinAccessions", "Genes",
+                   "MolecularWeight", "ProteinGroupingAmbiguity")
+  
+  proteinInformation <- dataSet %>%
+    select(any_of(infoColName)) %>%
+    distinct()
+  
+  write.csv(proteinInformation, file = "preprocess_protein_information.csv",
+            row.names = FALSE, na = "")
+  
+  ## select columns necessary for analysis
+  selectedData <- dataSet %>%
+    select(-infoColName[infoColName != "ProteinAccessions"]) %>%
+    pivot_longer(-ProteinAccessions, names_to = "ConditionReplicate", values_to = "Quantity") %>%
+    # gather(ConditionReplicate, Quantity, -ProteinAccessions) %>%
+    mutate(ConditionReplicate = sub(".+_(.+)", "\\1", ConditionReplicate)) %>%
+    mutate(R.Condition = sub("^(\\d+|[a-zA-Z]+).*", "\\1", ConditionReplicate),
+           R.Replicate = sub("^[^.]*[-]?([0-9]+)$", "\\1", ConditionReplicate)) %>%
+    select(R.Condition, R.Replicate, ProteinAccessions, Quantity) %>%
+    mutate(Quantity = replace(Quantity, Quantity %in% c(0,1), NA))
+  
+  ## reformat the data to present proteins as the columns and
+  ## to group replicates under each protein
+  reformatedData <- selectedData %>%
+    pivot_wider(id_cols = c(R.Condition, R.Replicate),
+                names_from = ProteinAccessions, values_from = Quantity)
+  # spread(ProteinAccessions, Quantity)
+  
+  ## generate a histogram of the log2-transformed values for full data set
+  ## note: the Scaffold is a preprocessed data report.
+  temp <- reformatedData %>%
+    select(-c("R.Condition", "R.Replicate")) %>%
+    unlist() %>%
+    as.vector() %>%
+    log2()
+  plot <- ggplot(data.frame(value = temp)) +
+    geom_histogram(aes(x = value),
+                   breaks = seq(floor(min(temp, na.rm = TRUE)),
+                                ceiling(max(temp, na.rm = TRUE)), 1),
+                   color = "black", fill = "gray") +
+    scale_x_continuous(breaks = seq(floor(min(temp, na.rm = TRUE)),
+                                    ceiling(max(temp, na.rm = TRUE)), 2)) +
+    labs(title = "Histogram of Full Data Set",
+         x = expression("log"[2]*"(Data)"), y = "Frequency") +
+    theme_bw() +
+    theme(plot.title = element_text(hjust = 0.5))
+  print(plot)
+  
+  ## print summary statistics for full data set
+  cat("Summary of Full Data Signals:\n")
+  print(summary(selectedData$Quantity))
+  cat("\n")
+  
+  ## store data in a data.frame structure
+  result <- as.data.frame(reformatedData) 
+  
+  ## print levels of condition and replicate
+  cat("Levels of Condition:", unique(result$R.Condition), "\n")
+  cat("Levels of Replicate:", unique(result$R.Replicate), "\n")
+  cat("\n")
+  
+  ## return imported data
+  return(result)
 }
 

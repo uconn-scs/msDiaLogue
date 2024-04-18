@@ -23,3 +23,39 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center")
 
 The default data used in msDiaLogue is from **Spectronaut**; here, we introduce the import
 from **Scaffold**.
+
+The function `preprocessing_scaffold()` takes a `.xls` file of preprocessed protein
+abundances, exported from **Scaffold**. This function will reformat the data.
+
++ If the raw data is in a .xls file
+[Toy_Scaffold_Data.xls](https://github.com/uconn-scs/msDiaLogue/blob/main/tests/testData/Toy_Scaffold_Data.xls),
+specify the `fileName` to read the raw data file into **R**.
+
++ If the raw data is stored as an .RData file
+[Toy_Scaffold_Data.RData](https://github.com/uconn-scs/msDiaLogue/blob/main/tests/testData/Toy_Scaffold_Data.RData),
+first load the data file directly, then specify the `dataSet` in the function.
+
+**NOTE:** 2 peptide filter and normalization and abundance definition would have to be set
+by user in Scaffold, but decoys and contaminants could be removed on the backend - they'll
+be flagged in the protein name.
+
+```{r warning=FALSE, message=FALSE}
+library(msDiaLogue)
+```
+
+```{r eval=FALSE}
+## if the raw data is in a .xls file
+dataSet <- preprocessing_scaffold(fileName = "../tests/testData/Toy_Scaffold_Data.xls")
+```
+
+```{r}
+## if the raw data is in an .Rdata file
+load("../tests/testData/Toy_Scaffold_Data.RData")
+dataSet <- preprocessing_scaffold(dataSet = Toy_Scaffold_Data)
+```
+
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(dataSet, align = "l")
+```
+</div>

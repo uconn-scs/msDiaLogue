@@ -2,7 +2,7 @@
 % Please edit documentation in R/preprocessing.R
 \name{preprocessing}
 \alias{preprocessing}
-\title{Loading, filtering and reformatting of MS DIA data}
+\title{Loading, filtering and reformatting of MS DIA data from Spectronaut}
 \usage{
 preprocessing(
   fileName,
@@ -35,8 +35,8 @@ current working directory.}
 A 2d dataframe.
 }
 \description{
-Read a .csv file, apply filtering conditions, select columns necessary for analysis,
-and return the reformatted data.
+Read a data file from Spectronaut, apply filtering conditions, select columns necessary
+for analysis, and return the reformatted data.
 }
 \details{
 The function executes the following:
@@ -47,7 +47,7 @@ The function executes the following:
 \item Selects columns that contain necessary information for the analysis.
 \item Re-formats the data to present individual proteins as columns and group replicates
 under each protein.
-\item Stores the data as a \code{data.frame} and prints a subset of columns to provide
-a visual example to the user.
+\item Stores the data as a \code{data.frame} and prints the levels of condition and
+replicate to the user.
 }
 }

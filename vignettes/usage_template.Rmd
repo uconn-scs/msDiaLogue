@@ -121,7 +121,7 @@ dataSet <- preprocessing(fileName,
 **NOTE:** `preprocessing()` does not perform a transformation on your data. You still need
 to use the function `transform()`.
 
-```{r results='hide'}
+```{r}
 ## if the raw data is in an .Rdata file
 load("../tests/testData/Toy_Spectronaut_Data.RData")
 dataSet <- preprocessing(dataSet = Toy_Spectronaut_Data,

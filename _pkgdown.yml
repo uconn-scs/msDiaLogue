@@ -19,3 +19,10 @@ authors:
 
 development:
   mode: auto
+
+articles:
+- title: Articles
+  navbar: ~
+  contents:
+  - usage_template
+  - scaffold

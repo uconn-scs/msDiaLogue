@@ -24,7 +24,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">msDiaLogue</a>
 
@@ -44,6 +44,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/usage_template.html">A Usage Template for the R Package msDiaLogue</a>
+    <a class="dropdown-item" href="../articles/scaffold.html">Import Scaffold Report for msDiaLogue</a>
   </div>
 </li>
       </ul>
@@ -79,7 +80,7 @@ Xiao<span class="math inline">\(^1\)</span>, Charles Watt<span class="math inlin
 Facility, UConn<br><span class="math inline">\(^3\)</span>Statistical Consulting Services,
 UConn</p>
             
-            <h4 data-toc-skip class="date">2024-04-05</h4>
+            <h4 data-toc-skip class="date">2024-04-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -204,7 +205,13 @@ a transformation on your data. You still need to use the function
 <span>                         replaceBlank <span class="op">=</span> <span class="cn">TRUE</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 25 rows containing non-finite outside the scale range</span></span>
 <span><span class="co">#&gt; (`stat_bin()`).</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-4-1.png" width="700" style="display: block; margin: auto;"><img src="usage_template_files/figure-html/unnamed-chunk-4-2.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-4-1.png" width="700" style="display: block; margin: auto;"></p>
+<pre><code><span><span class="co">#&gt; Summary of Full Data Signals (Raw):</span></span>
+<span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
+<span><span class="co">#&gt;    8577   88074  210461  653661  535701 5044124</span></span></code></pre>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-4-2.png" width="700" style="display: block; margin: auto;"></p>
+<pre><code><span><span class="co">#&gt; Levels of Condition: 100fmol 50fmol </span></span>
+<span><span class="co">#&gt; Levels of Replicate: 1 2 3 4 5</span></span></code></pre>
 <div style="overflow-x: auto;">
 <table class="table">
 <colgroup>
@@ -499,7 +506,7 @@ a log<span class="math inline">\(_2\)</span> transformation, which both
 reshapes the data into a more symmetrical distribution, making it easier
 to interpret mean-based fold changes, and also stabilizes the variance
 across the intensity range (i.e. reduces heteroscedasticity).</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataTran</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/transform.html">transform</a></span><span class="op">(</span><span class="va">dataSet</span>, logFold <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-6-1.png" width="700" style="display: block; margin: auto;"><img src="usage_template_files/figure-html/unnamed-chunk-6-2.png" width="700" style="display: block; margin: auto;"></p>
 <div style="overflow-x: auto;">
@@ -808,7 +815,7 @@ clear understanding of how this will affect your results.</p>
 this step and keep everything else.</p>
 <p>For example, the proteins named “ADH1_YEAST” and those containing
 “HUMAN” are chosen to be filtered out.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/filterOutIn.html">filterOutIn</a></span><span class="op">(</span><span class="va">dataTran</span>, listName <span class="op">=</span> <span class="st">"ADH1_YEAST"</span>, regexName <span class="op">=</span> <span class="st">"HUMAN"</span>,</span>
 <span>            removeList <span class="op">=</span> <span class="cn">TRUE</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>where <code>removeList = TRUE</code> indicates the removal of
@@ -893,7 +900,7 @@ current working directory.</p>
 this step and remove everything else.</p>
 <p>Alternatively, if we would to keep proteins like “ADH1_YEAST” and
 “*HUMAN”, simply set <code>removelist = FALSE</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/filterOutIn.html">filterOutIn</a></span><span class="op">(</span><span class="va">dataTran</span>, listName <span class="op">=</span> <span class="st">"ADH1_YEAST"</span>, regexName <span class="op">=</span> <span class="st">"HUMAN"</span>,</span>
 <span>            removeList <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div style="overflow-x: auto;">
@@ -1158,7 +1165,7 @@ this step and remove everything else.</p>
 <p>Besides protein names, the function <code><a href="../reference/filterProtein.html">filterProtein()</a></code>
 provides a similar function to filter proteins by additional protein
 information: gene, accession, and description.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/filterProtein.html">filterProtein</a></span><span class="op">(</span><span class="va">dataTran</span>, proteinInformation <span class="op">=</span> <span class="st">"preprocess_protein_information.csv"</span>,</span>
 <span>              text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ras-related protein Rab-3D"</span>, <span class="st">"Alcohol dehydrogenase 1"</span><span class="op">)</span>,</span>
 <span>              by <span class="op">=</span> <span class="st">"description"</span>,</span>
@@ -1284,7 +1291,7 @@ protein entry to make the mean of each sample equal to every other
 sample)</p></li>
 </ol>
 <p>Quantile normalization is generally recommended by <a href="https://statsconsulting.uconn.edu" class="external-link">UConn SCS</a>.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataNorm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/normalize.html">normalize</a></span><span class="op">(</span><span class="va">dataTran</span>, normalizeType <span class="op">=</span> <span class="st">"quant"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 16 rows containing non-finite outside the scale range</span></span>
 <span><span class="co">#&gt; (`stat_boxplot()`).</span></span></code></pre></div>
@@ -1613,7 +1620,7 @@ plotting the missingness, and <code>show_labels = TRUE</code> means that
 the protein names are displayed in the printed plot. Note that the
 visual representation is not generated by default, and the plot
 generation time varies with project size.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataMissing</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dataMissing.html">dataMissing</a></span><span class="op">(</span><span class="va">dataNorm</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, show_labels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-16-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>The percentage in the protein labels represents the proportion of
@@ -1805,7 +1812,7 @@ order to be considered. For 3 replicates, this would require 2
 measurements to allow imputation of the 3rd value. If only 1 measurement
 is seen, the other values will remain NA, and will be filtered out in a
 subsequent step.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataImput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/impute.min_local.html">impute.min_local</a></span><span class="op">(</span><span class="va">dataNorm</span>, reportImputing <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>                              reqPercentPresent <span class="op">=</span> <span class="fl">0.51</span><span class="op">)</span></span></code></pre></div>
 <div style="overflow-x: auto;">
@@ -2097,7 +2104,7 @@ and 0 indicates otherwise.</p>
 <p>After the above imputation, any entries that did not pass the percent
 present threshold will still have NA values and will need to be filtered
 out.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataImput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filterNA.html">filterNA</a></span><span class="op">(</span><span class="va">dataImput</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>where <code>saveRm = TRUE</code> indicates that the filtered data
 will be saved as a .csv file named <em>filtered_NA_data.csv</em> in the
@@ -2370,7 +2377,7 @@ final dataset that include the final processed abundances and fold
 changes in each condition, and that protein’s statistical relation to
 the global dataset in terms of its mean, median, standard deviation, and
 other parameters.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataSumm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarize.html">summarize</a></span><span class="op">(</span><span class="va">dataImput</span>, saveSumm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div style="overflow-x: auto;">
 <table class="table">
@@ -3179,7 +3186,7 @@ statistics:</p>
 be used in subsequent visualizations. If more than two conditions exist
 in the data, precisely two conditions for comparison must be specified
 via the argument <code>conditions</code>.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cond</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"50fmol"</span>, <span class="st">"100fmol"</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="students-t-test">Student’s t-test<a class="anchor" aria-label="anchor" href="#students-t-test"></a>
@@ -3188,7 +3195,7 @@ via the argument <code>conditions</code>.</p>
 conditions for each protein, reporting both the difference in means
 between the conditions (calculated as Condition 1 - Condition 2) and the
 P-value of the test.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">anlys_t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, conditions <span class="op">=</span> <span class="va">cond</span>, testType <span class="op">=</span> <span class="st">"t-test"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Data are essentially constant.</span></span>
 <span><span class="co">#&gt; Data are essentially constant.</span></span></code></pre></div>
@@ -3291,7 +3298,7 @@ computed. While the Student’s t-test calculates variance based on the
 data available for each protein individually, the moderated t-test
 utilizes information from all the chosen proteins to calculate
 variance.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">anlys_mod.t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, conditions <span class="op">=</span> <span class="va">cond</span>, testType <span class="op">=</span> <span class="st">"mod.t-test"</span><span class="op">)</span></span></code></pre></div>
 <p>In the moderated t-test, a warning message might occur stating, “Zero
 sample variances detected, have been offset away from zero.” This
@@ -3397,7 +3404,7 @@ occurrence.</p>
 <p>The result of <code>testType = "MA"</code> is to generate the data
 for plotting an MA plot, which represents the protein-wise averages
 within each condition.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">anlys_MA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, conditions <span class="op">=</span> <span class="va">cond</span>, testType <span class="op">=</span> <span class="st">"MA"</span><span class="op">)</span></span></code></pre></div>
 <div style="overflow-x: auto;">
 <table style="width:100%;" class="table">
@@ -3504,7 +3511,7 @@ find a point/question.</p>
 of plotting the dendrogram simultaneously. It is the default choice for
 heatmaps in this package.</li>
 </ul>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataImput</span>, graphType <span class="op">=</span> <span class="st">"heatmap"</span>,</span>
 <span>          pkg <span class="op">=</span> <span class="st">"pheatmap"</span>,</span>
 <span>          cluster_cols <span class="op">=</span> <span class="cn">TRUE</span>, cluster_rows <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -3516,7 +3523,7 @@ heatmaps in this package.</li>
 <li>Option 2 use the source package <code>ggplot2</code> to generate a
 ggplot object but does not include the dendrogram.</li>
 </ul>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataImput</span>, graphType <span class="op">=</span> <span class="st">"heatmap"</span>, pkg <span class="op">=</span> <span class="st">"ggplot2"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-32-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>In a heatmap, similar colors within a row indicate relatively
@@ -3549,7 +3556,7 @@ conditions, calculated as: <span class="math display">\[A =
 <!-- So, the M value represents the log ratio of protein expression in a treated condition --><!-- compared to a control condition, where higher M values indicate greater differences in --><!-- expression between the conditions. Meanwhile, the A value helps to account for overall --><!-- differences in expression levels and reduce the influence of technical biases. --><p>Most proteins are expected to exhibit little variation, leading to
 the majority of points concentrating around the line M = 0 (indicating
 no difference between group means).</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_MA</span>, graphType <span class="op">=</span> <span class="st">"MA"</span>, M.thres <span class="op">=</span> <span class="fl">1</span>, transformLabel <span class="op">=</span> <span class="st">"Log2"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 16 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
@@ -3565,7 +3572,7 @@ significance.</p>
 <div class="section level3">
 <h3 id="normalize">Normalize<a class="anchor" aria-label="anchor" href="#normalize"></a>
 </h3>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataNorm</span>, graphType <span class="op">=</span> <span class="st">"normalize"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 16 rows containing non-finite outside the scale range</span></span>
 <span><span class="co">#&gt; (`stat_boxplot()`).</span></span></code></pre></div>
@@ -3597,7 +3604,7 @@ of principal components (PCs).</p>
 <p>In the case of <code>dataImput</code>, two proteins, namely
 “TEBP_HUMAN” and “T126B_HUMAN,” have constant values, leading to the
 error message. We choose to remove these two proteins in PCA.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataPCA</span> <span class="op">&lt;-</span> <span class="va">dataImput</span><span class="op">[</span>, <span class="op">!</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"TEBP_HUMAN"</span>, <span class="st">"T126B_HUMAN"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="pca_scree">PCA_scree<a class="anchor" aria-label="anchor" href="#pca_scree"></a>
@@ -3605,7 +3612,7 @@ error message. We choose to remove these two proteins in PCA.</p>
 <p>One way to help identify how many PCs to retain, is to explore a
 scree plot. The scree plot shows the eigenvalues of each PC, which
 represent the proportion of variance explained by that component.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataPCA</span>, graphType <span class="op">=</span> <span class="st">"PCA_scree"</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>          addlabels <span class="op">=</span> <span class="cn">TRUE</span>, choice <span class="op">=</span> <span class="st">"variance"</span>, ncp <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataPCA</span>, graphType <span class="op">=</span> <span class="st">"PCA_scree"</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -3630,7 +3637,7 @@ origin (0, 0), are close to the “average” across all protein abundances.
 If sufficient samples are present, the plot will also produce a 95%
 confidence ellipse, as well as a centroid (mean for each group
 provided), for each groups (condition) provided.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataPCA</span>, graphType <span class="op">=</span> <span class="st">"PCA_ind"</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>          addlabels <span class="op">=</span> <span class="cn">TRUE</span>, addEllipses <span class="op">=</span> <span class="cn">TRUE</span>, ellipse.level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-38-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -3645,7 +3652,7 @@ stronger associations. It is important to note that proteins that are
 weakly associated with PC1 or PC2 may still be highly correlated with
 other PCs not being plotted. Consult the scree plot (and other available
 methods) to determine the appropriate number of PCs to investigate.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataPCA</span>, graphType <span class="op">=</span> <span class="st">"PCA_var"</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>          addlabels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-39-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -3655,7 +3662,7 @@ methods) to determine the appropriate number of PCs to investigate.</p>
 </h4>
 <p>The PCA biplot includes individual and variable plots. Again, with a
 large number of proteins, this plot can be unwieldy.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataPCA</span>, graphType <span class="op">=</span> <span class="st">"PCA_biplot"</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>          addEllipses <span class="op">=</span> <span class="cn">TRUE</span>, ellipse.level <span class="op">=</span> <span class="fl">0.95</span>, label <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-40-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -3672,7 +3679,7 @@ so the fold change histogram will have a peak at around zero. For the
 P-values, most P-values are expected to be non-significant (above 0.05).
 Depending on the strength of the treatment effect, there may be a peak
 of p-values near 0.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_mod.t</span>, graphType <span class="op">=</span> <span class="st">"t-test"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-41-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
@@ -3683,7 +3690,7 @@ of p-values near 0.</p>
 overlap and intersection of sets or categories in a dataset. It is
 particularly useful for illustrating the presence or absence of elements
 in combinations of sets.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataSort</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sortcondition.html">sortcondition</a></span><span class="op">(</span><span class="va">dataSet</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataSort</span>, graphType <span class="op">=</span> <span class="st">"Upset"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-42-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -3696,7 +3703,7 @@ in combinations of sets.</p>
 <p>The Venn plot is another graphical representation of the
 relationships between sets. Each circle represents a set, and the
 overlapping regions show the elements that are shared between sets.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataSort</span>, graphType <span class="op">=</span> <span class="st">"Venn"</span>,</span>
 <span>          show_percentage <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>          fill_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>, <span class="st">"red"</span><span class="op">)</span>,</span>
@@ -3719,7 +3726,7 @@ differences between conditions in a dataset:</p>
 log10 of the P-value.</p></li>
 <li><p>Fold change (horizontal): Represents the fold change.</p></li>
 </ul>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_mod.t</span>, graphType <span class="op">=</span> <span class="st">"volcano"</span>,</span>
 <span>          P.thres <span class="op">=</span> <span class="fl">0.05</span>, logF.thres <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 15 rows containing missing values or values outside the scale range</span></span>
@@ -3737,7 +3744,7 @@ favorite protein actually measured, or were some imputed?” or “Why
 didn’t my favorite protein make it to the final list? Where was it
 filtered out?”. It can also be used to check whether a given protein’s
 fold-change might have been a processing artifact.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ZC11B</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pullProteinPath.html">pullProteinPath</a></span><span class="op">(</span>proteinName <span class="op">=</span> <span class="st">"ZC11B_HUMAN"</span>,</span>
 <span>                         dataSetList <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Initial <span class="op">=</span> <span class="va">dataSet</span>,</span>
 <span>                                            Transformed <span class="op">=</span> <span class="va">dataTran</span>,</span>
@@ -3942,7 +3949,7 @@ van Buuren, Stef, and Karin Groothuis-Oudshoorn. 2011. <span>“Mice:
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.8.</p>
 </div>
 
     </footer>
