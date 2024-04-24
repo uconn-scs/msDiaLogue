@@ -260,6 +260,7 @@ preprocessing_scaffold <- function(fileName, dataSet = NULL) {
   ## select columns necessary for analysis
   selectedData <- dataSet %>%
     select(-infoColName[infoColName != "ProteinAccessions"]) %>%
+    mutate(across(-ProteinAccessions, ~as.numeric(replace(., . == "Missing Value", NA)))) %>%
     pivot_longer(-ProteinAccessions, names_to = "ConditionReplicate", values_to = "Quantity") %>%
     # gather(ConditionReplicate, Quantity, -ProteinAccessions) %>%
     mutate(ConditionReplicate = sub(".+_(.+)", "\\1", ConditionReplicate)) %>%
