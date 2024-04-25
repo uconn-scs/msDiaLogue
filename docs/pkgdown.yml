@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   scaffold: scaffold.html
   usage_template: usage_template.html
-last_built: 2024-04-24T17:42Z
+last_built: 2024-04-25T17:04Z
 urls:
   reference: https://uconn-scs.github.io/msDiaLogue/reference
   article: https://uconn-scs.github.io/msDiaLogue/articles
