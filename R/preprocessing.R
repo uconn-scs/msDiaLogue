@@ -264,7 +264,7 @@ preprocessing_scaffold <- function(fileName, dataSet = NULL) {
     pivot_longer(-ProteinAccessions, names_to = "ConditionReplicate", values_to = "Quantity") %>%
     # gather(ConditionReplicate, Quantity, -ProteinAccessions) %>%
     mutate(ConditionReplicate = sub(".+_(.+)", "\\1", ConditionReplicate)) %>%
-    mutate(R.Condition = sub("^(\\d+|[a-zA-Z]+).*", "\\1", ConditionReplicate),
+    mutate(R.Condition = sub("^(\\d+|[a-zA-Z0-9]+).*", "\\1", ConditionReplicate),
            R.Replicate = sub("^[^.]*[-]?([0-9]+)$", "\\1", ConditionReplicate)) %>%
     select(R.Condition, R.Replicate, ProteinAccessions, Quantity) %>%
     mutate(Quantity = replace(Quantity, Quantity %in% c(0,1), NA))
