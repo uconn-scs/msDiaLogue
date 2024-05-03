@@ -43,8 +43,8 @@ the top left of the window must be set to “Quantitative Value” and the quant
 must be defined (in Experiment --> Quantitative Analysis --> Other Settings, Quantitative
 Method dropdown). PMF recommends the Average Precursor Intensity value.
 
-**Note:** any value may be selected here, if you prefer a different quantification schema,
-with the exception of Total Spectra or Weighted Spectra. Do not use these.
+`Note: any value may be selected here, if you prefer a different quantification schema,
+with the exception of Total Spectra or Weighted Spectra. Do not use these.`
 
 2. Normalization **must** be turned off.  In (Experiment --> Quantitative Analysis -->
 Other Settings), make sure the "Use Normalization" box is unchecked. You will have the
