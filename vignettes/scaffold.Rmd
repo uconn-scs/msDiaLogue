@@ -43,19 +43,19 @@ the top left of the window must be set to “Quantitative Value” and the quant
 must be defined (in Experiment --> Quantitative Analysis --> Other Settings, Quantitative
 Method dropdown). PMF recommends the Average Precursor Intensity value.
 
-`Note: any value may be selected here, if you prefer a different quantification schema,
-with the exception of Total Spectra or Weighted Spectra. Do not use these.`
+`_Note: any value may be selected here, if you prefer a different quantification schema,
+with the exception of Total Spectra or Weighted Spectra. Do not use these._`
 
 2. Normalization **must** be turned off.  In (Experiment --> Quantitative Analysis -->
 Other Settings), make sure the "Use Normalization" box is unchecked. You will have the
 option to normalize by various methods in msDiaLogue, but you should not stack
 normalizations between programs.
 
-**Note:** Non-quantifiable abundance values are reported in Scaffold as 0 or 1, and
+`_Note: Non-quantifiable abundance values are reported in Scaffold as 0 or 1, and
 msDiaLogue Preprocessing knows to treat these as NA. If normalization is applied in
 Scaffold, non-quantifiable abundances are transformed into fractional values which will
 not be converted properly in Preprocessing and your data will no longer yield sensible
-analyses.
+analyses._`
 
 3. The experiment **must** contain a minimum of 2 conditions, and each condition **must**
 have a minimum of 3 replicates. More conditions are fine, more replicates are fine, and
@@ -63,9 +63,9 @@ conditions do not need to have the same number of replicates. Having fewer than 
 replicates for any condition, or having only 1 condition, will throw an error in
 msDiaLogue and you will not be able to process your data.
 
-**Note:** you can't sensibly estimate sample variance from 2 replicates, so statistical
+`_Note: you can't sensibly estimate sample variance from 2 replicates, so statistical
 tests really should not be run on fewer than 3 replicates in general, whether in
-msDiaLogue or other programs.
+msDiaLogue or other programs._`
 
 4. The samples **must** be named in the following format:
 YYYYMMDD_initials_condition-replicate# (e.g. 20240101_JL_ctrl-1). Your files may already
@@ -75,17 +75,18 @@ formatted as above, you can change it by going into the Load Data tab, selecting
 of each sample individually, right-clicking the tab, choosing Edit BioSample, typing the
 correct name format into the Sample Name box, and clicking Apply.
 
-**Note:** Scaffold 5 will send you back to the Samples tab each time Apply is clicked, so
-this step is a little tedious, but if it must be done, so be it, get comfy.
+`_Note: Scaffold 5 will send you back to the Samples tab each time Apply is clicked, so
+this step is a little tedious to do in Scaffold.  You can also fix this in Excel after exporting,
+before you import into R, which will likely be easier._`
 
 5. We **strongly recommend** that you filter the dataset to hide proteins that only had 1
 peptide identified. In the Samples tab, at the top-most menu bar, in the Min # Peptides
 dropdown, set this to 2.
 
-**Note:** this is not required, and if you choose to evaluate the dataset with 1-peptide
+`_Note: this is not required, and if you choose to evaluate the dataset with 1-peptide
 identifications included, msDiaLogue will not stop you. However, the Scaffold report does
 not provide information about how many peptides/protein were identified, so unlike with a
-Spectronaut-based report, you cannot filter based on this information once in msDiaLogue.
+Spectronaut-based report, you cannot filter based on this information once in msDiaLogue._`
 
 6. All protein clusters **must** be collapsed. In the Samples Tab, in the very first
 column (header "#"), right click any of the numbered entries here, select Clusters, and
@@ -101,10 +102,9 @@ anywhere in the main data table, choose Export (bottom of menu), and Export to E
 Save with a descriptive filename that will make sense to someone else in the future and
 choose the location you'll be using as your working directory in R.  
 
-The report will automatically save as .xls; this format is fine and you don't have to
-change it.
+The report can be saved as .xls or .csv.
 
-You can now use the Preprocessing script available on this page and use the rest of the
+You can now use the Preprocessing script available on this page and pick up at the transformation step in the
 msDiaLogue script as provided in the main Usage Template page.
 
 + If the raw data is in a .xls file
@@ -115,9 +115,10 @@ specify the `fileName` to read the raw data file into **R**.
 [Toy_Scaffold_Data.RData](https://github.com/uconn-scs/msDiaLogue/blob/main/tests/testData/Toy_Scaffold_Data.RData),
 first load the data file directly, then specify the `dataSet` in the function.
 
-**NOTE:** 2 peptide filter and normalization and abundance definition would have to be set
-by user in Scaffold, but decoys and contaminants could be removed on the backend - they'll
-be flagged in the protein name.
+**NOTE:** Decoys and contaminants can be removed either in the Excel report before Preprocessing,
+or can be removed in msDiaLogue with the filter step, if the accession number has the CON__ or DECOY__
+prefix. (This prefix is not applied with search algorithms like MSFragger, so alternative filters would need
+to be developed in that case.)
 
 ```{r warning=FALSE, message=FALSE}
 library(msDiaLogue)
