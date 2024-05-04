@@ -17,3 +17,23 @@ body {
     padding-left: 5rem;
   }
 }
+
+.notesimple {
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.note {
+  border: 1px solid #ccc;
+  background-color: #f0f7fb;
+  border-left: solid 4px #3498db;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.note::before {
+  content: "Note: ";
+  font-weight: bold;
+}
