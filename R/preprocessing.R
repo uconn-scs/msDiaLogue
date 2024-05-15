@@ -241,13 +241,13 @@ preprocessing_scaffold <- function(fileName, dataSet = NULL) {
     select(-"#") %>%
     slice(-n()) %>%
     rename(ProteinDescriptions = names(.)[3],
-           ProteinAccessions = "Accession Number",
-           Genes = "Alternate ID",
+           AccessionNumber = "Accession Number",
+           AlternateID = "Alternate ID",
            MolecularWeight = "Molecular Weight",
            ProteinGroupingAmbiguity = "Protein Grouping Ambiguity")
   
   infoColName <- c("Visible?", "Starred?",
-                   "ProteinDescriptions", "ProteinAccessions", "Genes",
+                   "ProteinDescriptions", "AccessionNumber", "AlternateID",
                    "MolecularWeight", "ProteinGroupingAmbiguity")
   
   proteinInformation <- dataSet %>%
@@ -259,22 +259,22 @@ preprocessing_scaffold <- function(fileName, dataSet = NULL) {
   
   ## select columns necessary for analysis
   selectedData <- dataSet %>%
-    select(-infoColName[infoColName != "ProteinAccessions"]) %>%
-    mutate(across(-ProteinAccessions, ~as.numeric(replace(., . == "Missing Value", NA)))) %>%
-    pivot_longer(-ProteinAccessions, names_to = "ConditionReplicate", values_to = "Quantity") %>%
-    # gather(ConditionReplicate, Quantity, -ProteinAccessions) %>%
+    select(-infoColName[infoColName != "AccessionNumber"]) %>%
+    mutate(across(-AccessionNumber, ~as.numeric(replace(., . == "Missing Value", NA)))) %>%
+    pivot_longer(-AccessionNumber, names_to = "ConditionReplicate", values_to = "Quantity") %>%
+    # gather(ConditionReplicate, Quantity, -AccessionNumber) %>%
     mutate(ConditionReplicate = sub(".+_(.+)", "\\1", ConditionReplicate)) %>%
     mutate(R.Condition = sub("^(\\d+|[a-zA-Z0-9]+).*", "\\1", ConditionReplicate),
            R.Replicate = sub("^[^.]*[-]?([0-9]+)$", "\\1", ConditionReplicate)) %>%
-    select(R.Condition, R.Replicate, ProteinAccessions, Quantity) %>%
+    select(R.Condition, R.Replicate, AccessionNumber, Quantity) %>%
     mutate(Quantity = replace(Quantity, Quantity %in% c(0,1), NA))
   
   ## reformat the data to present proteins as the columns and
   ## to group replicates under each protein
   reformatedData <- selectedData %>%
     pivot_wider(id_cols = c(R.Condition, R.Replicate),
-                names_from = ProteinAccessions, values_from = Quantity)
-  # spread(ProteinAccessions, Quantity)
+                names_from = AccessionNumber, values_from = Quantity)
+  # spread(AccessionNumber, Quantity)
   
   ## generate a histogram of the log2-transformed values for full data set
   ## note: the Scaffold is a preprocessed data report.

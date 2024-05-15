@@ -40,7 +40,7 @@ utils::globalVariables(c(
   "R.Replicate", # <preprocessing>
   "PG.Quantity", # <preprocessing>
   ".", # <preprocessing_scaffold>
-  "ProteinAccessions", # <preprocessing_scaffold>
+  "AccessionNumber", # <preprocessing_scaffold>
   "ConditionReplicate", # <preprocessing_scaffold>
   "R.Condition", # <preprocessing_scaffold>
   "R.Replicate", # <preprocessing_scaffold>
