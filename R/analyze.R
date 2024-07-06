@@ -128,8 +128,9 @@ analyze <- function(dataSet, conditions, testType = "t-test") {
     result <- filteredData %>%
       group_by(R.Condition) %>%
       summarise(across(-c("R.Replicate"), mean)) %>%
+      arrange(factor(R.Condition, levels = conditions)) %>%
       column_to_rownames("R.Condition")
-    
+      
   }
   
   ## return to the analysis result
