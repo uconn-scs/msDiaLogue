@@ -22,17 +22,17 @@ condition.
 \details{
 The column 'Stat' in the generated data.frame includes the following statistics:
 \itemize{
-\item n: number.
-\item mean: mean.
-\item sd: standard deviation.
-\item median: median.
-\item trimmed: trimmed mean with a trim of 0.1.
-\item mad: median absolute deviation (from the median).
-\item min: minimum.
-\item max: maximum.
-\item range: the difference between the maximum and minimum value.
-\item skew: skewness.
-\item kurtosis: kurtosis.
-\item se: standard error.
+\item n: Number.
+\item mean: Mean.
+\item sd: Standard deviation.
+\item median: Median.
+\item trimmed: Trimmed mean with a trim of 0.1.
+\item mad: Median absolute deviation (from the median).
+\item min: Minimum.
+\item max: Maximum.
+\item range: The difference between the maximum and minimum value.
+\item skew: Skewness.
+\item kurtosis: Kurtosis.
+\item se: Standard error.
 }
 }

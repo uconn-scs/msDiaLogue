@@ -11,7 +11,7 @@
 ## version (at your option). See the GNU General Public License at
 ## <https://www.gnu.org/licenses/> for details.
 ##
-## The R package wdnet is distributed in the hope that it will be useful,
+## The R package msDiaLogue is distributed in the hope that it will be useful,
 ## but WITHOUT ANY WARRANTY without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ##

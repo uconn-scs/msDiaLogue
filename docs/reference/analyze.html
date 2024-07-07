@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">msDiaLogue</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,15 +65,18 @@
 
 
 <dt>conditions</dt>
-<dd><p>A string specifying which two conditions to compare. This argument
-only works when there are more than two conditions in <code>dataSet</code>.</p></dd>
+<dd><p>A string specifying which two conditions to compare. The order is
+important, as the second condition serves as the reference for comparison. When there
+are two conditions in <code>dataSet</code> and this argument is not specified, the
+<code>conditions</code> will automatically be selected by sorting the unique values
+alphabetically and in ascending order.</p></dd>
 
 
 <dt>testType</dt>
-<dd><p>A string (default = "t-test") specifying which statistical test to use:</p><ol><li><p>"t-test": unequal variance t-test.</p></li>
-<li><p>"mod.t-test": moderated t-test (Smyth 2004)
+<dd><p>A string (default = "t-test") specifying which statistical test to use:</p><ol><li><p>"t-test": Unequal variance t-test.</p></li>
+<li><p>"mod.t-test": Moderated t-test (Smyth 2004)
 .</p></li>
-<li><p>"MA": output to plot an MA plot.</p></li>
+<li><p>"MA": Output to plot an MA plot.</p></li>
 </ol></dd>
 
 </dl></div>
@@ -82,10 +85,17 @@ only works when there are more than two conditions in <code>dataSet</code>.</p><
     
 
 <p>A 2d dataframe includes the following information:</p><ul><li><p>"t-test" or "mod.t-test": The differences in means and P-values for each protein
-between the two conditions. Note that the differences are calculated by subtracting the
-mean of the second condition from the mean of the first condition (Condition 1 -
-Condition 2).</p></li>
+between the two conditions.</p></li>
 <li><p>"MA": Protein-wise averages within each condition.</p></li>
+</ul></div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The second condition serves as the reference for comparison.</p><ul><li><p>"t-test" and "mod.t-test": The differences are calculated by subtracting
+the mean of the second condition from the mean of the first condition (Condition 1 -
+Condition 2).</p></li>
+<li><p>"MA": The rows are ordered by <code>conditions</code>. Specifically, the first row
+corresponds to the protein-wise average of the first condition, and the second row
+corresponds to the second condition.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

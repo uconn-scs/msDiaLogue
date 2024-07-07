@@ -112,10 +112,10 @@ concentration ellipse in normal probability when \code{graphType = "PCA_ind"} or
 \item{label}{A text (default = "all") specifying the elements to be labelled when
 \code{graphType = "PCA_biplot"}. Allowed values:
 \itemize{
-\item "all": label both active individuals and active variables.
-\item "ind": label only active individuals.
-\item "var": label only active variables.
-\item "none": no labels.
+\item "all": Label both active individuals and active variables.
+\item "ind": Label only active individuals.
+\item "var": Label only active variables.
+\item "none": No labels.
 }}
 
 \item{show_percentage}{A boolean (default = TRUE) specifying whether to show the

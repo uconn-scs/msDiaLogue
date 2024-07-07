@@ -11,7 +11,7 @@
 ## version (at your option). See the GNU General Public License at
 ## <https://www.gnu.org/licenses/> for details.
 ##
-## The R package wdnet is distributed in the hope that it will be useful,
+## The R package msDiaLogue is distributed in the hope that it will be useful,
 ## but WITHOUT ANY WARRANTY without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ##
@@ -27,14 +27,27 @@
 #' 
 #' @param dataSet The 2d data set of data.
 #' 
-#' @param conditions A string specifying which two conditions to compare. This argument
-#' only works when there are more than two conditions in \code{dataSet}.
+#' @param conditions A string specifying which two conditions to compare. The order is
+#' important, as the second condition serves as the reference for comparison. When there
+#' are two conditions in \code{dataSet} and this argument is not specified, the
+#' \code{conditions} will automatically be selected by sorting the unique values
+#' alphabetically and in ascending order.
 #' 
 #' @param testType A string (default = "t-test") specifying which statistical test to use:
 #' \enumerate{
-#' \item "t-test": unequal variance t-test.
-#' \item "mod.t-test": moderated t-test \insertCite{smyth2004linear}{msDiaLogue}.
-#' \item "MA": output to plot an MA plot.
+#' \item "t-test": Unequal variance t-test.
+#' \item "mod.t-test": Moderated t-test \insertCite{smyth2004linear}{msDiaLogue}.
+#' \item "MA": Output to plot an MA plot.
+#' }
+#' 
+#' @details
+#' The second condition serves as the reference for comparison. \itemize{
+#' \item "t-test" and "mod.t-test": The differences are calculated by subtracting
+#' the mean of the second condition from the mean of the first condition (Condition 1 -
+#' Condition 2).
+#' \item "MA": The rows are ordered by \code{conditions}. Specifically, the first row
+#' corresponds to the protein-wise average of the first condition, and the second row
+#' corresponds to the second condition.
 #' }
 #' 
 #' @import dplyr
@@ -45,9 +58,7 @@
 #' 
 #' @returns A 2d dataframe includes the following information: \itemize{
 #' \item "t-test" or "mod.t-test": The differences in means and P-values for each protein
-#' between the two conditions. Note that the differences are calculated by subtracting the
-#' mean of the second condition from the mean of the first condition (Condition 1 -
-#' Condition 2).
+#' between the two conditions.
 #' \item "MA": Protein-wise averages within each condition.
 #' }
 #' 
@@ -62,7 +73,7 @@ analyze <- function(dataSet, conditions, testType = "t-test") {
   
   ## check for exactly two conditions
   if (missing(conditions)) {
-    conditions <- unique(dataSet$R.Condition)
+    conditions <- sort(unique(dataSet$R.Condition))
     if (length(conditions) != 2) {
       stop("Please provide exactly two conditions for comparison.")
     }
