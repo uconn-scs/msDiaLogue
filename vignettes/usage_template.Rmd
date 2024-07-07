@@ -89,14 +89,15 @@ instead.
 This option tells **msDiaLogue** to substitute the accession number for an identifier if
 it tries to pull an identifier from a column with no information.
 
-**NOTE:** Not all proteins can be identified unambiguously. In many cases, the identified
+<div class="note">
+**Note:** Not all proteins can be identified unambiguously. In many cases, the identified
 peptides can be found in multiple protein sequences, which yields a protein group or
 protein cluster rather than a single protein identification. When this happens, the
 accession numbers for all potential matches are concatenated into one string, separated by
 periods. When you see long strings of multiple identifiers later in your data processing,
 this is why. Spectronaut sorts these alphanumerically, so you should not assume that the
 first protein in the list is most likely to be correct (as is the case in other search
-algorithms).
+algorithms). </div>
 
 **5\.** Saves a document to your working directory with all filtered out data, if desired
 
@@ -118,8 +119,9 @@ dataSet <- preprocessing(fileName,
                          replaceBlank = TRUE, saveRm = TRUE)
 ```
 
-**NOTE:** `preprocessing()` does not perform a transformation on your data. You still need
-to use the function `transform()`.
+<div class="note">
+**Note:** `preprocessing()` does not perform a transformation on your data. You still need
+to use the function `transform()`. </div>
 
 ```{r}
 ## if the raw data is in an .Rdata file
@@ -167,12 +169,12 @@ researcher wants to evaluate data from only one species at a time. This step all
 set aside specific proteins from downstream analysis, using the gene_species identifier
 format.
 
-**NOTE:** The proteins to be selected or removed is the union of those specified in
-`listName` and those matching the regular expression pattern in `regexName`.
-
-**KEEP IN MIND:** Removal of any proteins, including common contaminants, will affect any
+<div class="note">
+**Note:** The proteins to be selected or removed is the union of those specified in
+`listName` and those matching the regular expression pattern in `regexName`. \
+**Keep in mind:** Removal of any proteins, including common contaminants, will affect any
 global calculations performed after this step (such as normalization). This should not be
-done without a clear understanding of how this will affect your results.
+done without a clear understanding of how this will affect your results. </div>
 
 **Case 1.** Remove proteins specified by the user in this step and keep everything else.
 
@@ -397,13 +399,14 @@ For example, to impute the NA value of `dataNorm` using `impute.min_local()`, se
 required percentage of values that must be present in a given protein by condition
 combination for values to be imputed to 51\%.
 
-**NOTE:** There is no rule in the field of proteomics for filtering based on percentage of
+<div class="note">
+**Note:** There is no rule in the field of proteomics for filtering based on percentage of
 missingness, similar to there being no rule for the number of replicates required to draw
 a conclusion. However, reproducible observations make conclusions more credible. Setting
 the `reqPercentPresent` to 0.51 requires that any protein be observed in a majority of the
 replicates by condition in order to be considered. For 3 replicates, this would require 2
-measurements to allow imputation of the 3rd value. If only 1 measurement is seen, the other
-values will remain NA, and will be filtered out in a subsequent step.
+measurements to allow imputation of the 3rd value. If only 1 measurement is seen, the
+other values will remain NA, and will be filtered out in a subsequent step.  </div>
 
 ```{r}
 dataImput <- impute.min_local(dataNorm, reportImputing = FALSE,
@@ -643,9 +646,10 @@ variance." This clearly occurs when columns representing proteins contain only z
 have constant values. Typically, there are two ways to address this error: one is to
 remove these proteins, and the other is to set `scale = FALSE`.
 
-**NOTE:** Data scaling is done to ensure that the scale differences between different
+<div class="note">
+**Note:** Data scaling is done to ensure that the scale differences between different
 features do not affect the results of PCA. If not scaled, features with larger scales will
-dominate the computation of principal components (PCs).
+dominate the computation of principal components (PCs). </div>
 
 In the case of `dataImput`, two proteins, namely "TEBP_HUMAN" and "T126B_HUMAN,"
 have constant values, leading to the error message. We choose to remove these two proteins
@@ -703,10 +707,12 @@ visualize(dataPCA, graphType = "PCA_ind", center = TRUE, scale = TRUE,
 
 This plot will be more useful if your analyses are based on a relatively small number of
 proteins. It represents the association, or loading of each protein on the first two PCs.
-Longer arrows represents stronger associations. It is important to note that proteins that
-are weakly associated with PC1 or PC2 may still be highly correlated with other PCs not
-being plotted. Consult the scree plot (and other available methods) to determine the
-appropriate number of PCs to investigate. 
+Longer arrows represents stronger associations.
+
+<div class="note">
+**Note:** Proteins that are weakly associated with PC1 or PC2 may still be highly
+correlated with other PCs not being plotted. Consult the scree plot (and other available
+methods) to determine the appropriate number of PCs to investigate. </div>
 
 ```{r}
 visualize(dataPCA, graphType = "PCA_var", center = TRUE, scale = TRUE,

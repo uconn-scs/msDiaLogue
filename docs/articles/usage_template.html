@@ -166,16 +166,17 @@ instead.</p>
 <p>This option tells <strong>msDiaLogue</strong> to substitute the
 accession number for an identifier if it tries to pull an identifier
 from a column with no information.</p>
-<p><strong>NOTE:</strong> Not all proteins can be identified
-unambiguously. In many cases, the identified peptides can be found in
-multiple protein sequences, which yields a protein group or protein
-cluster rather than a single protein identification. When this happens,
-the accession numbers for all potential matches are concatenated into
-one string, separated by periods. When you see long strings of multiple
-identifiers later in your data processing, this is why. Spectronaut
-sorts these alphanumerically, so you should not assume that the first
-protein in the list is most likely to be correct (as is the case in
-other search algorithms).</p>
+<div class="note">
+<strong>Note:</strong> Not all proteins can be identified unambiguously.
+In many cases, the identified peptides can be found in multiple protein
+sequences, which yields a protein group or protein cluster rather than a
+single protein identification. When this happens, the accession numbers
+for all potential matches are concatenated into one string, separated by
+periods. When you see long strings of multiple identifiers later in your
+data processing, this is why. Spectronaut sorts these alphanumerically,
+so you should not assume that the first protein in the list is most
+likely to be correct (as is the case in other search algorithms).
+</div>
 <p><strong>5.</strong> Saves a document to your working directory with
 all filtered out data, if desired</p>
 <p>If <code>saveRm = TRUE</code>, the data removed in step 2
@@ -194,9 +195,11 @@ larger values.</p>
 <span><span class="va">dataSet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocessing.html">preprocessing</a></span><span class="op">(</span><span class="va">fileName</span>,</span>
 <span>                         filterNaN <span class="op">=</span> <span class="cn">TRUE</span>, filterUnique <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>                         replaceBlank <span class="op">=</span> <span class="cn">TRUE</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><strong>NOTE:</strong> <code><a href="../reference/preprocessing.html">preprocessing()</a></code> does not perform
-a transformation on your data. You still need to use the function
-<code><a href="../reference/transform.html">transform()</a></code>.</p>
+<div class="note">
+<strong>Note:</strong> <code><a href="../reference/preprocessing.html">preprocessing()</a></code> does not perform a
+transformation on your data. You still need to use the function
+<code><a href="../reference/transform.html">transform()</a></code>.
+</div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## if the raw data is in an .Rdata file</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="st">"../tests/testData/Toy_Spectronaut_Data.RData"</span><span class="op">)</span></span>
@@ -804,13 +807,14 @@ data visualization. Other scenarios might include a mixed-species
 experiment where the researcher wants to evaluate data from only one
 species at a time. This step allows you to set aside specific proteins
 from downstream analysis, using the gene_species identifier format.</p>
-<p><strong>NOTE:</strong> The proteins to be selected or removed is the
+<div class="note">
+<strong>Note:</strong> The proteins to be selected or removed is the
 union of those specified in <code>listName</code> and those matching the
-regular expression pattern in <code>regexName</code>.</p>
-<p><strong>KEEP IN MIND:</strong> Removal of any proteins, including
-common contaminants, will affect any global calculations performed after
-this step (such as normalization). This should not be done without a
-clear understanding of how this will affect your results.</p>
+regular expression pattern in <code>regexName</code>.<br><strong>Keep in mind:</strong> Removal of any proteins, including common
+contaminants, will affect any global calculations performed after this
+step (such as normalization). This should not be done without a clear
+understanding of how this will affect your results.
+</div>
 <p><strong>Case 1.</strong> Remove proteins specified by the user in
 this step and keep everything else.</p>
 <p>For example, the proteins named “ADH1_YEAST” and those containing
@@ -1780,16 +1784,18 @@ probabilistic principal components analysis <span class="citation">(Stacklies et
 <code><a href="../reference/impute.min_local.html">impute.min_local()</a></code>, set the required percentage of values
 that must be present in a given protein by condition combination for
 values to be imputed to 51%.</p>
-<p><strong>NOTE:</strong> There is no rule in the field of proteomics
-for filtering based on percentage of missingness, similar to there being
-no rule for the number of replicates required to draw a conclusion.
+<div class="note">
+<strong>Note:</strong> There is no rule in the field of proteomics for
+filtering based on percentage of missingness, similar to there being no
+rule for the number of replicates required to draw a conclusion.
 However, reproducible observations make conclusions more credible.
 Setting the <code>reqPercentPresent</code> to 0.51 requires that any
 protein be observed in a majority of the replicates by condition in
 order to be considered. For 3 replicates, this would require 2
 measurements to allow imputation of the 3rd value. If only 1 measurement
 is seen, the other values will remain NA, and will be filtered out in a
-subsequent step.</p>
+subsequent step.
+</div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataImput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/impute.min_local.html">impute.min_local</a></span><span class="op">(</span><span class="va">dataNorm</span>, reportImputing <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>                              reqPercentPresent <span class="op">=</span> <span class="fl">0.51</span><span class="op">)</span></span></code></pre></div>
@@ -3575,10 +3581,12 @@ constant/zero column to unit variance.” This clearly occurs when columns
 representing proteins contain only zeros or have constant values.
 Typically, there are two ways to address this error: one is to remove
 these proteins, and the other is to set <code>scale = FALSE</code>.</p>
-<p><strong>NOTE:</strong> Data scaling is done to ensure that the scale
+<div class="note">
+<strong>Note:</strong> Data scaling is done to ensure that the scale
 differences between different features do not affect the results of PCA.
 If not scaled, features with larger scales will dominate the computation
-of principal components (PCs).</p>
+of principal components (PCs).
+</div>
 <p>In the case of <code>dataImput</code>, two proteins, namely
 “TEBP_HUMAN” and “T126B_HUMAN,” have constant values, leading to the
 error message. We choose to remove these two proteins in PCA.</p>
@@ -3626,10 +3634,13 @@ provided), for each groups (condition) provided.</p>
 <p>This plot will be more useful if your analyses are based on a
 relatively small number of proteins. It represents the association, or
 loading of each protein on the first two PCs. Longer arrows represents
-stronger associations. It is important to note that proteins that are
-weakly associated with PC1 or PC2 may still be highly correlated with
-other PCs not being plotted. Consult the scree plot (and other available
-methods) to determine the appropriate number of PCs to investigate.</p>
+stronger associations.</p>
+<div class="note">
+<strong>Note:</strong> Proteins that are weakly associated with PC1 or
+PC2 may still be highly correlated with other PCs not being plotted.
+Consult the scree plot (and other available methods) to determine the
+appropriate number of PCs to investigate.
+</div>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataPCA</span>, graphType <span class="op">=</span> <span class="st">"PCA_var"</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>          addlabels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>

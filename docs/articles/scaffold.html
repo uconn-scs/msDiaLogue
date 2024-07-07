@@ -115,9 +115,9 @@ must be defined (in Experiment –&gt; Quantitative Analysis –&gt; Other
 Settings, Quantitative Method dropdown). PMF recommends the Average
 Precursor Intensity value.</p>
 <div class="note">
-Any value may be selected here, if you prefer a different quantification
-schema, with the exception of Total Spectra or Weighted Spectra. Do not
-use these.
+<strong>Note:</strong> Any value may be selected here, if you prefer a
+different quantification schema, with the exception of Total Spectra or
+Weighted Spectra. Do not use these.
 </div>
 </div>
 <div class="section level3">
@@ -129,7 +129,7 @@ Normalization” box is unchecked. You will have the option to normalize
 by various methods in msDiaLogue, but you should not stack
 normalizations between programs.</p>
 <div class="note">
-Non-quantifiable abundance values are reported in
+<strong>Note:</strong> Non-quantifiable abundance values are reported in
 <strong>Scaffold</strong> as 0 or 1, and msDiaLogue
 <code>preprocessing</code> knows to treat these as NA. If normalization
 is applied in <strong>Scaffold</strong>, non-quantifiable abundances are
@@ -149,9 +149,9 @@ fewer than 3 replicates for any condition, or having only 1 condition,
 will throw an error in msDiaLogue and you will not be able to process
 your data.</p>
 <div class="note">
-You can’t sensibly estimate sample variance from 2 replicates, so
-statistical tests really should not be run on fewer than 3 replicates in
-general, whether in msDiaLogue or other programs.
+<strong>Note:</strong> You can’t sensibly estimate sample variance from
+2 replicates, so statistical tests really should not be run on fewer
+than 3 replicates in general, whether in msDiaLogue or other programs.
 </div>
 </div>
 <div class="section level3">
@@ -167,9 +167,9 @@ the “Load Data” tab, selecting the tab of each sample individually,
 right-clicking the tab, choosing “Edit BioSample”, typing the correct
 name format into the “Sample Name” box, and clicking “Apply”.</p>
 <div class="note">
-<strong>Scaffold 5</strong> will send you back to the “Samples” tab each
-time “Apply” is clicked, so this step is a little tedious to do in
-<strong>Scaffold</strong>. You can also fix this in
+<strong>Note:</strong> <strong>Scaffold 5</strong> will send you back to
+the “Samples” tab each time “Apply” is clicked, so this step is a little
+tedious to do in <strong>Scaffold</strong>. You can also fix this in
 <strong>Excel</strong> after exporting, before you import into
 <strong>R</strong>, which will likely be easier.
 </div>
@@ -182,12 +182,12 @@ hide proteins that only had 1 peptide identified. In the “Samples” tab,
 at the top-most menu bar, in the “Min # Peptides” dropdown, set this to
 2.</p>
 <div class="note">
-This is not required, and if you choose to evaluate the dataset with
-1-peptide identifications included, msDiaLogue will not stop you.
-However, the <strong>Scaffold</strong> report does not provide
-information about how many peptides/protein were identified, so unlike
-with a <strong>Spectronaut</strong>-based report, you cannot filter
-based on this information once in msDiaLogue.
+<strong>Note:</strong> This is not required, and if you choose to
+evaluate the dataset with 1-peptide identifications included, msDiaLogue
+will not stop you. However, the <strong>Scaffold</strong> report does
+not provide information about how many peptides/protein were identified,
+so unlike with a <strong>Spectronaut</strong>-based report, you cannot
+filter based on this information once in msDiaLogue.
 </div>
 </div>
 <div class="section level3">
@@ -223,12 +223,12 @@ first load the data file directly, then specify the <code>dataSet</code>
 in the function.</p></li>
 </ul>
 <div class="note">
-Decoys and contaminants can be removed either in the
-<strong>Excel</strong> report before Preprocessing, or can be removed in
-msDiaLogue with the filter step, if the accession number has the “CON__”
-or “DECOY__” prefix. (This prefix is not applied with search algorithms
-like MSFragger, so alternative filters would need to be developed in
-that case.)
+<strong>Note:</strong> Decoys and contaminants can be removed either in
+the <strong>Excel</strong> report before Preprocessing, or can be
+removed in msDiaLogue with the filter step, if the accession number has
+the “CON__” or “DECOY__” prefix. (This prefix is not applied with search
+algorithms like MSFragger, so alternative filters would need to be
+developed in that case.)
 </div>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/uconn-scs/msDiaLogue" class="external-link">msDiaLogue</a></span><span class="op">)</span></span></code></pre></div>

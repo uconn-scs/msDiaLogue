@@ -33,7 +33,9 @@ body {
   margin-bottom: 20px;
 }
 
+/*
 .note::before {
   content: "Note: ";
   font-weight: bold;
 }
+*/
