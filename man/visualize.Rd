@@ -13,7 +13,7 @@ visualize(
   show_colnames = TRUE,
   show_rownames = TRUE,
   M.thres = 1,
-  transformLabel = NULL,
+  transformLabel = "Log2",
   center = TRUE,
   scale = TRUE,
   addlabels = TRUE,
@@ -71,8 +71,8 @@ This argument only works when \code{graphType = "heatmap"} and \code{pkg = "phea
 to plot the two vertical lines (-M.thres and M.thres) on the MA plot when
 \code{graphType = "MA"}.}
 
-\item{transformLabel}{A string used to label the title of the transformation type for
-the transformed MA plot when \code{graphType = "MA"}.}
+\item{transformLabel}{A string (default = "Log2") used to label the title and axes of
+the transformation type for the transformed MA plot when \code{graphType = "MA"}.}
 
 \item{center}{A boolean (default = TRUE) indicating whether the variables should be
 shifted to be zero centered when \code{graphType = "PCA_scree"},

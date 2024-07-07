@@ -66,8 +66,8 @@
 #' to plot the two vertical lines (-M.thres and M.thres) on the MA plot when
 #' \code{graphType = "MA"}.
 #' 
-#' @param transformLabel A string used to label the title of the transformation type for
-#' the transformed MA plot when \code{graphType = "MA"}.
+#' @param transformLabel A string (default = "Log2") used to label the title and axes of
+#' the transformation type for the transformed MA plot when \code{graphType = "MA"}.
 #' 
 #' @param center A boolean (default = TRUE) indicating whether the variables should be
 #' shifted to be zero centered when \code{graphType = "PCA_scree"},
@@ -154,7 +154,7 @@
 visualize <- function(
     dataSet, graphType = "volcano",
     pkg = "pheatmap", cluster_cols = TRUE, cluster_rows = FALSE, show_colnames = TRUE, show_rownames = TRUE,
-    M.thres = 1 , transformLabel = NULL,
+    M.thres = 1 , transformLabel = "Log2",
     center = TRUE, scale = TRUE,
     addlabels = TRUE, choice = "variance", ncp = 10, addEllipses = TRUE, ellipse.level = 0.95, label = "all",
     show_percentage = TRUE, fill_color = c("blue", "yellow", "green", "red"), show_universal = FALSE,
@@ -211,7 +211,9 @@ visualize <- function(
       geom_point() +
       geom_text_repel(show.legend = FALSE) +
       scale_color_manual(values = c("Down" = "blue", "No" = "gray", "Up" = "red")) +
-      labs(title = paste(transformLabel, "Transformed MA Plot")) +
+      labs(title = paste(transformLabel, "Transformed MA Plot"),
+           x = paste(transformLabel, "average abundance"),
+           y = paste(transformLabel, "fold change")) +
       theme_bw() +
       theme(legend.position = "bottom", plot.title = element_text(hjust = .5))
     
