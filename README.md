@@ -4,6 +4,7 @@
 [![R-CMD-check](https://github.com/uconn-scs/msDiaLogue/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/uconn-scs/msDiaLogue/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
+
 ## Code building for workflow package
 
 This repository will be used to build a customized [UConn](https://uconn.edu/)
@@ -11,6 +12,7 @@ This repository will be used to build a customized [UConn](https://uconn.edu/)
 workflow for Data-Independent Acquisition (DIA) proteomics data. The code will
 be expanded to include more options for users, and more detailed explanations of
 the steps in the analysis process.
+
 
 ## Installation
 
@@ -22,8 +24,6 @@ You can install the development version of **msDiaLogue** from
 devtools::install_github("uconn-scs/msDiaLogue")
 ```
 
-For Windows, the [RTools](https://cran.r-project.org/bin/windows/Rtools/) is required to
-build this package.
 
 ## Main areas include
 
@@ -35,4 +35,17 @@ build this package.
 * Data summary: calculating and presenting numerical summaries in tabular form
 * Differential Abundance Analysis: statistical tools for DIA data analysis
 * Data visualization: providing clean visuals to aid in data analysis decisions
+
+
+## General problems during installation
+
+1. `WARNING: Rtools is required to build R packages but is not currently installed.`
+
+For Windows, the [RTools](https://cran.r-project.org/bin/windows/Rtools/) is required to
+build this package.
+
+2. `sh: /opt/gfortran/bin/gfortran: No such file or directory`
+
+The [GFortran](https://fortran-lang.org/learn/os_setup/install_gfortran/) compiler is
+required to build this package. 
 
