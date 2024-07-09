@@ -675,15 +675,17 @@ and relationships within complex datasets.
 
 In the visualization for `graphType = "PCA_*"`, the arguments `center` and `scale` are
 used to center the data to zero mean and scale to unit variance, with default setting at
-`TRUE`. The most common error message is "Cannot rescale a constant/zero column to unit
-variance." This clearly occurs when columns representing proteins contain only zeros or
-have constant values. Typically, there are two ways to address this error: one is to
-remove these proteins, and the other is to set `scale = FALSE`.
+`TRUE`.
 
 <div class="note">
 **Note:** Data scaling is done to ensure that the scale differences between different
 features do not affect the results of PCA. If not scaled, features with larger scales will
-dominate the computation of principal components (PCs). </div>
+dominate the computation of principal components (PCs). \
+**Note:** The most common error message for the PCA is
+"**Cannot rescale a constant/zero column to unit variance**."
+This clearly occurs when columns representing proteins contain only zeros or
+have constant values. Typically, there are two ways to address this error: one is to
+remove these proteins, and the other is to set `scale = FALSE`. </div>
 
 In the case of `dataImput`, two proteins, namely "TEBP_HUMAN" and "T126B_HUMAN,"
 have constant values, leading to the error message. We choose to remove these two proteins
@@ -692,6 +694,7 @@ in PCA.
 ```{r}
 dataPCA <- dataImput[, !(colnames(dataImput) %in% c("TEBP_HUMAN", "T126B_HUMAN"))]
 ```
+
 
 #### PCA_scree
 
