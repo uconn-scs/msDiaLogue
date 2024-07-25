@@ -12,6 +12,7 @@ test_that("preprocessing", {
   
   ## load stored correct data 
   storedData <- read.csv("../storedData/preprocessing_Toy.csv")
+  storedData$R.Replicate <- as.character(storedData$R.Replicate)
   
   ## test if current function yields equal results to previous version
   expect_equal(data, storedData)

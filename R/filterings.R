@@ -49,7 +49,7 @@
 #' 
 #' @autoglobal
 #' 
-#' @export
+#' @noRd
 
 preProcessFiltering <- function(dataSet,
                                 filterNaN = TRUE,

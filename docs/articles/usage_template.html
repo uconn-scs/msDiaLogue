@@ -5,64 +5,49 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="msDiaLogue">
 <title>A Usage Template for the R Package msDiaLogue • msDiaLogue</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="A Usage Template for the R Package msDiaLogue">
-<meta property="og:description" content="msDiaLogue">
-<meta property="og:image" content="https://github.com/uconn-scs/msDiaLogue/blob/main/man/figure/logo.png">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light" data-bs-theme="light"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">msDiaLogue</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.5</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/usage_template.html">A Usage Template for the R Package msDiaLogue</a>
-    <a class="dropdown-item" href="../articles/scaffold.html">Instructions for Exporting Data from Scaffold for Use in msDiaLogue Analysis</a>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/usage_template.html">A Usage Template for the R Package msDiaLogue</a></li>
+    <li><a class="dropdown-item" href="../articles/scaffold.html">Instructions for Exporting Data from Scaffold for Use in msDiaLogue Analysis</a></li>
+  </ul>
 </li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/uconn-scs/msDiaLogue/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/uconn-scs/msDiaLogue/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-article">
 
@@ -71,16 +56,26 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>A Usage Template for the R Package msDiaLogue</h1>
+
+      <h1>A Usage Template for the R Package msDiaLogue</h1>
                         <h4 data-toc-skip class="author"></h4>
 <p>Shiying
-Xiao<span class="math inline">\(^1\)</span>, Charles Watt<span class="math inline">\(^1\)</span>, Jennifer C. Liddle<span class="math inline">\(^2\)</span>, Jeremy L. Balsbaugh<span class="math inline">\(^2\)</span>, Timothy E. Moore<span class="math inline">\(^3\)</span></p>
+Xiao<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>1</mn></msup><annotation encoding="application/x-tex">^1</annotation></semantics></math>,
+Charles
+Watt<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>1</mn></msup><annotation encoding="application/x-tex">^1</annotation></semantics></math>,
+Jennifer C.
+Liddle<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>2</mn></msup><annotation encoding="application/x-tex">^2</annotation></semantics></math>,
+Jeremy L.
+Balsbaugh<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>2</mn></msup><annotation encoding="application/x-tex">^2</annotation></semantics></math>,
+Timothy E.
+Moore<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math></p>
                         <h4 data-toc-skip class="author"></h4>
-<p><span class="math inline">\(^1\)</span>Department of Statistics, UConn<br><span class="math inline">\(^2\)</span>Proteomics and Metabolomics
-Facility, UConn<br><span class="math inline">\(^3\)</span>Statistical Consulting Services,
-UConn</p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>1</mn></msup><annotation encoding="application/x-tex">^1</annotation></semantics></math>Department
+of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>2</mn></msup><annotation encoding="application/x-tex">^2</annotation></semantics></math>Proteomics
+and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
+Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2024-07-09</h4>
+            <h4 data-toc-skip class="date">2024-07-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -183,12 +178,13 @@ all filtered out data, if desired</p>
 (<em>preprocess_Filtered_Out_NaN.csv</em>) and step 3
 (<em>preprocess_Filtered_Out_Unique.csv</em>) will be saved in the
 current working directory.</p>
-<p>As part of the <code><a href="../reference/preprocessing.html">preprocessing()</a></code>, a histogram of <span class="math inline">\(log_2\)</span>-transformed protein abundances is
-provided. This is a helpful way to confirm that the data have been read
-in correctly, and there are no issues with the numerical values of the
-protein abundances. Ideally, this histogram will appear fairly
-symmetrical (bell-shaped) without too much skew towards smaller or
-larger values.</p>
+<p>As part of the <code><a href="../reference/preprocessing.html">preprocessing()</a></code>, a histogram of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">log_2</annotation></semantics></math>-transformed
+protein abundances is provided. This is a helpful way to confirm that
+the data have been read in correctly, and there are no issues with the
+numerical values of the protein abundances. Ideally, this histogram will
+appear fairly symmetrical (bell-shaped) without too much skew towards
+smaller or larger values.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## if the raw data is in a .csv file</span></span>
 <span><span class="va">fileName</span> <span class="op">&lt;-</span> <span class="st">"../tests/testData/Toy_Spectronaut_Data.csv"</span></span>
@@ -505,10 +501,12 @@ transformation on your data. You still need to use the function
 direct statistical modeling because the shape of the data is usually not
 symmetrical and the variance is not consistent across the range of
 intensities. Most proteomic workflows will convert these raw values with
-a log<span class="math inline">\(_2\)</span> transformation, which both
-reshapes the data into a more symmetrical distribution, making it easier
-to interpret mean-based fold changes, and also stabilizes the variance
-across the intensity range (i.e. reduces heteroscedasticity).</p>
+a
+log<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi></mi><mn>2</mn></msub><annotation encoding="application/x-tex">_2</annotation></semantics></math>
+transformation, which both reshapes the data into a more symmetrical
+distribution, making it easier to interpret mean-based fold changes, and
+also stabilizes the variance across the intensity range (i.e. reduces
+heteroscedasticity).</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataTran</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/transform.html">transform</a></span><span class="op">(</span><span class="va">dataSet</span>, logFold <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-6-1.png" width="700" style="display: block; margin: auto;"><img src="usage_template_files/figure-html/unnamed-chunk-6-2.png" width="700" style="display: block; margin: auto;"></p>
@@ -539,7 +537,7 @@ across the intensity range (i.e. reduces heteroscedasticity).</p>
 </colgroup>
 <thead><tr>
 <th align="left">R.Condition</th>
-<th align="right">R.Replicate</th>
+<th align="left">R.Replicate</th>
 <th align="right">RAB3D_HUMAN</th>
 <th align="right">ADH1_YEAST</th>
 <th align="right">LYSC_CHICK</th>
@@ -563,7 +561,7 @@ across the intensity range (i.e. reduces heteroscedasticity).</p>
 <tbody>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="right">16.68685</td>
 <td align="right">20.25893</td>
 <td align="right">20.01639</td>
@@ -586,7 +584,7 @@ across the intensity range (i.e. reduces heteroscedasticity).</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="right">16.57184</td>
 <td align="right">20.21888</td>
 <td align="right">20.01550</td>
@@ -609,7 +607,7 @@ across the intensity range (i.e. reduces heteroscedasticity).</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="right">16.49578</td>
 <td align="right">20.37810</td>
 <td align="right">20.00970</td>
@@ -632,7 +630,7 @@ across the intensity range (i.e. reduces heteroscedasticity).</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="right">16.62059</td>
 <td align="right">20.27705</td>
 <td align="right">20.01598</td>
@@ -655,7 +653,7 @@ across the intensity range (i.e. reduces heteroscedasticity).</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="right">16.59566</td>
 <td align="right">20.23536</td>
 <td align="right">19.96276</td>
@@ -678,7 +676,7 @@ across the intensity range (i.e. reduces heteroscedasticity).</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="right">16.46218</td>
 <td align="right">19.38908</td>
 <td align="right">19.19702</td>
@@ -701,7 +699,7 @@ across the intensity range (i.e. reduces heteroscedasticity).</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="right">16.66106</td>
 <td align="right">19.54470</td>
 <td align="right">19.14678</td>
@@ -724,7 +722,7 @@ across the intensity range (i.e. reduces heteroscedasticity).</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="right">16.64862</td>
 <td align="right">19.50293</td>
 <td align="right">19.16708</td>
@@ -747,7 +745,7 @@ across the intensity range (i.e. reduces heteroscedasticity).</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="right">16.63910</td>
 <td align="right">19.37445</td>
 <td align="right">19.15964</td>
@@ -770,7 +768,7 @@ across the intensity range (i.e. reduces heteroscedasticity).</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="right">16.61782</td>
 <td align="right">19.40820</td>
 <td align="right">19.16132</td>
@@ -832,68 +830,68 @@ current working directory.</p>
 <table class="table">
 <thead><tr>
 <th align="left">R.Condition</th>
-<th align="right">R.Replicate</th>
+<th align="left">R.Replicate</th>
 <th align="right">LYSC_CHICK</th>
 <th align="right">CYC_BOVIN</th>
 </tr></thead>
 <tbody>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="right">20.01639</td>
 <td align="right">18.82649</td>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="right">20.01550</td>
 <td align="right">18.86651</td>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="right">20.00970</td>
 <td align="right">18.76881</td>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="right">20.01598</td>
 <td align="right">18.80707</td>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="right">19.96276</td>
 <td align="right">18.85385</td>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="right">19.19702</td>
 <td align="right">17.93870</td>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="right">19.14678</td>
 <td align="right">18.05573</td>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="right">19.16708</td>
 <td align="right">17.99735</td>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="right">19.15964</td>
 <td align="right">17.85207</td>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="right">19.16132</td>
 <td align="right">17.90887</td>
 </tr>
@@ -932,7 +930,7 @@ this step and remove everything else.</p>
 </colgroup>
 <thead><tr>
 <th align="left">R.Condition</th>
-<th align="right">R.Replicate</th>
+<th align="left">R.Replicate</th>
 <th align="right">RAB3D_HUMAN</th>
 <th align="right">ADH1_YEAST</th>
 <th align="right">BGAL_HUMAN</th>
@@ -954,7 +952,7 @@ this step and remove everything else.</p>
 <tbody>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="right">16.68685</td>
 <td align="right">20.25893</td>
 <td align="right">17.77434</td>
@@ -975,7 +973,7 @@ this step and remove everything else.</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="right">16.57184</td>
 <td align="right">20.21888</td>
 <td align="right">17.79824</td>
@@ -996,7 +994,7 @@ this step and remove everything else.</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="right">16.49578</td>
 <td align="right">20.37810</td>
 <td align="right">17.74101</td>
@@ -1017,7 +1015,7 @@ this step and remove everything else.</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="right">16.62059</td>
 <td align="right">20.27705</td>
 <td align="right">17.67858</td>
@@ -1038,7 +1036,7 @@ this step and remove everything else.</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="right">16.59566</td>
 <td align="right">20.23536</td>
 <td align="right">17.65893</td>
@@ -1059,7 +1057,7 @@ this step and remove everything else.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="right">16.46218</td>
 <td align="right">19.38908</td>
 <td align="right">18.16243</td>
@@ -1080,7 +1078,7 @@ this step and remove everything else.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="right">16.66106</td>
 <td align="right">19.54470</td>
 <td align="right">18.25496</td>
@@ -1101,7 +1099,7 @@ this step and remove everything else.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="right">16.64862</td>
 <td align="right">19.50293</td>
 <td align="right">18.30158</td>
@@ -1122,7 +1120,7 @@ this step and remove everything else.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="right">16.63910</td>
 <td align="right">19.37445</td>
 <td align="right">17.98465</td>
@@ -1143,7 +1141,7 @@ this step and remove everything else.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="right">16.61782</td>
 <td align="right">19.40820</td>
 <td align="right">18.05653</td>
@@ -1191,68 +1189,68 @@ exact equality search.</p>
 <table class="table">
 <thead><tr>
 <th align="left">R.Condition</th>
-<th align="right">R.Replicate</th>
+<th align="left">R.Replicate</th>
 <th align="right">RAB3D_HUMAN</th>
 <th align="right">ADH1_YEAST</th>
 </tr></thead>
 <tbody>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="right">16.68685</td>
 <td align="right">20.25893</td>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="right">16.57184</td>
 <td align="right">20.21888</td>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="right">16.49578</td>
 <td align="right">20.37810</td>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="right">16.62059</td>
 <td align="right">20.27705</td>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="right">16.59566</td>
 <td align="right">20.23536</td>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="right">16.46218</td>
 <td align="right">19.38908</td>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="right">16.66106</td>
 <td align="right">19.54470</td>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="right">16.64862</td>
 <td align="right">19.50293</td>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="right">16.63910</td>
 <td align="right">19.37445</td>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="right">16.61782</td>
 <td align="right">19.40820</td>
 </tr>
@@ -1340,7 +1338,7 @@ generating the boxplot but retained in the actual dataset.</p>
 </colgroup>
 <thead><tr>
 <th align="left">R.Condition</th>
-<th align="right">R.Replicate</th>
+<th align="left">R.Replicate</th>
 <th align="right">RAB3D_HUMAN</th>
 <th align="right">ADH1_YEAST</th>
 <th align="right">LYSC_CHICK</th>
@@ -1364,7 +1362,7 @@ generating the boxplot but retained in the actual dataset.</p>
 <tbody>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="right">16.81611</td>
 <td align="right">20.00402</td>
 <td align="right">19.49314</td>
@@ -1387,7 +1385,7 @@ generating the boxplot but retained in the actual dataset.</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="right">16.81611</td>
 <td align="right">20.00402</td>
 <td align="right">19.49314</td>
@@ -1410,7 +1408,7 @@ generating the boxplot but retained in the actual dataset.</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="right">16.71547</td>
 <td align="right">20.06373</td>
 <td align="right">19.58448</td>
@@ -1433,7 +1431,7 @@ generating the boxplot but retained in the actual dataset.</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="right">16.71547</td>
 <td align="right">20.06373</td>
 <td align="right">19.58448</td>
@@ -1456,7 +1454,7 @@ generating the boxplot but retained in the actual dataset.</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="right">16.81611</td>
 <td align="right">20.00402</td>
 <td align="right">19.49314</td>
@@ -1479,7 +1477,7 @@ generating the boxplot but retained in the actual dataset.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="right">16.55997</td>
 <td align="right">20.06373</td>
 <td align="right">19.58448</td>
@@ -1502,7 +1500,7 @@ generating the boxplot but retained in the actual dataset.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="right">16.43331</td>
 <td align="right">20.00402</td>
 <td align="right">18.98797</td>
@@ -1525,7 +1523,7 @@ generating the boxplot but retained in the actual dataset.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="right">16.02729</td>
 <td align="right">20.00402</td>
 <td align="right">18.98797</td>
@@ -1548,7 +1546,7 @@ generating the boxplot but retained in the actual dataset.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="right">16.55997</td>
 <td align="right">20.06373</td>
 <td align="right">19.58448</td>
@@ -1571,7 +1569,7 @@ generating the boxplot but retained in the actual dataset.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="right">16.59092</td>
 <td align="right">20.00402</td>
 <td align="right">19.49314</td>
@@ -1856,7 +1854,7 @@ subsequent step.
 </colgroup>
 <thead><tr>
 <th align="left">R.Condition</th>
-<th align="right">R.Replicate</th>
+<th align="left">R.Replicate</th>
 <th align="right">RAB3D_HUMAN</th>
 <th align="right">ADH1_YEAST</th>
 <th align="right">LYSC_CHICK</th>
@@ -1880,7 +1878,7 @@ subsequent step.
 <tbody>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="right">16.81611</td>
 <td align="right">20.00402</td>
 <td align="right">19.49314</td>
@@ -1903,7 +1901,7 @@ subsequent step.
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="right">16.81611</td>
 <td align="right">20.00402</td>
 <td align="right">19.49314</td>
@@ -1926,7 +1924,7 @@ subsequent step.
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="right">16.71547</td>
 <td align="right">20.06373</td>
 <td align="right">19.58448</td>
@@ -1949,7 +1947,7 @@ subsequent step.
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="right">16.71547</td>
 <td align="right">20.06373</td>
 <td align="right">19.58448</td>
@@ -1972,7 +1970,7 @@ subsequent step.
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="right">16.81611</td>
 <td align="right">20.00402</td>
 <td align="right">19.49314</td>
@@ -1995,7 +1993,7 @@ subsequent step.
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="right">16.55997</td>
 <td align="right">20.06373</td>
 <td align="right">19.58448</td>
@@ -2018,7 +2016,7 @@ subsequent step.
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="right">16.43331</td>
 <td align="right">20.00402</td>
 <td align="right">18.98797</td>
@@ -2041,7 +2039,7 @@ subsequent step.
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="right">16.02729</td>
 <td align="right">20.00402</td>
 <td align="right">18.98797</td>
@@ -2064,7 +2062,7 @@ subsequent step.
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="right">16.55997</td>
 <td align="right">20.06373</td>
 <td align="right">19.58448</td>
@@ -2087,7 +2085,7 @@ subsequent step.
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="right">16.59092</td>
 <td align="right">20.00402</td>
 <td align="right">19.49314</td>
@@ -2149,7 +2147,7 @@ current working directory.</p>
 </colgroup>
 <thead><tr>
 <th align="left">R.Condition</th>
-<th align="right">R.Replicate</th>
+<th align="left">R.Replicate</th>
 <th align="right">RAB3D_HUMAN</th>
 <th align="right">ADH1_YEAST</th>
 <th align="right">LYSC_CHICK</th>
@@ -2171,7 +2169,7 @@ current working directory.</p>
 <tbody>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="right">16.81611</td>
 <td align="right">20.00402</td>
 <td align="right">19.49314</td>
@@ -2192,7 +2190,7 @@ current working directory.</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="right">16.81611</td>
 <td align="right">20.00402</td>
 <td align="right">19.49314</td>
@@ -2213,7 +2211,7 @@ current working directory.</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="right">16.71547</td>
 <td align="right">20.06373</td>
 <td align="right">19.58448</td>
@@ -2234,7 +2232,7 @@ current working directory.</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="right">16.71547</td>
 <td align="right">20.06373</td>
 <td align="right">19.58448</td>
@@ -2255,7 +2253,7 @@ current working directory.</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="right">16.81611</td>
 <td align="right">20.00402</td>
 <td align="right">19.49314</td>
@@ -2276,7 +2274,7 @@ current working directory.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="right">16.55997</td>
 <td align="right">20.06373</td>
 <td align="right">19.58448</td>
@@ -2297,7 +2295,7 @@ current working directory.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="right">16.43331</td>
 <td align="right">20.00402</td>
 <td align="right">18.98797</td>
@@ -2318,7 +2316,7 @@ current working directory.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="right">16.02729</td>
 <td align="right">20.00402</td>
 <td align="right">18.98797</td>
@@ -2339,7 +2337,7 @@ current working directory.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="right">16.55997</td>
 <td align="right">20.06373</td>
 <td align="right">19.58448</td>
@@ -2360,7 +2358,7 @@ current working directory.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="right">16.59092</td>
 <td align="right">20.00402</td>
 <td align="right">19.49314</td>
@@ -3587,13 +3585,12 @@ different samples.</p>
 <ul>
 <li>M axis (vertical): Represents the logarithm (usually base 2) of the
 fold change, or the ratio of the expression levels, between two
-conditions. It is calculated as: <span class="math display">\[M =
-log_2(X/Y) = log_2 X - log_2 Y\]</span>
+conditions. It is calculated as:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>=</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mi>/</mi><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>X</mi><mo>−</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>Y</mi></mrow><annotation encoding="application/x-tex">M = log_2(X/Y) = log_2 X - log_2 Y</annotation></semantics></math>
 </li>
 <li>A axis (horizontal): Represents the average intensity of the two
-conditions, calculated as: <span class="math display">\[A =
-\frac{1}{2}log_2(XY) =
-\frac{1}{2}\left[log_2(X)+log_2(Y)\right]\]</span>
+conditions, calculated as:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mrow><mo stretchy="true" form="prefix">[</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">A = \frac{1}{2}log_2(XY) = \frac{1}{2}\left[log_2(X)+log_2(Y)\right]</annotation></semantics></math>
 </li>
 </ul>
 <!-- So, the M value represents the log ratio of protein expression in a treated condition --><!-- compared to a control condition, where higher M values indicate greater differences in --><!-- expression between the conditions. Meanwhile, the A value helps to account for overall --><!-- differences in expression levels and reduce the influence of technical biases. --><p>Most proteins are expected to exhibit little variation, leading to
@@ -3604,7 +3601,11 @@ no difference between group means).</p>
 <code>conditions</code> in the <code><a href="../reference/analyze.html">analyze()</a></code> will determine how
 the MA plot is visualized. The second row of <code>anlys_MA</code> acts
 as the comparison reference: the first and second rows refer to
-variables <span class="math inline">\(log_2 X\)</span> and <span class="math inline">\(log_2 Y\)</span>, respectively.
+variables
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>X</mi></mrow><annotation encoding="application/x-tex">log_2 X</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>Y</mi></mrow><annotation encoding="application/x-tex">log_2 Y</annotation></semantics></math>,
+respectively.
 </div>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_MA</span>, graphType <span class="op">=</span> <span class="st">"MA"</span>, M.thres <span class="op">=</span> <span class="fl">1</span>, transformLabel <span class="op">=</span> <span class="st">"Log2"</span><span class="op">)</span></span>
@@ -3613,11 +3614,15 @@ variables <span class="math inline">\(log_2 X\)</span> and <span class="math inl
 <p><img src="usage_template_files/figure-html/unnamed-chunk-33-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>where <code>M.thres = 1</code> means the M thresholds are set to −1
 and 1. The scatters are split into three parts: significant up (M &gt;
-1), no significant (-1 <span class="math inline">\(\leq\)</span> M <span class="math inline">\(\leq\)</span> 1), and significant down (M &lt;
--1). And <code>transformLabel = "Log2"</code> is used to prefix the
-title, x-axis, and y-axis labels. Additionally, the warning message
-“Removed 16 rows containing missing values” indicates that there are 16
-proteins with no significance.</p>
+1), no significant (-1
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≤</mo><annotation encoding="application/x-tex">\leq</annotation></semantics></math>
+M
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≤</mo><annotation encoding="application/x-tex">\leq</annotation></semantics></math>
+1), and significant down (M &lt; -1). And
+<code>transformLabel = "Log2"</code> is used to prefix the title,
+x-axis, and y-axis labels. Additionally, the warning message “Removed 16
+rows containing missing values” indicates that there are 16 proteins
+with no significance.</p>
 </div>
 <div class="section level3">
 <h3 id="normalize">Normalize<a class="anchor" aria-label="anchor" href="#normalize"></a>
@@ -3818,7 +3823,7 @@ fold-change might have been a processing artifact.</p>
 </colgroup>
 <thead><tr>
 <th align="left">R.Condition</th>
-<th align="right">R.Replicate</th>
+<th align="left">R.Replicate</th>
 <th align="right">Initial</th>
 <th align="right">Transformed</th>
 <th align="right">Normalized</th>
@@ -3827,7 +3832,7 @@ fold-change might have been a processing artifact.</p>
 <tbody>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -3835,7 +3840,7 @@ fold-change might have been a processing artifact.</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -3843,7 +3848,7 @@ fold-change might have been a processing artifact.</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="right">172537.11</td>
 <td align="right">17.39655</td>
 <td align="right">17.08332</td>
@@ -3851,7 +3856,7 @@ fold-change might have been a processing artifact.</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="right">172585.23</td>
 <td align="right">17.39695</td>
 <td align="right">17.54057</td>
@@ -3859,7 +3864,7 @@ fold-change might have been a processing artifact.</p>
 </tr>
 <tr>
 <td align="left">100fmol</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="right">136210.98</td>
 <td align="right">17.05548</td>
 <td align="right">17.31263</td>
@@ -3867,7 +3872,7 @@ fold-change might have been a processing artifact.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="right">60972.31</td>
 <td align="right">15.89587</td>
 <td align="right">15.92981</td>
@@ -3875,7 +3880,7 @@ fold-change might have been a processing artifact.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -3883,7 +3888,7 @@ fold-change might have been a processing artifact.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="right">112139.66</td>
 <td align="right">16.77494</td>
 <td align="right">16.59092</td>
@@ -3891,7 +3896,7 @@ fold-change might have been a processing artifact.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="right">109480.65</td>
 <td align="right">16.74032</td>
 <td align="right">17.08332</td>
@@ -3899,7 +3904,7 @@ fold-change might have been a processing artifact.</p>
 </tr>
 <tr>
 <td align="left">50fmol</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
 <td align="right">NA</td>
@@ -3992,7 +3997,7 @@ van Buuren, Stef, and Karin Groothuis-Oudshoorn. 2011. <span>“Mice:
 </div>
 </div>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
@@ -4003,15 +4008,15 @@ van Buuren, Stef, and Karin Groothuis-Oudshoorn. 2011. <span>“Mice:
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>

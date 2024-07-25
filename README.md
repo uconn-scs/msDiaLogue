@@ -47,5 +47,5 @@ build this package.
 2. `sh: /opt/gfortran/bin/gfortran: No such file or directory`
 
 The [GFortran](https://fortran-lang.org/learn/os_setup/install_gfortran/) compiler is
-required to build this package. 
+required to build this package.
 

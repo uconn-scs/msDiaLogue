@@ -115,6 +115,8 @@ preprocessing <- function(fileName,
   
   ## select columns necessary for analysis
   selectedData <- filteredData %>%
+    mutate(R.Condition = as.character(R.Condition),
+           R.Replicate = as.character(R.Replicate)) %>%
     select(R.Condition, R.Replicate, PG.Quantity, PG.ProteinNames, PG.ProteinAccessions)
   
   ## print summary statistics for full raw data set

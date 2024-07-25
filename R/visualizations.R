@@ -220,8 +220,7 @@ visualize <- function(
   } else if (graphType == "normalize") {
     
     plotData <- dataSet %>%
-      pivot_longer(-c(R.Condition, R.Replicate)) %>%
-      mutate(across(c(R.Condition, R.Replicate), as.character))
+      pivot_longer(-c(R.Condition, R.Replicate))
     
     ggplot(plotData, aes(x = R.Condition, y = value,
                          fill = if (length(unique(R.Replicate)) == 1) R.Condition else R.Replicate)) +
