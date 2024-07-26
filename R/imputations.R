@@ -194,10 +194,11 @@ impute.min_global <- function(dataSet, reportImputing = FALSE) {
   imputedData <- cbind(dataSet[,c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
+    shadowMatrix[!is.na(shadowMatrix)] <- 0
+    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
     ## return the imputed data and the shadow matrix
     return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")],
-                                     ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0))))
+                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
   } else {
     return(imputedData)
   }
@@ -290,10 +291,11 @@ impute.min_local <- function(dataSet, reportImputing = FALSE,
   imputedData <- cbind(dataSet[,c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
+    shadowMatrix[!is.na(shadowMatrix)] <- 0
+    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
     ## return the imputed data and the shadow matrix
     return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")],
-                                     ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0))))
+                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
   } else {
     return(imputedData)
   }
@@ -364,10 +366,11 @@ impute.knn <- function(dataSet, reportImputing = FALSE,
   imputedData <- cbind(dataSet[,c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
+    shadowMatrix[!is.na(shadowMatrix)] <- 0
+    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
     ## return the imputed data and the shadow matrix
     return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")],
-                                     ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0))))
+                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
   } else {
     return(imputedData)
   }
@@ -421,10 +424,11 @@ impute.knn_seq <- function(dataSet, reportImputing = FALSE,
   imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
+    shadowMatrix[!is.na(shadowMatrix)] <- 0
+    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
     ## return the imputed data and the shadow matrix
     return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")],
-                                     ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0))))
+                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
   } else {
     return(imputedData)
   }
@@ -478,10 +482,11 @@ impute.knn_trunc <- function(dataSet, reportImputing = FALSE,
   imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
+    shadowMatrix[!is.na(shadowMatrix)] <- 0
+    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
     ## return the imputed data and the shadow matrix
     return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")],
-                                     ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0))))
+                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
   } else {
     return(imputedData)
   }
@@ -568,10 +573,11 @@ impute.nuc_norm <- function(dataSet, reportImputing = FALSE,
   imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
+    shadowMatrix[!is.na(shadowMatrix)] <- 0
+    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
     ## return the imputed data and the shadow matrix
     return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")],
-                                     ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0))))
+                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
   } else {
     return(imputedData)
   }
@@ -628,10 +634,11 @@ impute.mice_norm <- function(dataSet, reportImputing = FALSE,
   imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
+    shadowMatrix[!is.na(shadowMatrix)] <- 0
+    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
     ## return the imputed data and the shadow matrix
     return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")],
-                                     ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0))))
+                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
   } else {
     return(imputedData)
   }
@@ -688,10 +695,11 @@ impute.mice_cart <- function(dataSet, reportImputing = FALSE,
   imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
+    shadowMatrix[!is.na(shadowMatrix)] <- 0
+    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
     ## return the imputed data and the shadow matrix
     return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")],
-                                     ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0))))
+                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
   } else {
     return(imputedData)
   }
@@ -751,10 +759,11 @@ impute.pca_bayes <- function(dataSet, reportImputing = FALSE,
   imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
+    shadowMatrix[!is.na(shadowMatrix)] <- 0
+    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
     ## return the imputed data and the shadow matrix
     return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")],
-                                     ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0))))
+                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
   } else {
     return(imputedData)
   }
@@ -817,10 +826,11 @@ impute.pca_prob <- function(dataSet, reportImputing = FALSE,
   imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
   if (reportImputing) {
+    shadowMatrix[!is.na(shadowMatrix)] <- 0
+    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
     ## return the imputed data and the shadow matrix
     return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")],
-                                     ifelse(is.na(shadowMatrix) & !is.na(dataPoints), 1, 0))))
+                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
   } else {
     return(imputedData)
   }
