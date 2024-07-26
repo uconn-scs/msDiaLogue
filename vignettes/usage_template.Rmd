@@ -349,9 +349,9 @@ providing the following information:
 
 + `count_miss`: The count of missing values for each protein.
 
-+ `pct-miss`: The percentage of missing values for each protein.
++ `pct_miss_col`: The percentage of missing values for each protein.
 
-+ `pct_total_miss`: The percentage of missing values for each protein relative to the
++ `pct_miss_tot`: The percentage of missing values for each protein relative to the
 total missing values in the entire dataset.
 
 <div style="overflow-x: auto;">

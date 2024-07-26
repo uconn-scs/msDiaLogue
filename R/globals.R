@@ -5,6 +5,8 @@ utils::globalVariables(c(
   "R.Replicate", # <analyze>
   "R.Condition", # <dataMissing>
   "R.Replicate", # <dataMissing>
+  "variable", # <dataMissing>
+  "value", # <dataMissing>
   "PG.Quantity", # <preProcessFiltering>
   "PG.NrOfStrippedSequencesIdentified", # <preProcessFiltering>
   "PG.ProteinNames", # <preProcessFiltering>

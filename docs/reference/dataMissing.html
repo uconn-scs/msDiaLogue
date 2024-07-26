@@ -43,7 +43,14 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dataMissing</span><span class="op">(</span><span class="va">dataSet</span>, plot <span class="op">=</span> <span class="cn">FALSE</span>, show_labels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dataMissing</span><span class="op">(</span></span>
+<span>  <span class="va">dataSet</span>,</span>
+<span>  sort_miss <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show_pct_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show_labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show_pct_col <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -54,20 +61,37 @@
 <dd><p>The 2d data set of experimental values.</p></dd>
 
 
+<dt id="arg-sort-miss">sort_miss<a class="anchor" aria-label="anchor" href="#arg-sort-miss"></a></dt>
+<dd><p>A boolean (default = FALSE) specifying whether to arrange the columns
+in order of missingness.</p></dd>
+
+
 <dt id="arg-plot">plot<a class="anchor" aria-label="anchor" href="#arg-plot"></a></dt>
 <dd><p>A boolean (default = FALSE) specifying whether to plot the missingness.</p></dd>
+
+
+<dt id="arg-show-pct-legend">show_pct_legend<a class="anchor" aria-label="anchor" href="#arg-show-pct-legend"></a></dt>
+<dd><p>A boolean (default = TRUE) specifying whether the percentages of
+missing and present values in the entire dataset are shown in the legend of the
+visualization when <code>plot = TRUE</code>.</p></dd>
 
 
 <dt id="arg-show-labels">show_labels<a class="anchor" aria-label="anchor" href="#arg-show-labels"></a></dt>
 <dd><p>A boolean (default = TRUE) specifying whether protein names are
 shown in the visualization when <code>plot = TRUE</code>.</p></dd>
 
+
+<dt id="arg-show-pct-col">show_pct_col<a class="anchor" aria-label="anchor" href="#arg-show-pct-col"></a></dt>
+<dd><p>A boolean (default = TRUE) specifying whether the percentages of
+missing data in the samples for that protein are shown in the labels of the
+visualization when <code>show_labels = TRUE</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A 2d dataframe including:</p><ul><li><p>"count_miss": The count of missing values for each protein.</p></li>
-<li><p>"pct-miss": The percentage of missing values for each protein.</p></li>
-<li><p>"pct_total_miss": The percentage of missing values for each protein relative to
+<li><p>"pct_miss_col": The percentage of missing values for each protein.</p></li>
+<li><p>"pct_miss_tot": The percentage of missing values for each protein relative to
 the total missing values in the entire dataset.</p></li>
 </ul></div>
 
