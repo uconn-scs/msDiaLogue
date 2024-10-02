@@ -221,8 +221,16 @@ preprocessing <- function(fileName,
 #' @import ggplot2
 #' @import tidyr
 #' @importFrom readxl read_excel
+#' @importFrom purrr discard map
 #' 
-#' @returns A 2d dataframe.
+#' @returns
+#' \itemize{
+#' \item If the data contains columns for Gene Ontology (GO) annotation terms,
+#' the function returns a list containing both the preprocessed 2d dataframe and a list of
+#' GO terms.
+#' \item If no GO annotation columns are present, the function returns only the
+#' preprocessed 2d dataframe.
+#' }
 #' 
 #' @autoglobal
 #' 
@@ -236,21 +244,32 @@ preprocessing_scaffold <- function(fileName, dataSet = NULL) {
     }
   } else {
     ## read in the protein quantitative csv file generated from Scaffold
-    dataSet <- suppressWarnings(readxl::read_excel(fileName))
+    dataSet <- suppressWarnings(readxl::read_excel(fileName, col_names = FALSE))
   }
   
-  dataSet <- dataSet  %>%
-    select(-"#") %>%
+  header_row <- which(dataSet[[1]] == "#")
+  colnames(dataSet) <- dataSet[header_row,]
+  dataSet <- select(dataSet, -"#")
+  noGO_col <- which(!is.na(dataSet[1,]))
+  
+  dataSet <- dataSet %>%
+    slice(-(1:header_row)) %>%
     slice(-n()) %>%
     rename(ProteinDescriptions = names(.)[3],
            AccessionNumber = "Accession Number",
            AlternateID = "Alternate ID",
            MolecularWeight = "Molecular Weight",
-           ProteinGroupingAmbiguity = "Protein Grouping Ambiguity")
+           ProteinGroupingAmbiguity = "Protein Grouping Ambiguity") %>%
+    mutate(AccessionNumber = paste0("00", AccessionNumber))
   
   infoColName <- c("Visible?", "Starred?",
                    "ProteinDescriptions", "AccessionNumber", "AlternateID",
-                   "MolecularWeight", "ProteinGroupingAmbiguity")
+                   "MolecularWeight", "ProteinGroupingAmbiguity",
+                   if (header_row != 1) {"Taxonomy"})
+  
+  if (header_row != 1) {
+    noGO_col <- c(which(infoColName %in% colnames(dataSet)), noGO_col)
+  }
   
   proteinInformation <- dataSet %>%
     select(any_of(infoColName)) %>%
@@ -260,16 +279,28 @@ preprocessing_scaffold <- function(fileName, dataSet = NULL) {
             row.names = FALSE, na = "")
   
   ## select columns necessary for analysis
-  selectedData <- dataSet %>%
+  selectedData <- dataSet[,noGO_col] %>%
     select(-infoColName[infoColName != "AccessionNumber"]) %>%
     mutate(across(-AccessionNumber, ~as.numeric(replace(., . == "Missing Value", NA)))) %>%
     pivot_longer(-AccessionNumber, names_to = "ConditionReplicate", values_to = "Quantity") %>%
     # gather(ConditionReplicate, Quantity, -AccessionNumber) %>%
-    mutate(ConditionReplicate = sub(".+_(.+)", "\\1", ConditionReplicate)) %>%
-    mutate(R.Condition = sub("^(\\d+|[a-zA-Z0-9]+).*", "\\1", ConditionReplicate),
-           R.Replicate = sub("^[^.]*[-]?([0-9]+)$", "\\1", ConditionReplicate)) %>%
+    mutate(R.Condition = sub(".+[-_](.+)[-_].+$", "\\1", ConditionReplicate),
+           R.Replicate = sub(".+[-_](.+)$", "\\1", ConditionReplicate)) %>%
     select(R.Condition, R.Replicate, AccessionNumber, Quantity) %>%
     mutate(Quantity = replace(Quantity, Quantity %in% c(0,1), NA))
+  
+  if (header_row != 1) {
+    GOterm <- dataSet[,-noGO_col] %>%
+      mutate(AccessionNumber = dataSet$AccessionNumber, .before = 1) %>%
+      filter(rowSums(!is.na(.[-1])) != 0) %>%
+      split(.$AccessionNumber) %>%
+      purrr::map(~ .x %>%
+                   select(-AccessionNumber) %>%
+                   purrr::discard(is.na) %>%
+                   as.list())
+      # pivot_longer(cols = -AccessionNumber, values_drop_na = TRUE,
+      #              names_to = "Ontology", values_to = "Name")
+  }
   
   ## reformat the data to present proteins as the columns and
   ## to group replicates under each protein
@@ -304,13 +335,16 @@ preprocessing_scaffold <- function(fileName, dataSet = NULL) {
   cat("\n")
   
   ## store data in a data.frame structure
-  result <- as.data.frame(reformatedData) 
+  result <- as.data.frame(reformatedData)
   
   ## print levels of condition and replicate
   cat("Levels of Condition:", unique(result$R.Condition), "\n")
   cat("Levels of Replicate:", unique(result$R.Replicate), "\n")
   cat("\n")
   
+  if (header_row != 1) {
+    result <- list(data = result, GOterm = GOterm)
+  }
   ## return imported data
   return(result)
 }

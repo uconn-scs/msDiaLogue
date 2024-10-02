@@ -238,7 +238,8 @@ visualize <- function(
   } else if (grepl("^PCA_", graphType)) {
     
     plotData <- dataSet %>%
-      mutate(R.ConRep = paste0(R.Condition, "_", R.Replicate)) %>% remove_rownames() %>%
+      mutate(R.ConRep = paste0(R.Condition, "_", R.Replicate)) %>%
+      remove_rownames() %>%
       column_to_rownames(var = "R.ConRep") %>%
       select(-c(R.Condition, R.Replicate))
     

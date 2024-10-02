@@ -13,7 +13,13 @@ file, if needed).}
 \item{dataSet}{The raw data set, if already loaded in R.}
 }
 \value{
-A 2d dataframe.
+\itemize{
+\item If the data contains columns for Gene Ontology (GO) annotation terms,
+the function returns a list containing both the preprocessed 2d dataframe and a list of
+GO terms.
+\item If no GO annotation columns are present, the function returns only the
+preprocessed 2d dataframe.
+}
 }
 \description{
 Read a data file from Scaffold, select columns necessary for analysis, and return the

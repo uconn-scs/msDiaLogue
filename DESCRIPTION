@@ -32,6 +32,7 @@ Imports:
     pcaMethods,
     pheatmap,
     psych,
+    purrr,
     readxl,
     scales,
     seqinr,
