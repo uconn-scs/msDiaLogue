@@ -9,7 +9,7 @@ test_that("pullProteinPath", {
   
   ## execute current function 'pullProteinPath' on data file
   invisible(capture.output(
-    data <- pullProteinPath(proteinName = "ZC11B_HUMAN",
+    data <- pullProteinPath(proteinName = "LRIG2_HUMAN",
                             dataSetList = list(Initial = dataSet,
                                                Transformed = dataTran,
                                                Normalized = dataNorm,

@@ -49,7 +49,7 @@ dataImput <- impute.min_local(dataNorm, reportImputing = FALSE,
                               reqPercentPresent = 0.51)
 dataImput <- filterNA(dataImput, saveRm = TRUE)
 ## Analysis
-cond <- c("100fmol", "50fmol")
+cond <- c("100pmol", "50pmol")
 anlys_mod.t <- analyze(dataImput, conditions = cond, testType = "mod.t-test")
 anlys_MA <- analyze(dataImput, conditions = cond, testType = "MA")
 ```

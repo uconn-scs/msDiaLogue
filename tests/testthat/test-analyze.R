@@ -6,7 +6,7 @@ test_that("analyze_t-test", {
   
   ## execute current function 'analyze' on data file
   invisible(capture.output(
-    data <- analyze(dataSet, testType = "t-test")
+    data <- analyze(dataSet, conditions = c("100pmol", "50pmol"), testType = "t-test")
   ))
   
   ## load stored correct data
@@ -25,7 +25,7 @@ test_that("analyze_mod.t-test", {
   
   ## execute current function 'analyze' on data file
   invisible(capture.output(
-    data <- analyze(dataSet, testType = "mod.t-test")
+    data <- analyze(dataSet, conditions = c("100pmol", "50pmol"), testType = "mod.t-test")
   ))
   
   ## load stored correct data
@@ -44,7 +44,7 @@ test_that("analyze_MA", {
   
   ## execute current function 'analyze' on data file
   invisible(capture.output(
-    data <- analyze(dataSet, testType = "MA")
+    data <- analyze(dataSet, conditions = c("100pmol", "50pmol"), testType = "MA")
   ))
   
   ## load stored correct data

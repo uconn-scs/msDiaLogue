@@ -83,6 +83,10 @@ preprocessing <- function(fileName,
     dataSet <- read.csv(fileName)
   }
   
+  ## keep only the first entry of protein names and accessions
+  dataSet$PG.ProteinNames <- sub(";.*", "", dataSet$PG.ProteinNames)
+  dataSet$PG.ProteinAccessions <- sub(";.*", "", dataSet$PG.ProteinAccessions)
+  
   ## generate a histogram of the log2-transformed values for full raw data set
   temp <- log2(dataSet$PG.Quantity)
   plot <- ggplot(data.frame(value = temp)) +
@@ -137,7 +141,7 @@ preprocessing <- function(fileName,
          x = expression("log"[2]*"(Data)"), y = "Frequency") +
     theme_bw() +
     theme(plot.title = element_text(hjust = 0.5))
-   print(plot)
+  print(plot)
   
   ## warning catching for duplicated protein names
   reformatedData <- tryCatch({
@@ -169,7 +173,7 @@ preprocessing <- function(fileName,
     for (i in duplicateName) {
       selectedData <- selectedData %>%
         mutate(PG.ProteinNames = ifelse(
-          PG.ProteinNames == duplicateName, PG.ProteinAccessions, PG.ProteinNames))
+          PG.ProteinNames == i, PG.ProteinAccessions, PG.ProteinNames))
     }
     
     ## try to reformat the data again

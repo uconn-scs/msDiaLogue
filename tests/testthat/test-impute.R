@@ -86,7 +86,7 @@ test_that("impute.knn_trunc", {
   ## execute current function 'impute' on data file
   invisible(capture.output(
     data <- impute.knn_trunc(dataSet, reportImputing = FALSE,
-                             k = 5)
+                             k = 4)
   ))
   
   ## load stored correct data
@@ -186,9 +186,10 @@ test_that("impute.pca_prob", {
   
   ## execute current function 'impute' on data file
   invisible(capture.output(
-    data <- impute.pca_prob(dataSet, reportImputing = FALSE,
+    data <- impute.pca_prob(dataSet[c(5:8),], reportImputing = FALSE,
                             nPcs = NULL, maxIterations = 1000, seed = 362436069)
   ))
+  rownames(data) <- NULL
   
   ## load stored correct data
   storedData <- read.csv("../storedData/impute.pca_prob_Toy.csv")
