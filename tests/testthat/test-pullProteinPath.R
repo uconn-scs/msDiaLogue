@@ -9,11 +9,14 @@ test_that("pullProteinPath", {
   
   ## execute current function 'pullProteinPath' on data file
   invisible(capture.output(
-    data <- pullProteinPath(proteinName = "LRIG2_HUMAN",
-                            dataSetList = list(Initial = dataSet,
-                                               Transformed = dataTran,
-                                               Normalized = dataNorm,
-                                               Imputed = dataImput))
+    data <- pullProteinPath(
+      listName = c("LYSC_CHICK", "BGAL_ECOLI"),
+      regexName = c("BOVIN", "CHICK"),
+      dataSetList = list(Initial = dataSet,
+                         Transformed = dataTran,
+                         Normalized = dataNorm,
+                         Imputed = dataImput),
+      proteinInformation = "../storedData/preprocess_protein_information_Toy.csv")
   ))
   
   ## load stored correct data

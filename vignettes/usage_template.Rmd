@@ -833,23 +833,26 @@ visualize(anlys_mod.t, graphType = "volcano",
 
 ## Other useful function
 
-The function `pullProteinPath()` allows you to see the values associated with a specific
-protein at each step of processing. This can be useful for questions such as, "Were all of
+The function `pullProteinPath()` allows you to see the values associated with specific
+proteins that match exactly and/or proteins that match the regular expression pattern
+at each step of processing. This can be useful for questions such as, "Were all of
 the values for my favorite protein actually measured, or were some imputed?" or "Why didn't
 my favorite protein make it to the final list? Where was it filtered out?". It can also be
-used to check whether a given protein's fold-change might have been a processing artifact.
+used to check whether some given proteins' fold-change might have been a processing artifact.
 
 ```{r}
-LRIG2_HUMAN <- pullProteinPath(proteinName = "LRIG2_HUMAN",
-                               dataSetList = list(Initial = dataSet,
-                                                  Transformed = dataTran,
-                                                  Normalized = dataNorm,
-                                                  Imputed = dataImput))
+Check <- pullProteinPath(
+  listName = c("LYSC_CHICK", "BGAL_ECOLI"),
+  regexName = c("BOVIN"),
+  dataSetList = list(Initial = dataSet,
+                     Transformed = dataTran,
+                     Normalized = dataNorm,
+                     Imputed = dataImput))
 ```
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
-knitr::kable(LRIG2_HUMAN)
+knitr::kable(Check)
 ```
 </div>
 
