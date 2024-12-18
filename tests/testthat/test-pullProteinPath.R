@@ -16,6 +16,7 @@ test_that("pullProteinPath", {
                          Transformed = dataTran,
                          Normalized = dataNorm,
                          Imputed = dataImput),
+      by = "PG.ProteinNames",
       proteinInformation = "../storedData/preprocess_protein_information_Toy.csv")
   ))
   

@@ -807,8 +807,12 @@ between sets.
 visualize(dataSort, graphType = "Venn",
           show_percentage = TRUE,
           fill_color = c("blue", "yellow", "green", "red"),
-          show_universal = FALSE)
+          saveVenn = TRUE)
 ```
+
+where `saveVenn = TRUE` refers to the data containing logical columns representing sets in
+Venn plot information will be saved as a .csv file named *Venn_information.csv* in the
+current working directory.
 
 In the example above, 50pmol, 100pmol, and 200pmol groups share 42 proteins. Notably, 3
 proteins are exclusively found in the 100pmol and 200pmol groups.
@@ -844,6 +848,7 @@ used to check whether some given proteins' fold-change might have been a process
 Check <- pullProteinPath(
   listName = c("LYSC_CHICK", "BGAL_ECOLI"),
   regexName = c("BOVIN"),
+  by = "PG.ProteinNames",
   dataSetList = list(Initial = dataSet,
                      Transformed = dataTran,
                      Normalized = dataNorm,

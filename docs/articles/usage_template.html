@@ -8,8 +8,8 @@
 <title>A Usage Template for the R Package msDiaLogue • msDiaLogue</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="A Usage Template for the R Package msDiaLogue">
 </head>
@@ -76,7 +76,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2024-10-30</h4>
+            <h4 data-toc-skip class="date">2024-12-18</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -7385,8 +7385,12 @@ overlapping regions show the elements that are shared between sets.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataSort</span>, graphType <span class="op">=</span> <span class="st">"Venn"</span>,</span>
 <span>          show_percentage <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>          fill_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>, <span class="st">"red"</span><span class="op">)</span>,</span>
-<span>          show_universal <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span>          saveVenn <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-43-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>where <code>saveVenn = TRUE</code> refers to the data containing
+logical columns representing sets in Venn plot information will be saved
+as a .csv file named <em>Venn_information.csv</em> in the current
+working directory.</p>
 <p>In the example above, 50pmol, 100pmol, and 200pmol groups share 42
 proteins. Notably, 3 proteins are exclusively found in the 100pmol and
 200pmol groups.</p>
@@ -7427,6 +7431,7 @@ proteins’ fold-change might have been a processing artifact.</p>
 <code class="sourceCode R"><span><span class="va">Check</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pullProteinPath.html">pullProteinPath</a></span><span class="op">(</span></span>
 <span>  listName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LYSC_CHICK"</span>, <span class="st">"BGAL_ECOLI"</span><span class="op">)</span>,</span>
 <span>  regexName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BOVIN"</span><span class="op">)</span>,</span>
+<span>  by <span class="op">=</span> <span class="st">"PG.ProteinNames"</span>,</span>
 <span>  dataSetList <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Initial <span class="op">=</span> <span class="va">dataSet</span>,</span>
 <span>                     Transformed <span class="op">=</span> <span class="va">dataTran</span>,</span>
 <span>                     Normalized <span class="op">=</span> <span class="va">dataNorm</span>,</span>
@@ -7434,749 +7439,749 @@ proteins’ fold-change might have been a processing artifact.</p>
 <div style="overflow-x: auto;">
 <table class="table">
 <colgroup>
-<col width="7%">
-<col width="8%">
-<col width="8%">
-<col width="7%">
-<col width="8%">
-<col width="7%">
-<col width="6%">
+<col width="10%">
 <col width="6%">
 <col width="14%">
-<col width="25%">
+<col width="24%">
+<col width="8%">
+<col width="8%">
+<col width="7%">
+<col width="8%">
+<col width="7%">
+<col width="6%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">Protein</th>
+<th align="left">PG.ProteinNames</th>
+<th align="left">PG.Genes</th>
+<th align="left">PG.ProteinAccessions</th>
+<th align="left">PG.ProteinDescriptions</th>
 <th align="left">R.Condition</th>
 <th align="left">R.Replicate</th>
 <th align="right">Initial</th>
 <th align="right">Transformed</th>
 <th align="right">Normalized</th>
 <th align="right">Imputed</th>
-<th align="left">PG.Genes</th>
-<th align="left">PG.ProteinAccessions</th>
-<th align="left">PG.ProteinDescriptions</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">LYSC_CHICK</td>
-<td align="left">100pmol</td>
-<td align="left">1</td>
-<td align="right">13798.590</td>
-<td align="right">13.75223</td>
-<td align="right">13.62766</td>
-<td align="right">13.62766</td>
-<td align="left">LYZ</td>
-<td align="left">P00698</td>
-<td align="left">Lysozyme C</td>
-</tr>
-<tr class="even">
-<td align="left">LYSC_CHICK</td>
-<td align="left">100pmol</td>
-<td align="left">2</td>
-<td align="right">13880.411</td>
-<td align="right">13.76076</td>
-<td align="right">13.97388</td>
-<td align="right">13.97388</td>
-<td align="left">LYZ</td>
-<td align="left">P00698</td>
-<td align="left">Lysozyme C</td>
-</tr>
-<tr class="odd">
-<td align="left">LYSC_CHICK</td>
-<td align="left">100pmol</td>
-<td align="left">3</td>
-<td align="right">13723.719</td>
-<td align="right">13.74438</td>
-<td align="right">13.55168</td>
-<td align="right">13.55168</td>
-<td align="left">LYZ</td>
-<td align="left">P00698</td>
-<td align="left">Lysozyme C</td>
-</tr>
-<tr class="even">
-<td align="left">LYSC_CHICK</td>
-<td align="left">100pmol</td>
-<td align="left">4</td>
-<td align="right">13944.603</td>
-<td align="right">13.76742</td>
-<td align="right">13.62766</td>
-<td align="right">13.62766</td>
-<td align="left">LYZ</td>
-<td align="left">P00698</td>
-<td align="left">Lysozyme C</td>
-</tr>
-<tr class="odd">
-<td align="left">LYSC_CHICK</td>
-<td align="left">200pmol</td>
-<td align="left">1</td>
-<td align="right">24344.188</td>
-<td align="right">14.57129</td>
-<td align="right">14.22236</td>
-<td align="right">14.22236</td>
-<td align="left">LYZ</td>
-<td align="left">P00698</td>
-<td align="left">Lysozyme C</td>
-</tr>
-<tr class="even">
-<td align="left">LYSC_CHICK</td>
-<td align="left">200pmol</td>
-<td align="left">2</td>
-<td align="right">24742.227</td>
-<td align="right">14.59469</td>
-<td align="right">13.88102</td>
-<td align="right">13.88102</td>
-<td align="left">LYZ</td>
-<td align="left">P00698</td>
-<td align="left">Lysozyme C</td>
-</tr>
-<tr class="odd">
-<td align="left">LYSC_CHICK</td>
-<td align="left">200pmol</td>
-<td align="left">3</td>
-<td align="right">24803.633</td>
-<td align="right">14.59826</td>
-<td align="right">14.22236</td>
-<td align="right">14.22236</td>
-<td align="left">LYZ</td>
-<td align="left">P00698</td>
-<td align="left">Lysozyme C</td>
-</tr>
-<tr class="even">
-<td align="left">LYSC_CHICK</td>
-<td align="left">200pmol</td>
-<td align="left">4</td>
-<td align="right">26381.047</td>
-<td align="right">14.68721</td>
-<td align="right">14.13067</td>
-<td align="right">14.13067</td>
-<td align="left">LYZ</td>
-<td align="left">P00698</td>
-<td align="left">Lysozyme C</td>
-</tr>
-<tr class="odd">
-<td align="left">LYSC_CHICK</td>
-<td align="left">50pmol</td>
-<td align="left">1</td>
-<td align="right">7169.955</td>
-<td align="right">12.80775</td>
-<td align="right">13.38772</td>
-<td align="right">13.38772</td>
-<td align="left">LYZ</td>
-<td align="left">P00698</td>
-<td align="left">Lysozyme C</td>
-</tr>
-<tr class="even">
-<td align="left">LYSC_CHICK</td>
-<td align="left">50pmol</td>
-<td align="left">2</td>
-<td align="right">7797.536</td>
-<td align="right">12.92880</td>
-<td align="right">13.25790</td>
-<td align="right">13.25790</td>
-<td align="left">LYZ</td>
-<td align="left">P00698</td>
-<td align="left">Lysozyme C</td>
-</tr>
-<tr class="odd">
-<td align="left">LYSC_CHICK</td>
-<td align="left">50pmol</td>
-<td align="left">3</td>
-<td align="right">7432.793</td>
-<td align="right">12.85969</td>
-<td align="right">13.88102</td>
-<td align="right">13.88102</td>
-<td align="left">LYZ</td>
-<td align="left">P00698</td>
-<td align="left">Lysozyme C</td>
-</tr>
-<tr class="even">
-<td align="left">LYSC_CHICK</td>
-<td align="left">50pmol</td>
-<td align="left">4</td>
-<td align="right">7543.633</td>
-<td align="right">12.88104</td>
-<td align="right">13.25790</td>
-<td align="right">13.25790</td>
-<td align="left">LYZ</td>
-<td align="left">P00698</td>
-<td align="left">Lysozyme C</td>
-</tr>
-<tr class="odd">
-<td align="left">BGAL_ECOLI</td>
-<td align="left">100pmol</td>
-<td align="left">1</td>
-<td align="right">23840.031</td>
-<td align="right">14.54110</td>
-<td align="right">14.44005</td>
-<td align="right">14.44005</td>
-<td align="left">lacZ</td>
-<td align="left">P00722</td>
-<td align="left">Beta-galactosidase</td>
-</tr>
-<tr class="even">
-<td align="left">BGAL_ECOLI</td>
-<td align="left">100pmol</td>
-<td align="left">2</td>
-<td align="right">23963.307</td>
-<td align="right">14.54854</td>
-<td align="right">14.44005</td>
-<td align="right">14.44005</td>
-<td align="left">lacZ</td>
-<td align="left">P00722</td>
-<td align="left">Beta-galactosidase</td>
-</tr>
-<tr class="odd">
-<td align="left">BGAL_ECOLI</td>
-<td align="left">100pmol</td>
-<td align="left">3</td>
-<td align="right">22957.350</td>
-<td align="right">14.48667</td>
-<td align="right">14.42169</td>
-<td align="right">14.42169</td>
-<td align="left">lacZ</td>
-<td align="left">P00722</td>
-<td align="left">Beta-galactosidase</td>
-</tr>
-<tr class="even">
-<td align="left">BGAL_ECOLI</td>
-<td align="left">100pmol</td>
-<td align="left">4</td>
-<td align="right">22311.297</td>
-<td align="right">14.44549</td>
-<td align="right">14.20112</td>
-<td align="right">14.20112</td>
-<td align="left">lacZ</td>
-<td align="left">P00722</td>
-<td align="left">Beta-galactosidase</td>
-</tr>
-<tr class="odd">
-<td align="left">BGAL_ECOLI</td>
-<td align="left">200pmol</td>
-<td align="left">1</td>
-<td align="right">41234.672</td>
-<td align="right">15.33157</td>
-<td align="right">14.77650</td>
-<td align="right">14.77650</td>
-<td align="left">lacZ</td>
-<td align="left">P00722</td>
-<td align="left">Beta-galactosidase</td>
-</tr>
-<tr class="even">
-<td align="left">BGAL_ECOLI</td>
-<td align="left">200pmol</td>
-<td align="left">2</td>
-<td align="right">42899.434</td>
-<td align="right">15.38867</td>
-<td align="right">14.70670</td>
-<td align="right">14.70670</td>
-<td align="left">lacZ</td>
-<td align="left">P00722</td>
-<td align="left">Beta-galactosidase</td>
-</tr>
-<tr class="odd">
-<td align="left">BGAL_ECOLI</td>
-<td align="left">200pmol</td>
-<td align="left">3</td>
-<td align="right">42904.945</td>
-<td align="right">15.38886</td>
-<td align="right">14.77650</td>
-<td align="right">14.77650</td>
-<td align="left">lacZ</td>
-<td align="left">P00722</td>
-<td align="left">Beta-galactosidase</td>
-</tr>
-<tr class="even">
-<td align="left">BGAL_ECOLI</td>
-<td align="left">200pmol</td>
-<td align="left">4</td>
-<td align="right">43279.844</td>
-<td align="right">15.40141</td>
-<td align="right">14.70670</td>
-<td align="right">14.70670</td>
-<td align="left">lacZ</td>
-<td align="left">P00722</td>
-<td align="left">Beta-galactosidase</td>
-</tr>
-<tr class="odd">
-<td align="left">BGAL_ECOLI</td>
-<td align="left">50pmol</td>
-<td align="left">1</td>
-<td align="right">14728.673</td>
-<td align="right">13.84634</td>
-<td align="right">14.38206</td>
-<td align="right">14.38206</td>
-<td align="left">lacZ</td>
-<td align="left">P00722</td>
-<td align="left">Beta-galactosidase</td>
-</tr>
-<tr class="even">
-<td align="left">BGAL_ECOLI</td>
-<td align="left">50pmol</td>
-<td align="left">2</td>
-<td align="right">14736.710</td>
-<td align="right">13.84713</td>
-<td align="right">14.10465</td>
-<td align="right">14.10465</td>
-<td align="left">lacZ</td>
-<td align="left">P00722</td>
-<td align="left">Beta-galactosidase</td>
-</tr>
-<tr class="odd">
-<td align="left">BGAL_ECOLI</td>
-<td align="left">50pmol</td>
-<td align="left">3</td>
-<td align="right">14160.203</td>
-<td align="right">13.78955</td>
-<td align="right">14.38206</td>
-<td align="right">14.38206</td>
-<td align="left">lacZ</td>
-<td align="left">P00722</td>
-<td align="left">Beta-galactosidase</td>
-</tr>
-<tr class="even">
-<td align="left">BGAL_ECOLI</td>
-<td align="left">50pmol</td>
-<td align="left">4</td>
-<td align="right">14758.731</td>
-<td align="right">13.84928</td>
-<td align="right">14.10465</td>
-<td align="right">14.10465</td>
-<td align="left">lacZ</td>
-<td align="left">P00722</td>
-<td align="left">Beta-galactosidase</td>
-</tr>
-<tr class="odd">
 <td align="left">ALBU_BOVIN</td>
+<td align="left">ALB</td>
+<td align="left">CON__P02769</td>
+<td align="left">Bovine serum albumin</td>
 <td align="left">100pmol</td>
 <td align="left">1</td>
 <td align="right">111209.703</td>
 <td align="right">16.76292</td>
 <td align="right">16.75777</td>
 <td align="right">16.75777</td>
-<td align="left">ALB</td>
-<td align="left">CON__P02769</td>
-<td align="left">Bovine serum albumin</td>
 </tr>
 <tr class="even">
 <td align="left">ALBU_BOVIN</td>
+<td align="left">ALB</td>
+<td align="left">CON__P02769</td>
+<td align="left">Bovine serum albumin</td>
 <td align="left">100pmol</td>
 <td align="left">2</td>
 <td align="right">111659.883</td>
 <td align="right">16.76875</td>
 <td align="right">16.75777</td>
 <td align="right">16.75777</td>
-<td align="left">ALB</td>
-<td align="left">CON__P02769</td>
-<td align="left">Bovine serum albumin</td>
 </tr>
 <tr class="odd">
 <td align="left">ALBU_BOVIN</td>
+<td align="left">ALB</td>
+<td align="left">CON__P02769</td>
+<td align="left">Bovine serum albumin</td>
 <td align="left">100pmol</td>
 <td align="left">3</td>
 <td align="right">105982.914</td>
 <td align="right">16.69347</td>
 <td align="right">16.75777</td>
 <td align="right">16.75777</td>
-<td align="left">ALB</td>
-<td align="left">CON__P02769</td>
-<td align="left">Bovine serum albumin</td>
 </tr>
 <tr class="even">
 <td align="left">ALBU_BOVIN</td>
+<td align="left">ALB</td>
+<td align="left">CON__P02769</td>
+<td align="left">Bovine serum albumin</td>
 <td align="left">100pmol</td>
 <td align="left">4</td>
 <td align="right">104442.562</td>
 <td align="right">16.67235</td>
 <td align="right">16.75777</td>
 <td align="right">16.75777</td>
-<td align="left">ALB</td>
-<td align="left">CON__P02769</td>
-<td align="left">Bovine serum albumin</td>
 </tr>
 <tr class="odd">
 <td align="left">ALBU_BOVIN</td>
+<td align="left">ALB</td>
+<td align="left">CON__P02769</td>
+<td align="left">Bovine serum albumin</td>
 <td align="left">200pmol</td>
 <td align="left">1</td>
 <td align="right">109245.289</td>
 <td align="right">16.73721</td>
 <td align="right">16.75777</td>
 <td align="right">16.75777</td>
-<td align="left">ALB</td>
-<td align="left">CON__P02769</td>
-<td align="left">Bovine serum albumin</td>
 </tr>
 <tr class="even">
 <td align="left">ALBU_BOVIN</td>
+<td align="left">ALB</td>
+<td align="left">CON__P02769</td>
+<td align="left">Bovine serum albumin</td>
 <td align="left">200pmol</td>
 <td align="left">2</td>
 <td align="right">113357.508</td>
 <td align="right">16.79052</td>
 <td align="right">16.75777</td>
 <td align="right">16.75777</td>
-<td align="left">ALB</td>
-<td align="left">CON__P02769</td>
-<td align="left">Bovine serum albumin</td>
 </tr>
 <tr class="odd">
 <td align="left">ALBU_BOVIN</td>
+<td align="left">ALB</td>
+<td align="left">CON__P02769</td>
+<td align="left">Bovine serum albumin</td>
 <td align="left">200pmol</td>
 <td align="left">3</td>
 <td align="right">114321.836</td>
 <td align="right">16.80274</td>
 <td align="right">16.75777</td>
 <td align="right">16.75777</td>
-<td align="left">ALB</td>
-<td align="left">CON__P02769</td>
-<td align="left">Bovine serum albumin</td>
 </tr>
 <tr class="even">
 <td align="left">ALBU_BOVIN</td>
+<td align="left">ALB</td>
+<td align="left">CON__P02769</td>
+<td align="left">Bovine serum albumin</td>
 <td align="left">200pmol</td>
 <td align="left">4</td>
 <td align="right">116439.820</td>
 <td align="right">16.82923</td>
 <td align="right">16.75777</td>
 <td align="right">16.75777</td>
-<td align="left">ALB</td>
-<td align="left">CON__P02769</td>
-<td align="left">Bovine serum albumin</td>
 </tr>
 <tr class="odd">
 <td align="left">ALBU_BOVIN</td>
+<td align="left">ALB</td>
+<td align="left">CON__P02769</td>
+<td align="left">Bovine serum albumin</td>
 <td align="left">50pmol</td>
 <td align="left">1</td>
 <td align="right">117803.492</td>
 <td align="right">16.84602</td>
 <td align="right">16.75777</td>
 <td align="right">16.75777</td>
-<td align="left">ALB</td>
-<td align="left">CON__P02769</td>
-<td align="left">Bovine serum albumin</td>
 </tr>
 <tr class="even">
 <td align="left">ALBU_BOVIN</td>
+<td align="left">ALB</td>
+<td align="left">CON__P02769</td>
+<td align="left">Bovine serum albumin</td>
 <td align="left">50pmol</td>
 <td align="left">2</td>
 <td align="right">110086.680</td>
 <td align="right">16.74828</td>
 <td align="right">16.75777</td>
 <td align="right">16.75777</td>
-<td align="left">ALB</td>
-<td align="left">CON__P02769</td>
-<td align="left">Bovine serum albumin</td>
 </tr>
 <tr class="odd">
 <td align="left">ALBU_BOVIN</td>
+<td align="left">ALB</td>
+<td align="left">CON__P02769</td>
+<td align="left">Bovine serum albumin</td>
 <td align="left">50pmol</td>
 <td align="left">3</td>
 <td align="right">105640.203</td>
 <td align="right">16.68880</td>
 <td align="right">16.75777</td>
 <td align="right">16.75777</td>
-<td align="left">ALB</td>
-<td align="left">CON__P02769</td>
-<td align="left">Bovine serum albumin</td>
 </tr>
 <tr class="even">
 <td align="left">ALBU_BOVIN</td>
+<td align="left">ALB</td>
+<td align="left">CON__P02769</td>
+<td align="left">Bovine serum albumin</td>
 <td align="left">50pmol</td>
 <td align="left">4</td>
 <td align="right">110446.000</td>
 <td align="right">16.75298</td>
 <td align="right">16.75777</td>
 <td align="right">16.75777</td>
-<td align="left">ALB</td>
-<td align="left">CON__P02769</td>
-<td align="left">Bovine serum albumin</td>
+</tr>
+<tr class="odd">
+<td align="left">BGAL_ECOLI</td>
+<td align="left">lacZ</td>
+<td align="left">P00722</td>
+<td align="left">Beta-galactosidase</td>
+<td align="left">100pmol</td>
+<td align="left">1</td>
+<td align="right">23840.031</td>
+<td align="right">14.54110</td>
+<td align="right">14.44005</td>
+<td align="right">14.44005</td>
+</tr>
+<tr class="even">
+<td align="left">BGAL_ECOLI</td>
+<td align="left">lacZ</td>
+<td align="left">P00722</td>
+<td align="left">Beta-galactosidase</td>
+<td align="left">100pmol</td>
+<td align="left">2</td>
+<td align="right">23963.307</td>
+<td align="right">14.54854</td>
+<td align="right">14.44005</td>
+<td align="right">14.44005</td>
+</tr>
+<tr class="odd">
+<td align="left">BGAL_ECOLI</td>
+<td align="left">lacZ</td>
+<td align="left">P00722</td>
+<td align="left">Beta-galactosidase</td>
+<td align="left">100pmol</td>
+<td align="left">3</td>
+<td align="right">22957.350</td>
+<td align="right">14.48667</td>
+<td align="right">14.42169</td>
+<td align="right">14.42169</td>
+</tr>
+<tr class="even">
+<td align="left">BGAL_ECOLI</td>
+<td align="left">lacZ</td>
+<td align="left">P00722</td>
+<td align="left">Beta-galactosidase</td>
+<td align="left">100pmol</td>
+<td align="left">4</td>
+<td align="right">22311.297</td>
+<td align="right">14.44549</td>
+<td align="right">14.20112</td>
+<td align="right">14.20112</td>
+</tr>
+<tr class="odd">
+<td align="left">BGAL_ECOLI</td>
+<td align="left">lacZ</td>
+<td align="left">P00722</td>
+<td align="left">Beta-galactosidase</td>
+<td align="left">200pmol</td>
+<td align="left">1</td>
+<td align="right">41234.672</td>
+<td align="right">15.33157</td>
+<td align="right">14.77650</td>
+<td align="right">14.77650</td>
+</tr>
+<tr class="even">
+<td align="left">BGAL_ECOLI</td>
+<td align="left">lacZ</td>
+<td align="left">P00722</td>
+<td align="left">Beta-galactosidase</td>
+<td align="left">200pmol</td>
+<td align="left">2</td>
+<td align="right">42899.434</td>
+<td align="right">15.38867</td>
+<td align="right">14.70670</td>
+<td align="right">14.70670</td>
+</tr>
+<tr class="odd">
+<td align="left">BGAL_ECOLI</td>
+<td align="left">lacZ</td>
+<td align="left">P00722</td>
+<td align="left">Beta-galactosidase</td>
+<td align="left">200pmol</td>
+<td align="left">3</td>
+<td align="right">42904.945</td>
+<td align="right">15.38886</td>
+<td align="right">14.77650</td>
+<td align="right">14.77650</td>
+</tr>
+<tr class="even">
+<td align="left">BGAL_ECOLI</td>
+<td align="left">lacZ</td>
+<td align="left">P00722</td>
+<td align="left">Beta-galactosidase</td>
+<td align="left">200pmol</td>
+<td align="left">4</td>
+<td align="right">43279.844</td>
+<td align="right">15.40141</td>
+<td align="right">14.70670</td>
+<td align="right">14.70670</td>
+</tr>
+<tr class="odd">
+<td align="left">BGAL_ECOLI</td>
+<td align="left">lacZ</td>
+<td align="left">P00722</td>
+<td align="left">Beta-galactosidase</td>
+<td align="left">50pmol</td>
+<td align="left">1</td>
+<td align="right">14728.673</td>
+<td align="right">13.84634</td>
+<td align="right">14.38206</td>
+<td align="right">14.38206</td>
+</tr>
+<tr class="even">
+<td align="left">BGAL_ECOLI</td>
+<td align="left">lacZ</td>
+<td align="left">P00722</td>
+<td align="left">Beta-galactosidase</td>
+<td align="left">50pmol</td>
+<td align="left">2</td>
+<td align="right">14736.710</td>
+<td align="right">13.84713</td>
+<td align="right">14.10465</td>
+<td align="right">14.10465</td>
+</tr>
+<tr class="odd">
+<td align="left">BGAL_ECOLI</td>
+<td align="left">lacZ</td>
+<td align="left">P00722</td>
+<td align="left">Beta-galactosidase</td>
+<td align="left">50pmol</td>
+<td align="left">3</td>
+<td align="right">14160.203</td>
+<td align="right">13.78955</td>
+<td align="right">14.38206</td>
+<td align="right">14.38206</td>
+</tr>
+<tr class="even">
+<td align="left">BGAL_ECOLI</td>
+<td align="left">lacZ</td>
+<td align="left">P00722</td>
+<td align="left">Beta-galactosidase</td>
+<td align="left">50pmol</td>
+<td align="left">4</td>
+<td align="right">14758.731</td>
+<td align="right">13.84928</td>
+<td align="right">14.10465</td>
+<td align="right">14.10465</td>
 </tr>
 <tr class="odd">
 <td align="left">CYC_BOVIN</td>
+<td align="left">CYCS</td>
+<td align="left">CON__P62894</td>
+<td align="left">Cytochrome c</td>
 <td align="left">100pmol</td>
 <td align="left">1</td>
 <td align="right">10737.953</td>
 <td align="right">13.39043</td>
 <td align="right">12.96499</td>
 <td align="right">12.96499</td>
-<td align="left">CYCS</td>
-<td align="left">CON__P62894</td>
-<td align="left">Cytochrome c</td>
 </tr>
 <tr class="even">
 <td align="left">CYC_BOVIN</td>
+<td align="left">CYCS</td>
+<td align="left">CON__P62894</td>
+<td align="left">Cytochrome c</td>
 <td align="left">100pmol</td>
 <td align="left">2</td>
 <td align="right">10655.384</td>
 <td align="right">13.37929</td>
 <td align="right">13.62766</td>
 <td align="right">13.62766</td>
-<td align="left">CYCS</td>
-<td align="left">CON__P62894</td>
-<td align="left">Cytochrome c</td>
 </tr>
 <tr class="odd">
 <td align="left">CYC_BOVIN</td>
+<td align="left">CYCS</td>
+<td align="left">CON__P62894</td>
+<td align="left">Cytochrome c</td>
 <td align="left">100pmol</td>
 <td align="left">3</td>
 <td align="right">10663.714</td>
 <td align="right">13.38042</td>
 <td align="right">12.81909</td>
 <td align="right">12.81909</td>
-<td align="left">CYCS</td>
-<td align="left">CON__P62894</td>
-<td align="left">Cytochrome c</td>
 </tr>
 <tr class="even">
 <td align="left">CYC_BOVIN</td>
+<td align="left">CYCS</td>
+<td align="left">CON__P62894</td>
+<td align="left">Cytochrome c</td>
 <td align="left">100pmol</td>
 <td align="left">4</td>
 <td align="right">10843.115</td>
 <td align="right">13.40449</td>
 <td align="right">12.96499</td>
 <td align="right">12.96499</td>
-<td align="left">CYCS</td>
-<td align="left">CON__P62894</td>
-<td align="left">Cytochrome c</td>
 </tr>
 <tr class="odd">
 <td align="left">CYC_BOVIN</td>
+<td align="left">CYCS</td>
+<td align="left">CON__P62894</td>
+<td align="left">Cytochrome c</td>
 <td align="left">200pmol</td>
 <td align="left">1</td>
 <td align="right">19524.863</td>
 <td align="right">14.25302</td>
 <td align="right">13.10393</td>
 <td align="right">13.10393</td>
-<td align="left">CYCS</td>
-<td align="left">CON__P62894</td>
-<td align="left">Cytochrome c</td>
 </tr>
 <tr class="even">
 <td align="left">CYC_BOVIN</td>
+<td align="left">CYCS</td>
+<td align="left">CON__P62894</td>
+<td align="left">Cytochrome c</td>
 <td align="left">200pmol</td>
 <td align="left">2</td>
 <td align="right">20072.297</td>
 <td align="right">14.29292</td>
 <td align="right">12.49496</td>
 <td align="right">12.49496</td>
-<td align="left">CYCS</td>
-<td align="left">CON__P62894</td>
-<td align="left">Cytochrome c</td>
 </tr>
 <tr class="odd">
 <td align="left">CYC_BOVIN</td>
+<td align="left">CYCS</td>
+<td align="left">CON__P62894</td>
+<td align="left">Cytochrome c</td>
 <td align="left">200pmol</td>
 <td align="left">3</td>
 <td align="right">20787.127</td>
 <td align="right">14.34340</td>
 <td align="right">14.00189</td>
 <td align="right">14.00189</td>
-<td align="left">CYCS</td>
-<td align="left">CON__P62894</td>
-<td align="left">Cytochrome c</td>
 </tr>
 <tr class="even">
 <td align="left">CYC_BOVIN</td>
+<td align="left">CYCS</td>
+<td align="left">CON__P62894</td>
+<td align="left">Cytochrome c</td>
 <td align="left">200pmol</td>
 <td align="left">4</td>
 <td align="right">19924.240</td>
 <td align="right">14.28224</td>
 <td align="right">13.38772</td>
 <td align="right">13.38772</td>
-<td align="left">CYCS</td>
-<td align="left">CON__P62894</td>
-<td align="left">Cytochrome c</td>
 </tr>
 <tr class="odd">
 <td align="left">CYC_BOVIN</td>
+<td align="left">CYCS</td>
+<td align="left">CON__P62894</td>
+<td align="left">Cytochrome c</td>
 <td align="left">50pmol</td>
 <td align="left">1</td>
 <td align="right">6758.298</td>
 <td align="right">12.72244</td>
 <td align="right">12.49496</td>
 <td align="right">12.49496</td>
-<td align="left">CYCS</td>
-<td align="left">CON__P62894</td>
-<td align="left">Cytochrome c</td>
 </tr>
 <tr class="even">
 <td align="left">CYC_BOVIN</td>
+<td align="left">CYCS</td>
+<td align="left">CON__P62894</td>
+<td align="left">Cytochrome c</td>
 <td align="left">50pmol</td>
 <td align="left">2</td>
 <td align="right">6721.135</td>
 <td align="right">12.71449</td>
 <td align="right">12.30540</td>
 <td align="right">12.30540</td>
-<td align="left">CYCS</td>
-<td align="left">CON__P62894</td>
-<td align="left">Cytochrome c</td>
 </tr>
 <tr class="odd">
 <td align="left">CYC_BOVIN</td>
+<td align="left">CYCS</td>
+<td align="left">CON__P62894</td>
+<td align="left">Cytochrome c</td>
 <td align="left">50pmol</td>
 <td align="left">3</td>
 <td align="right">6172.877</td>
 <td align="right">12.59173</td>
 <td align="right">13.38772</td>
 <td align="right">13.38772</td>
-<td align="left">CYCS</td>
-<td align="left">CON__P62894</td>
-<td align="left">Cytochrome c</td>
 </tr>
 <tr class="even">
 <td align="left">CYC_BOVIN</td>
+<td align="left">CYCS</td>
+<td align="left">CON__P62894</td>
+<td align="left">Cytochrome c</td>
 <td align="left">50pmol</td>
 <td align="left">4</td>
 <td align="right">6028.398</td>
 <td align="right">12.55756</td>
 <td align="right">12.30540</td>
 <td align="right">12.30540</td>
-<td align="left">CYCS</td>
-<td align="left">CON__P62894</td>
-<td align="left">Cytochrome c</td>
+</tr>
+<tr class="odd">
+<td align="left">LYSC_CHICK</td>
+<td align="left">LYZ</td>
+<td align="left">P00698</td>
+<td align="left">Lysozyme C</td>
+<td align="left">100pmol</td>
+<td align="left">1</td>
+<td align="right">13798.590</td>
+<td align="right">13.75223</td>
+<td align="right">13.62766</td>
+<td align="right">13.62766</td>
+</tr>
+<tr class="even">
+<td align="left">LYSC_CHICK</td>
+<td align="left">LYZ</td>
+<td align="left">P00698</td>
+<td align="left">Lysozyme C</td>
+<td align="left">100pmol</td>
+<td align="left">2</td>
+<td align="right">13880.411</td>
+<td align="right">13.76076</td>
+<td align="right">13.97388</td>
+<td align="right">13.97388</td>
+</tr>
+<tr class="odd">
+<td align="left">LYSC_CHICK</td>
+<td align="left">LYZ</td>
+<td align="left">P00698</td>
+<td align="left">Lysozyme C</td>
+<td align="left">100pmol</td>
+<td align="left">3</td>
+<td align="right">13723.719</td>
+<td align="right">13.74438</td>
+<td align="right">13.55168</td>
+<td align="right">13.55168</td>
+</tr>
+<tr class="even">
+<td align="left">LYSC_CHICK</td>
+<td align="left">LYZ</td>
+<td align="left">P00698</td>
+<td align="left">Lysozyme C</td>
+<td align="left">100pmol</td>
+<td align="left">4</td>
+<td align="right">13944.603</td>
+<td align="right">13.76742</td>
+<td align="right">13.62766</td>
+<td align="right">13.62766</td>
+</tr>
+<tr class="odd">
+<td align="left">LYSC_CHICK</td>
+<td align="left">LYZ</td>
+<td align="left">P00698</td>
+<td align="left">Lysozyme C</td>
+<td align="left">200pmol</td>
+<td align="left">1</td>
+<td align="right">24344.188</td>
+<td align="right">14.57129</td>
+<td align="right">14.22236</td>
+<td align="right">14.22236</td>
+</tr>
+<tr class="even">
+<td align="left">LYSC_CHICK</td>
+<td align="left">LYZ</td>
+<td align="left">P00698</td>
+<td align="left">Lysozyme C</td>
+<td align="left">200pmol</td>
+<td align="left">2</td>
+<td align="right">24742.227</td>
+<td align="right">14.59469</td>
+<td align="right">13.88102</td>
+<td align="right">13.88102</td>
+</tr>
+<tr class="odd">
+<td align="left">LYSC_CHICK</td>
+<td align="left">LYZ</td>
+<td align="left">P00698</td>
+<td align="left">Lysozyme C</td>
+<td align="left">200pmol</td>
+<td align="left">3</td>
+<td align="right">24803.633</td>
+<td align="right">14.59826</td>
+<td align="right">14.22236</td>
+<td align="right">14.22236</td>
+</tr>
+<tr class="even">
+<td align="left">LYSC_CHICK</td>
+<td align="left">LYZ</td>
+<td align="left">P00698</td>
+<td align="left">Lysozyme C</td>
+<td align="left">200pmol</td>
+<td align="left">4</td>
+<td align="right">26381.047</td>
+<td align="right">14.68721</td>
+<td align="right">14.13067</td>
+<td align="right">14.13067</td>
+</tr>
+<tr class="odd">
+<td align="left">LYSC_CHICK</td>
+<td align="left">LYZ</td>
+<td align="left">P00698</td>
+<td align="left">Lysozyme C</td>
+<td align="left">50pmol</td>
+<td align="left">1</td>
+<td align="right">7169.955</td>
+<td align="right">12.80775</td>
+<td align="right">13.38772</td>
+<td align="right">13.38772</td>
+</tr>
+<tr class="even">
+<td align="left">LYSC_CHICK</td>
+<td align="left">LYZ</td>
+<td align="left">P00698</td>
+<td align="left">Lysozyme C</td>
+<td align="left">50pmol</td>
+<td align="left">2</td>
+<td align="right">7797.536</td>
+<td align="right">12.92880</td>
+<td align="right">13.25790</td>
+<td align="right">13.25790</td>
+</tr>
+<tr class="odd">
+<td align="left">LYSC_CHICK</td>
+<td align="left">LYZ</td>
+<td align="left">P00698</td>
+<td align="left">Lysozyme C</td>
+<td align="left">50pmol</td>
+<td align="left">3</td>
+<td align="right">7432.793</td>
+<td align="right">12.85969</td>
+<td align="right">13.88102</td>
+<td align="right">13.88102</td>
+</tr>
+<tr class="even">
+<td align="left">LYSC_CHICK</td>
+<td align="left">LYZ</td>
+<td align="left">P00698</td>
+<td align="left">Lysozyme C</td>
+<td align="left">50pmol</td>
+<td align="left">4</td>
+<td align="right">7543.633</td>
+<td align="right">12.88104</td>
+<td align="right">13.25790</td>
+<td align="right">13.25790</td>
 </tr>
 <tr class="odd">
 <td align="left">TRFE_BOVIN</td>
+<td align="left">TF</td>
+<td align="left">CON__Q0IIK2</td>
+<td align="left">Serotransferrin (UP merge to Q29443)</td>
 <td align="left">100pmol</td>
 <td align="left">1</td>
 <td align="right">15097.670</td>
 <td align="right">13.88204</td>
 <td align="right">13.97388</td>
 <td align="right">13.97388</td>
-<td align="left">TF</td>
-<td align="left">CON__Q0IIK2</td>
-<td align="left">Serotransferrin (UP merge to Q29443)</td>
 </tr>
 <tr class="even">
 <td align="left">TRFE_BOVIN</td>
+<td align="left">TF</td>
+<td align="left">CON__Q0IIK2</td>
+<td align="left">Serotransferrin (UP merge to Q29443)</td>
 <td align="left">100pmol</td>
 <td align="left">2</td>
 <td align="right">15840.281</td>
 <td align="right">13.95131</td>
 <td align="right">14.20112</td>
 <td align="right">14.20112</td>
-<td align="left">TF</td>
-<td align="left">CON__Q0IIK2</td>
-<td align="left">Serotransferrin (UP merge to Q29443)</td>
 </tr>
 <tr class="odd">
 <td align="left">TRFE_BOVIN</td>
+<td align="left">TF</td>
+<td align="left">CON__Q0IIK2</td>
+<td align="left">Serotransferrin (UP merge to Q29443)</td>
 <td align="left">100pmol</td>
 <td align="left">3</td>
 <td align="right">15022.215</td>
 <td align="right">13.87481</td>
 <td align="right">13.94448</td>
 <td align="right">13.94448</td>
-<td align="left">TF</td>
-<td align="left">CON__Q0IIK2</td>
-<td align="left">Serotransferrin (UP merge to Q29443)</td>
 </tr>
 <tr class="even">
 <td align="left">TRFE_BOVIN</td>
+<td align="left">TF</td>
+<td align="left">CON__Q0IIK2</td>
+<td align="left">Serotransferrin (UP merge to Q29443)</td>
 <td align="left">100pmol</td>
 <td align="left">4</td>
 <td align="right">15160.493</td>
 <td align="right">13.88803</td>
 <td align="right">13.97388</td>
 <td align="right">13.97388</td>
-<td align="left">TF</td>
-<td align="left">CON__Q0IIK2</td>
-<td align="left">Serotransferrin (UP merge to Q29443)</td>
 </tr>
 <tr class="odd">
 <td align="left">TRFE_BOVIN</td>
+<td align="left">TF</td>
+<td align="left">CON__Q0IIK2</td>
+<td align="left">Serotransferrin (UP merge to Q29443)</td>
 <td align="left">200pmol</td>
 <td align="left">1</td>
 <td align="right">21577.973</td>
 <td align="right">14.39727</td>
 <td align="right">14.00189</td>
 <td align="right">14.00189</td>
-<td align="left">TF</td>
-<td align="left">CON__Q0IIK2</td>
-<td align="left">Serotransferrin (UP merge to Q29443)</td>
 </tr>
 <tr class="even">
 <td align="left">TRFE_BOVIN</td>
+<td align="left">TF</td>
+<td align="left">CON__Q0IIK2</td>
+<td align="left">Serotransferrin (UP merge to Q29443)</td>
 <td align="left">200pmol</td>
 <td align="left">2</td>
 <td align="right">22968.959</td>
 <td align="right">14.48740</td>
 <td align="right">13.38772</td>
 <td align="right">13.38772</td>
-<td align="left">TF</td>
-<td align="left">CON__Q0IIK2</td>
-<td align="left">Serotransferrin (UP merge to Q29443)</td>
 </tr>
 <tr class="odd">
 <td align="left">TRFE_BOVIN</td>
+<td align="left">TF</td>
+<td align="left">CON__Q0IIK2</td>
+<td align="left">Serotransferrin (UP merge to Q29443)</td>
 <td align="left">200pmol</td>
 <td align="left">3</td>
 <td align="right">20720.127</td>
 <td align="right">14.33875</td>
 <td align="right">13.70002</td>
 <td align="right">13.70002</td>
-<td align="left">TF</td>
-<td align="left">CON__Q0IIK2</td>
-<td align="left">Serotransferrin (UP merge to Q29443)</td>
 </tr>
 <tr class="even">
 <td align="left">TRFE_BOVIN</td>
+<td align="left">TF</td>
+<td align="left">CON__Q0IIK2</td>
+<td align="left">Serotransferrin (UP merge to Q29443)</td>
 <td align="left">200pmol</td>
 <td align="left">4</td>
 <td align="right">22153.398</td>
 <td align="right">14.43524</td>
 <td align="right">13.88102</td>
 <td align="right">13.88102</td>
-<td align="left">TF</td>
-<td align="left">CON__Q0IIK2</td>
-<td align="left">Serotransferrin (UP merge to Q29443)</td>
 </tr>
 <tr class="odd">
 <td align="left">TRFE_BOVIN</td>
+<td align="left">TF</td>
+<td align="left">CON__Q0IIK2</td>
+<td align="left">Serotransferrin (UP merge to Q29443)</td>
 <td align="left">50pmol</td>
 <td align="left">1</td>
 <td align="right">12183.812</td>
 <td align="right">13.57268</td>
 <td align="right">13.88102</td>
 <td align="right">13.88102</td>
-<td align="left">TF</td>
-<td align="left">CON__Q0IIK2</td>
-<td align="left">Serotransferrin (UP merge to Q29443)</td>
 </tr>
 <tr class="even">
 <td align="left">TRFE_BOVIN</td>
+<td align="left">TF</td>
+<td align="left">CON__Q0IIK2</td>
+<td align="left">Serotransferrin (UP merge to Q29443)</td>
 <td align="left">50pmol</td>
 <td align="left">2</td>
 <td align="right">12521.783</td>
 <td align="right">13.61215</td>
 <td align="right">13.84672</td>
 <td align="right">13.84672</td>
-<td align="left">TF</td>
-<td align="left">CON__Q0IIK2</td>
-<td align="left">Serotransferrin (UP merge to Q29443)</td>
 </tr>
 <tr class="odd">
 <td align="left">TRFE_BOVIN</td>
+<td align="left">TF</td>
+<td align="left">CON__Q0IIK2</td>
+<td align="left">Serotransferrin (UP merge to Q29443)</td>
 <td align="left">50pmol</td>
 <td align="left">3</td>
 <td align="right">11926.220</td>
 <td align="right">13.54185</td>
 <td align="right">14.13067</td>
 <td align="right">14.13067</td>
-<td align="left">TF</td>
-<td align="left">CON__Q0IIK2</td>
-<td align="left">Serotransferrin (UP merge to Q29443)</td>
 </tr>
 <tr class="even">
 <td align="left">TRFE_BOVIN</td>
+<td align="left">TF</td>
+<td align="left">CON__Q0IIK2</td>
+<td align="left">Serotransferrin (UP merge to Q29443)</td>
 <td align="left">50pmol</td>
 <td align="left">4</td>
 <td align="right">12021.495</td>
 <td align="right">13.55333</td>
 <td align="right">13.84672</td>
 <td align="right">13.84672</td>
-<td align="left">TF</td>
-<td align="left">CON__Q0IIK2</td>
-<td align="left">Serotransferrin (UP merge to Q29443)</td>
 </tr>
 </tbody>
 </table>
@@ -8276,7 +8281,7 @@ van Buuren, Stef, and Karin Groothuis-Oudshoorn. 2011. <span>“Mice:
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer>
