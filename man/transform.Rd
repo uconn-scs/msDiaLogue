@@ -2,26 +2,38 @@
 % Please edit documentation in R/transform.R
 \name{transform}
 \alias{transform}
-\title{Log-based transformation}
+\title{Transformation}
 \usage{
-transform(dataSet, logFold = 2)
+transform(dataSet, method = "log", logFold = 2, root = 2)
 }
 \arguments{
 \item{dataSet}{A data frame containing the data signals.}
 
-\item{logFold}{An integer specifying the base for the log transformation.}
+\item{method}{A string (default = "log") specifying the method to be used for the
+transformation:
+\enumerate{
+\item "log": Logarithm transformation.
+\item "root": Root transformation.
+}}
+
+\item{logFold}{An integer (default = 2) specifying the base for the log transformation
+when \code{method = "log"}.}
+
+\item{root}{An integer (default = 2) specifying the degree of the root for the root
+transformation when \code{method = "root"}. For example, set it to 2 for square root or
+3 for cube root.}
 }
 \value{
 The transformed data.
 }
 \description{
-Apply a logarithmic transformation to the data to stabilize the variance.
+Apply a transformation to the data to stabilize the variance.
 }
 \details{
 The function executes the following:
 \enumerate{
-\item Plots the mean-variance relationship using \code{meanVariancePlot()}.
-\item Log-transforms the data, using the specified base.
+\item Plots the mean-variance relationship.
+\item Transforms the data.
 \item Plots the mean-variance relationship again for comparison.
 }
 }

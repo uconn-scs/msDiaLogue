@@ -77,13 +77,17 @@ condition combination.</p></li>
 <li><p>"GlobalMinVal": replace missing values with the lowest value found within the
 entire data set.</p></li>
 <li><p>"knn": replace missing values using the k-nearest neighbors algorithm
-troyanskaya2001missingmsDiaLogue.</p></li>
+(Troyanskaya et al. 2001)
+.</p></li>
 <li><p>"seq-knn": replace missing values using the sequential k-nearest neighbors
-algorithm kim2004reusemsDiaLogue.</p></li>
+algorithm (Kim et al. 2004)
+.</p></li>
 <li><p>"trunc-knn": replace missing values using the truncated k-nearest neighbors
-algorithm shah2017distributionmsDiaLogue.</p></li>
+algorithm (Shah et al. 2017)
+.</p></li>
 <li><p>"nuc-norm": replace missing values using the nuclear-norm regularization
-hastie2015matrixmsDiaLogue.</p></li>
+(Hastie et al. 2015)
+.</p></li>
 </ol></dd>
 
 
@@ -167,7 +171,22 @@ dataframe and a shadow matrix showing which proteins by replicate were imputed.<
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p></p>
+    <p>Hastie T, Mazumder R, Lee JD, Zadeh R (2015).
+“Matrix Completion and Low-Rank SVD via Fast Alternating Least Squares.”
+<em>Journal of Machine Learning Research</em>, <b>16</b>(104), 3367—3402.
+<a href="http://jmlr.org/papers/v16/hastie15a.html" class="external-link">http://jmlr.org/papers/v16/hastie15a.html</a>.<br><br> Kim K, Kim B, Yi G (2004).
+“Reuse of Imputed Data in Microarray Analysis Increases Imputation Efficiency.”
+<em>BMC bioinformatics</em>, <b>5</b>, 160.
+<a href="https://doi.org/10.1186/1471-2105-5-160" class="external-link">doi:10.1186/1471-2105-5-160</a>
+.<br><br> Shah JS, Rai SN, DeFilippis AP, Hill BG, Bhatnagar A, Brock GN (2017).
+“Distribution Based Nearest Neighbor Imputation for Truncated High Dimensional Data with Applications to Pre-Clinical and Clinical Metabolomics Studies.”
+<em>BMC bioinformatics</em>, <b>18</b>, 114.
+<a href="https://doi.org/10.1186/s12859-017-1547-6" class="external-link">doi:10.1186/s12859-017-1547-6</a>
+.<br><br> Troyanskaya O, Cantor M, Sherlock G, Brown P, Hastie T, Tibshirani R, Botstein D, Altman RB (2001).
+“Missing Value Estimation Methods for DNA Microarrays.”
+<em>Bioinformatics</em>, <b>17</b>(6), 520–525.
+<a href="https://doi.org/10.1093/bioinformatics/17.6.520" class="external-link">doi:10.1093/bioinformatics/17.6.520</a>
+.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -179,7 +198,7 @@ dataframe and a shadow matrix showing which proteins by replicate were imputed.<
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer></div>
