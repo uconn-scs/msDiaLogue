@@ -1,11 +1,11 @@
-pandoc: '3.6'
-pkgdown: 2.1.0
+pandoc: 3.6.2
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   cust_vis: cust_vis.html
   scaffold: scaffold.html
   usage_template: usage_template.html
-last_built: 2024-12-18T13:49Z
+last_built: 2025-01-27T21:58Z
 urls:
   reference: https://uconn-scs.github.io/msDiaLogue/reference
   article: https://uconn-scs.github.io/msDiaLogue/articles

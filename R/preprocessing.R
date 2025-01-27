@@ -209,6 +209,12 @@ preprocessing <- function(fileName,
 #' 
 #' @param dataSet The raw data set, if already loaded in R.
 #' 
+#' @param zeroNA A boolean (default = TRUE) specifying whether 0's should be converted to
+#' NA's.
+#' 
+#' @param oneNA A boolean (default = TRUE) specifying whether 1's should be converted to
+#' NA's.
+#' 
 #' @details
 #' The function executes the following:
 #' \enumerate{
@@ -240,7 +246,7 @@ preprocessing <- function(fileName,
 #' 
 #' @export
 
-preprocessing_scaffold <- function(fileName, dataSet = NULL) {
+preprocessing_scaffold <- function(fileName, dataSet = NULL, zeroNA = TRUE, oneNA = TRUE) {
   
   if (missing(fileName)) {
     if (is.null(dataSet)) {
@@ -290,8 +296,15 @@ preprocessing_scaffold <- function(fileName, dataSet = NULL) {
     # gather(ConditionReplicate, Quantity, -AccessionNumber) %>%
     mutate(R.Condition = sub(".+[-_](.+)[-_].+$", "\\1", ConditionReplicate),
            R.Replicate = sub(".+[-_](.+)$", "\\1", ConditionReplicate)) %>%
-    select(R.Condition, R.Replicate, AccessionNumber, Quantity) %>%
-    mutate(Quantity = replace(Quantity, Quantity %in% c(0,1), NA))
+    select(R.Condition, R.Replicate, AccessionNumber, Quantity)
+  
+  if (zeroNA) {
+    selectedData$Quantity[selectedData$Quantity == 0] <- NA
+  }
+  
+  if (oneNA) {
+    selectedData$Quantity[selectedData$Quantity == 1] <- NA
+  }
   
   if (header_row != 1) {
     GOterm <- dataSet[,-noGO_col] %>%

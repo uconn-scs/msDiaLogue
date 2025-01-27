@@ -148,13 +148,15 @@ library(msDiaLogue)
 
 ```{r eval=FALSE}
 ## if the raw data is in a .xls file
-dataSet <- preprocessing_scaffold(fileName = "../tests/testData/Toy_Scaffold_Data.xls")
+dataSet <- preprocessing_scaffold(fileName = "../tests/testData/Toy_Scaffold_Data.xls",
+                                  zeroNA = TRUE, oneNA = TRUE)
 ```
 
 ```{r}
 ## if the raw data is in an .Rdata file
 load("../tests/testData/Toy_Scaffold_Data.RData")
-dataSet <- preprocessing_scaffold(dataSet = Toy_Scaffold_Data)
+dataSet <- preprocessing_scaffold(dataSet = Toy_Scaffold_Data,
+                                  zeroNA = TRUE, oneNA = TRUE)
 ```
 
 <div style="overflow-x: auto;">

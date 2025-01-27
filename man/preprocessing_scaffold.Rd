@@ -4,13 +4,19 @@
 \alias{preprocessing_scaffold}
 \title{Loading and reformatting of MS data from Scaffold}
 \usage{
-preprocessing_scaffold(fileName, dataSet = NULL)
+preprocessing_scaffold(fileName, dataSet = NULL, zeroNA = TRUE, oneNA = TRUE)
 }
 \arguments{
 \item{fileName}{The name of the .xls file containing MS data (including the path to the
 file, if needed).}
 
 \item{dataSet}{The raw data set, if already loaded in R.}
+
+\item{zeroNA}{A boolean (default = TRUE) specifying whether 0's should be converted to
+NA's.}
+
+\item{oneNA}{A boolean (default = TRUE) specifying whether 1's should be converted to
+NA's.}
 }
 \value{
 \itemize{
