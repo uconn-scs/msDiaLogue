@@ -4,18 +4,26 @@
 \alias{normalize}
 \title{Normalization of preprocessed data}
 \usage{
-normalize(dataSet, normalizeType = "quant")
+normalize(dataSet, applyto = "sample", normalizeType = "quant")
 }
 \arguments{
 \item{dataSet}{The 2d data set of experimental values.}
 
+\item{applyto}{A string (default = "sample") specifying the target of normalization.
+Options are "sample" or "row" (across rows), and "protein" or "column" (across columns).}
+
 \item{normalizeType}{A string (default = "quant") specifying which type of
 normalization to apply:
-\enumerate{
-\item "quant": Quantile \insertCite{bolstad2003comparison}{msDiaLogue}
-\item "median": Protein-wise Median
-\item "mean": Protein-wise Mean
-\item "none": None
+\itemize{
+\item "auto": Auto scaling.
+\item "level": Level scaling.
+\item "mean": Mean centering.
+\item "median": Median centering.
+\item "pareto": Pareto scaling.
+\item "quant": Quantile normalization \insertCite{bolstad2003comparison}{msDiaLogue}.
+\item "range": Range scaling.
+\item "vast": Vast scaling.
+\item "none": None.
 }}
 }
 \value{
