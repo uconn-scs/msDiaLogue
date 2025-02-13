@@ -11,6 +11,12 @@ utils::globalVariables(c(
   "PG.NrOfStrippedSequencesIdentified", # <preProcessFiltering>
   "PG.ProteinNames", # <preProcessFiltering>
   "PG.ProteinAccessions", # <preProcessFiltering>
+  "R.Condition", # <filterOutIn>
+  "R.Replicate", # <filterOutIn>
+  "R.Condition", # <filterProtein>
+  "R.Replicate", # <filterProtein>
+  "R.Condition", # <filterNA>
+  "R.Replicate", # <filterNA>
   "R.Condition", # <impute.min_global>
   "R.Replicate", # <impute.min_global>
   "R.Condition", # <impute.min_local>
@@ -64,10 +70,9 @@ utils::globalVariables(c(
   "Significant", # <visualize>
   "A", # <visualize>
   "M", # <visualize>
-  "delabel", # <visualize>
   "RowName", # <visualize>
   "binwidth", # <visualize>
-  "Difference", # <visualize>
-  "P.value", # <visualize>
+  "difference", # <visualize>
+  "p.value", # <visualize>
   NULL
 ))

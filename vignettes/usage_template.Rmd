@@ -30,12 +30,13 @@ library(msDiaLogue)
 
 ## Preprocessing
 
-The function `preprocessing()` takes a `.csv` file of summarized protein abundances,
-exported from **Spectronaut**. The most important columns that need to be included in this
-file are: `R.Condition`, `R.Replicate`, `PG.ProteinAccessions`, `PG.ProteinNames`,
-`PG.NrOfStrippedSequencesIdentified`, and `PG.Quantity`. This function will reformat the
-data and provide functionality for some initial filtering (based on the number of unique
-peptides). The steps below describe the functions that happen in the Preprocessing code.
+The function `preprocessing()` takes a `.csv` file of summarized protein
+abundances, exported from **Spectronaut**. The most important columns that need
+to be included in this file are: `R.Condition`, `R.Replicate`,
+`PG.ProteinAccessions`, `PG.ProteinNames`, `PG.NrOfStrippedSequencesIdentified`,
+and `PG.Quantity`. This function will reformat the data and provide
+functionality for some initial filtering (based on the number of unique peptides).
+The steps below describe the functions that happen in the Preprocessing code.
 
 **1\.** Loads the raw data
 
@@ -49,67 +50,70 @@ first load the data file directly, then specify the `dataSet` in the function.
      
 **2\.** Filters out identified proteins that exhibit "NaN" quantitative values
 
-NaN, which stands for 'Not a Number,' can be found in the PG.Quantity column for proteins
-that were identified by MS and MS/MS evidence in the raw data, but all peptides from that
-protein lack an associated integrated peak area or intensity.  This usually occurs in low
-abundance peptides that exhibit intensities close to the limit of detection resulting in
-poor signal-to-noise (S/N) and/or when there is interference from other co-eluting peptide
-ions with very similar or identical m/z values that lead to difficulty in parsing out
-individual intensity profiles.
+NaN, which stands for 'Not a Number,' can be found in the PG.Quantity column for
+proteins that were identified by MS and MS/MS evidence in the raw data, but all
+peptides from that protein lack an associated integrated peak area or intensity.
+This usually occurs in low abundance peptides that exhibit intensities close to
+the limit of detection resulting in poor signal-to-noise (S/N) and/or when there
+is interference from other co-eluting peptide ions with very similar or
+identical m/z values that lead to difficulty in parsing out individual intensity
+profiles.
 
 **3\.** Applies a unique peptides per protein filter
 
-General practice in the proteomics field is to filter out proteins from which only 1 unique
-peptide was identified.  This adds increased confidence to results already filtered to a
-1\% false discovery rate (FDR), since proteins that are identified with 2 or more peptides
-are less likely to be false positives. We recommend filtering out these protein entries in
-order to focus on more confident targets in the identified proteome. However, 1-peptide
-proteins can still be observed in the original protein report from **Spectronaut**.
+General practice in the proteomics field is to filter out proteins from which
+only 1 unique peptide was identified.  This adds increased confidence to results
+already filtered to a 1\% false discovery rate (FDR), since proteins that are
+identified with 2 or more peptides are less likely to be false positives. We
+recommend filtering out these protein entries in order to focus on more
+confident targets in the identified proteome. However, 1-peptide proteins can
+still be observed in the original protein report from **Spectronaut**.
 
 **4\.** Adds accession numbers to identified proteins without informative names
 
 **Spectronaut** reports contain 4 different columns of identifying information:
 
 + `PG.Genes`, which is the gene name (e.g. CDK1).
-+ `PG.ProteinAccessions`, which is the UniProt identifier number for a unique entry in the
-  online database (e.g. P06493).
-+ `PG.ProteinDescriptions`, which is the protein name as provided on UniProt (e.g.
-   cyclin-dependent kinase 1).
-+ `PG.ProteinNames`, which is a concatenation of an identifier and the species (e.g.
-   CDK1_HUMAN).
++ `PG.ProteinAccessions`, which is the UniProt identifier number for a unique
+entry in the online database (e.g. P06493).
++ `PG.ProteinDescriptions`, which is the protein name as provided on UniProt
+(e.g. cyclin-dependent kinase 1).
++ `PG.ProteinNames`, which is a concatenation of an identifier and the species
+(e.g. CDK1_HUMAN).
 
-Every entry in UniProt will have an accession number, but may not have all of the
-other identifiers, due to incomplete annotation.  Because Uniprot includes entries for
-fragments of proteins and some proteins entries are redundant, a peptide can match to
-multiple entries for the same protein, which generates multiple possible identifiers in
-**Spectronaut**. Further, the `ProteinNames` entry in **Spectronaut** can switch formats:
-the preference is accession number and species, but can also be gene name and species
-instead.
+Every entry in UniProt will have an accession number, but may not have all of
+the other identifiers, due to incomplete annotation.  Because Uniprot includes
+entries for fragments of proteins and some proteins entries are redundant, a
+peptide can match to multiple entries for the same protein, which generates
+multiple possible identifiers in **Spectronaut**. Further, the `ProteinNames`
+entry in **Spectronaut** can switch formats: the preference is accession number
+and species, but can also be gene name and species instead.
 
-This option tells **msDiaLogue** to substitute the accession number for an identifier if
-it tries to pull an identifier from a column with no information.
+This option tells **msDiaLogue** to substitute the accession number for an
+identifier if it tries to pull an identifier from a column with no information.
 
 <div class="note">
-**Note:** Not all proteins can be identified unambiguously. In many cases, the identified
-peptides can be found in multiple protein sequences, which yields a protein group or
-protein cluster rather than a single protein identification. When this happens, the
-accession numbers for all potential matches are concatenated into one string, separated by
-periods. When you see long strings of multiple identifiers later in your data processing,
-this is why. Spectronaut sorts these alphanumerically, so you should not assume that the
-first protein in the list is most likely to be correct (as is the case in other search
-algorithms). </div>
+**Note:** Not all proteins can be identified unambiguously. In many cases, the
+identified peptides can be found in multiple protein sequences, which yields a
+protein group or protein cluster rather than a single protein identification.
+When this happens, the accession numbers for all potential matches are
+concatenated into one string, separated by periods. When you see long strings of
+multiple identifiers later in your data processing, this is why. **Spectronaut**
+sorts these alphanumerically, so you should not assume that the first protein in
+the list is most likely to be correct (as is the case in other search algorithms). </div>
 
-**5\.** Saves a document to your working directory with all filtered out data, if desired
+**5\.** Saves a document to your working directory with all filtered out data,
+if desired
 
-If `saveRm = TRUE`, the data removed in step 2 (*preprocess_Filtered_Out_NaN.csv*) and
-step 3 (*preprocess_Filtered_Out_Unique.csv*) will be saved in the current working
-directory.
+If `saveRm = TRUE`, the data removed in step 2 (*preprocess_Filtered_Out_NaN.csv*)
+and step 3 (*preprocess_Filtered_Out_Unique.csv*) will be saved in the current
+working directory.
 
-As part of the `preprocessing()`, a histogram of $log_2$-transformed protein abundances is
-provided. This is a helpful way to confirm that the data have been read in correctly, and
-there are no issues with the numerical values of the protein abundances. Ideally, this
-histogram will appear fairly symmetrical (bell-shaped) without too much skew towards
-smaller or larger values.
+As part of the `preprocessing()`, a histogram of $log_2$-transformed protein
+abundances is provided. This is a helpful way to confirm that the data have been
+read in correctly, and there are no issues with the numerical values of the
+protein abundances. Ideally, this histogram will appear fairly symmetrical
+(bell-shaped) without too much skew towards smaller or larger values.
 
 ```{r eval=FALSE}
 ## if the raw data is in a .csv file
@@ -120,8 +124,8 @@ dataSet <- preprocessing(fileName,
 ```
 
 <div class="note">
-**Note:** `preprocessing()` does not perform a transformation on your data. You still need
-to use the function `transform()`. </div>
+**Note:** `preprocessing()` does not perform a transformation on your data. You
+still need to use the function `transform()`. </div>
 
 ```{r}
 ## if the raw data is in an .Rdata file
@@ -140,12 +144,13 @@ knitr::kable(dataSet, align = "l")
 
 ## Transformation
 
-Raw mass spectrometry intensity measurements are often unsuitable for direct statistical
-modeling because the shape of the data is usually not symmetrical and the variance is not 
-consistent across the range of intensities. Most proteomic workflows will convert these raw 
-values with a log$_2$ transformation, which both reshapes the data into a more symmetrical 
-distribution, making it easier to interpret mean-based fold changes, and also stabilizes 
-the variance across the intensity range (i.e. reduces heteroscedasticity).
+Raw mass spectrometry intensity measurements are often unsuitable for direct
+statistical modeling because the shape of the data is usually not symmetrical
+and the variance is not consistent across the range of intensities. Most
+proteomic workflows will convert these raw values with a log$_2$ transformation,
+which both reshapes the data into a more symmetrical distribution, making it
+easier to interpret mean-based fold changes, and also stabilizes the variance
+across the intensity range (i.e. reduces heteroscedasticity).
 
 ```{r}
 dataTran <- transform(dataSet, logFold = 2)
@@ -160,36 +165,39 @@ knitr::kable(dataTran)
 
 ## Filtering
 
-In some cases, a researcher may wish to filter out a specific protein or proteins from the
-dataset. The most common instance of this would be proteins identified from the common
-contaminants database, where the identification is necessary to avoid incorrect matching 
-but the result is irrelevant to the experimental question and would not be included in
-data visualization. Other scenarios might include a mixed-species experiment where the
-researcher wants to evaluate data from only one species at a time. This step allows you to
-set aside specific proteins from downstream analysis, using the gene_species identifier
+In some cases, a researcher may wish to filter out a specific protein or
+proteins from the dataset. The most common instance of this would be proteins
+identified from the common contaminants database, where the identification is
+necessary to avoid incorrect matching but the result is irrelevant to the
+experimental question and would not be included in data visualization. Other
+scenarios might include a mixed-species experiment where the researcher wants to
+evaluate data from only one species at a time. This step allows you to set aside
+specific proteins from downstream analysis, using the gene_species identifier
 format.
 
 <div class="note">
-**Note:** The proteins to be selected or removed is the union of those specified in
-`listName` and those matching the regular expression pattern in `regexName`. \
-**Keep in mind:** Removal of any proteins, including common contaminants, will affect any
-global calculations performed after this step (such as normalization). This should not be
-done without a clear understanding of how this will affect your results. </div>
+**Note:** The proteins to be selected or removed is the union of those specified
+in `listName` and those matching the regular expression pattern in `regexName`. \
+**Keep in mind:** Removal of any proteins, including common contaminants, will
+affect any global calculations performed after this step (such as normalization).
+This should not be done without a clear understanding of how this will affect
+your results. </div>
 
-**Case 1.** Remove proteins specified by the user in this step and keep everything else.
+**Case 1.** Remove proteins specified by the user in this step and keep
+everything else.
 
-For example, the proteins named "ALBU_BOVIN" and those containing "HUMAN" are chosen to
-be filtered out.
+For example, the proteins named "ALBU_BOVIN" and those containing "HUMAN" are
+chosen to be filtered out.
 
 ```{r eval=FALSE}
 filterOutIn(dataTran, listName = "ALBU_BOVIN", regexName = "HUMAN",
             removeList = TRUE, saveRm = TRUE)
 ```
 
-where `removeList = TRUE` indicates the removal of proteins from the union of `listName`
-and `regexName` in `dataTran`. Please note that if `saveRm = TRUE`, the excluded data
-("ALBU_BOVIN" + "\*HUMAN") will be saved as a .csv file named *filtered_out_data.csv* in
-the current working directory.
+where `removeList = TRUE` indicates the removal of proteins from the union of
+`listName` and `regexName` in `dataTran`. Please note that if `saveRm = TRUE`,
+the excluded data ("ALBU_BOVIN" + "\*HUMAN") will be saved as a .csv file named
+*filtered_out_data.csv* in the current working directory.
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
@@ -199,10 +207,11 @@ knitr::kable(
 ```
 </div>
 
-**Case 2.** Keep the proteins specified by the user in this step and remove everything else.
+**Case 2.** Keep the proteins specified by the user in this step and remove
+everything else.
 
-Alternatively, if we would to keep proteins like "ALBU_BOVIN" and "\*HUMAN", simply
-set `removelist = FALSE`.
+Alternatively, if we would to keep proteins like "ALBU_BOVIN" and "\*HUMAN",
+simply set `removelist = FALSE`.
 
 ```{r eval=FALSE}
 filterOutIn(dataTran, listName = "ALBU_BOVIN", regexName = "HUMAN",
@@ -218,11 +227,11 @@ knitr::kable(
 
 **Extension**
 
-Besides protein names, the function `filterProtein()` provides a similar function to
-filter proteins by additional protein information.
+Besides protein names, the function `filterProtein()` provides a similar
+function to filter proteins by additional protein information.
 
-+ For **Spectronaut**: "PG.Genes", "PG.ProteinAccessions", "PG.ProteinDescriptions", and
-"PG.ProteinNames".
++ For **Spectronaut**: "PG.Genes", "PG.ProteinAccessions",
+"PG.ProteinDescriptions", and "PG.ProteinNames".
 
 + For **Scaffold**: "ProteinDescriptions", "AccessionNumber", and "AlternateID".
 
@@ -233,10 +242,11 @@ filterProtein(dataTran, proteinInformation = "preprocess_protein_information.csv
               removeList = FALSE)
 ```
 
-where `proteinInformation` is the file name for protein information, automatically
-generated by `preprocessing()`. In this case, the proteins whose `"PG.ProteinDescriptions"`
-match with "Putative zinc finger protein 840" or "Bovine serum albumin" will be kept.
-Note that the search value `text` is used for exact equality search.
+where `proteinInformation` is the file name for protein information,
+automatically generated by `preprocessing()`. In this case, the proteins whose
+`"PG.ProteinDescriptions"` match with "Putative zinc finger protein 840" or
+"Bovine serum albumin" will be kept. Note that the search value `text` is used
+for exact equality search.
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
@@ -251,40 +261,53 @@ knitr::kable(
 
 ## Normalization
 
-Normalization is designed to address systematic biases in the data. Biases can arise from
-inadvertent sample grouping during generation or preparation, from variations in
-instrument performance during acquisition, analysis of different peptide amounts across
-experiments, or other reasons. These factors can artificially mask or enhance actual
-biological changes. 
+Normalization is designed to address systematic biases in the data. Biases can
+arise from inadvertent sample grouping during generation or preparation, from
+variations in instrument performance during acquisition, analysis of different
+peptide amounts across experiments, or other reasons. These factors can
+artificially mask or enhance actual biological changes. 
 
-Many normalization methods have been developed for large datasets, each with its own
-strengths and weaknesses. The following factors should be considered when choosing a
-normalization method:
+Many normalization methods have been developed for large datasets, each with its
+own strengths and weaknesses. The following factors should be considered when
+choosing a normalization method:
 
 a) Experiment-Specific Normalization: \
-Most experiments run with [UConn PMF](https://proteomics.uconn.edu) are normalized by
-injection amount at the time of analysis to facilitate comparison. "Amount" is measured by
-UV absorbance at 280 nm, a standard method for generic protein quantification.
+Most experiments run with [UConn PMF](https://proteomics.uconn.edu) are
+normalized by injection amount at the time of analysis to facilitate comparison.
+"Amount" is measured by UV absorbance at 280 nm, a standard method for generic
+protein quantification.
 
 b) Assumption of Non-Changing Species: \
-Most biological experiments implicitly assume that the majority of measured species in an
-experiment will not change across conditions. This assumption is more robust if there are
-thousands of species, compared to only hundreds, or tens, so for experiments of very
-different complexities (e.g. a purified protein vs. an immunoprecipitation vs. a full
-lysate), normalization should not be applied as a global process, but instead only on
-subsets of experiments that are relatively similar to each other.
+Most biological experiments implicitly assume that the majority of measured
+species in an experiment will not change across conditions. This assumption is
+more robust if there are thousands of species, compared to only hundreds, or
+tens, so for experiments of very different complexities (e.g. a purified protein
+vs. an immunoprecipitation vs. a full lysate), normalization should not be
+applied as a global process, but instead only on subsets of experiments that are
+relatively similar to each other.
 
-So far, this package provides three normalization methods for use:
+By default, normalization is performed across samples, adjusting protein
+expression levels within each sample relative to the other samples.
+So far, this package provides eight normalization methods for use:
 
-1. "quant": Quantile [@bolstad2003comparison] (values in each run are ranked, quantile
-bins are applied to the entire dataset, and values in each run adjusted to their closest
-bin value)
+1. "auto": Auto scaling (mean centering and then dividing by the standard
+deviation of each variable) [@jackson1991user].
 
-2. "median": Protein-wise Median (a scalar factor is applied to each protein entry to make
-the median of each sample equal to every other sample)
+2. "level": Level scaling (mean centering and then dividing by the mean of each variable).
 
-3. "mean": Protein-wise Mean (a scalar factor is applied to each protein entry to make the
-mean of each sample equal to every other sample)
+3. "mean": Mean centering.
+
+4. "median": Median centering.
+
+5. "pareto": Pareto scaling (mean centering and then dividing by the square root
+of the standard deviation of each variable).
+
+6. "quant": Quantile normalization [@bolstad2003comparison].
+
+7. "range": Range scaling (mean centering and then dividing by the range of each
+variable).
+
+8. "vast": Variable stability (VAST) scaling [@keun2003improved].
 
 Quantile normalization is generally recommended by [UConn SCS](https://statsconsulting.uconn.edu).
 
@@ -292,10 +315,11 @@ Quantile normalization is generally recommended by [UConn SCS](https://statscons
 dataNorm <- normalize(dataTran, normalizeType = "quant")
 ```
 
-Oh! The message "Warning: Removed 55 rows containing non-finite values" indicates the
-presence of 55 NA (Not Available) values in the data. These NA values arise when a protein
-was not identified in a particular sample or condition and are automatically excluded when
-generating the boxplot but retained in the actual dataset.
+Oh! The message "Warning: Removed 55 rows containing non-finite values"
+indicates the presence of 55 NA (Not Available) values in the data. These NA
+values arise when a protein was not identified in a particular sample or
+condition and are automatically excluded when generating the boxplot but
+retained in the actual dataset.
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
@@ -306,53 +330,58 @@ knitr::kable(dataNorm)
 
 ## Imputation
 
-The two primary MS/MS acquisition types implemented in large scale MS-based proteomics have
-unique advantages and disadvantages. Traditional Data-Dependent Acquisition (DDA) methods
-favor specificity in MS/MS sampling over comprehensive proteome coverage.  Small peptide
-isolation windows (<3 m/z) result in MS/MS spectra that contain fragmentation data from
-ideally only one peptide. This specificity promotes clear peptide identifications but comes
-at the expense of added scan time. In DDA experiments, the number of peptides that can be
-selected for MS/MS is limited by instrument scan speeds and is therefore prioritized by
-highest peptide abundance.  Low abundance peptides are sampled less frequently for MS/MS
-and this can result in variable peptide coverage and many missing protein data across large
-sample datasets.
+The two primary MS/MS acquisition types implemented in large scale MS-based
+proteomics have unique advantages and disadvantages. Traditional Data-Dependent
+Acquisition (DDA) methods favor specificity in MS/MS sampling over comprehensive
+proteome coverage. Small peptide isolation windows (<3 m/z) result in MS/MS
+spectra that contain fragmentation data from ideally only one peptide. This
+specificity promotes clear peptide identifications but comes at the expense of
+added scan time. In DDA experiments, the number of peptides that can be selected
+for MS/MS is limited by instrument scan speeds and is therefore prioritized by
+highest peptide abundance.  Low abundance peptides are sampled less frequently
+for MS/MS and this can result in variable peptide coverage and many missing
+protein data across large sample datasets.
 
-Data-Independent Acquisition (DIA) methods promote comprehensive peptide coverage over
-specificity by sampling many peptides for MS/MS simultaneously. Sequential and large mass
-isolation windows (4-50 m/z) are used to isolate large numbers of peptides at once for
-concurrent MS/MS. This produces complicated fragmentation spectra, but these spectra contain
-data on every observable peptide.  A major disadvantage with this type of acquisition is
-that DIA MS/MS spectra are incredibly complex and difficult to deconvolve.  Powerful and
-relatively new software programs like Spectronaut are capable of successfully parsing out
-which fragment ions came from each co-fragmented peptide using custom libraries, machine
-learning algorithms, and precisely determined retention times or measured ion mobility data.
-Because all observable ions are sampled for MS/MS, DIA reduces missingness substantially
-compared to DDA, though not entirely.
+Data-Independent Acquisition (DIA) methods promote comprehensive peptide
+coverage over specificity by sampling many peptides for MS/MS simultaneously.
+Sequential and large mass isolation windows (4-50 m/z) are used to isolate large
+numbers of peptides at once for concurrent MS/MS. This produces complicated
+fragmentation spectra, but these spectra contain data on every observable
+peptide.  A major disadvantage with this type of acquisition is that DIA MS/MS
+spectra are incredibly complex and difficult to deconvolve.  Powerful and
+relatively new software programs like Spectronaut are capable of successfully
+parsing out which fragment ions came from each co-fragmented peptide using
+custom libraries, machine learning algorithms, and precisely determined
+retention times or measured ion mobility data. Because all observable ions are
+sampled for MS/MS, DIA reduces missingness substantially compared to DDA, though
+not entirely.
 
-Function `dataMissing()` is designed to summarize the missingness for each protein, where
-`plot = TRUE` indicates plotting the missingness, and `show_labels = TRUE` means that the
-protein names are displayed in the printed plot. Note that the visual representation is
-not generated by default, and the plot generation time varies with project size.
+Function `dataMissing()` is designed to summarize the missingness for each
+protein, where `plot = TRUE` indicates plotting the missingness, and
+`show_labels = TRUE` means that the protein names are displayed in the printed
+plot. Note that the visual representation is not generated by default, and the
+plot generation time varies with project size.
 
 ```{r}
 dataMissing <- dataMissing(dataNorm, plot = TRUE, show_labels = TRUE)
 ```
 
-The percentage in the protein labels represents the proportion of missing data in the
-samples for that protein. For instance, the label "ZN840_HUMAN (8\%)" indicates that,
-within all observations for the protein "ZN840_HUMAN", 8\% of the data is missing.
-Additionally, the percentage in the legend represents the proportion of missing data in
-the whole dataset. In this case, 10.2\% of the data in `dataNorm` is missing.
+The percentage in the protein labels represents the proportion of missing data
+in the samples for that protein. For instance, the label "ZN840_HUMAN (8\%)"
+indicates that, within all observations for the protein "ZN840_HUMAN", 8\% of
+the data is missing. Additionally, the percentage in the legend represents the
+proportion of missing data in the whole dataset. In this case, 10.2\% of the
+data in `dataNorm` is missing.
 
-Regardless of plot generation, the function `dataMissing()` always returns a table
-providing the following information:
+Regardless of plot generation, the function `dataMissing()` always returns a
+table providing the following information:
 
 + `count_miss`: The count of missing values for each protein.
 
 + `pct_miss_col`: The percentage of missing values for each protein.
 
-+ `pct_miss_tot`: The percentage of missing values for each protein relative to the
-total missing values in the entire dataset.
++ `pct_miss_tot`: The percentage of missing values for each protein relative to
+the total missing values in the entire dataset.
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
@@ -360,58 +389,59 @@ knitr::kable(dataMissing)
 ```
 </div>
 
-For example, in the case of the protein "ZN840_HUMAN," there are 1 NA values in the
-samples, representing 8.33\% of the missing data for "ZN840_HUMAN" within that sample and
-1.82\% of the total missing data in the entire dataset.
+For example, in the case of the protein "ZN840_HUMAN," there are 1 NA values in
+the samples, representing 8.33\% of the missing data for "ZN840_HUMAN" within
+that sample and 1.82\% of the total missing data in the entire dataset.
 
-Various imputation methods have been developed to address the missing-value issue and
-assign a reasonable guess of quantitative value to proteins with missing values. So far,
-this package provides 10 imputation methods for use:
+Various imputation methods have been developed to address the missing-value
+issue and assign a reasonable guess of quantitative value to proteins with
+missing values. So far, this package provides 10 imputation methods for use:
 
-1. `impute.min_local()`: Replaces missing values with the lowest measured value for that
-protein in that condition.
+1. `impute.min_local()`: Replaces missing values with the lowest measured value
+for that protein in that condition.
 
-2. `impute.min_global()`: Replaces missing values with the lowest measured value from any
-protein found within the entire dataset.
+2. `impute.min_global()`: Replaces missing values with the lowest measured value
+from any protein found within the entire dataset.
 
-3. `impute.knn()`: Replaces missing values using the k-nearest neighbors algorithm
-[@troyanskaya2001missing].
+3. `impute.knn()`: Replaces missing values using the k-nearest neighbors
+algorithm [@troyanskaya2001missing].
 
-4. `impute.knn_seq()`: Replaces missing values using the sequential k-nearest neighbors
-algorithm [@kim2004reuse].
+4. `impute.knn_seq()`: Replaces missing values using the sequential k-nearest
+neighbors algorithm [@kim2004reuse].
 
-5. `impute.knn_trunc()`: Replaces missing values using the truncated k-nearest neighbors
-algorithm [@shah2017distribution].
+5. `impute.knn_trunc()`: Replaces missing values using the truncated k-nearest
+neighbors algorithm [@shah2017distribution].
 
-6. `impute.nuc_norm()`: Replaces missing values using the nuclear-norm regularization
-[@hastie2015matrix].
+6. `impute.nuc_norm()`: Replaces missing values using the nuclear-norm
+regularization [@hastie2015matrix].
 
-7. `impute.mice_cart()`: Replaces missing values using the classification and regression
-trees [@breiman1984classification; @doove2014recursive; @van2018flexible].
+7. `impute.mice_cart()`: Replaces missing values using the classification and
+regression trees [@breiman1984classification; @doove2014recursive; @van2018flexible].
 
-8. `impute.mice_norm()`: Replaces missing values using the Bayesian linear regression
-[@rubin1987multiple; @schafer1997analysis; @van2011mice].
+8. `impute.mice_norm()`: Replaces missing values using the Bayesian linear
+regression [@rubin1987multiple; @schafer1997analysis; @van2011mice].
 
-9. `impute.pca_bayes()`: Replaces missing values using the Bayesian principal components
-analysis [@oba2003bayesian].
+9. `impute.pca_bayes()`: Replaces missing values using the Bayesian principal
+components analysis [@oba2003bayesian].
 
-10. `impute.pca_prob()`: Replaces missing values using the probabilistic principal
-components analysis [@stacklies2007pcamethods].
+10. `impute.pca_prob()`: Replaces missing values using the probabilistic
+principal components analysis [@stacklies2007pcamethods].
 
 Additional methods will be added later.
 
-For example, to impute the NA value of `dataNorm` using `impute.min_local()`, set the
-required percentage of values that must be present in a given protein by condition
-combination for values to be imputed to 51\%.
+For example, to impute the NA value of `dataNorm` using `impute.min_local()`,
+set the required percentage of values that must be present in a given protein by
+condition combination for values to be imputed to 51\%.
 
 <div class="note">
-**Note:** There is no rule in the field of proteomics for filtering based on percentage of
-missingness, similar to there being no rule for the number of replicates required to draw
-a conclusion. However, reproducible observations make conclusions more credible. Setting
-the `reqPercentPresent` to 0.51 requires that any protein be observed in a majority of the
-replicates by condition in order to be considered. For 3 replicates, this would require 2
-measurements to allow imputation of the 3rd value. If only 1 measurement is seen, the
-other values will remain NA, and will be filtered out in a subsequent step.  </div>
+**Note:** There is no rule in the field of proteomics for filtering based on
+percentage of missingness, similar to there being no rule for the number of
+replicates required to draw a conclusion. However, reproducible observations
+make conclusions more credible. Setting the `reqPercentPresent` to 0.51 requires
+that any protein be observed in a majority of the replicates by condition in
+order to be considered. For 3 replicates, this would require 2 measurements to
+allow imputation of the 3rd value. If only 1 measurement is seen, the other
+values will remain NA, and will be filtered out in a subsequent step.  </div>
 
 ```{r}
 dataImput <- impute.min_local(dataNorm, reportImputing = FALSE,
@@ -424,19 +454,19 @@ knitr::kable(dataImput)
 ```
 </div>
 
-If `reportImputing = TRUE`, the returned result structure will be altered to a list,
-adding a shadow data frame with imputed data labels, where 1 indicates the corresponding
-entries have been imputed, and 0 indicates otherwise.
+If `reportImputing = TRUE`, the returned result structure will be altered to a
+list, adding a shadow data frame with imputed data labels, where 1 indicates the
+corresponding entries have been imputed, and 0 indicates otherwise.
 
-After the above imputation, any entries that did not pass the percent present threshold
-will still have NA values and will need to be filtered out.
+After the above imputation, any entries that did not pass the percent present
+threshold will still have NA values and will need to be filtered out.
 
 ```{r}
 dataImput <- filterNA(dataImput, saveRm = TRUE)
 ```
 
-where `saveRm = TRUE` indicates that the filtered data will be saved as a .csv file named
-*filtered_NA_data.csv* in the current working directory.
+where `saveRm = TRUE` indicates that the filtered data will be saved as a .csv
+file named *filtered_NA_data.csv* in the current working directory.
 
 The `dataImput` is as follows:
 
@@ -449,10 +479,10 @@ knitr::kable(dataImput)
 
 ## Summarization
 
-This summarization provides a table of values for each protein in the final dataset that
-include the final processed abundances and fold changes in each condition, and that
-protein's statistical relation to the global dataset in terms of its mean, median,
-standard deviation, and other parameters.
+This summarization provides a table of values for each protein in the final
+dataset that include the final processed abundances and fold changes in each
+condition, and that protein's statistical relation to the global dataset in
+terms of its mean, median, standard deviation, and other parameters.
 
 ```{r}
 dataSumm <- summarize(dataImput, saveSumm = TRUE)
@@ -485,113 +515,205 @@ The function `analyze()` calculates the results that can be used in subsequent
 visualizations.
 
 <div class="note">
-**Note:** The following listed analysis compare data under two conditions. The **order**
-of `conditions` will affect downstream analysis, as the **second condition** serves as
-the reference of comparison.
-
-+ If only two conditions exist in the data and `conditions` is not specified, `conditions`
-will automatically be generated by sorting the unique values alphabetically and in
-ascending order.
-
-+ If more than two conditions exist in the data, precisely two conditions for comparison
-must be specified via the argument `conditions`.
-</div>
+**Note:** The following listed analyses compare all other conditions against the
+reference condition, which is specified by the argument `ref`, for multiple
+comparisons. If `ref` is not provided, it will be automatically generated by all
+the combinations of two conditions, based on the level attributes of the
+condition. </div>
 
 ```{r}
-cond <- c("100pmol", "50pmol")
+ref <- "50pmol"
 ```
 
 ### Student's t-test
 
-The Student's t-test is used to compare the means between two conditions for each protein,
-reporting both the difference in means between the conditions and the P-value of the test.
-
-<div class="note">
-**Note:** The difference is calculated by subtracting the mean of the second condition
-from the mean of the first condition (condition 1 - Condition 2). </div>
+The Student's t-test is used to compare the means between two conditions for
+each protein, reporting both the difference in means between the conditions and
+the p-value of the test.
 
 ```{r}
-anlys_t <- analyze(dataImput, conditions = cond, testType = "t-test")
+anlys_t <- analyze(dataImput, testType = "t-test", ref = ref)
 ```
-
-<div style="overflow-x: auto;">
-```{r echo=FALSE}
-knitr::kable(anlys_t)
-```
-</div>
 
 <div class="note">
 **Note:** In the Student's t-test, a warning message might appear, stating
-"**Data are essentially constant**," which means that the data contain proteins with the
-same value in all samples. In this case, the P-value of t-test returns NA. </div>
+"**Data are essentially constant**," which means that the data contain proteins
+with the same value in all samples. In this case, the p-value of t-test returns
+NaN. </div>
 
-
-### Moderated t-test
-
-The main distinction between the Student's and moderated t-tests [@smyth2004linear] lies
-in how variance is computed. While the Student's t-test calculates variance based on the
-data available for each protein individually, the moderated t-test utilizes information
-from all the chosen proteins to calculate variance.
-
-```{r}
-anlys_mod.t <- analyze(dataImput, conditions = cond, testType = "mod.t-test")
+```{r echo=FALSE}
+cat("$`100pmol-50pmol`\n")
 ```
-
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
-knitr::kable(anlys_mod.t)
+knitr::kable(anlys_t$`100pmol-50pmol`)
 ```
 </div>
+
+```{r echo=FALSE}
+cat("$`200pmol-50pmol`\n")
+```
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(anlys_t$`200pmol-50pmol`)
+```
+</div>
+
+```{r echo=FALSE}
+cat("$total\n")
+```
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(anlys_t$total)
+```
+</div>
+
+
+### Empirical Bayes moderated t-test
+
+The main distinction between the Student's and empirical Bayes moderated t-tests
+[@smyth2004linear] lies in how variance is computed. While the Student's t-test
+calculates variance based on the data available for each protein individually,
+the moderated t-test utilizes information from all the chosen proteins to
+calculate variance.
+
+```{r}
+anlys_mod.t <- analyze(dataImput, testType = "mod.t-test", ref = ref)
+```
 
 <div class="note">
 **Note:** In the moderated t-test, a warning message might occur stating,
 "**Zero sample variances detected, have been offset away from zero.**"
-This warning corresponds to examples of proteins that exhibited identical quant values,
-either pre- or post-imputation, and therefore no variance is present across conditions
-for those proteins. This does not impede downstream analysis; it merely serves to alert
-users to its occurrence. </div>
+This warning corresponds to examples of proteins that exhibited identical quant
+values, either pre- or post-imputation, and therefore no variance is present
+across conditions for those proteins. This does not impede downstream analysis;
+it merely serves to alert users to its occurrence. </div>
 
 <!-- This just means that for at least one protein the log ratio is identical for all samples. -->
 <!-- Since this will give a zero variance (which will end up in the denominator of your -->
 <!-- statistic and could possibly result in an infinite value for your test statistic) it has -->
 <!-- been offset to a small value to prevent that possibility. -->
 
+```{r echo=FALSE}
+cat("$`100pmol-50pmol`\n")
+```
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(anlys_mod.t$`100pmol-50pmol`)
+```
+</div>
+
+```{r echo=FALSE}
+cat("$`200pmol-50pmol`\n")
+```
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(anlys_mod.t$`200pmol-50pmol`)
+```
+</div>
+
+```{r echo=FALSE}
+cat("$total\n")
+```
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(anlys_mod.t$total)
+```
+</div>
+
+
+### Wilcoxon test
+
+The Wilcoxon test is a non-parametric alternative to the two-sample t-test.
+If `paired = TRUE`, a Wilcoxon signed-rank test is performed to test the null
+hypothesis that the distribution of the difference between the two conditions
+for the protein is symmetric about zero. If `paired = FALSE`, a Wilcoxon
+rank-sum test (also known as Mann-Whitney test) is performed to test the null
+hypothesis that the distribution of the two conditions for the protein are
+the same.
+
+```{r warning=FALSE}
+anlys_wilcox <- analyze(dataImput, testType = "wilcox-test", ref = ref)
+```
+
+<div class="note">
+**Note:** In the Wilcoxon test, the warning message
+"**cannot compute exact p-value with ties.**" may be displayed.
+This warning means that some values with tied rankings and the sample size is
+lower than 50, which prevents the exact p-value from being calculated. In such
+cases, a normal approximation is used. If all samples for a protein have the
+same value, the corresponding p-value returns NaN. </div>
+
+```{r echo=FALSE}
+cat("$`100pmol-50pmol`\n")
+```
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(anlys_wilcox$`100pmol-50pmol`)
+```
+</div>
+
+```{r echo=FALSE}
+cat("$`200pmol-50pmol`\n")
+```
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(anlys_wilcox$`200pmol-50pmol`)
+```
+</div>
+
+```{r echo=FALSE}
+cat("$total\n")
+```
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(anlys_wilcox$total)
+```
+</div>
+
 
 ### MA
 
-The result of `testType = "MA"` is to generate the data for plotting an MA plot, which
-represents the protein-wise averages within each condition.
-
-<div class="note">
-**Note:** The rows of the output are ordered by conditions, impacting the subsequent
-MA plot visualization. Specifically, the first row represents the protein-wise average of
-the first condition, and the second row represents the second condition. </div>
+The result of `testType = "MA"` is to generate the data for plotting an MA plot,
+which represents the protein-wise averages within each condition.
 
 ```{r}
-anlys_MA <- analyze(dataImput, conditions = cond, testType = "MA")
+anlys_MA <- analyze(dataImput, testType = "MA", ref = ref)
 ```
 
+```{r echo=FALSE}
+cat("$`100pmol-50pmol`\n")
+```
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
-knitr::kable(anlys_MA)
+knitr::kable(anlys_MA$`100pmol-50pmol`)
+```
+</div>
+
+```{r echo=FALSE}
+cat("$`200pmol-50pmol`\n")
+```
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(anlys_MA$`200pmol-50pmol`)
 ```
 </div>
 
 
 ## Visualization
 
-This section provides a variety of options for getting a global view of your data, making
-comparisons, and highlighting trends. Keep in mind that data visualization is most
-effective when illustrating a point or answering a question you have about your data, and
-not as a means to find a point/question.
+This section provides a variety of options for getting a global view of your
+data, making comparisons, and highlighting trends. Keep in mind that data
+visualization is most effective when illustrating a point or answering a
+question you have about your data, and not as a means to find a point/question.
 
 
 ### heatmap
 
 The package offers two options for plotting the heatmap.
 
-+ Option 1 utilizes the source package `pheatmap`, capable of plotting the dendrogram
-simultaneously. It is the default choice for heatmaps in this package.
++ Option 1 utilizes the source package `pheatmap`, capable of plotting the
+dendrogram simultaneously. It is the default choice for heatmaps in this package.
 
 ```{r fig.height=6}
 visualize(dataImput, graphType = "heatmap",
@@ -600,11 +722,11 @@ visualize(dataImput, graphType = "heatmap",
           show_colnames = TRUE, show_rownames = TRUE)
 ```
 
-When protein names are excessively long, it is recommended to set `show_rownames = FALSE`
-to view the full heatmap.
+When protein names are excessively long, it is recommended to set
+`show_rownames = FALSE` to view the full heatmap.
 
-+ Option 2 use the source package `ggplot2` to generate a ggplot object but does not
-include the dendrogram.
++ Option 2 use the source package `ggplot2` to generate a ggplot object but does
+not include the dendrogram.
 
 ```{r fig.height=6}
 visualize(dataImput, graphType = "heatmap", pkg = "ggplot2")
@@ -616,21 +738,22 @@ suggesting similar protein expression levels across different samples.
 
 ### MA
 
-<!-- An MA plot visualizes the differences between measurements taken in two samples, -->
-<!-- by transforming the data onto M (log ratio or fold change) and A (mean average) scales. -->
-<!-- The MA plot puts the variable M on the y-axis and A on the x-axis and gives a quick -->
-<!-- overview of the distribution of the data. Most proteins are expected to show little -->
-<!-- variation, and so the majority of the points will be concentrated around the M = 0 line -->
-<!-- (no difference between group means). Typically, points falling above $abs(1)$ are -->
-<!-- highlighted. -->
+An MA plot visualizes the differences between measurements taken in two samples,
+by transforming the data onto M (log ratio or fold change) and A (mean average)
+scales. The MA plot puts the variable M on the y-axis and A on the x-axis and
+gives a quick overview of the distribution of the data. Most proteins are
+expected to show little variation, and so the majority of the points will be
+concentrated around the M = 0 line (no difference between group means).
+Typically, points falling above $abs(1)$ are highlighted.
 
 An MA plot, short for "M vs. A plot," which uses two axes:
 
-+ M axis (vertical): Represents the logarithm (usually base 2) of the fold change, or the
-ratio of the expression levels, between two conditions. It is calculated as:
++ M axis (vertical): Represents the fold change, usually on the logarithm base 2
+scale, or the ratio of the expression levels, between two conditions. It is
+calculated as:
 $$M = log_2(X/Y) = log_2 X - log_2 Y$$
-+ A axis (horizontal): Represents the average intensity of the two conditions, calculated
-as:
++ A axis (horizontal): Represents the average intensity of the two conditions,
+calculated as:
 $$A = \frac{1}{2}log_2(XY) = \frac{1}{2}\left[log_2(X)+log_2(Y)\right]$$
 
 <!-- So, the M value represents the log ratio of protein expression in a treated condition -->
@@ -640,21 +763,15 @@ $$A = \frac{1}{2}log_2(XY) = \frac{1}{2}\left[log_2(X)+log_2(Y)\right]$$
 Most proteins are expected to exhibit little variation, leading to the majority of points
 concentrating around the line M = 0 (indicating no difference between group means).
 
-<div class="note">
-**Note:** Again, the **order** of `conditions` in the `analyze()` will determine
-how the MA plot is visualized. The second row of `anlys_MA` acts as the comparison
-reference: the first and second rows refer to variables $log_2 X$ and $log_2 Y$,
-respectively. </div>
-
 ```{r}
-visualize(anlys_MA, graphType = "MA", M.thres = 1, transformLabel = "Log2")
+visualize(anlys_MA$`100pmol-50pmol`, graphType = "MA", M.thres = 1)
 ```
 
-where `M.thres = 1` means the M thresholds are set to −1 and 1. The scatters are split
-into three parts: significant up (M > 1), no significant (-1 $\leq$ M $\leq$ 1), and
-significant down (M < -1). And `transformLabel = "Log2"` is used to prefix the title,
-x-axis, and y-axis labels. Additionally, the warning message "Removed 16 rows containing
-missing values" indicates that there are 16 proteins with no significance.
+where `M.thres = 1` means the M thresholds are set to −1 and 1. The scatters are
+split into three parts: significant up (M > 1), no significant (-1 $\leq$ M
+$\leq$ 1), and significant down (M < -1). Additionally, the warning message
+"Removed 32 rows containing missing values" indicates that there are 32 proteins
+with no significance.
 
 
 ### Normalize
@@ -666,29 +783,30 @@ visualize(dataNorm, graphType = "normalize")
 
 ### PCA
 
-Principal component analysis (PCA) is a powerful technique used in data analysis to
-simplify and reduce the dimensionality of large datasets. It transforms original variables
-into uncorrelated components that capture the maximum variance. By selecting a subset of
-these components, PCA projects the data points onto these key directions, enabling
+Principal component analysis (PCA) is a powerful technique used in data analysis
+to simplify and reduce the dimensionality of large datasets. It transforms
+original variables into uncorrelated components that capture the maximum
+variance. By selecting a subset of these components, PCA projects the data points onto these key directions, enabling
 visualization and analysis in a lower-dimensional space. This aids in identifying patterns
 and relationships within complex datasets.
 
-In the visualization for `graphType = "PCA_*"`, the arguments `center` and `scale` are
-used to center the data to zero mean and scale to unit variance, with default setting at
-`TRUE`.
+In the visualization for `graphType = "PCA_*"`, the arguments `center` and
+`scale` are used to center the data to zero mean and scale to unit variance,
+with default setting at `TRUE`.
 
 <div class="note">
-**Note:** Data scaling is done to ensure that the scale differences between different
-features do not affect the results of PCA. If not scaled, features with larger scales will
-dominate the computation of principal components (PCs). \
+**Note:** Data scaling is done to ensure that the scale differences between
+different features do not affect the results of PCA. If not scaled, features
+with larger scales will dominate the computation of principal components (PCs). \
 **Note:** The most common error message for the PCA is
 "**Cannot rescale a constant/zero column to unit variance**."
 This clearly occurs when columns representing proteins contain only zeros or
-have constant values. Typically, there are two ways to address this error: one is to
-remove these proteins, and the other is to set `scale = FALSE`. </div>
+have constant values. Typically, there are two ways to address this error: one
+is to remove these proteins, and the other is to set `scale = FALSE`. </div>
 
-In the case of `dataImput`, one protein, namely "ALBU_BOVIN", has constant values, leading
-to the error message. We choose to remove this protein in the PCA.
+In the case of `dataImput`, one protein, namely "ALBU_BOVIN", has constant
+values, leading to the error message. We choose to remove this protein in the
+PCA.
 
 ```{r}
 names(dataImput)[sapply(dataImput, function(col) length(unique(col)) == 1)]
@@ -698,9 +816,9 @@ dataPCA <- dataImput[, colnames(dataImput) != "ALBU_BOVIN"]
 
 #### PCA_scree
 
-One way to help identify how many PCs to retain, is to explore a scree plot. The scree
-plot shows the eigenvalues of each PC, which represent the proportion of variance
-explained by that component.
+One way to help identify how many PCs to retain, is to explore a scree plot. The
+scree plot shows the eigenvalues of each PC, which represent the proportion of
+variance explained by that component.
 
 ```{r eval=FALSE}
 visualize(dataPCA, graphType = "PCA_scree", center = TRUE, scale = TRUE,
@@ -709,9 +827,9 @@ visualize(dataPCA, graphType = "PCA_scree", center = TRUE, scale = TRUE,
           addlabels = TRUE, choice = "eigenvalue", ncp = 10)
 ```
 
-where `choice` specifies the data to be plotted, either `"variance"` or `"eigenvalue"`,
-`addlabels = TRUE` adds information labels at the top of bars/points, and `ncp = 10` sets
-the number of dimension to be displayed.
+where `choice` specifies the data to be plotted, either `"variance"` or
+`"eigenvalue"`, `addlabels = TRUE` adds information labels at the top of
+bars/points, and `ncp = 10` sets the number of dimension to be displayed.
 
 ```{r echo=FALSE}
 library(gridExtra)
@@ -725,14 +843,15 @@ grid.arrange(plot1, plot2, ncol = 2)
 
 #### PCA_ind
 
-The primary PCA plot of individual data visually represents the distribution of individual
-observations in a reduced-dimensional space, typically defined by the PCs. The x and y
-axes of the PCA plot represent the PCs. Each axis corresponds to a linear combination of
-the original variables. Individual data points on the PCA plot represent observations
-(e.g., samples) from the original dataset. Points that are close to the origin (0, 0), are
-close to the "average" across all protein abundances. If sufficient samples are present,
-the plot will also produce a 95% confidence ellipse, as well as a centroid (mean for each
-group provided), for each groups (condition) provided.
+The primary PCA plot of individual data visually represents the distribution of
+individual observations in a reduced-dimensional space, typically defined by the
+PCs. The x and y axes of the PCA plot represent the PCs. Each axis corresponds
+to a linear combination of the original variables. Individual data points on the
+PCA plot represent observations (e.g., samples) from the original dataset.
+Points that are close to the origin (0, 0), are close to the "average" across
+all protein abundances. If sufficient samples are present, the plot will also
+produce a 95% confidence ellipse, as well as a centroid (mean for each group
+provided), for each groups (condition) provided.
 
 ```{r}
 visualize(dataPCA, graphType = "PCA_ind", center = TRUE, scale = TRUE,
@@ -742,14 +861,15 @@ visualize(dataPCA, graphType = "PCA_ind", center = TRUE, scale = TRUE,
 
 #### PCA_var
 
-This plot will be more useful if your analyses are based on a relatively small number of
-proteins. It represents the association, or loading of each protein on the first two PCs.
-Longer arrows represents stronger associations.
+This plot will be more useful if your analyses are based on a relatively small
+number of proteins. It represents the association, or loading of each protein on
+the first two PCs. Longer arrows represents stronger associations.
 
 <div class="note">
-**Note:** Proteins that are weakly associated with PC1 or PC2 may still be highly
-correlated with other PCs not being plotted. Consult the scree plot (and other available
-methods) to determine the appropriate number of PCs to investigate. </div>
+**Note:** Proteins that are weakly associated with PC1 or PC2 may still be
+highly correlated with other PCs not being plotted. Consult the scree plot (and
+other available methods) to determine the appropriate number of PCs to
+investigate. </div>
 
 ```{r}
 visualize(dataPCA, graphType = "PCA_var", center = TRUE, scale = TRUE,
@@ -759,8 +879,8 @@ visualize(dataPCA, graphType = "PCA_var", center = TRUE, scale = TRUE,
 
 #### PCA_biplot
 
-The PCA biplot includes individual and variable plots. Again, with a large number of
-proteins, this plot can be unwieldy.
+The PCA biplot includes individual and variable plots. Again, with a large
+number of proteins, this plot can be unwieldy.
 
 ```{r}
 visualize(dataPCA, graphType = "PCA_biplot", center = TRUE, scale = TRUE,
@@ -770,38 +890,39 @@ visualize(dataPCA, graphType = "PCA_biplot", center = TRUE, scale = TRUE,
 
 ### t-test
 
-The function `visualize()` can be applied to any t-test output. It generates two useful
-plots: a histogram of fold changes across the analyzed proteins and a histogram of
-P-values. The majority of proteins are expected to show very small change between
-conditions, so the fold change histogram will have a peak at around zero. For the P-values,
-most P-values are expected to be non-significant (above 0.05). Depending on the strength
-of the treatment effect, there may be a peak of p-values near 0.
+The function `visualize()` can be applied to any t-test output. It generates two
+useful plots: a histogram of fold changes across the analyzed proteins and a
+histogram of p-values. The majority of proteins are expected to show very small
+change between conditions, so the fold change histogram will have a peak at
+around zero. For the p-values, most p-values are expected to be non-significant
+(above 0.05). Depending on the strength of the treatment effect, there may be a
+peak of p-values near 0.
 
 ```{r}
-visualize(anlys_mod.t, graphType = "t-test")
+visualize(anlys_mod.t$`100pmol-50pmol`, graphType = "t-test")
 ```
 
 
 ### Upset
 
-The upset plot is a visual representation that helps display the overlap and intersection
-of sets or categories in a dataset. It is particularly useful for illustrating the
-presence or absence of elements in combinations of sets.
+The upset plot is a visual representation that helps display the overlap and
+intersection of sets or categories in a dataset. It is particularly useful for
+illustrating the presence or absence of elements in combinations of sets.
 
 ```{r}
 dataSort <- sortcondition(dataSet)
 visualize(dataSort, graphType = "Upset")
 ```
 
-This plot reveals that 42 proteins are shared by 50pmol, 100pmol, and 200pmol, while only
-3 proteins are shared by 100 pmol and 200pmol, but not with 50pmol.
+This plot reveals that 42 proteins are shared by 50pmol, 100pmol, and 200pmol,
+while only 3 proteins are shared by 100 pmol and 200pmol, but not with 50pmol.
 
 
 ### Venn
 
-The Venn plot is another graphical representation of the relationships between sets. Each
-circle represents a set, and the overlapping regions show the elements that are shared
-between sets.
+The Venn plot is another graphical representation of the relationships between
+sets. Each circle represents a set, and the overlapping regions show the
+elements that are shared between sets.
 
 ```{r}
 visualize(dataSort, graphType = "Venn",
@@ -810,39 +931,42 @@ visualize(dataSort, graphType = "Venn",
           saveVenn = TRUE)
 ```
 
-where `saveVenn = TRUE` refers to the data containing logical columns representing sets in
-Venn plot information will be saved as a .csv file named *Venn_information.csv* in the
-current working directory.
+where `saveVenn = TRUE` refers to the data containing logical columns
+representing sets in Venn plot information will be saved as a .csv file named
+*Venn_information.csv* in the current working directory.
 
-In the example above, 50pmol, 100pmol, and 200pmol groups share 42 proteins. Notably, 3
-proteins are exclusively found in the 100pmol and 200pmol groups.
+In the example above, 50pmol, 100pmol, and 200pmol groups share 42 proteins.
+Notably, 3 proteins are exclusively found in the 100pmol and 200pmol groups.
 
 
 ### Volcano
 
-A volcano plot is a graphical representation commonly used in proteomics and genomics to
-visualize differential expression analysis results. It is particularly useful for
-identifying significant changes in extensive data. It displays two important pieces of
-information about differences between conditions in a dataset:
+A volcano plot is a graphical representation commonly used in proteomics and
+genomics to visualize differential expression analysis results. It is
+particularly useful for identifying significant changes in extensive data.
+It displays two important pieces of information about differences between
+conditions in a dataset:
 
-+ Statistical significance (vertical): Represents the negative log10 of the P-value.
++ Statistical significance (vertical): Represents the negative log10 of the
+p-value.
 
 + Fold change (horizontal): Represents the fold change.
 
 ```{r}
-visualize(anlys_mod.t, graphType = "volcano",
-          P.thres = 0.05, logF.thres = 0.6)
+visualize(anlys_mod.t$`100pmol-50pmol`, graphType = "volcano",
+          P.thres = 0.05, F.thres = 0.6)
 ```
 
 
 ## Other useful function
 
-The function `pullProteinPath()` allows you to see the values associated with specific
-proteins that match exactly and/or proteins that match the regular expression pattern
-at each step of processing. This can be useful for questions such as, "Were all of
-the values for my favorite protein actually measured, or were some imputed?" or "Why didn't
-my favorite protein make it to the final list? Where was it filtered out?". It can also be
-used to check whether some given proteins' fold-change might have been a processing artifact.
+The function `pullProteinPath()` allows you to see the values associated with
+specific proteins that match exactly and/or proteins that match the regular
+expression pattern at each step of processing. This can be useful for questions
+such as, "Were all of the values for my favorite protein actually measured, or
+were some imputed?" or "Why didn't my favorite protein make it to the final list?
+Where was it filtered out?". It can also be used to check whether some given
+proteins' fold-change might have been a processing artifact.
 
 ```{r}
 Check <- pullProteinPath(

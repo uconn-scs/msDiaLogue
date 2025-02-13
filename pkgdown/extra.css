@@ -39,3 +39,7 @@ body {
   font-weight: bold;
 }
 */
+
+table {
+  white-space: nowrap;
+}

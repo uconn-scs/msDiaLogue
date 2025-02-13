@@ -13,6 +13,6 @@ test_that("preprocessing_scaffold", {
   load("../storedData/preprocessing_scaffold_Toy.RData")
   
   ## test if current function yields equal results to previous version
-  expect_equal(data, storedData)
+  expect_equal(data, preprocessing_scaffold_Toy)
   
 })

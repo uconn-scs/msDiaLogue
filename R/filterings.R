@@ -1,6 +1,6 @@
 ##
 ## msDiaLogue: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
-## Copyright (C) 2024  Shiying Xiao, Timothy Moore and Charles Watt
+## Copyright (C) 2025  Shiying Xiao, Timothy Moore and Charles Watt
 ## Shiying Xiao <shiying.xiao@uconn.edu>
 ##
 ## This file is part of the R package msDiaLogue.
@@ -152,7 +152,7 @@ filterOutIn <- function(dataSet,
   
   ## relabel the data frame
   filteredData <- dataSet %>%
-    select(-c("R.Condition", "R.Replicate"))
+    select(-c(R.Condition, R.Replicate))
   
   ## only list filter if listName is present
   if (length(listName) != 0) {
@@ -267,7 +267,7 @@ filterProtein <- function(dataSet,
   
   ## relabel the data frame
   filteredData <- dataSet %>%
-    select(-c("R.Condition", "R.Replicate"))
+    select(-c(R.Condition, R.Replicate))
   
   index <- grep(paste(text, collapse = "|"), proteinInformation[[by]])
   
@@ -335,7 +335,7 @@ filterNA <- function(dataSet, saveRm = TRUE) {
   if (saveRm) {
     
     ## create a dataframe of the removed data
-    removedData <- bind_cols(select(dataSet, c("R.Condition", "R.Replicate")),
+    removedData <- bind_cols(select(dataSet, c(R.Condition, R.Replicate)),
                              select_if(dataSet, ~any(is.na(.))))
     
     ## save removed data to current working directory

@@ -13,7 +13,6 @@ visualize(
   show_colnames = TRUE,
   show_rownames = TRUE,
   M.thres = 1,
-  transformLabel = "Log2",
   center = TRUE,
   scale = TRUE,
   addlabels = TRUE,
@@ -27,7 +26,7 @@ visualize(
   saveVenn = TRUE,
   proteinInformation = "preprocess_protein_information.csv",
   P.thres = 0.05,
-  logF.thres = 0.6
+  F.thres = 1
 )
 }
 \arguments{
@@ -71,9 +70,6 @@ This argument only works when \code{graphType = "heatmap"} and \code{pkg = "phea
 \item{M.thres}{The absolute threshold value of M (log fold-change) (default = 1) used
 to plot the two vertical lines (-M.thres and M.thres) on the MA plot when
 \code{graphType = "MA"}.}
-
-\item{transformLabel}{A string (default = "Log2") used to label the title and axes of
-the transformation type for the transformed MA plot when \code{graphType = "MA"}.}
 
 \item{center}{A boolean (default = TRUE) indicating whether the variables should be
 shifted to be zero centered when \code{graphType = "PCA_scree"},
@@ -136,9 +132,9 @@ the function \code{\link[msDiaLogue]{preprocessing}}.}
 \item{P.thres}{THe threshold value of P-value (default = 0.05) used to plot the
 horizontal line (-log10(P.thres)) on the volcano plot when \code{graphType = "volcano"}.}
 
-\item{logF.thres}{The absolute threshold value of log2(fold change) (default = 0.6)
-used to plot the two vertical lines (-logF.thres and logF.thres) on the volcano plot
-when \code{graphType = "volcano"}.}
+\item{F.thres}{The absolute threshold value of fold change (default = 1) used to plot
+the two vertical lines (-F.thres and F.thres) on the volcano plot when
+\code{graphType = "volcano"}.}
 }
 \value{
 An object of class \code{ggplot}.

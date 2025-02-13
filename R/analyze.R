@@ -1,6 +1,6 @@
 ##
 ## msDiaLogue: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
-## Copyright (C) 2024  Shiying Xiao, Timothy Moore and Charles Watt
+## Copyright (C) 2025  Shiying Xiao, Timothy Moore and Charles Watt
 ## Shiying Xiao <shiying.xiao@uconn.edu>
 ##
 ## This file is part of the R package msDiaLogue.
@@ -27,39 +27,36 @@
 #' 
 #' @param dataSet The 2d data set of data.
 #' 
-#' @param conditions A string specifying which two conditions to compare. The order is
-#' important, as the second condition serves as the reference for comparison. When there
-#' are two conditions in \code{dataSet} and this argument is not specified, the
-#' \code{conditions} will automatically be selected by sorting the unique values
-#' alphabetically and in ascending order.
-#' 
 #' @param testType A string (default = "t-test") specifying which statistical test to use:
 #' \enumerate{
-#' \item "t-test": Unequal variance t-test.
-#' \item "mod.t-test": Moderated t-test \insertCite{smyth2004linear}{msDiaLogue}.
+#' \item "t-test": Student's t-test.
+#' \item "mod.t-test": Empirical Bayes moderated t-test
+#' \insertCite{smyth2004linear}{msDiaLogue}.
+#' \item "wilcox-test": Wilcoxon test.
 #' \item "MA": Output to plot an MA plot.
 #' }
 #' 
-#' @details
-#' The second condition serves as the reference for comparison. \itemize{
-#' \item "t-test" and "mod.t-test": The differences are calculated by subtracting
-#' the mean of the second condition from the mean of the first condition (Condition 1 -
-#' Condition 2).
-#' \item "MA": The rows are ordered by \code{conditions}. Specifically, the first row
-#' corresponds to the protein-wise average of the first condition, and the second row
-#' corresponds to the second condition.
-#' }
+#' @param ref A string (default = NULL) specifying the reference condition for comparison.
+#' If NULL, all pairwise comparisons are performed.
 #' 
-#' @import dplyr
+#' @param paired A boolean (default = FALSE) specifying whether or not to perform a paired
+#' test when \code{testType = "t-test"} or \code{testType = "wilcox-test"}.
+#' 
+#' @param pool.sd A boolean (default = FALSE) specifying whether or not to use a pooled
+#' standard deviation when \code{testType = "t-test"}.
+#' 
 #' @import limma
 #' @importFrom stats model.matrix t.test
-#' @importFrom tibble column_to_rownames
 #' @importFrom Rdpack reprompt
 #' 
-#' @returns A 2d dataframe includes the following information: \itemize{
-#' \item "t-test" or "mod.t-test": The differences in means and P-values for each protein
-#' between the two conditions.
-#' \item "MA": Protein-wise averages within each condition.
+#' @returns \itemize{
+#' \item "t-test", "mod.t-test", "wilcox-test": A list comprising data frames for each
+#' comparison, with each data frame containing the means of the two compared conditions
+#' for each protein, the difference in means, and the p-values. Additionally, a separate
+#' data frame called "total" summarizes the results of multiple comparisons.
+#' \item "MA": A list comprising data frames for each comparison, with each data frame
+#' containing the means of the two compared conditions for each protein, as well as the
+#' average and difference in means.
 #' }
 #' 
 #' @references
@@ -69,79 +66,125 @@
 #' 
 #' @export
 
-analyze <- function(dataSet, conditions, testType = "t-test") {
+analyze <- function(dataSet, testType = "t-test", ref = NULL,
+                    paired = FALSE, pool.sd = FALSE) {
   
-  ## check for exactly two conditions
-  if (missing(conditions)) {
-    conditions <- sort(unique(dataSet$R.Condition))
-    if (length(conditions) != 2) {
-      stop("Please provide exactly two conditions for comparison.")
+  conds <- levels(dataSet$R.Condition)
+  
+  if (is.null(ref)) {
+    ## if 'ref' is not provided, perform all pairwise comparisons
+    ## create a pairwise vector
+    comp <- combn(conds, 2)
+    compA <- comp[1,]
+    compB <- comp[2,]
+  } else {
+    ## check for reference condition
+    if (!(ref %in% conds)) {
+      stop("'ref' is not in the 'R.Condition'!")
     }
-  } else if (length(conditions) != 2) {
-    stop("This analysis can only be performed on two conditions at a time.
-         Please select exactly two conditions to compare.
-         Alternatively, please consider using ANOVA.")
+    compA <- conds[conds != ref]
+    compB <- rep(ref, length(compA))
   }
   
-  ## filter data set by the conditions
-  filteredData <- dataSet %>%
-    filter(R.Condition %in% conditions) %>%
-    arrange(R.Condition, R.Replicate)
+  if (paired && pool.sd) {
+    stop("Pooling of standard deviation is incompatible with paired tests!")
+  }
   
-  if (testType == "t-test") {
+  xs <- select(dataSet, -c(R.Condition, R.Replicate))
+  g <- dataSet$R.Condition
+  
+  means <- apply(xs, 2, function(x) {
+    tapply(x, g, mean, na.rm = TRUE)
+  })
+  
+  if (grepl("test$", testType)) {
     
-    ## index of the two conditions
-    indexA <- which(filteredData$R.Condition == conditions[1])
-    indexB <- which(filteredData$R.Condition == conditions[2])
-    
-    ## the difference in means (log fold change for volcano) and the P-value of t-test
-    result <- as.data.frame(apply(
-      select(filteredData, -c(R.Condition, R.Replicate)), 2,
-      function(x) {
-        tryCatch(
-          c("Difference" = mean(x[indexA])-mean(x[indexB]),
-            "P-value" = t.test(x[indexA], x[indexB])$p.value),
-          
-          ## if an error is thrown, return the fold change and set the P-value to 'NA'.
-          error = function(e) {
+    if (testType == "t-test") {
+      
+      pval <- lapply(1:length(compA), function(k) {
+        
+        ## index of the two conditions
+        indexA <- which(g == compA[k])
+        indexB <- which(g == compB[k])
+        
+        ## the p-value of t-test
+        res <- apply(xs, 2, function(x) {
+          tryCatch({
+            t.test(x[indexA], x[indexB], paired = paired, var.equal = pool.sd)$p.value
+          }, error = function(e) {
+            ## if an error is thrown, return the fold change and set the p-value to 'NA'.
             message("Data are essentially constant.")
-            c("Difference" = mean(x[indexA])-mean(x[indexB]), "P-value" = NA)
-          }
-        )
-      }
-    ))
+            return(NaN)
+          })
+        })
+        
+        return(res)
+      })
+      
+    } else if (testType == "mod.t-test") {
+      
+      ## construct the design matrix
+      model.formula <- eval(parse(text = "~ 0 + R.Condition"), envir = dataSet)
+      design <- model.matrix(model.formula)
+      
+      ## fit linear model for each protein
+      fit1 <- limma::lmFit(t(xs), design)
+      
+      ## construct the contrast matrix
+      contrast.matrix <- limma::makeContrasts(
+        contrasts = paste0("R.Condition", compA, "-R.Condition", compB), levels = design)
+      
+      ## compute contrasts from linear model 'fit1'
+      fit2 <- limma::contrasts.fit(fit1, contrast.matrix)
+      
+      ## empirical Bayes statistics
+      fit3 <- limma::eBayes(fit2)
+      
+      pval <- lapply(1:length(compA), function(k) {
+        return(fit3$p.value[,k])
+      })
+      
+    } else if (testType == "wilcox-test") {
+      
+      pval <- lapply(1:length(compA), function(k) {
+        
+        ## index of the two conditions
+        indexA <- which(g == compA[k])
+        indexB <- which(g == compB[k])
+        
+        ## the p-value of t-test
+        res <- apply(xs, 2, function(x) {
+          wilcox.test(x[indexA], x[indexB], paired = paired)$p.value
+        })
+        
+        return(res)
+      })
+    }
     
-  } else if (testType == "mod.t-test") {
+    result <- lapply(1:length(compA), function(k) {
+      res <- means[c(compA[k], compB[k]),]
+      res <- as.data.frame(rbind(res, res[1,] - res[2,], pval[[k]]))
+      rownames(res) <- c(paste(c(compA[k], compB[k]), "mean"), "difference", "p-value")
+      return(res)
+    })
+    names(result) <- paste0(compA, "-", compB)
     
-    ## construct the design matrix
-    conditions <- factor(filteredData$R.Condition, levels = conditions, labels = LETTERS[1:2])
-    design <- model.matrix(~ 0 + conditions)
-    
-    ## fit linear model for each protein
-    fit1 <- limma::lmFit(
-      t(select(filteredData, -c(R.Condition, R.Replicate))), design)
-    
-    ## construct the contrast matrix
-    cont.matrix <- limma::makeContrasts("conditionsA - conditionsB", levels = design)
-    
-    ## compute contrasts from linear model 'fit1'
-    fit2 <- limma::contrasts.fit(fit1, cont.matrix)
-    
-    ## empirical Bayes statistics
-    fit3 <- limma::eBayes(fit2)
-    
-    result <- as.data.frame(t(cbind(fit3$coefficients, fit3$p.value)))
-    rownames(result) <- c("Difference", "P-value")
+    total <- do.call(rbind, lapply(result, `[`, c("difference", "p-value"), , drop = FALSE))
+    total <- rbind(means, total)
+    rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0))))
+    result$total <- total
     
   } else if (testType == "MA") {
     
-    ## the average of each condition individually
-    result <- filteredData %>%
-      group_by(R.Condition) %>%
-      summarise(across(-c("R.Replicate"), mean)) %>%
-      arrange(factor(R.Condition, levels = conditions)) %>%
-      column_to_rownames("R.Condition")
-      
+    result <- lapply(1:length(compA), function(k) {
+      res <- means[c(compA[k], compB[k]),]
+      res <- as.data.frame(rbind(res, colMeans(res), res[1,] - res[2,]))
+      rownames(res) <- c(paste(c(compA[k], compB[k]), "mean"), "A", "M")
+      return(res)
+    })
+    
+    names(result) <- paste0(compA, "-", compB)
+    
   }
   
   ## return to the analysis result

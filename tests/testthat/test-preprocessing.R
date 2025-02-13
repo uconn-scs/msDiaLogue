@@ -10,11 +10,10 @@ test_that("preprocessing", {
                           replaceBlank = TRUE, saveRm = FALSE)
   ))
   
-  ## load stored correct data 
-  storedData <- read.csv("../storedData/preprocessing_Toy.csv")
-  storedData$R.Replicate <- as.character(storedData$R.Replicate)
+  ## load stored correct data
+  load("../storedData/preprocessing_Toy.RData")
   
   ## test if current function yields equal results to previous version
-  expect_equal(data, storedData)
+  expect_equal(data, preprocessing_Toy)
   
 })

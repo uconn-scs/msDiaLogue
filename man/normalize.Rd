@@ -15,14 +15,14 @@ Options are "sample" or "row" (across rows), and "protein" or "column" (across c
 \item{normalizeType}{A string (default = "quant") specifying which type of
 normalization to apply:
 \itemize{
-\item "auto": Auto scaling.
+\item "auto": Auto scaling \insertCite{jackson1991user}{msDiaLogue}.
 \item "level": Level scaling.
 \item "mean": Mean centering.
 \item "median": Median centering.
 \item "pareto": Pareto scaling.
 \item "quant": Quantile normalization \insertCite{bolstad2003comparison}{msDiaLogue}.
 \item "range": Range scaling.
-\item "vast": Vast scaling.
+\item "vast": Variable stability (VAST) scaling. \insertCite{keun2003improved}{msDiaLogue}.
 \item "none": None.
 }}
 }

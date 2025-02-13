@@ -1,6 +1,6 @@
 ##
 ## msDiaLogue: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
-## Copyright (C) 2024  Shiying Xiao, Timothy Moore and Charles Watt
+## Copyright (C) 2025  Shiying Xiao, Timothy Moore and Charles Watt
 ## Shiying Xiao <shiying.xiao@uconn.edu>
 ##
 ## This file is part of the R package msDiaLogue.
@@ -66,9 +66,6 @@
 #' to plot the two vertical lines (-M.thres and M.thres) on the MA plot when
 #' \code{graphType = "MA"}.
 #' 
-#' @param transformLabel A string (default = "Log2") used to label the title and axes of
-#' the transformation type for the transformed MA plot when \code{graphType = "MA"}.
-#' 
 #' @param center A boolean (default = TRUE) indicating whether the variables should be
 #' shifted to be zero centered when \code{graphType = "PCA_scree"},
 #' \code{graphType = "PCA_ind"}, \code{graphType = "PCA_var"}, or
@@ -130,9 +127,9 @@
 #' @param P.thres THe threshold value of P-value (default = 0.05) used to plot the
 #' horizontal line (-log10(P.thres)) on the volcano plot when \code{graphType = "volcano"}.
 #' 
-#' @param logF.thres The absolute threshold value of log2(fold change) (default = 0.6)
-#' used to plot the two vertical lines (-logF.thres and logF.thres) on the volcano plot
-#' when \code{graphType = "volcano"}.
+#' @param F.thres The absolute threshold value of fold change (default = 1) used to plot
+#' the two vertical lines (-F.thres and F.thres) on the volcano plot when
+#' \code{graphType = "volcano"}.
 #' 
 #' @details 
 #' The function \code{visualize()} is designed to work directly with output from the
@@ -159,12 +156,12 @@
 visualize <- function(
     dataSet, graphType = "volcano",
     pkg = "pheatmap", cluster_cols = TRUE, cluster_rows = FALSE, show_colnames = TRUE, show_rownames = TRUE,
-    M.thres = 1 , transformLabel = "Log2",
+    M.thres = 1 ,
     center = TRUE, scale = TRUE,
     addlabels = TRUE, choice = "variance", ncp = 10, addEllipses = TRUE, ellipse.level = 0.95, label = "all",
     show_percentage = TRUE, fill_color = c("blue", "yellow", "green", "red"),
     saveVenn = TRUE, proteinInformation = "preprocess_protein_information.csv",
-    P.thres = 0.05, logF.thres = 0.6) {
+    P.thres = 0.05, F.thres = 1) {
   
   if (graphType == "heatmap") {
     
@@ -198,28 +195,20 @@ visualize <- function(
     
   } else if (graphType == "MA") {
     
-    ## list of two conditions
-    conditionA <- rownames(dataSet)[1]
-    conditionB <- rownames(dataSet)[2]
-    
-    plotData <- data.frame(A = colMeans(dataSet),
-                           M = as.numeric(dataSet[conditionA,] - dataSet[conditionB,])) %>%
+    plotData <- data.frame(t(dataSet[c("A","M"),])) %>%
       mutate(Significant = case_when(
         M > M.thres & M < Inf ~ "Up",
         M < -M.thres & M > -Inf ~ "Down",
         M >= -M.thres & M <= M.thres ~ "No",
         TRUE ~ "Unknown")) %>% ## optional catch-all for other cases
-      mutate(delabel = ifelse(Significant != "No",
-                              gsub("_.*", "", colnames(dataSet)), NA))
+      mutate(label = ifelse(Significant != "No", gsub("_.*", "", colnames(dataSet)), NA))
     
-    ggplot(plotData, aes(x = A, y = M, color = Significant, label = delabel)) +
+    ggplot(plotData, aes(x = A, y = M, color = Significant, label = label)) +
       geom_hline(yintercept = c(-M.thres, M.thres), linetype = "dashed") +
       geom_point() +
       geom_text_repel(show.legend = FALSE) +
       scale_color_manual(values = c("Down" = "blue", "No" = "gray", "Up" = "red")) +
-      labs(title = paste(transformLabel, "Transformed MA Plot"),
-           x = paste(transformLabel, "average abundance"),
-           y = paste(transformLabel, "fold change")) +
+      labs(title = "Transformed MA Plot", x = "Average Abundance", y = "Fold Change") +
       theme_bw() +
       theme(legend.position = "bottom", plot.title = element_text(hjust = .5))
     
@@ -288,7 +277,7 @@ visualize <- function(
     
   } else if (graphType == "t-test") {
     
-    plotData <- as.data.frame(t(dataSet)) %>%
+    plotData <- as.data.frame(t(dataSet[c("differenc","p-value"),])) %>%
       rownames_to_column(var = "RowName") %>%
       pivot_longer(-RowName) %>%
       group_by(name) %>%
@@ -333,25 +322,24 @@ visualize <- function(
     
   } else if (graphType == "volcano") {
     
-    plotData <- data.frame(t(dataSet)) %>%
+    plotData <- data.frame(t(dataSet[c("difference","p-value"),])) %>%
       mutate(Significant = case_when(
-        P.value < P.thres & Difference > logF.thres ~ "Up",
-        P.value < P.thres & Difference < -logF.thres ~ "Down",
-        P.value < P.thres & Difference >= -logF.thres & Difference <= logF.thres ~ "Inconclusive",
-        P.value >= P.thres ~ "No",
+        p.value < P.thres & difference > F.thres ~ "Up",
+        p.value < P.thres & difference < -F.thres ~ "Down",
+        p.value < P.thres & difference >= -F.thres & difference <= F.thres ~ "Inconclusive",
+        p.value >= P.thres ~ "No",
         TRUE ~ "Unknown")) %>% ## optional catch-all for other cases
-      mutate(delabel = ifelse(! Significant %in% c("No", "Inconclusive"),
+      mutate(label = ifelse(! Significant %in% c("No", "Inconclusive"),
                               gsub("_.*", "", colnames(dataSet)), NA))
 
-    ggplot(plotData, aes(x = Difference, y = -log10(P.value),
-                         col = Significant, label = delabel)) +
-      geom_vline(xintercept = c(-logF.thres, logF.thres), linetype = "dashed") +
+    ggplot(plotData, aes(x = difference, y = -log10(p.value), col = Significant, label = label)) +
+      geom_vline(xintercept = c(-F.thres, F.thres), linetype = "dashed") +
       geom_hline(yintercept = -log10(P.thres), linetype = "dashed") +
       geom_point() +
       geom_text_repel(show.legend = FALSE) +
       scale_color_manual(values = c("Down" = "blue", "Up" = "red",
                                     "Inconclusive" = "gray", "No" = "gray20")) +
-      labs(x = expression("log"[2]*"FC"), y = expression("-log"[10]*"P-value")) +
+      labs(x = "Fold Change", y = expression("-log"[10]*"p-value")) +
       theme_bw() +
       theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
     

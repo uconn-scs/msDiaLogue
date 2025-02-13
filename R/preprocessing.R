@@ -1,6 +1,6 @@
 ##
 ## msDiaLogue: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
-## Copyright (C) 2024  Shiying Xiao, Timothy Moore and Charles Watt
+## Copyright (C) 2025  Shiying Xiao, Timothy Moore and Charles Watt
 ## Shiying Xiao <shiying.xiao@uconn.edu>
 ##
 ## This file is part of the R package msDiaLogue.
@@ -119,8 +119,8 @@ preprocessing <- function(fileName,
   
   ## select columns necessary for analysis
   selectedData <- filteredData %>%
-    mutate(R.Condition = as.character(R.Condition),
-           R.Replicate = as.character(R.Replicate)) %>%
+    mutate(R.Condition = factor(as.character(R.Condition), levels = unique(as.character(R.Condition))),
+           R.Replicate = factor(as.character(R.Replicate), levels = unique(as.character(R.Replicate)))) %>%
     select(R.Condition, R.Replicate, PG.Quantity, PG.ProteinNames, PG.ProteinAccessions)
   
   ## print summary statistics for full raw data set
@@ -184,11 +184,11 @@ preprocessing <- function(fileName,
   })
   
   ## store data in a data.frame structure
-  result <- as.data.frame(reformatedData) 
+  result <- as.data.frame(reformatedData)
   
   ## print levels of condition and replicate
-  cat("Levels of Condition:", unique(result$R.Condition), "\n")
-  cat("Levels of Replicate:", unique(result$R.Replicate), "\n")
+  cat("Levels of Condition:", levels(result$R.Condition), "\n")
+  cat("Levels of Replicate:", levels(result$R.Replicate), "\n")
   cat("\n")
   
   ## return pre-processed data
@@ -362,6 +362,7 @@ preprocessing_scaffold <- function(fileName, dataSet = NULL, zeroNA = TRUE, oneN
   if (header_row != 1) {
     result <- list(data = result, GOterm = GOterm)
   }
+  
   ## return imported data
   return(result)
 }

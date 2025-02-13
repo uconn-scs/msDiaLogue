@@ -4,43 +4,48 @@
 \alias{analyze}
 \title{Analyzing summarized data}
 \usage{
-analyze(dataSet, conditions, testType = "t-test")
+analyze(
+  dataSet,
+  testType = "t-test",
+  ref = NULL,
+  paired = FALSE,
+  pool.sd = FALSE
+)
 }
 \arguments{
 \item{dataSet}{The 2d data set of data.}
 
-\item{conditions}{A string specifying which two conditions to compare. The order is
-important, as the second condition serves as the reference for comparison. When there
-are two conditions in \code{dataSet} and this argument is not specified, the
-\code{conditions} will automatically be selected by sorting the unique values
-alphabetically and in ascending order.}
-
 \item{testType}{A string (default = "t-test") specifying which statistical test to use:
 \enumerate{
-\item "t-test": Unequal variance t-test.
-\item "mod.t-test": Moderated t-test \insertCite{smyth2004linear}{msDiaLogue}.
+\item "t-test": Student's t-test.
+\item "mod.t-test": Empirical Bayes moderated t-test
+\insertCite{smyth2004linear}{msDiaLogue}.
+\item "wilcox-test": Wilcoxon test.
 \item "MA": Output to plot an MA plot.
 }}
+
+\item{ref}{A string (default = NULL) specifying the reference condition for comparison.
+If NULL, all pairwise comparisons are performed.}
+
+\item{paired}{A boolean (default = FALSE) specifying whether or not to perform a paired
+test when \code{testType = "t-test"} or \code{testType = "wilcox-test"}.}
+
+\item{pool.sd}{A boolean (default = FALSE) specifying whether or not to use a pooled
+standard deviation when \code{testType = "t-test"}.}
 }
 \value{
-A 2d dataframe includes the following information: \itemize{
-\item "t-test" or "mod.t-test": The differences in means and P-values for each protein
-between the two conditions.
-\item "MA": Protein-wise averages within each condition.
+\itemize{
+\item "t-test", "mod.t-test", "wilcox-test": A list comprising data frames for each
+comparison, with each data frame containing the means of the two compared conditions
+for each protein, the difference in means, and the p-values. Additionally, a separate
+data frame called "total" summarizes the results of multiple comparisons.
+\item "MA": A list comprising data frames for each comparison, with each data frame
+containing the means of the two compared conditions for each protein, as well as the
+average and difference in means.
 }
 }
 \description{
 Apply a statistical test to the data.
-}
-\details{
-The second condition serves as the reference for comparison. \itemize{
-\item "t-test" and "mod.t-test": The differences are calculated by subtracting
-the mean of the second condition from the mean of the first condition (Condition 1 -
-Condition 2).
-\item "MA": The rows are ordered by \code{conditions}. Specifically, the first row
-corresponds to the protein-wise average of the first condition, and the second row
-corresponds to the second condition.
-}
 }
 \references{
 \insertAllCited{}

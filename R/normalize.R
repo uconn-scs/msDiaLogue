@@ -1,6 +1,6 @@
 ##
 ## msDiaLogue: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
-## Copyright (C) 2024  Shiying Xiao, Timothy Moore and Charles Watt
+## Copyright (C) 2025  Shiying Xiao, Timothy Moore and Charles Watt
 ## Shiying Xiao <shiying.xiao@uconn.edu>
 ##
 ## This file is part of the R package msDiaLogue.
@@ -33,14 +33,14 @@
 #' @param normalizeType A string (default = "quant") specifying which type of
 #' normalization to apply:
 #' \itemize{
-#' \item "auto": Auto scaling.
+#' \item "auto": Auto scaling \insertCite{jackson1991user}{msDiaLogue}.
 #' \item "level": Level scaling.
 #' \item "mean": Mean centering.
 #' \item "median": Median centering.
 #' \item "pareto": Pareto scaling.
 #' \item "quant": Quantile normalization \insertCite{bolstad2003comparison}{msDiaLogue}.
 #' \item "range": Range scaling.
-#' \item "vast": Vast scaling.
+#' \item "vast": Variable stability (VAST) scaling. \insertCite{keun2003improved}{msDiaLogue}.
 #' \item "none": None.
 #' }
 #' 

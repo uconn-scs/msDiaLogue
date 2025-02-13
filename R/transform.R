@@ -1,6 +1,6 @@
 ##
 ## msDiaLogue: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
-## Copyright (C) 2024  Shiying Xiao, Timothy Moore and Charles Watt
+## Copyright (C) 2025  Shiying Xiao, Timothy Moore and Charles Watt
 ## Shiying Xiao <shiying.xiao@uconn.edu>
 ##
 ## This file is part of the R package msDiaLogue.
@@ -108,7 +108,7 @@ transform <- function(dataSet, method = "log", logFold = 2, root = 2) {
   
   ## organize the data for transformation
   dataPoints <- dataSet %>%
-    select(-c(R.Condition, R.Replicate)) 
+    select(-c(R.Condition, R.Replicate))
   
   ## calculate and plot a mean-variance plot 
   plotPre <- meanVarPlot(dataPoints, title = "Pre-Transformation")

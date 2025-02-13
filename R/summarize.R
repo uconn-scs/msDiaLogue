@@ -1,6 +1,6 @@
 ##
 ## msDiaLogue: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
-## Copyright (C) 2024  Shiying Xiao, Timothy Moore and Charles Watt
+## Copyright (C) 2025  Shiying Xiao, Timothy Moore and Charles Watt
 ## Shiying Xiao <shiying.xiao@uconn.edu>
 ##
 ## This file is part of the R package msDiaLogue.
@@ -71,7 +71,7 @@ summarize <- function(dataSet, saveSumm = TRUE) {
   
   ## if only two conditions exist, calculate the fold change automatically
   if (length(conditionsList) == 2) {
-    proteinSummary[["Fold Change"]] <- (proteinSummary[[2]] - proteinSummary[[1]]) %>%
+    proteinSummary[["Fold Change"]] <- (proteinSummary[[1]] - proteinSummary[[2]]) %>%
       select(-n)
     conditionsList <- c(conditionsList, "Fold Change")
   }

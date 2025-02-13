@@ -10,10 +10,10 @@ test_that("preProcessFiltering", {
                                 replaceBlank = TRUE, saveRm = FALSE)
   ))
   
-  ## load stored correct data 
-  storedData <- read.csv("../storedData/preProcessFiltering_Toy.csv")
+  ## load stored correct data
+  load("../storedData/preProcessFiltering_Toy.RData")
   
   ## test if current function yields equal results to previous version
-  expect_equal(data, storedData)
+  expect_equal(data, preProcessFiltering_Toy)
   
 })

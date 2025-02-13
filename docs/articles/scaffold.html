@@ -76,7 +76,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-01-27</h4>
+            <h4 data-toc-skip class="date">2025-02-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/scaffold.Rmd" class="external-link"><code>vignettes/scaffold.Rmd</code></a></small>
       <div class="d-none name"><code>scaffold.Rmd</code></div>
@@ -86,14 +86,14 @@ Consulting Services, UConn</p>
     
 <p>This script is to allow PMF users to apply msDiaLogue functions to
 proteomics results provided in <strong>Scaffold 5</strong>. msDiaLogue
-was originally developed to provide an R-based analysis workflow for DIA
-data searched in <strong>Spectronaut</strong> (which could not be
-uploaded into <strong>Scaffold 5</strong> and thus left PMF users with
-results in the form of crashingly large Excel files before msDiaLogue
-became available). The msDiaLogue initial step, Preprocessing, was built
-for a <strong>Spectronaut</strong> report format. This expansion gives
-msDiaLogue the capability to preprocess data from a
-<strong>Scaffold</strong> report format.</p>
+was originally developed to provide an <strong>R</strong>-based analysis
+workflow for DIA data searched in <strong>Spectronaut</strong> (which
+could not be uploaded into <strong>Scaffold 5</strong> and thus left PMF
+users with results in the form of crashingly large Excel files before
+msDiaLogue became available). The msDiaLogue initial step,
+Preprocessing, was built for a <strong>Spectronaut</strong> report
+format. This expansion gives msDiaLogue the capability to preprocess
+data from a <strong>Scaffold</strong> report format.</p>
 <p>Future additions to accommodate report formats from other search
 algorithms or softwares are planned, but not available at this time.</p>
 <p>To generate an input report for msDiaLogue from
@@ -126,12 +126,14 @@ by various methods in msDiaLogue, but you should not stack
 normalizations between programs.</p>
 <div class="note">
 <strong>Note:</strong> Non-quantifiable abundance values are reported in
-<strong>Scaffold</strong> as 0 or 1, and msDiaLogue
-<code>preprocessing</code> knows to treat these as NA. If normalization
-is applied in <strong>Scaffold</strong>, non-quantifiable abundances are
-transformed into fractional values which will not be converted properly
-in <code>preprocessing</code> and your data will no longer yield
-sensible analyses.
+<strong>Scaffold</strong> as 0 (not identified or not quantified) or 1
+(identified but not quantified), and msDiaLogue
+<code>preprocessing</code> knows to treat these as NA via
+<code>zeroNA = TRUE</code> and <code>oneNA = TRUE</code>. If
+normalization is applied in <strong>Scaffold</strong>, non-quantifiable
+abundances are transformed into fractional values which will not be
+converted properly in <code>preprocessing</code> and your data will no
+longer yield sensible analyses.
 </div>
 </div>
 <div class="section level3">
@@ -154,7 +156,7 @@ than 3 replicates in general, whether in msDiaLogue or other programs.
 <h3 id="sample-naming-format-requirements">4. Sample Naming Format Requirements<a class="anchor" aria-label="anchor" href="#sample-naming-format-requirements"></a>
 </h3>
 <p>The samples <strong>must</strong> be named in the following format:
-YYYYMMDD_initials_condition-replicate# (e.g. 20240101_JL_ctrl-1). Your
+YYYYMMDD_initials_condition_replicate# (e.g. 20240101_JL_ctrl_1). Your
 files may already be named this way; please check in
 <strong>Scaffold</strong> in the “Samples” tab, for the heading above
 any quantitative value column. The sample name will appear vertically.
@@ -204,7 +206,7 @@ in your data from this cluster.</p>
 choose “Export” (bottom of menu), and “Export to Excel”.</p>
 <p>Save with a descriptive filename that will make sense to someone else
 in the future and choose the location you’ll be using as your working
-directory in R.</p>
+directory in <strong>R</strong>.</p>
 <p>The report can be saved as .xls or .csv.</p>
 <p>You can now use the <code>preprocessing_scaffold</code> script
 available on this page and pick up at the <code>transformation</code>
