@@ -4,7 +4,7 @@
 \alias{normalize}
 \title{Normalization of preprocessed data}
 \usage{
-normalize(dataSet, applyto = "sample", normalizeType = "quant")
+normalize(dataSet, applyto = "sample", normalizeType = "quant", plot = TRUE)
 }
 \arguments{
 \item{dataSet}{The 2d data set of experimental values.}
@@ -25,6 +25,9 @@ normalization to apply:
 \item "vast": Variable stability (VAST) scaling. \insertCite{keun2003improved}{msDiaLogue}.
 \item "none": None.
 }}
+
+\item{plot}{A boolean (default = TRUE) specifying whether to plot the boxplot
+for before and after normalization.}
 }
 \value{
 A normalized 2d dataframe.

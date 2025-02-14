@@ -44,6 +44,9 @@
 #' \item "none": None.
 #' }
 #' 
+#' @param plot A boolean (default = TRUE) specifying whether to plot the boxplot
+#' for before and after normalization.
+#' 
 #' @details
 #' Quantile normalization is generally recommended. Mean and median normalization are
 #' going to be included as popular previous methods. No normalization is not recommended.
@@ -64,11 +67,13 @@
 #' 
 #' @export
 
-normalize <- function(dataSet, applyto = "sample", normalizeType = "quant") {
+normalize <- function(dataSet, applyto = "sample", normalizeType = "quant", plot = TRUE) {
   
   ## create a boxplot for pre-normalization
-  visualize(dataSet, graphType = "normalize") +
-    ggtitle("Pre-Normalization Boxplot")
+  if (plot) {
+    visualize(dataSet, graphType = "normalize") +
+      ggtitle("Pre-Normalization Boxplot")
+  }
   
   ## select the numerical data
   if (applyto == "sample") {
@@ -156,9 +161,11 @@ normalize <- function(dataSet, applyto = "sample", normalizeType = "quant") {
   colnames(normDataSet) <- colnames(dataSet)
   
   ## create a boxplot for post-normalization
-  plot <- visualize(normDataSet, graphType = "normalize") +
-    ggtitle("Post-Normalization Boxplot")
-  print(plot)
+  if (plot) {
+    plot <- visualize(normDataSet, graphType = "normalize") +
+      ggtitle("Post-Normalization Boxplot")
+    print(plot)
+  }
   
   ## return pre-processed data
   return(normDataSet)
