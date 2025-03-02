@@ -208,9 +208,9 @@ visualize <- function(
       geom_point() +
       geom_text_repel(show.legend = FALSE) +
       scale_color_manual(values = c("Down" = "blue", "No" = "gray", "Up" = "red")) +
-      labs(title = "Transformed MA Plot", x = "Average Abundance", y = "Fold Change") +
+      labs(x = "Average Abundance", y = "Fold Change") +
       theme_bw() +
-      theme(legend.position = "bottom", plot.title = element_text(hjust = .5))
+      theme(legend.position = "bottom")
     
   } else if (graphType == "normalize") {
     
@@ -341,7 +341,7 @@ visualize <- function(
                                     "Inconclusive" = "gray", "No" = "gray20")) +
       labs(x = "Fold Change", y = expression("-log"[10]*"p-value")) +
       theme_bw() +
-      theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
+      theme(legend.position = "bottom")
     
   }
 }

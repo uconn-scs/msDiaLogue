@@ -65,31 +65,6 @@ visualize(anlys_mod.t$`100pmol-50pmol`, graphType = "volcano",
           P.thres = 0.05, F.thres = 1)
 ```
 
-The actual code for generating the default volcano plot with ggplot2, using data
-from the function `visualize()` in msDiaLogue, is as follows:
-
-```{r}
-volcano <- visualize(anlys_mod.t$`100pmol-50pmol`, graphType = "volcano",
-                     P.thres = 0.05, F.thres = 1)
-## extract the data used for the plot from the volcano object
-plotData <- volcano[["data"]]
-P.thres <- 0.05
-F.thres <- 1
-# default volcano plot code
-library(ggplot2)
-library(ggrepel)
-ggplot(plotData, aes(x = difference, y = -log10(p.value), col = Significant, label = label)) +
-      geom_vline(xintercept = c(-F.thres, F.thres), linetype = "dashed") +
-      geom_hline(yintercept = -log10(P.thres), linetype = "dashed") +
-      geom_point() +
-      geom_text_repel(show.legend = FALSE) +
-      scale_color_manual(values = c("Down" = "blue", "Up" = "red",
-                                    "Inconclusive" = "gray", "No" = "gray20")) +
-      labs(x = "Fold Change", y = expression("-log"[10]*"p-value")) +
-      theme_bw() +
-      theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
-```
-
 
 ### Change labels of proteins
 
@@ -97,67 +72,58 @@ The following code is shown to demonstrate how to replace the default labels in
 the volcano plot with gene or protein names, using additional information.
 
 ```{r message=FALSE}
+volcano <- visualize(anlys_mod.t$`100pmol-50pmol`, graphType = "volcano",
+                     P.thres = 0.05, F.thres = 1)
+
 ## read a csv file containing full protein information, including gene/protein names
 protNames <- read.csv("full_protein_information.csv")
-## convert the row names of plotData into a column named "PG.ProteinNames"
-plotData <- tibble::rownames_to_column(plotData, "PG.ProteinNames")
+
+## change labels of proteins
 library(dplyr)
-## merge the plotData with protNames based on the "PG.ProteinNames" column
-check <- left_join(plotData, protNames, by = join_by(PG.ProteinNames == PG.ProteinNames))
-## change the default labels from accessions to gene/protein names
-check$label <- ifelse(is.na(check$label), check$label, check$PG.Genes)
-ggplot(check, aes(x = difference, y = -log10(p.value), col = Significant, label = label)) +
-  geom_vline(xintercept = c(-F.thres, F.thres), linetype = "dashed") +
-  geom_hline(yintercept = -log10(P.thres), linetype = "dashed") +
-  geom_point() +
-  geom_text_repel(show.legend = FALSE) +
-  scale_color_manual(values = c("Down" = "blue", "Up" = "red",
-                                Inconclusive = "gray", No = "gray20")) +
-  labs(x = "Fold Change", y = expression("-log"[10]*"P-value")) +
-  theme_bw() +
-  theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
+volcano[["data"]] <- volcano[["data"]] %>%
+  ## convert the row names into a column named "PG.ProteinNames"
+  tibble::rownames_to_column("PG.ProteinNames") %>%
+  ## merge the data with protNames based on the "PG.ProteinNames" column
+  left_join(protNames, by  = "PG.ProteinNames") %>%
+  ## change the default labels from accessions to gene/protein names
+  mutate(label = ifelse(is.na(label), label, PG.Genes))
+
+volcano
 ```
 
 
 ### Change colors
 
 To customize the colors in your volcano plot, you can use the function
-`scale_color_manual()` from ggplot2. This allows you to specify custom colors for
+`ggplot_build()` from ggplot2. This allows you to specify custom colors for
 different significance levels in the output plot.
 
 ```{r}
-ggplot(check, aes(x = difference, y = -log10(p.value), col = Significant, label = label)) +
-  geom_vline(xintercept = c(-F.thres, F.thres), linetype = "dashed") +
-  geom_hline(yintercept = -log10(P.thres), linetype = "dashed") +
-  geom_point() +
-  geom_text_repel(show.legend = FALSE) +
-  ## customize the colors for different significance levels
-  scale_color_manual(values = c(Down = "purple", Up = "orange",
-                                Inconclusive = "gray", No = "gray20")) +
-  labs(x = "Fold Change", y = expression("-log"[10]*"P-value")) +
-  theme_bw() +
-  theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
+volcano <- visualize(anlys_mod.t$`100pmol-50pmol`, graphType = "volcano",
+                     P.thres = 0.05, F.thres = 1)
+
+library(ggplot2)
+new <- ggplot_build(volcano)
+new[["plot"]][["scales"]][["scales"]][[1]][["palette.cache"]] <-
+  c(Down = "purple", Up = "orange", Inconclusive = "gray", No = "gray20")
+
+new$plot
 ```
 
 
 ### Change themes
 
-To modify the appearance of your volcano plot, you can change the theme using ggplot2's
-`theme_*()` functions. Themes control the overall look of the plot, including the
-background, gridlines, and text.
+To modify the appearance of your volcano plot, you can completely override the
+current theme using ggplot2's `theme_*()` functions. Themes control the overall
+look of the plot, including the background, gridlines, and text.
 
 ```{r}
-ggplot(check, aes(x = difference, y = -log10(p.value), col = Significant, label = label)) +
-  geom_vline(xintercept = c(-F.thres, F.thres), linetype = "dashed") +
-  geom_hline(yintercept = -log10(P.thres), linetype = "dashed") +
-  geom_point() +
-  geom_text_repel(show.legend = FALSE) +
-  scale_color_manual(values = c("Down" = "blue", "Up" = "red",
-                                Inconclusive = "gray", No = "gray20")) +
-  labs(x = "Fold Change", y = expression("-log"[10]*"P-value")) +
-  ## use a classic theme
-  theme_classic() +
-  theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
+volcano <- visualize(anlys_mod.t$`100pmol-50pmol`, graphType = "volcano",
+                     P.thres = 0.05, F.thres = 1)
+
+library(ggplot2)
+## use a classic theme
+volcano + theme_classic()
 ```
 
 
@@ -168,27 +134,6 @@ ggplot(check, aes(x = difference, y = -log10(p.value), col = Significant, label 
 visualize(anlys_MA$`100pmol-50pmol`, graphType = "MA", M.thres = 0.5)
 ```
 
-The actual code for generating the default MA plot with ggplot2, using data from
-the function `visualize()` in msDiaLogue, is as follows:
-
-```{r}
-ma <- visualize(anlys_MA$`100pmol-50pmol`, graphType = "MA", M.thres = 0.5)
-## extract the data used for the plot from the ma object
-plotData <- ma[["data"]]
-M.thres <- 0.5
-# default MA plot code
-library(ggplot2)
-library(ggrepel)
-ggplot(plotData, aes(x = A, y = M, color = Significant, label = label)) +
-  geom_hline(yintercept = c(-M.thres, M.thres), linetype = "dashed") +
-  geom_point() +
-  geom_text_repel(show.legend = FALSE) +
-  scale_color_manual(values = c("Down" = "blue", "No" = "gray", "Up" = "red")) +
-  labs(title = "Transformed MA Plot", x = "Average Abundance", y = "Fold Change") +
-  theme_bw() +
-  theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
-```
-
 
 ### Change labels of proteins
 
@@ -196,58 +141,52 @@ To change the labels on your plot from accession numbers to gene or protein
 names, follow these steps:
 
 ```{r message=FALSE}
+ma <- visualize(anlys_MA$`100pmol-50pmol`, graphType = "MA", M.thres = 0.5)
+
 ## read a csv file containing full protein information, including gene/protein names
 protNames <- read.csv("full_protein_information.csv")
-## convert the row names of plotData into a column named "PG.ProteinNames"
-plotData <- tibble::rownames_to_column(plotData, "PG.ProteinNames")
+
+## change labels of proteins
 library(dplyr)
-## merge the plotData with protNames based on the "PG.ProteinNames" column
-check <- left_join(plotData, protNames, by = join_by(PG.ProteinNames == PG.ProteinNames))
-## change the default labels from accessions to gene/protein names
-check$label <- ifelse(is.na(check$label), check$label, check$PG.Genes)
-ggplot(check, aes(x = A, y = M, color = Significant, label = label)) +
-  geom_hline(yintercept = c(-M.thres, M.thres), linetype = "dashed") +
-  geom_point() +
-  geom_text_repel(show.legend = FALSE) +
-  scale_color_manual(values = c("Down" = "blue", "No" = "gray", "Up" = "red")) +
-  labs(title = "Transformed MA Plot", x = "Average Abundance", y = "Fold Change") +
-  theme_bw() +
-  theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
+ma[["data"]] <- ma[["data"]] %>%
+  ## convert the row names into a column named "PG.ProteinNames"
+  tibble::rownames_to_column("PG.ProteinNames") %>%
+  ## merge the data with protNames based on the "PG.ProteinNames" column
+  left_join(protNames, by  = "PG.ProteinNames") %>%
+  ## change the default labels from accessions to gene/protein names
+  mutate(label = ifelse(is.na(label), label, PG.Genes))
+
+ma
 ```
 
 
 ### Change colors
 
-To adjust the colors in your MA plot, you can customize the color scheme to better
-highlight different categories of significance. Here is how you can modify the colors
-in the plot:
+To adjust the colors in your MA plot, you can customize the color scheme to
+better highlight different categories of significance. Here is how you can
+modify the colors in the plot:
 
 ```{r}
-ggplot(plotData, aes(x = A, y = M, color = Significant, label = label)) +
-  geom_hline(yintercept = c(-M.thres, M.thres), linetype = "dashed") +
-  geom_point() +
-  geom_text_repel(show.legend = FALSE) +
-  ## customize the colors
-  scale_color_manual(values = c("Down" = "darkblue", "No" = "gray", "Up" = "orange")) +
-  labs(title = "Transformed MA Plot", x = "Average Abundance", y = "Fold Change") +
-  theme_bw() +
-  theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
+ma <- visualize(anlys_MA$`100pmol-50pmol`, graphType = "MA", M.thres = 0.5)
+
+library(ggplot2)
+new <- ggplot_build(ma)
+new[["plot"]][["scales"]][["scales"]][[1]][["palette.cache"]] <-
+  c(Down = "darkblue", No = "gray", Up = "orange")
+
+new$plot
 ```
 
 
 ### Change themes
 
-To alter the visual style of your MA plot, you can apply a different theme using ggplot2's
-theme functions.
+To alter the visual style of your MA plot, you can apply a different theme using
+ggplot2's theme functions.
 
 ```{r}
-ggplot(plotData, aes(x = A, y = M, color = Significant, label = label)) +
-  geom_hline(yintercept = c(-M.thres, M.thres), linetype = "dashed") +
-  geom_point() +
-  geom_text_repel(show.legend = FALSE) +
-  scale_color_manual(values = c("Down" = "blue", "No" = "gray", "Up" = "red")) +
-  labs(title = "Transformed MA Plot", x = "Average Abundance", y = "Fold Change") +
-  ## use a minimal theme
-  theme_minimal() +
-  theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
+ma <- visualize(anlys_MA$`100pmol-50pmol`, graphType = "MA", M.thres = 0.5)
+
+library(ggplot2)
+ ## use a minimal theme
+ma + theme_minimal()
 ```
