@@ -39,6 +39,18 @@
 #' @param ref A string (default = NULL) specifying the reference condition for comparison.
 #' If NULL, all pairwise comparisons are performed.
 #' 
+#' @param adjust.method A string (default = "BH") specifying the correction method for
+#' p-value adjustment when \code{testType = "*-test"}: \itemize{
+#' \item "BH" or its alias "fdr": \insertCite{benjamini1995controlling;textual}{msDiaLogue}.
+#' \item "BY": \insertCite{benjamini2001control;textual}{msDiaLogue}.
+#' \item "bonferroni": \insertCite{bonferroni1936teoria;textual}{msDiaLogue}.
+#' \item "hochberg": \insertCite{hochberg1988sharper;textual}{msDiaLogue}.
+#' \item "holm": \insertCite{holm1979simple;textual}{msDiaLogue}.
+#' \item "hommel": \insertCite{hommel1988stagewise;textual}{msDiaLogue}.
+#' \item "none": None
+#' }
+#' See \code{\link[stats]{p.adjust}} for more details.
+#' 
 #' @param paired A boolean (default = FALSE) specifying whether or not to perform a paired
 #' test when \code{testType = "t-test"} or \code{testType = "wilcox-test"}.
 #' 
@@ -66,7 +78,7 @@
 #' 
 #' @export
 
-analyze <- function(dataSet, testType = "t-test", ref = NULL,
+analyze <- function(dataSet, testType = "t-test", ref = NULL, adjust.method = "BH",
                     paired = FALSE, pool.sd = FALSE) {
   
   conds <- levels(dataSet$R.Condition)
@@ -160,6 +172,9 @@ analyze <- function(dataSet, testType = "t-test", ref = NULL,
         return(res)
       })
     }
+    
+    pval <- split(p.adjust(unlist(pval), method = adjust.method),
+                  rep(seq_along(pval), lengths(pval)))
     
     result <- lapply(1:length(compA), function(k) {
       res <- means[c(compA[k], compB[k]),]

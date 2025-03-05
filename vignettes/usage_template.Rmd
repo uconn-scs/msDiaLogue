@@ -532,7 +532,8 @@ each protein, reporting both the difference in means between the conditions and
 the p-value of the test.
 
 ```{r}
-anlys_t <- analyze(dataImput, testType = "t-test", ref = ref)
+anlys_t <- analyze(dataImput, ref = ref,
+                   testType = "t-test", adjust.method = "BH")
 ```
 
 <div class="note">
@@ -578,7 +579,8 @@ the moderated t-test utilizes information from all the chosen proteins to
 calculate variance.
 
 ```{r}
-anlys_mod.t <- analyze(dataImput, testType = "mod.t-test", ref = ref)
+anlys_mod.t <- analyze(dataImput, ref = ref,
+                       testType = "mod.t-test", adjust.method = "BH")
 ```
 
 <div class="note">
@@ -633,7 +635,8 @@ hypothesis that the distribution of the two conditions for the protein are
 the same.
 
 ```{r warning=FALSE}
-anlys_wilcox <- analyze(dataImput, testType = "wilcox-test", ref = ref)
+anlys_wilcox <- analyze(dataImput, ref = ref,
+                        testType = "wilcox-test", adjust.method = "BH")
 ```
 
 <div class="note">
@@ -678,7 +681,7 @@ The result of `testType = "MA"` is to generate the data for plotting an MA plot,
 which represents the protein-wise averages within each condition.
 
 ```{r}
-anlys_MA <- analyze(dataImput, testType = "MA", ref = ref)
+anlys_MA <- analyze(dataImput, ref = ref, testType = "MA")
 ```
 
 ```{r echo=FALSE}

@@ -8,6 +8,7 @@ analyze(
   dataSet,
   testType = "t-test",
   ref = NULL,
+  adjust.method = "BH",
   paired = FALSE,
   pool.sd = FALSE
 )
@@ -26,6 +27,18 @@ analyze(
 
 \item{ref}{A string (default = NULL) specifying the reference condition for comparison.
 If NULL, all pairwise comparisons are performed.}
+
+\item{adjust.method}{A string (default = "BH") specifying the correction method for
+p-value adjustment when \code{testType = "*-test"}: \itemize{
+\item "BH" or its alias "fdr": \insertCite{benjamini1995controlling;textual}{msDiaLogue}.
+\item "BY": \insertCite{benjamini2001control;textual}{msDiaLogue}.
+\item "bonferroni": \insertCite{bonferroni1936teoria;textual}{msDiaLogue}.
+\item "hochberg": \insertCite{hochberg1988sharper;textual}{msDiaLogue}.
+\item "holm": \insertCite{holm1979simple;textual}{msDiaLogue}.
+\item "hommel": \insertCite{hommel1988stagewise;textual}{msDiaLogue}.
+\item "none": None
+}
+See \code{\link[stats]{p.adjust}} for more details.}
 
 \item{paired}{A boolean (default = FALSE) specifying whether or not to perform a paired
 test when \code{testType = "t-test"} or \code{testType = "wilcox-test"}.}

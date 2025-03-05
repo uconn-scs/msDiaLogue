@@ -265,11 +265,11 @@ preprocessing_scaffold <- function(fileName, dataSet = NULL, zeroNA = TRUE, oneN
   dataSet <- dataSet %>%
     slice(-(1:header_row)) %>%
     slice(-n()) %>%
-    rename(ProteinDescriptions = names(.)[3],
-           AccessionNumber = "Accession Number",
-           AlternateID = "Alternate ID",
-           MolecularWeight = "Molecular Weight",
-           ProteinGroupingAmbiguity = "Protein Grouping Ambiguity") %>%
+    rename(ProteinDescriptions = names(.)[3])
+  
+  colnames(dataSet) <- gsub(" ", "", colnames(dataSet))
+  
+  dataSet <- dataSet %>%
     mutate(AccessionNumber = paste0("00", AccessionNumber))
   
   infoColName <- c("Visible?", "Starred?",
@@ -290,11 +290,11 @@ preprocessing_scaffold <- function(fileName, dataSet = NULL, zeroNA = TRUE, oneN
   
   ## select columns necessary for analysis
   selectedData <- dataSet[,noGO_col] %>%
-    select(-infoColName[infoColName != "AccessionNumber"]) %>%
+    select(-any_of(infoColName[infoColName != "AccessionNumber"])) %>%
     mutate(across(-AccessionNumber, ~as.numeric(replace(., . == "Missing Value", NA)))) %>%
     pivot_longer(-AccessionNumber, names_to = "ConditionReplicate", values_to = "Quantity") %>%
     # gather(ConditionReplicate, Quantity, -AccessionNumber) %>%
-    mutate(R.Condition = sub(".+[-_](.+)[-_].+$", "\\1", ConditionReplicate),
+    mutate(R.Condition = sub("^(?:.*_)?([^_]+)[-_][^_]+$", "\\1", ConditionReplicate),
            R.Replicate = sub(".+[-_](.+)$", "\\1", ConditionReplicate)) %>%
     select(R.Condition, R.Replicate, AccessionNumber, Quantity)
   
