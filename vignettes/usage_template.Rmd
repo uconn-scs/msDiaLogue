@@ -61,13 +61,14 @@ profiles.
 
 **3\.** Applies a unique peptides per protein filter
 
-General practice in the proteomics field is to filter out proteins from which
-only 1 unique peptide was identified.  This adds increased confidence to results
-already filtered to a 1\% false discovery rate (FDR), since proteins that are
-identified with 2 or more peptides are less likely to be false positives. We
-recommend filtering out these protein entries in order to focus on more
-confident targets in the identified proteome. However, 1-peptide proteins can
-still be observed in the original protein report from **Spectronaut**.
+General practice in the proteomics field is to filter out proteins which were identified
+on the basis of a single peptide. Because approximately 1% of all identified peptides are
+false positive matches, it's more likely that 1 peptide was incorrectly identified and that protein
+ID is incorrect than that, for example, 5 peptides from the same protein were all incorrectly identified
+and that protein ID is incorrect.  
+We recommend focusing on proteins with 2 or more peptide identifications, as these will be higher confidence.
+If you have a protein of interest with only 1 peptide identified, contact [PMF faculty](https://proteomics.uconn.edu/about-us/) 
+and we can help you evaluate the evidence from the raw data to determine believability.
 
 **4\.** Adds accession numbers to identified proteins without informative names
 
@@ -100,7 +101,8 @@ When this happens, the accession numbers for all potential matches are
 concatenated into one string, separated by periods. When you see long strings of
 multiple identifiers later in your data processing, this is why. **Spectronaut**
 sorts these alphanumerically, so you should not assume that the first protein in
-the list is most likely to be correct (as is the case in other search algorithms). </div>
+the list is most likely to be correct (other search algorithms such as MaxQuant, 
+which is used in PMF for most Scaffold-based results, do rank protein cluster IDs by likelihood of correctness). </div>
 
 **5\.** Saves a document to your working directory with all filtered out data,
 if desired
@@ -167,17 +169,19 @@ knitr::kable(dataTran)
 
 In some cases, a researcher may wish to filter out a specific protein or
 proteins from the dataset. The most common instance of this would be proteins
-identified from the common contaminants database, where the identification is
-necessary to avoid incorrect matching but the result is irrelevant to the
-experimental question and would not be included in data visualization. Other
-scenarios might include a mixed-species experiment where the researcher wants to
+identified from the common contaminants database, where we don't want something like BSA
+to be matched to a human protein because the search algorithm didn't have the correct option
+available, but we don't actually care about BSA itself and want to leave it out
+of our visualization.  Other examples may be filtering out entries from the decoy database
+(specific to a Scaffold file only, will not be present in a Spectronaut file), 
+or a mixed-species experiment where the researcher wants to
 evaluate data from only one species at a time. This step allows you to set aside
-specific proteins from downstream analysis, using the gene_species identifier
-format.
+specific proteins from downstream analysis, using either an exact match identifier
+ (the "listName = " function), or text-containing identifiers (the "regexName = " function).
 
 <div class="note">
-**Note:** The proteins to be selected or removed is the union of those specified
-in `listName` and those matching the regular expression pattern in `regexName`. \
+**Note:** If both `listName` and `regexName` are defined, the proteins to be selected or removed is the union of 
+the two terms. \
 **Keep in mind:** Removal of any proteins, including common contaminants, will
 affect any global calculations performed after this step (such as normalization).
 This should not be done without a clear understanding of how this will affect
@@ -186,18 +190,28 @@ your results. </div>
 **Case 1.** Remove proteins specified by the user in this step and keep
 everything else.
 
-For example, the proteins named "ALBU_BOVIN" and those containing "HUMAN" are
-chosen to be filtered out.
+In the example below, the specific protein with the identifier "ALBU_BOVIN" will be removed, 
+as will anything entries with an identifier that contains the characters "HUMAN".  
+If `removeList = TRUE`, this function will remove what you've specified and keep the rest.
 
 ```{r eval=FALSE}
 filterOutIn(dataTran, listName = "ALBU_BOVIN", regexName = "HUMAN",
             removeList = TRUE, saveRm = TRUE)
 ```
+If you want to exclude two sets of proteins and no specific ones (e.g. contaminants and decoys, but not specifically albumin),
+you can drop the `listName` designator entirely, and set the regexName function to include a combination, like this:
 
-where `removeList = TRUE` indicates the removal of proteins from the union of
-`listName` and `regexName` in `dataTran`. Please note that if `saveRm = TRUE`,
-the excluded data ("ALBU_BOVIN" + "\*HUMAN") will be saved as a .csv file named
-*filtered_out_data.csv* in the current working directory.
+```{r eval=FALSE}
+filterOutIn(dataTran, regexName = c("DECOY", "CON__"), 
+            removeList = TRUE, saveRm = TRUE)
+```
+
+Keep in mind that if you only type "CON", many protein names have CON somewhere in a text string, and those will
+be selected too.  This is why the contaminants database uses two underscores to set off the identifier tag (CON__), so you
+can distinguish between contaminants and proteins with names like "condensin" or "ubiquitin-conjugating" or "domain-containing".
+
+If `saveRm = TRUE`, the filtered-out data ("ALBU_BOVIN" + "\*HUMAN") will be saved as a .csv file named
+*filtered_out_data.csv* in the current working directory, and you can inspect this list to see what was removed.
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
@@ -210,8 +224,7 @@ knitr::kable(
 **Case 2.** Keep the proteins specified by the user in this step and remove
 everything else.
 
-Alternatively, if we would to keep proteins like "ALBU_BOVIN" and "\*HUMAN",
-simply set `removelist = FALSE`.
+If we set `removeList` to FALSE, running this code will remove everything you *didn't* specify and keep only things that matched your search terms.
 
 ```{r eval=FALSE}
 filterOutIn(dataTran, listName = "ALBU_BOVIN", regexName = "HUMAN",
@@ -280,11 +293,12 @@ protein quantification.
 b) Assumption of Non-Changing Species: \
 Most biological experiments implicitly assume that the majority of measured
 species in an experiment will not change across conditions. This assumption is
-more robust if there are thousands of species, compared to only hundreds, or
-tens, so for experiments of very different complexities (e.g. a purified protein
-vs. an immunoprecipitation vs. a full lysate), normalization should not be
-applied as a global process, but instead only on subsets of experiments that are
-relatively similar to each other.
+more robust the more measurements your experiment has (e.g. several thousand proteins).  
+It may not be true at all for small datasets (tens of proteins).
+
+If you are analyzing a batch of samples with very different complexities 
+(e.g. a set of IPs where the control samples have tens of proteins and the experimental samples have hundreds of proteins), 
+you should not normalize all of these together, but break them up into subsets of similar complexity.
 
 By default, normalization is performed across samples, adjusting protein
 expression levels within each sample relative to the other samples.
@@ -315,7 +329,7 @@ Quantile normalization is generally recommended by [UConn SCS](https://statscons
 dataNorm <- normalize(dataTran, normalizeType = "quant")
 ```
 
-Oh! The message "Warning: Removed 55 rows containing non-finite values"
+The message "Warning: Removed 55 rows containing non-finite values"
 indicates the presence of 55 NA (Not Available) values in the data. These NA
 values arise when a protein was not identified in a particular sample or
 condition and are automatically excluded when generating the boxplot but
