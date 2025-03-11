@@ -39,7 +39,7 @@
 #' @param ref A string (default = NULL) specifying the reference condition for comparison.
 #' If NULL, all pairwise comparisons are performed.
 #' 
-#' @param adjust.method A string (default = "BH") specifying the correction method for
+#' @param adjust.method A string (default = "none") specifying the correction method for
 #' p-value adjustment when \code{testType = "*-test"}: \itemize{
 #' \item "BH" or its alias "fdr": \insertCite{benjamini1995controlling;textual}{msDiaLogue}.
 #' \item "BY": \insertCite{benjamini2001control;textual}{msDiaLogue}.
@@ -78,7 +78,7 @@
 #' 
 #' @export
 
-analyze <- function(dataSet, testType = "t-test", ref = NULL, adjust.method = "BH",
+analyze <- function(dataSet, testType = "t-test", ref = NULL, adjust.method = "none",
                     paired = FALSE, pool.sd = FALSE) {
   
   conds <- levels(dataSet$R.Condition)

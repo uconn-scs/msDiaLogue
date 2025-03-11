@@ -566,9 +566,30 @@ The Student's t-test is used to compare the means between two conditions for
 each protein, reporting both the difference in means between the conditions and
 the p-value of the test.
 
+The argumen `adjust.method` is used to specify the testing correction procedure
+to be applied to p-values. This adjustment is essential for controlling the
+overall error rate when conducting multiple comparisons, as it helps mitigate
+the risk of false positives. Several methods are provided:
+
+1. "BH" or its alias "fdr": @benjamini1995controlling.
+
+2. "BY": @benjamini2001control.
+
+3. "bonferroni": @bonferroni1936teoria.
+
+4. "hochberg": @hochberg1988sharper.
+
+5. "holm": @holm1979simple.
+
+6. "hommel": @hommel1988stagewise.
+
+Each method offers its own balance between statistical power and error control.
+The default value `"none"` indicates that no correction is applied.
+
+
 ```{r}
 anlys_t <- analyze(dataImput, ref = ref,
-                   testType = "t-test", adjust.method = "BH")
+                   testType = "t-test", adjust.method = "none")
 ```
 
 <div class="note">
@@ -615,7 +636,7 @@ calculate variance.
 
 ```{r}
 anlys_mod.t <- analyze(dataImput, ref = ref,
-                       testType = "mod.t-test", adjust.method = "BH")
+                       testType = "mod.t-test", adjust.method = "none")
 ```
 
 <div class="note">
@@ -671,7 +692,7 @@ the same.
 
 ```{r warning=FALSE}
 anlys_wilcox <- analyze(dataImput, ref = ref,
-                        testType = "wilcox-test", adjust.method = "BH")
+                        testType = "wilcox-test", adjust.method = "none")
 ```
 
 <div class="note">

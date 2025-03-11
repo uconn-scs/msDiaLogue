@@ -8,7 +8,7 @@ analyze(
   dataSet,
   testType = "t-test",
   ref = NULL,
-  adjust.method = "BH",
+  adjust.method = "none",
   paired = FALSE,
   pool.sd = FALSE
 )
@@ -28,7 +28,7 @@ analyze(
 \item{ref}{A string (default = NULL) specifying the reference condition for comparison.
 If NULL, all pairwise comparisons are performed.}
 
-\item{adjust.method}{A string (default = "BH") specifying the correction method for
+\item{adjust.method}{A string (default = "none") specifying the correction method for
 p-value adjustment when \code{testType = "*-test"}: \itemize{
 \item "BH" or its alias "fdr": \insertCite{benjamini1995controlling;textual}{msDiaLogue}.
 \item "BY": \insertCite{benjamini2001control;textual}{msDiaLogue}.
