@@ -76,7 +76,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-03-10</h4>
+            <h4 data-toc-skip class="date">2025-03-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -175,9 +175,8 @@ periods. When you see long strings of multiple identifiers later in your
 data processing, this is why. <strong>Spectronaut</strong> sorts these
 alphanumerically, so you should not assume that the first protein in the
 list is most likely to be correct (other search algorithms such as
-<strong>MaxQuant</strong>, which is used in PMF for most
-<strong>Scaffold</strong>-based results, do rank protein cluster IDs by
-likelihood of correctness).
+MaxQuant, which is used in PMF for most Scaffold-based results, do rank
+protein cluster IDs by likelihood of correctness).
 </div>
 <p><strong>5.</strong> Saves a document to your working directory with
 all filtered out data, if desired</p>
@@ -1630,13 +1629,13 @@ don’t want something like BSA to be matched to a human protein because
 the search algorithm didn’t have the correct option available, but we
 don’t actually care about BSA itself and want to leave it out of our
 visualization. Other examples may be filtering out entries from the
-decoy database (specific to a <strong>Scaffold</strong> file only, will
-not be present in a Spectronaut file), or a mixed-species experiment
-where the researcher wants to evaluate data from only one species at a
-time. This step allows you to set aside specific proteins from
-downstream analysis, using either an exact match identifier (the
-<code>listName =</code> argument), or text-containing identifiers (the
-<code>regexName =</code> argument).</p>
+decoy database (specific to a Scaffold file only, will not be present in
+a Spectronaut file), or a mixed-species experiment where the researcher
+wants to evaluate data from only one species at a time. This step allows
+you to set aside specific proteins from downstream analysis, using
+either an exact match identifier (the <code>listName =</code> argument),
+or text-containing identifiers (the <code>regexName =</code>
+argument).</p>
 <div class="note">
 <strong>Note:</strong> If both <code>listName</code> and
 <code>regexName</code> are defined, the proteins to be selected or
@@ -2513,8 +2512,8 @@ can inspect this list to see what was removed.</p>
 <p><strong>Case 2.</strong> Keep the proteins specified by the user in
 this step and remove everything else.</p>
 <p>If we set <code>removeList</code> to FALSE, running this code will
-remove everything you <strong>didn’t</strong> specify and keep only
-things that matched your search terms.</p>
+remove everything you <em>didn’t</em> specify and keep only things that
+matched your search terms.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/filterOutIn.html">filterOutIn</a></span><span class="op">(</span><span class="va">dataTran</span>, listName <span class="op">=</span> <span class="st">"ALBU_BOVIN"</span>, regexName <span class="op">=</span> <span class="st">"HUMAN"</span>,</span>
 <span>            removeList <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
@@ -7300,11 +7299,28 @@ condition.
 <p>The Student’s t-test is used to compare the means between two
 conditions for each protein, reporting both the difference in means
 between the conditions and the p-value of the test.</p>
-<p>The argumen <code>adjust.method</code> is used to specify the testing
-correction procedure to be applied to p-values. This adjustment is
-essential for controlling the overall error rate when conducting
-multiple comparisons, as it helps mitigate the risk of false positives.
-Several methods are provided:</p>
+<p>The argument <code>adjust.method</code> is used to specify the
+testing correction procedure to be applied to p-values. This adjustment
+is very common in DNA or RNA-Seq analyses, where datasets are very large
+and where researchers are most interested in controlling the Type I
+error rate when conducting multiple comparisons.</p>
+<p>However, for mass spectrometry-based proteomics results, the dataset
+sizes are smaller than in sequencing analyses, and testing corrections
+can be too harsh of a threshold to apply. Most often, applying any
+testing correction to proteomics data results in there being zero
+significant changes. This does not mean that nothing is meaningfully
+changing in your dataset. It does mean that these corrections are
+usually not a useful tool for finding biologically-relevant changes in
+your dataset.</p>
+<p>Also keep in mind that reducing Type I error typically comes at the
+cost of increasing Type II error, and vice versa. There is no way to
+eliminate all error; each researcher must decide whether they are more
+comfortable with losing more true results along with false ones, or with
+keeping more false results along with true ones, and choose their
+analysis strategies accordingly.</p>
+<p>UConn PMF recommends not applying testing corrections to your
+proteomics dataset, but if you would like to explore the effects of
+doing so, several methods are provided below:</p>
 <ol style="list-style-type: decimal">
 <li><p>“BH” or its alias “fdr”: <span class="citation">Benjamini and
 Hochberg (1995)</span>.</p></li>
@@ -8221,8 +8237,8 @@ In this case, the p-value of t-test returns NaN.
 moderated t-tests <span class="citation">(Smyth 2004)</span> lies in how
 variance is computed. While the Student’s t-test calculates variance
 based on the data available for each protein individually, the moderated
-t-test utilizes information from all the chosen proteins to calculate
-variance.</p>
+t-test utilizes information from all the proteins in the current dataset
+to calculate variance.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">anlys_mod.t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="va">ref</span>,</span>
 <span>                       testType <span class="op">=</span> <span class="st">"mod.t-test"</span>, adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
@@ -10549,10 +10565,12 @@ within each condition.</p>
 <h2 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
 </h2>
 <p>This section provides a variety of options for getting a global view
-of your data, making comparisons, and highlighting trends. Keep in mind
-that data visualization is most effective when illustrating a point or
-answering a question you have about your data, and not as a means to
-find a point/question.</p>
+of your data, making comparisons, and highlighting trends.</p>
+<div class="note">
+<strong>Note:</strong> Data visualization is most effective when
+illustrating a point or answering a question you have about your data,
+not as a means to find a point/question.
+</div>
 <div class="section level3">
 <h3 id="heatmap">heatmap<a class="anchor" aria-label="anchor" href="#heatmap"></a>
 </h3>
@@ -10806,13 +10824,19 @@ log10 of the p-value.</p></li>
 <h2 id="other-useful-function">Other useful function<a class="anchor" aria-label="anchor" href="#other-useful-function"></a>
 </h2>
 <p>The function <code><a href="../reference/pullProteinPath.html">pullProteinPath()</a></code> allows you to see the
-values associated with specific proteins that match exactly and/or
-proteins that match the regular expression pattern at each step of
-processing. This can be useful for questions such as, “Were all of the
-values for my favorite protein actually measured, or were some imputed?”
-or “Why didn’t my favorite protein make it to the final list? Where was
-it filtered out?”. It can also be used to check whether some given
-proteins’ fold-change might have been a processing artifact.</p>
+quantitative values associated with specific proteins at each step of
+processing, using either the exact match argument
+<code>listname =</code>, or the text match argument
+<code>regexName =</code>, or both.</p>
+<p>This can be useful for questions such as,</p>
+<ul>
+<li>“Which of the values for my favorite protein were actually measured,
+vs. imputed?”</li>
+<li>“Why didn’t my favorite protein make it to the final list? At what
+step was it filtered out?”.</li>
+</ul>
+<p>It can also be used to check whether the fold-change observed for a
+specific protein is an artifact from one of the processing steps.</p>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Check</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pullProteinPath.html">pullProteinPath</a></span><span class="op">(</span></span>
 <span>  listName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LYSC_CHICK"</span>, <span class="st">"BGAL_ECOLI"</span><span class="op">)</span>,</span>

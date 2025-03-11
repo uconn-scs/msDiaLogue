@@ -567,20 +567,28 @@ each protein, reporting both the difference in means between the conditions and
 the p-value of the test.
 
 The argument `adjust.method` is used to specify the testing correction procedure
-to be applied to p-values. This adjustment is very common in DNA or RNA-Seq analyses, where datasets are very large and
-where researchers are most interested in controlling the Type I error rate when conducting multiple comparisons.
+to be applied to p-values. This adjustment is very common in DNA or RNA-Seq
+analyses, where datasets are very large and where researchers are most
+interested in controlling the Type I error rate when conducting multiple
+comparisons.
 
-However, for mass spectrometry-based proteomics results, the dataset sizes are smaller than in sequencing analyses,
-and testing corrections can be too harsh of a threshold to apply. Most often, applying any testing correction to 
-proteomics data results in there being zero significant changes. This does not mean that nothing is meaningfully changing in your dataset.  
-It does mean that these corrections are usually not a useful tool for finding biologically-relevant changes in your dataset.
+However, for mass spectrometry-based proteomics results, the dataset sizes are
+smaller than in sequencing analyses, and testing corrections can be too harsh of
+a threshold to apply. Most often, applying any testing correction to proteomics
+data results in there being zero significant changes. This does not mean that
+nothing is meaningfully changing in your dataset. It does mean that these
+corrections are usually not a useful tool for finding biologically-relevant
+changes in your dataset.
 
-Also keep in mind that reducing Type I error typically comes at the cost of increasing Type II error, and vice versa.  
-There is no way to eliminate all error; each researcher must decide whether they are more comfortable with losing more true results along with false ones,
-or with keeping more false results along with true ones, and choose their analysis strategies accordingly.
+Also keep in mind that reducing Type I error typically comes at the cost of
+increasing Type II error, and vice versa. There is no way to eliminate all error;
+each researcher must decide whether they are more comfortable with losing more
+true results along with false ones, or with keeping more false results along
+with true ones, and choose their analysis strategies accordingly.
 
-UConn PMF recommends not applying testing corrections to your proteomics dataset, 
-but if you would like to explore the effects of doing so, several methods are provided below:
+UConn PMF recommends not applying testing corrections to your proteomics dataset,
+but if you would like to explore the effects of doing so, several methods are
+provided below:
 
 1. "BH" or its alias "fdr": @benjamini1995controlling.
 
@@ -596,7 +604,6 @@ but if you would like to explore the effects of doing so, several methods are pr
 
 Each method offers its own balance between statistical power and error control.
 The default value `"none"` indicates that no correction is applied.
-
 
 ```{r}
 anlys_t <- analyze(dataImput, ref = ref,
@@ -642,8 +649,8 @@ knitr::kable(anlys_t$total)
 The main distinction between the Student's and empirical Bayes moderated t-tests
 [@smyth2004linear] lies in how variance is computed. While the Student's t-test
 calculates variance based on the data available for each protein individually,
-the moderated t-test utilizes information from all the proteins in the current dataset to
-calculate variance.
+the moderated t-test utilizes information from all the proteins in the current
+dataset to calculate variance.
 
 ```{r}
 anlys_mod.t <- analyze(dataImput, ref = ref,
@@ -773,9 +780,12 @@ knitr::kable(anlys_MA$`200pmol-50pmol`)
 ## Visualization
 
 This section provides a variety of options for getting a global view of your
-data, making comparisons, and highlighting trends. 
-**Note:** data visualization is most effective when illustrating a point or answering a
-question you have about your data, not as a means to find a point/question.
+data, making comparisons, and highlighting trends.
+
+<div class="note">
+**Note:** Data visualization is most effective when illustrating a point or
+answering a question you have about your data, not as a means to find a
+point/question. </div>
 
 
 ### heatmap
@@ -1030,12 +1040,20 @@ visualize(anlys_mod.t$`100pmol-50pmol`, graphType = "volcano",
 
 ## Other useful function
 
-The function `pullProteinPath()` allows you to see the quantitative values associated with
-specific proteins at each step of processing, using either the exact match function `listname =`, or the text match function `regexName =`, or both. \
-This can be useful for questions such as,\
-+ "Which of the values for my favorite protein were actually measured, vs. imputed?"\
-+ "Why didn't my favorite protein make it to the final list? At what step was it filtered out?". \
-It can also be used to check whether the fold-change observed for a specific protein is an artifact from one of the processing steps.
+The function `pullProteinPath()` allows you to see the quantitative values
+associated with specific proteins at each step of processing, using either the
+exact match argument `listname =`, or the text match argument `regexName =`, or
+both.
+
+This can be useful for questions such as,
+
++ "Which of the values for my favorite protein were actually measured, vs.
+imputed?"
++ "Why didn't my favorite protein make it to the final list? At what step was it
+filtered out?".
+
+It can also be used to check whether the fold-change observed for a specific
+protein is an artifact from one of the processing steps.
 
 ```{r}
 Check <- pullProteinPath(
