@@ -30,6 +30,21 @@ library(msDiaLogue)
 
 ## Preprocessing
 
+### Usage
+
+```{r eval = FALSE}
+preprocessing(
+  fileName,            # name of Spetronaught file
+  dataSet = NULL,      # name of dataset if already loaded into R
+  filterNaN = TRUE,    # Should NaN values be removed?
+  filterUnique = 2,    # Minimum number of unique peptides
+  replaceBlank = TRUE, # Replace blank protein names with Accession num.
+  saveRm = TRUE        # Should excluded proteins be saved to a file?
+)
+```
+
+### Details & Examples
+
 The function `preprocessing()` takes a `.csv` file of summarized protein
 abundances, exported from **Spectronaut**. The most important columns that need
 to be included in this file are: `R.Condition`, `R.Replicate`,
@@ -149,6 +164,17 @@ knitr::kable(dataSet, align = "l")
 
 ## Transformation
 
+### Usage
+
+```{r eval=FALSE}
+transform(dataSet,        # a preprocessed dataset
+          method = "log", # method of transformation
+          logFold = 2,    # base value for log transformation
+          root = 2)       # degree of the root for a root transformation
+```
+
+### Details & Examples
+
 Raw mass spectrometry intensity measurements are often unsuitable for direct
 statistical modeling because the shape of the data is usually not symmetrical
 and the variance is not consistent across the range of intensities. Most
@@ -169,6 +195,20 @@ knitr::kable(dataTran)
 
 
 ## Filtering
+
+### Usage
+
+```{r eval=FALSE}
+filterOutIn(
+  dataSet,           # dataset of values
+  listName = c(),    # character vector of proteins
+  regexName = c(),   # character vector for use within a regex
+  removeList = TRUE, # should named proteins be remove?
+  saveRm = TRUE      # should removed proteins be saved?
+)
+```
+
+### Details & Examples
 
 In some cases, a researcher may wish to filter out a specific protein or
 proteins from the dataset. The most common instance of this would be proteins
@@ -294,6 +334,19 @@ knitr::kable(
 
 ## Normalization
 
+### Usage
+
+<div style="overflow-x: auto;">
+```{r eval = FALSE}
+normalize(dataSet,                 # dataset of experimental values
+          applyto = "sample",      # specify the target of normalization
+          normalizeType = "quant", # why type of normalization to apply
+          plot = TRUE)             # should a plot of normalized values be produced?
+```
+</div>
+
+### Details & Examples
+
 Normalization is designed to address systematic biases in the data. Biases can
 arise from inadvertent sample grouping during generation or preparation, from
 variations in instrument performance during acquisition, analysis of different
@@ -364,6 +417,38 @@ knitr::kable(dataNorm)
 
 
 ## Imputation
+
+### Usage
+
+<div style="overflow-x: auto;">
+```{r eval = FALSE}
+dataMissing(
+  dataSet,                 # dataset of experimental values
+  sort_miss = FALSE,       # should columns be ordered by missingness?
+  plot = FALSE,            # should missingness be plotted?
+  show_pct_legend = TRUE,  # should % missing be displayed on plot?
+  show_labels = TRUE,      # should column headings be displayed on plot?
+  show_pct_col = TRUE      # should % missing by column be displayed on plot?
+)
+
+impute.min_local(dataSet,                 # dataset of experimental values
+                 reportImputing = FALSE,  # should record of imputed values be kept?
+                 reqPercentPresent = 0.51 # what is the required % present to be imputed?
+                 )
+
+impute.min_global(dataSet,                # dataset of experimental values
+                  reportImputing = FALSE  # should record of imputed values be kept? 
+                  )
+
+
+impute.knn_seq(dataSet,                # dataset of experimental values
+               reportImputing = FALSE, # should record of imputed values be kept?
+               k = 10                  # number of neighbors for imputation
+               )
+```
+</div>
+
+### Details & Examples
 
 The two primary MS/MS acquisition types implemented in large scale MS-based
 proteomics have unique advantages and disadvantages. Traditional Data-Dependent
@@ -514,6 +599,19 @@ knitr::kable(dataImput)
 
 ## Summarization
 
+### Usage
+
+<div style="overflow-x: auto;">
+```{r eval = FALSE}
+summarize(dataSet,        # dataset of experimental values
+          saveSumm = TRUE # dsave table of summary statistics?
+          )
+
+```
+</div>
+
+### Details & Examples
+
 This summarization provides a table of values for each protein in the final
 dataset that include the final processed abundances and fold changes in each
 condition, and that protein's statistical relation to the global dataset in
@@ -545,6 +643,23 @@ The column "Stat" in the generated result includes the following statistics:
 + se: Standard error.
 
 ## Analysis
+
+### Usage
+
+<div style="overflow-x: auto;">
+```{r eval = FALSE}
+analyze(dataSet,                # dataset of experimental values
+        testType = "t-test",    # statistical test to use
+        ref = NULL,             # which level of condition to use as reference
+        adjust.method = "none", # what methods of p-value adjustment to use
+        paired = FALSE,         # are the data paired?
+        pool.sd = FALSE         # used pooled sd (for t-test)?
+        )
+
+```
+</div>
+
+### Details & Examples
 
 The function `analyze()` calculates the results that can be used in subsequent
 visualizations.
@@ -782,6 +897,50 @@ knitr::kable(anlys_MA$`200pmol-50pmol`)
 
 ## Visualization
 
+There is a wide variety of plotting options in **msDiaLogue**. What plots are possible depend on what data you have and what analyses have been run. See below for more details of individual plot types.
+
+List of some of the plot options:
+ - Heatmaps
+ - PCA Plots
+ - Venn Diagrams
+ - Upset Plots
+ - Volcano Plots
+ - MA Plots
+
+
+### Usage
+
+<div style="overflow-x: auto;">
+```{r eval = FALSE}
+visualize(dataSet,                                              # dataset of experimental values
+          graphType = "volcano",                                # type of image to produce
+          pkg = "pheatmap",                                     # pkg option for heatmap plotting
+          cluster_cols = TRUE,                                  # cluster heatmap by columns?
+          cluster_rows = FALSE,                                 # cluster heatmap by rows? 
+          show_colnames = TRUE,                                 # display heatmap columns?
+          show_rownames = TRUE,                                 # display heatmap rows?
+          M.thres = 1,                                          # threshold by foldchange
+          center = TRUE,                                        # should data be centered before PCA?
+          scale = TRUE,                                         # should data be scaled before PCA?
+          addlabels = TRUE,                                     # should labels be added to PCA plots?
+          choice = "variance",                                  # type of scree plot to generate
+          ncp = 10,                                             # number of PCs to estimate
+          addEllipses = TRUE,                                   # should ellipses be added?
+          ellipse.level = 0.95,                                 # level for ellipses
+          label = "all",                                        # what to label in PCA plot
+          show_percentage = TRUE,                               # should % be shown in Venn diagram
+          fill_color = c("blue", "yellow", "green", "red"),     # colors to uses for Venn diagram
+          saveVenn = TRUE,                                      # should Venn diagram be exported?
+          proteinInformation =                                 # name of file containing protein information
+            "preprocess_protein_information.csv",
+          P.thres = 0.05,                                      # significance level for volcano plots 
+          F.thres = 1                                          # fold change threshold for volcano plots
+          )
+```
+</div>
+
+### Details & Examples
+
 This section provides a variety of options for getting a global view of your
 data, making comparisons, and highlighting trends.
 
@@ -895,7 +1054,6 @@ PCA.
 names(dataImput)[sapply(dataImput, function(col) length(unique(col)) == 1)]
 dataPCA <- dataImput[, colnames(dataImput) != "ALBU_BOVIN"]
 ```
-
 
 #### PCA_scree
 
@@ -1077,4 +1235,3 @@ knitr::kable(Check)
 
 
 ## Reference {-}
-
