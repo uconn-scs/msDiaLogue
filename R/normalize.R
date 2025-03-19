@@ -71,8 +71,9 @@ normalize <- function(dataSet, applyto = "sample", normalizeType = "quant", plot
   
   ## create a boxplot for pre-normalization
   if (plot) {
-    visualize(dataSet, graphType = "normalize") +
+    plotobj <- visualize(dataSet, graphType = "normalize") +
       ggtitle("Pre-Normalization Boxplot")
+    print(plotobj)
   }
   
   ## select the numerical data
@@ -162,9 +163,9 @@ normalize <- function(dataSet, applyto = "sample", normalizeType = "quant", plot
   
   ## create a boxplot for post-normalization
   if (plot) {
-    plot <- visualize(normDataSet, graphType = "normalize") +
+    plotobj <- visualize(normDataSet, graphType = "normalize") +
       ggtitle("Post-Normalization Boxplot")
-    print(plot)
+    print(plotobj)
   }
   
   ## return pre-processed data
