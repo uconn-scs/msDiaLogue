@@ -21,6 +21,7 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center")
 ```
 
+
 ## Load R package
 
 ```{r warning=FALSE, message=FALSE}
@@ -32,7 +33,7 @@ library(msDiaLogue)
 
 ### Usage
 
-```{r eval = FALSE}
+```{r eval=FALSE}
 preprocessing(
   fileName,            # name of Spetronaught file
   dataSet = NULL,      # name of dataset if already loaded into R
@@ -42,6 +43,7 @@ preprocessing(
   saveRm = TRUE        # Should excluded proteins be saved to a file?
 )
 ```
+
 
 ### Details & Examples
 
@@ -173,6 +175,7 @@ transform(dataSet,        # a preprocessed dataset
           root = 2)       # degree of the root for a root transformation
 ```
 
+
 ### Details & Examples
 
 Raw mass spectrometry intensity measurements are often unsuitable for direct
@@ -207,6 +210,7 @@ filterOutIn(
   saveRm = TRUE      # should removed proteins be saved?
 )
 ```
+
 
 ### Details & Examples
 
@@ -336,14 +340,13 @@ knitr::kable(
 
 ### Usage
 
-<div style="overflow-x: auto;">
-```{r eval = FALSE}
+```{r eval=FALSE}
 normalize(dataSet,                 # dataset of experimental values
           applyto = "sample",      # specify the target of normalization
           normalizeType = "quant", # why type of normalization to apply
           plot = TRUE)             # should a plot of normalized values be produced?
 ```
-</div>
+
 
 ### Details & Examples
 
@@ -420,33 +423,29 @@ knitr::kable(dataNorm)
 
 ### Usage
 
-<div style="overflow-x: auto;">
-```{r eval = FALSE}
+```{r eval=FALSE}
 dataMissing(
-  dataSet,                 # dataset of experimental values
-  sort_miss = FALSE,       # should columns be ordered by missingness?
-  plot = FALSE,            # should missingness be plotted?
-  show_pct_legend = TRUE,  # should % missing be displayed on plot?
-  show_labels = TRUE,      # should column headings be displayed on plot?
-  show_pct_col = TRUE      # should % missing by column be displayed on plot?
+  dataSet,                # dataset of experimental values
+  sort_miss = FALSE,      # should columns be ordered by missingness?
+  plot = FALSE,           # should missingness be plotted?
+  show_pct_legend = TRUE, # should % missing be displayed on plot?
+  show_labels = TRUE,     # should column headings be displayed on plot?
+  show_pct_col = TRUE     # should % missing by column be displayed on plot?
 )
 
-impute.min_local(dataSet,                 # dataset of experimental values
-                 reportImputing = FALSE,  # should record of imputed values be kept?
-                 reqPercentPresent = 0.51 # what is the required % present to be imputed?
-                 )
+impute.min_local(dataSet,                  # dataset of experimental values
+                 reportImputing = FALSE,   # should record of imputed values be kept?
+                 reqPercentPresent = 0.51) # what is the required % present to be imputed?
 
 impute.min_global(dataSet,                # dataset of experimental values
-                  reportImputing = FALSE  # should record of imputed values be kept? 
-                  )
-
+                  reportImputing = FALSE) # should record of imputed values be kept?
 
 impute.knn_seq(dataSet,                # dataset of experimental values
                reportImputing = FALSE, # should record of imputed values be kept?
-               k = 10                  # number of neighbors for imputation
-               )
+               k = 10)                 # number of neighbors for imputation
+               
 ```
-</div>
+
 
 ### Details & Examples
 
@@ -601,14 +600,11 @@ knitr::kable(dataImput)
 
 ### Usage
 
-<div style="overflow-x: auto;">
-```{r eval = FALSE}
-summarize(dataSet,        # dataset of experimental values
-          saveSumm = TRUE # dsave table of summary statistics?
-          )
-
+```{r eval=FALSE}
+summarize(dataSet,         # dataset of experimental values
+          saveSumm = TRUE) # dsave table of summary statistics?
 ```
-</div>
+
 
 ### Details & Examples
 
@@ -642,22 +638,20 @@ The column "Stat" in the generated result includes the following statistics:
 + kurtosis: Kurtosis.
 + se: Standard error.
 
+
 ## Analysis
 
 ### Usage
 
-<div style="overflow-x: auto;">
-```{r eval = FALSE}
+```{r eval=FALSE}
 analyze(dataSet,                # dataset of experimental values
         testType = "t-test",    # statistical test to use
         ref = NULL,             # which level of condition to use as reference
         adjust.method = "none", # what methods of p-value adjustment to use
         paired = FALSE,         # are the data paired?
-        pool.sd = FALSE         # used pooled sd (for t-test)?
-        )
-
+        pool.sd = FALSE)        # used pooled sd (for t-test)?
 ```
-</div>
+
 
 ### Details & Examples
 
@@ -677,6 +671,7 @@ If you specify `ref = "A"`, then the result includes two comparisons: "B-A" and
 ```{r}
 ref <- "50pmol"
 ```
+
 
 ### Student's t-test
 
@@ -897,47 +892,47 @@ knitr::kable(anlys_MA$`200pmol-50pmol`)
 
 ## Visualization
 
-There is a wide variety of plotting options in **msDiaLogue**. What plots are possible depend on what data you have and what analyses have been run. See below for more details of individual plot types.
+There is a wide variety of plotting options in **msDiaLogue**. What plots are
+possible depend on what data you have and what analyses have been run. See below
+for more details of individual plot types.
 
 List of some of the plot options:
- - Heatmaps
- - PCA Plots
- - Venn Diagrams
- - Upset Plots
- - Volcano Plots
- - MA Plots
 
+- Heatmaps
+- PCA Plots
+- Venn Diagrams
+- Upset Plots
+- Volcano Plots
+- MA Plots
 
 ### Usage
 
-<div style="overflow-x: auto;">
-```{r eval = FALSE}
-visualize(dataSet,                                              # dataset of experimental values
-          graphType = "volcano",                                # type of image to produce
-          pkg = "pheatmap",                                     # pkg option for heatmap plotting
-          cluster_cols = TRUE,                                  # cluster heatmap by columns?
-          cluster_rows = FALSE,                                 # cluster heatmap by rows? 
-          show_colnames = TRUE,                                 # display heatmap columns?
-          show_rownames = TRUE,                                 # display heatmap rows?
-          M.thres = 1,                                          # threshold by foldchange
-          center = TRUE,                                        # should data be centered before PCA?
-          scale = TRUE,                                         # should data be scaled before PCA?
-          addlabels = TRUE,                                     # should labels be added to PCA plots?
-          choice = "variance",                                  # type of scree plot to generate
-          ncp = 10,                                             # number of PCs to estimate
-          addEllipses = TRUE,                                   # should ellipses be added?
-          ellipse.level = 0.95,                                 # level for ellipses
-          label = "all",                                        # what to label in PCA plot
-          show_percentage = TRUE,                               # should % be shown in Venn diagram
-          fill_color = c("blue", "yellow", "green", "red"),     # colors to uses for Venn diagram
-          saveVenn = TRUE,                                      # should Venn diagram be exported?
-          proteinInformation =                                 # name of file containing protein information
-            "preprocess_protein_information.csv",
-          P.thres = 0.05,                                      # significance level for volcano plots 
-          F.thres = 1                                          # fold change threshold for volcano plots
-          )
+```{r eval=FALSE}
+visualize(
+  dataSet,                                                   # dataset of experimental values
+  graphType = "volcano",                                     # type of image to produce
+  pkg = "pheatmap",                                          # pkg option for heatmap plotting
+  cluster_cols = TRUE,                                       # cluster heatmap by columns?
+  cluster_rows = FALSE,                                      # cluster heatmap by rows?
+  show_colnames = TRUE,                                      # display heatmap columns?
+  show_rownames = TRUE,                                      # display heatmap rows?
+  M.thres = 1,                                               # threshold by foldchange
+  center = TRUE,                                             # should data be centered before PCA?
+  scale = TRUE,                                              # should data be scaled before PCA?
+  addlabels = TRUE,                                          # should labels be added to PCA plots?
+  choice = "variance",                                       # type of scree plot to generate
+  ncp = 10,                                                  # number of PCs to estimate
+  addEllipses = TRUE,                                        # should ellipses be added?
+  ellipse.level = 0.95,                                      # level for ellipses
+  label = "all",                                             # what to label in PCA plot
+  show_percentage = TRUE,                                    # should % be shown in Venn diagram
+  fill_color = c("blue", "yellow", "green", "red"),          # colors to uses for Venn diagram
+  saveVenn = TRUE,                                           # should Venn diagram be exported?
+  proteinInformation = "preprocess_protein_information.csv", # name of file containing protein information
+  P.thres = 0.05,                                            # significance level for volcano plots
+  F.thres = 1)                                               # fold change threshold for volcano plots
 ```
-</div>
+
 
 ### Details & Examples
 
@@ -1002,8 +997,9 @@ $$A = \frac{1}{2}log_2(XY) = \frac{1}{2}\left[log_2(X)+log_2(Y)\right]$$
 <!-- compared to a control condition, where higher M values indicate greater differences in -->
 <!-- expression between the conditions. Meanwhile, the A value helps to account for overall -->
 <!-- differences in expression levels and reduce the influence of technical biases. -->
-Most proteins are expected to exhibit little variation, leading to the majority of points
-concentrating around the line M = 0 (indicating no difference between group means).
+Most proteins are expected to exhibit little variation, leading to the majority
+of points concentrating around the line M = 0 (indicating no difference between
+group means).
 
 ```{r}
 visualize(anlys_MA$`100pmol-50pmol`, graphType = "MA", M.thres = 1)
@@ -1028,9 +1024,10 @@ visualize(dataNorm, graphType = "normalize")
 Principal component analysis (PCA) is a powerful technique used in data analysis
 to simplify and reduce the dimensionality of large datasets. It transforms
 original variables into uncorrelated components that capture the maximum
-variance. By selecting a subset of these components, PCA projects the data points onto these key directions, enabling
-visualization and analysis in a lower-dimensional space. This aids in identifying patterns
-and relationships within complex datasets.
+variance. By selecting a subset of these components, PCA projects the data
+points onto these key directions, enabling visualization and analysis in a
+lower-dimensional space. This aids in identifying patterns and relationships
+within complex datasets.
 
 In the visualization for `graphType = "PCA_*"`, the arguments `center` and
 `scale` are used to center the data to zero mean and scale to unit variance,
@@ -1054,6 +1051,7 @@ PCA.
 names(dataImput)[sapply(dataImput, function(col) length(unique(col)) == 1)]
 dataPCA <- dataImput[, colnames(dataImput) != "ALBU_BOVIN"]
 ```
+
 
 #### PCA_scree
 
