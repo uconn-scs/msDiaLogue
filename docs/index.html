@@ -98,6 +98,15 @@
 <li><code>sh: /opt/gfortran/bin/gfortran: No such file or directory</code></li>
 </ol>
 <p>The <a href="https://fortran-lang.org/learn/os_setup/install_gfortran/" class="external-link">GFortran</a> compiler is required to build this package.</p>
+<ol start="3" style="list-style-type: decimal">
+<li><code>dependency 'impute' is not available</code></li>
+</ol>
+<p>There are dependent packages—<a href="https://bioconductor.org/packages/impute/" class="external-link">impute</a>, <a href="https://bioconductor.org/packages/limma/" class="external-link">limma</a>, and <a href="https://bioconductor.org/packages/pcaMethods/" class="external-link">pcaMethods</a>—that are available via Bioconductor rather than CRAN. If you get an error message about these packages, simply install them using:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"impute"</span><span class="op">)</span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"limma"</span><span class="op">)</span></span>
+<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"pcaMethods"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

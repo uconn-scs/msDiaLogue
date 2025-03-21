@@ -49,3 +49,19 @@ build this package.
 The [GFortran](https://fortran-lang.org/learn/os_setup/install_gfortran/) compiler is
 required to build this package.
 
+
+3. `dependency 'impute' is not available`
+
+There are dependent packages—[impute](https://bioconductor.org/packages/impute/),
+[limma](https://bioconductor.org/packages/limma/), and
+[pcaMethods](https://bioconductor.org/packages/pcaMethods/)—that are available
+via Bioconductor rather than CRAN. If you get an error message about these
+packages, simply install them using:
+
+``` r
+install.packages("BiocManager")
+BiocManager::install("impute")
+BiocManager::install("limma")
+BiocManager::install("pcaMethods")
+```
+
