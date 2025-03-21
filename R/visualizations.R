@@ -251,7 +251,8 @@ visualize <- function(
       
       fviz_pca_ind(res.pca, habillage = dataSet$R.Condition,
                    label = ifelse(addlabels, "ind", "none"),
-                   addEllipses = addEllipses, ellipse.level = ellipse.level) +
+                   addEllipses = addEllipses, ellipse.level = ellipse.level,
+                   show.legend = FALSE) +
         ggtitle("PCA graph of individuals") +
         theme_bw() +
         theme(legend.position = "bottom",
@@ -268,7 +269,8 @@ visualize <- function(
       
       fviz_pca_biplot(res.pca, habillage = dataSet$R.Condition,
                       label = label, col.var = "black",
-                      addEllipses = addEllipses, ellipse.level = ellipse.level) +
+                      addEllipses = addEllipses, ellipse.level = ellipse.level,
+                      show.legend = FALSE) +
         ggtitle("PCA graph of individuals and variables") +
         theme_bw() +
         theme(legend.position = "bottom",
