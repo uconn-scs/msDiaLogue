@@ -211,7 +211,6 @@ visualize <- function(
       geom_boxplot(varwidth = TRUE) +
       guides(fill = guide_legend(
         title = ifelse(length(unique(plotData$R.Replicate)) == 1, "Condition", "Repilcate"))) +
-      labs(title = "Normalization Boxplot") +
       xlab("Condition") +
       ylab("Signal value") +
       scale_fill_brewer(palette = "RdYlBu") +
