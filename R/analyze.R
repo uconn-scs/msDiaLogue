@@ -27,20 +27,23 @@
 #' 
 #' @param dataSet The 2d data set of data.
 #' 
-#' @param testType A string (default = "t-test") specifying which statistical test to use:
+#' @param method A string (default = "t-test") specifying which statistical analysis to
+#' use:
 #' \enumerate{
 #' \item "t-test": Student's t-test.
 #' \item "mod.t-test": Empirical Bayes moderated t-test
 #' \insertCite{smyth2004linear}{msDiaLogue}.
 #' \item "wilcox-test": Wilcoxon test.
 #' \item "MA": Output to plot an MA plot.
+#' \item "PCA": Principal components analysis
+#' \insertCite{pearson1901lines,hotelling1933analysis}{msDiaLogue}.
 #' }
 #' 
 #' @param ref A string (default = NULL) specifying the reference condition for comparison.
 #' If NULL, all pairwise comparisons are performed.
 #' 
 #' @param adjust.method A string (default = "none") specifying the correction method for
-#' p-value adjustment when \code{testType = "*-test"}: \itemize{
+#' p-value adjustment when \code{method = "*-test"}: \itemize{
 #' \item "BH" or its alias "fdr": \insertCite{benjamini1995controlling;textual}{msDiaLogue}.
 #' \item "BY": \insertCite{benjamini2001control;textual}{msDiaLogue}.
 #' \item "bonferroni": \insertCite{bonferroni1936teoria;textual}{msDiaLogue}.
@@ -52,10 +55,16 @@
 #' See \code{\link[stats]{p.adjust}} for more details.
 #' 
 #' @param paired A boolean (default = FALSE) specifying whether or not to perform a paired
-#' test when \code{testType = "t-test"} or \code{testType = "wilcox-test"}.
+#' test when \code{method = "t-test"} or \code{method = "wilcox-test"}.
 #' 
 #' @param pool.sd A boolean (default = FALSE) specifying whether or not to use a pooled
-#' standard deviation when \code{testType = "t-test"}.
+#' standard deviation when \code{method = "t-test"}.
+#' 
+#' @param center A boolean (default = TRUE) indicating whether the variables should be
+#' shifted to be zero centered when \code{method = "PCA"}.
+#' 
+#' @param scale A boolean (default = TRUE) indicating whether the variables should be
+#' scaled to have unit variance before the analysis takes place when \code{method = "PCA"}.
 #' 
 #' @import limma
 #' @importFrom stats model.matrix t.test
@@ -69,6 +78,9 @@
 #' \item "MA": A list comprising data frames for each comparison, with each data frame
 #' containing the means of the two compared conditions for each protein, as well as the
 #' average and difference in means.
+#' \item "PCA": A list containing the standard deviations of the principal components
+#' `sdev`, the matrix of variable loadings `rotation`, the centering used `center`,
+#' the scaling used `scale`, and the principal component scores `x`.
 #' }
 #' 
 #' @references
@@ -78,8 +90,9 @@
 #' 
 #' @export
 
-analyze <- function(dataSet, testType = "t-test", ref = NULL, adjust.method = "none",
-                    paired = FALSE, pool.sd = FALSE) {
+analyze <- function(dataSet, method = "t-test", ref = NULL, adjust.method = "none",
+                    paired = FALSE, pool.sd = FALSE,
+                    center = TRUE, scale = TRUE) {
   
   conds <- levels(dataSet$R.Condition)
   
@@ -109,9 +122,9 @@ analyze <- function(dataSet, testType = "t-test", ref = NULL, adjust.method = "n
     tapply(x, g, mean, na.rm = TRUE)
   })
   
-  if (grepl("test$", testType)) {
+  if (grepl("test$", method)) {
     
-    if (testType == "t-test") {
+    if (method == "t-test") {
       
       pval <- lapply(1:length(compA), function(k) {
         
@@ -133,7 +146,7 @@ analyze <- function(dataSet, testType = "t-test", ref = NULL, adjust.method = "n
         return(res)
       })
       
-    } else if (testType == "mod.t-test") {
+    } else if (method == "mod.t-test") {
       
       ## construct the design matrix
       model.formula <- eval(parse(text = "~ 0 + R.Condition"), envir = dataSet)
@@ -156,7 +169,7 @@ analyze <- function(dataSet, testType = "t-test", ref = NULL, adjust.method = "n
         return(fit3$p.value[,k])
       })
       
-    } else if (testType == "wilcox-test") {
+    } else if (method == "wilcox-test") {
       
       pval <- lapply(1:length(compA), function(k) {
         
@@ -189,7 +202,7 @@ analyze <- function(dataSet, testType = "t-test", ref = NULL, adjust.method = "n
     rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0))))
     result$total <- total
     
-  } else if (testType == "MA") {
+  } else if (method == "MA") {
     
     result <- lapply(1:length(compA), function(k) {
       res <- means[c(compA[k], compB[k]),]
@@ -199,6 +212,17 @@ analyze <- function(dataSet, testType = "t-test", ref = NULL, adjust.method = "n
     })
     
     names(result) <- paste0(compA, "-", compB)
+    
+  } else if (method == "PCA") {
+    
+    plotData <- dataSet %>%
+      mutate(R.ConRep = paste0(R.Condition, "_", R.Replicate)) %>%
+      remove_rownames() %>%
+      column_to_rownames(var = "R.ConRep") %>%
+      select(-c(R.Condition, R.Replicate))
+    
+    result <- prcomp(plotData, center = center, scale = scale)
+    result$habillage <- dataSet$R.Condition
     
   }
   

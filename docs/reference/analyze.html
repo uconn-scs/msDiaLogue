@@ -46,11 +46,13 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">analyze</span><span class="op">(</span></span>
 <span>  <span class="va">dataSet</span>,</span>
-<span>  testType <span class="op">=</span> <span class="st">"t-test"</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"t-test"</span>,</span>
 <span>  ref <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  adjust.method <span class="op">=</span> <span class="st">"none"</span>,</span>
 <span>  paired <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  pool.sd <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  pool.sd <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  center <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  scale <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -62,13 +64,17 @@
 <dd><p>The 2d data set of data.</p></dd>
 
 
-<dt id="arg-testtype">testType<a class="anchor" aria-label="anchor" href="#arg-testtype"></a></dt>
-<dd><p>A string (default = "t-test") specifying which statistical test to use:</p><ol><li><p>"t-test": Student's t-test.</p></li>
+<dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
+<dd><p>A string (default = "t-test") specifying which statistical analysis to
+use:</p><ol><li><p>"t-test": Student's t-test.</p></li>
 <li><p>"mod.t-test": Empirical Bayes moderated t-test
 (Smyth 2004)
 .</p></li>
 <li><p>"wilcox-test": Wilcoxon test.</p></li>
 <li><p>"MA": Output to plot an MA plot.</p></li>
+<li><p>"PCA": Principal components analysis
+(Pearson 1901; Hotelling 1933)
+.</p></li>
 </ol></dd>
 
 
@@ -79,7 +85,7 @@ If NULL, all pairwise comparisons are performed.</p></dd>
 
 <dt id="arg-adjust-method">adjust.method<a class="anchor" aria-label="anchor" href="#arg-adjust-method"></a></dt>
 <dd><p>A string (default = "none") specifying the correction method for
-p-value adjustment when <code>testType = "*-test"</code>:</p><ul><li><p>"BH" or its alias "fdr": Benjamini and Hochberg (1995)
+p-value adjustment when <code>method = "*-test"</code>:</p><ul><li><p>"BH" or its alias "fdr": Benjamini and Hochberg (1995)
 .</p></li>
 <li><p>"BY": Benjamini and Yekutieli (2001)
 .</p></li>
@@ -97,12 +103,22 @@ p-value adjustment when <code>testType = "*-test"</code>:</p><ul><li><p>"BH" or 
 
 <dt id="arg-paired">paired<a class="anchor" aria-label="anchor" href="#arg-paired"></a></dt>
 <dd><p>A boolean (default = FALSE) specifying whether or not to perform a paired
-test when <code>testType = "t-test"</code> or <code>testType = "wilcox-test"</code>.</p></dd>
+test when <code>method = "t-test"</code> or <code>method = "wilcox-test"</code>.</p></dd>
 
 
 <dt id="arg-pool-sd">pool.sd<a class="anchor" aria-label="anchor" href="#arg-pool-sd"></a></dt>
 <dd><p>A boolean (default = FALSE) specifying whether or not to use a pooled
-standard deviation when <code>testType = "t-test"</code>.</p></dd>
+standard deviation when <code>method = "t-test"</code>.</p></dd>
+
+
+<dt id="arg-center">center<a class="anchor" aria-label="anchor" href="#arg-center"></a></dt>
+<dd><p>A boolean (default = TRUE) indicating whether the variables should be
+shifted to be zero centered when <code>method = "PCA"</code>.</p></dd>
+
+
+<dt id="arg-scale">scale<a class="anchor" aria-label="anchor" href="#arg-scale"></a></dt>
+<dd><p>A boolean (default = TRUE) indicating whether the variables should be
+scaled to have unit variance before the analysis takes place when <code>method = "PCA"</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -115,6 +131,9 @@ data frame called "total" summarizes the results of multiple comparisons.</p></l
 <li><p>"MA": A list comprising data frames for each comparison, with each data frame
 containing the means of the two compared conditions for each protein, as well as the
 average and difference in means.</p></li>
+<li><p>"PCA": A list containing the standard deviations of the principal components
+<code>sdev</code>, the matrix of variable loadings <code>rotation</code>, the centering used <code>center</code>,
+the scaling used <code>scale</code>, and the principal component scores <code>x</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -139,6 +158,14 @@ average and difference in means.</p></li>
 “A Stagewise Rejective Multiple Test Procedure Based on a Modified Bonferroni Test.”
 <em>Biometrika</em>, <b>75</b>(2), 383–386.
 <a href="https://doi.org/10.1093/biomet/75.2.383" class="external-link">doi:10.1093/biomet/75.2.383</a>
+.<br><br> Hotelling H (1933).
+“Analysis of a Complex of Statistical Variables into Principal Components.”
+<em>Journal of Educational Psychology</em>, <b>24</b>(6), 417–441.
+<a href="https://doi.org/10.1037/h0071325" class="external-link">doi:10.1037/h0071325</a>
+.<br><br> Pearson K (1901).
+“On Lines and Planes of Closest Fit to Systems of Points in Space.”
+<em>The London, Edinburgh, and Dublin Philosophical Magazine and Journal of Science</em>, <b>2</b>(11), 559–572.
+<a href="https://doi.org/10.1080/14786440109462720" class="external-link">doi:10.1080/14786440109462720</a>
 .<br><br> Smyth GK (2004).
 “Linear Models and Empirical Bayes Methods for Assessing Differential Expression in Microarray Experiments.”
 <em>Statistical Applications in Genetics and Molecular Biology</em>, <b>3</b>(1).

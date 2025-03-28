@@ -66,16 +66,6 @@
 #' to plot the two vertical lines (-M.thres and M.thres) on the MA plot when
 #' \code{graphType = "MA"}.
 #' 
-#' @param center A boolean (default = TRUE) indicating whether the variables should be
-#' shifted to be zero centered when \code{graphType = "PCA_scree"},
-#' \code{graphType = "PCA_ind"}, \code{graphType = "PCA_var"}, or
-#' \code{graphType = "PCA_biplot"}.
-#' 
-#' @param scale A boolean (default = TRUE) indicating whether the variables should be
-#' scaled to have unit variance before the analysis takes place when
-#' \code{graphType = "PCA_scree"}, \code{graphType = "PCA_ind"},
-#' \code{graphType = "PCA_var"}, or \code{graphType = "PCA_biplot"}.
-#' 
 #' @param addlabels A boolean (default = TRUE) specifying whether the elements are labeled.
 #' \itemize{
 #' \item For \code{graphType = "PCA_scree"}, it specifies whether labels are added at the
@@ -157,7 +147,6 @@ visualize <- function(
     dataSet, graphType = "volcano",
     pkg = "pheatmap", cluster_cols = TRUE, cluster_rows = FALSE, show_colnames = TRUE, show_rownames = TRUE,
     M.thres = 1 ,
-    center = TRUE, scale = TRUE,
     addlabels = TRUE, choice = "variance", ncp = 10, addEllipses = TRUE, ellipse.level = 0.95, label = "all",
     show_percentage = TRUE, fill_color = c("blue", "yellow", "green", "red"),
     saveVenn = TRUE, proteinInformation = "preprocess_protein_information.csv",
@@ -230,52 +219,41 @@ visualize <- function(
       theme(legend.position = ifelse(length(unique(plotData$R.Replicate)) == 1, "none", "bottom"),
             plot.title = element_text(hjust = .5))
     
-  } else if (grepl("^PCA_", graphType)) {
+  } else if (graphType == "PCA_scree") {
     
-    plotData <- dataSet %>%
-      mutate(R.ConRep = paste0(R.Condition, "_", R.Replicate)) %>%
-      remove_rownames() %>%
-      column_to_rownames(var = "R.ConRep") %>%
-      select(-c(R.Condition, R.Replicate))
+    fviz_screeplot(dataSet, choice = choice, ncp = ncp, addlabels = addlabels,
+                   barcolor = "gray", barfill = "gray") +
+      theme_bw() +
+      theme(plot.title = element_text(hjust = 0.5))
     
-    res.pca <- prcomp(plotData, center = center, scale = scale)
+  } else if (graphType == "PCA_ind") {
     
-    if (graphType == "PCA_scree") {
-      
-      fviz_screeplot(res.pca, choice = choice, ncp = ncp, addlabels = addlabels,
-                     barcolor = "gray", barfill = "gray") +
-        theme_bw() +
-        theme(plot.title = element_text(hjust = 0.5))
-      
-    } else if (graphType == "PCA_ind") {
-      
-      fviz_pca_ind(res.pca, habillage = dataSet$R.Condition,
-                   label = ifelse(addlabels, "ind", "none"),
-                   addEllipses = addEllipses, ellipse.level = ellipse.level,
-                   show.legend = FALSE) +
-        ggtitle("PCA graph of individuals") +
-        theme_bw() +
-        theme(legend.position = "bottom",
-              plot.title = element_text(hjust = 0.5))
-      
-    } else if (graphType == "PCA_var") {
-      
-      fviz_pca_var(res.pca, label = ifelse(addlabels, "var", "none")) +
-        ggtitle("PCA graph of variables") +
-        theme_bw() +
-        theme(plot.title = element_text(hjust = 0.5))
-      
-    } else if (graphType == "PCA_biplot") {
-      
-      fviz_pca_biplot(res.pca, habillage = dataSet$R.Condition,
-                      label = label, col.var = "black",
-                      addEllipses = addEllipses, ellipse.level = ellipse.level,
-                      show.legend = FALSE) +
-        ggtitle("PCA graph of individuals and variables") +
-        theme_bw() +
-        theme(legend.position = "bottom",
-              plot.title = element_text(hjust = 0.5))
-    }
+    fviz_pca_ind(dataSet, habillage = dataSet$habillage,
+                 label = ifelse(addlabels, "ind", "none"),
+                 addEllipses = addEllipses, ellipse.level = ellipse.level,
+                 show.legend = FALSE) +
+      ggtitle("PCA graph of individuals") +
+      theme_bw() +
+      theme(legend.position = "bottom",
+            plot.title = element_text(hjust = 0.5))
+    
+  } else if (graphType == "PCA_var") {
+    
+    fviz_pca_var(dataSet, label = ifelse(addlabels, "var", "none")) +
+      ggtitle("PCA graph of variables") +
+      theme_bw() +
+      theme(plot.title = element_text(hjust = 0.5))
+    
+  } else if (graphType == "PCA_biplot") {
+    
+    fviz_pca_biplot(dataSet, habillage = dataSet$habillage,
+                    label = label, col.var = "black",
+                    addEllipses = addEllipses, ellipse.level = ellipse.level,
+                    show.legend = FALSE) +
+      ggtitle("PCA graph of individuals and variables") +
+      theme_bw() +
+      theme(legend.position = "bottom",
+            plot.title = element_text(hjust = 0.5))
     
   } else if (graphType == "t-test") {
     

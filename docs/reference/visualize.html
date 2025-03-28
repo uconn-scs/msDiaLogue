@@ -53,8 +53,6 @@
 <span>  show_colnames <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  show_rownames <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  M.thres <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  center <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  scale <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  addlabels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  choice <span class="op">=</span> <span class="st">"variance"</span>,</span>
 <span>  ncp <span class="op">=</span> <span class="fl">10</span>,</span>
@@ -127,20 +125,6 @@ This argument only works when <code>graphType = "heatmap"</code> and <code>pkg =
 <dd><p>The absolute threshold value of M (log fold-change) (default = 1) used
 to plot the two vertical lines (-M.thres and M.thres) on the MA plot when
 <code>graphType = "MA"</code>.</p></dd>
-
-
-<dt id="arg-center">center<a class="anchor" aria-label="anchor" href="#arg-center"></a></dt>
-<dd><p>A boolean (default = TRUE) indicating whether the variables should be
-shifted to be zero centered when <code>graphType = "PCA_scree"</code>,
-<code>graphType = "PCA_ind"</code>, <code>graphType = "PCA_var"</code>, or
-<code>graphType = "PCA_biplot"</code>.</p></dd>
-
-
-<dt id="arg-scale">scale<a class="anchor" aria-label="anchor" href="#arg-scale"></a></dt>
-<dd><p>A boolean (default = TRUE) indicating whether the variables should be
-scaled to have unit variance before the analysis takes place when
-<code>graphType = "PCA_scree"</code>, <code>graphType = "PCA_ind"</code>,
-<code>graphType = "PCA_var"</code>, or <code>graphType = "PCA_biplot"</code>.</p></dd>
 
 
 <dt id="arg-addlabels">addlabels<a class="anchor" aria-label="anchor" href="#arg-addlabels"></a></dt>

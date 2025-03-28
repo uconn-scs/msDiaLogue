@@ -6,30 +6,35 @@
 \usage{
 analyze(
   dataSet,
-  testType = "t-test",
+  method = "t-test",
   ref = NULL,
   adjust.method = "none",
   paired = FALSE,
-  pool.sd = FALSE
+  pool.sd = FALSE,
+  center = TRUE,
+  scale = TRUE
 )
 }
 \arguments{
 \item{dataSet}{The 2d data set of data.}
 
-\item{testType}{A string (default = "t-test") specifying which statistical test to use:
+\item{method}{A string (default = "t-test") specifying which statistical analysis to
+use:
 \enumerate{
 \item "t-test": Student's t-test.
 \item "mod.t-test": Empirical Bayes moderated t-test
 \insertCite{smyth2004linear}{msDiaLogue}.
 \item "wilcox-test": Wilcoxon test.
 \item "MA": Output to plot an MA plot.
+\item "PCA": Principal components analysis
+\insertCite{pearson1901lines,hotelling1933analysis}{msDiaLogue}.
 }}
 
 \item{ref}{A string (default = NULL) specifying the reference condition for comparison.
 If NULL, all pairwise comparisons are performed.}
 
 \item{adjust.method}{A string (default = "none") specifying the correction method for
-p-value adjustment when \code{testType = "*-test"}: \itemize{
+p-value adjustment when \code{method = "*-test"}: \itemize{
 \item "BH" or its alias "fdr": \insertCite{benjamini1995controlling;textual}{msDiaLogue}.
 \item "BY": \insertCite{benjamini2001control;textual}{msDiaLogue}.
 \item "bonferroni": \insertCite{bonferroni1936teoria;textual}{msDiaLogue}.
@@ -41,10 +46,16 @@ p-value adjustment when \code{testType = "*-test"}: \itemize{
 See \code{\link[stats]{p.adjust}} for more details.}
 
 \item{paired}{A boolean (default = FALSE) specifying whether or not to perform a paired
-test when \code{testType = "t-test"} or \code{testType = "wilcox-test"}.}
+test when \code{method = "t-test"} or \code{method = "wilcox-test"}.}
 
 \item{pool.sd}{A boolean (default = FALSE) specifying whether or not to use a pooled
-standard deviation when \code{testType = "t-test"}.}
+standard deviation when \code{method = "t-test"}.}
+
+\item{center}{A boolean (default = TRUE) indicating whether the variables should be
+shifted to be zero centered when \code{method = "PCA"}.}
+
+\item{scale}{A boolean (default = TRUE) indicating whether the variables should be
+scaled to have unit variance before the analysis takes place when \code{method = "PCA"}.}
 }
 \value{
 \itemize{
@@ -55,6 +66,9 @@ data frame called "total" summarizes the results of multiple comparisons.
 \item "MA": A list comprising data frames for each comparison, with each data frame
 containing the means of the two compared conditions for each protein, as well as the
 average and difference in means.
+\item "PCA": A list containing the standard deviations of the principal components
+\code{sdev}, the matrix of variable loadings \code{rotation}, the centering used \code{center},
+the scaling used \code{scale}, and the principal component scores \code{x}.
 }
 }
 \description{

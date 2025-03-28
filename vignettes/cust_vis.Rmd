@@ -52,8 +52,8 @@ dataImput <- impute.min_local(dataNorm, reportImputing = FALSE,
 dataImput <- filterNA(dataImput, saveRm = TRUE)
 ## Analysis
 ref <- "50pmol"
-anlys_mod.t <- analyze(dataImput, testType = "mod.t-test", ref = ref)
-anlys_MA <- analyze(dataImput, testType = "MA", ref = ref)
+anlys_mod.t <- analyze(dataImput, method = "mod.t-test", ref = ref)
+anlys_MA <- analyze(dataImput, method = "MA", ref = ref)
 ```
 
 

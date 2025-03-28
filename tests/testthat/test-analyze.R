@@ -6,7 +6,7 @@ test_that("analyze_t-test", {
   
   ## execute current function 'analyze' on data file
   invisible(capture.output(
-    data <- analyze(filterNA_Toy, testType = "t-test", ref = "50pmol", adjust.method = "none")
+    data <- analyze(filterNA_Toy, method = "t-test", ref = "50pmol", adjust.method = "none")
   ))
   
   ## load stored correct data
@@ -25,7 +25,7 @@ test_that("analyze_mod.t-test", {
   
   ## execute current function 'analyze' on data file
   invisible(capture.output(
-    data <- analyze(filterNA_Toy, testType = "mod.t-test", ref = "50pmol", adjust.method = "none")
+    data <- analyze(filterNA_Toy, method = "mod.t-test", ref = "50pmol", adjust.method = "none")
   ))
   
   ## load stored correct data
@@ -44,7 +44,7 @@ test_that("analyze_wilcox-test", {
   
   ## execute current function 'analyze' on data file
   invisible(capture.output(
-    data <- analyze(filterNA_Toy, testType = "wilcox-test", ref = "50pmol", adjust.method = "none")
+    data <- analyze(filterNA_Toy, method = "wilcox-test", ref = "50pmol", adjust.method = "none")
   ))
   
   ## load stored correct data
@@ -63,7 +63,7 @@ test_that("analyze_MA", {
   
   ## execute current function 'analyze' on data file
   invisible(capture.output(
-    data <- analyze(filterNA_Toy, testType = "MA", ref = "50pmol", adjust.method = "none")
+    data <- analyze(filterNA_Toy, method = "MA", ref = "50pmol", adjust.method = "none")
   ))
   
   ## load stored correct data
@@ -71,5 +71,26 @@ test_that("analyze_MA", {
   
   ## test if current function yields equal results to previous version
   expect_equal(data, analyze_MA_Toy)
+  
+})
+
+
+test_that("analyze_PCA", {
+  
+  ## load data from previous step in work flow
+  load("../storedData/filterNA_Toy.RData")
+  
+  ## execute current function 'analyze' on data file
+  invisible(capture.output(
+    rmName <- names(filterNA_Toy)[sapply(filterNA_Toy, function(col) {length(unique(col)) == 1})],
+    dataPCA <- filterNA_Toy[, ! colnames(filterNA_Toy) %in% rmName],
+    data <- analyze(dataPCA, method = "PCA")
+  ))
+  
+  ## load stored correct data
+  load("../storedData/analyze_PCA_Toy.RData")
+  
+  ## test if current function yields equal results to previous version
+  expect_equal(data, analyze_PCA_Toy)
   
 })
