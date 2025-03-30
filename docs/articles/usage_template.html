@@ -76,7 +76,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-03-28</h4>
+            <h4 data-toc-skip class="date">2025-03-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -11411,6 +11411,11 @@ the M = 0 line (no difference between group means). Typically, points
 falling above
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>b</mi><mi>s</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">abs(1)</annotation></semantics></math>
 are highlighted.</p>
+<div class="note">
+<strong>Note:</strong> As the MA plot does not include any measure of
+statistical significance, it cannot directly identify which proteins are
+statistically differentially expressed.
+</div>
 <p>An MA plot, short for “M vs. A plot,” which uses two axes:</p>
 <ul>
 <li>M axis (vertical): Represents the fold change, usually on the
@@ -11423,7 +11428,7 @@ conditions, calculated as:
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mrow><mo stretchy="true" form="prefix">[</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">A = \frac{1}{2}log_2(XY) = \frac{1}{2}\left[log_2(X)+log_2(Y)\right]</annotation></semantics></math>
 </li>
 </ul>
-<!-- So, the M value represents the log ratio of protein expression in a treated condition --><!-- compared to a control condition, where higher M values indicate greater differences in --><!-- expression between the conditions. Meanwhile, the A value helps to account for overall --><!-- differences in expression levels and reduce the influence of technical biases. --><p>Most proteins are expected to exhibit little variation, leading to
+<p>Most proteins are expected to exhibit little variation, leading to
 the majority of points concentrating around the line M = 0 (indicating
 no difference between group means).</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
@@ -11432,14 +11437,14 @@ no difference between group means).</p>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-68-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>where <code>M.thres = 1</code> means the M thresholds are set to −1
-and 1. The scatters are split into three parts: significant up (M &gt;
-1), no significant (-1
+and 1. The scatters are split into three parts: up regulation (M &gt;
+1), no regulation (-1
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≤</mo><annotation encoding="application/x-tex">\leq</annotation></semantics></math>
 M
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≤</mo><annotation encoding="application/x-tex">\leq</annotation></semantics></math>
-1), and significant down (M &lt; -1). Additionally, the warning message
+1), and down regulation (M &lt; -1). Additionally, the warning message
 “Removed 32 rows containing missing values” indicates that there are 32
-proteins with no significance.</p>
+proteins with no regulation.</p>
 </div>
 <div class="section level3">
 <h3 id="normalize">Normalize<a class="anchor" aria-label="anchor" href="#normalize"></a>

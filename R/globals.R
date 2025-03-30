@@ -67,11 +67,12 @@ utils::globalVariables(c(
   "R.Replicate", # <visualize>
   "R.ConRep", # <visualize>
   "value", # <visualize>
-  "Significant", # <visualize>
+  "Regulation", # <visualize>
   "A", # <visualize>
   "M", # <visualize>
   "RowName", # <visualize>
   "binwidth", # <visualize>
+  "Significant", # <visualize>
   "difference", # <visualize>
   "p.value", # <visualize>
   NULL

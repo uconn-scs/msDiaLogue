@@ -1035,6 +1035,11 @@ expected to show little variation, and so the majority of the points will be
 concentrated around the M = 0 line (no difference between group means).
 Typically, points falling above $abs(1)$ are highlighted.
 
+<div class="note">
+**Note:** As the MA plot does not include any measure of statistical
+significance, it cannot directly identify which proteins are statistically
+differentially expressed. </div>
+
 An MA plot, short for "M vs. A plot," which uses two axes:
 
 + M axis (vertical): Represents the fold change, usually on the logarithm base 2
@@ -1045,10 +1050,6 @@ $$M = log_2(X/Y) = log_2 X - log_2 Y$$
 calculated as:
 $$A = \frac{1}{2}log_2(XY) = \frac{1}{2}\left[log_2(X)+log_2(Y)\right]$$
 
-<!-- So, the M value represents the log ratio of protein expression in a treated condition -->
-<!-- compared to a control condition, where higher M values indicate greater differences in -->
-<!-- expression between the conditions. Meanwhile, the A value helps to account for overall -->
-<!-- differences in expression levels and reduce the influence of technical biases. -->
 Most proteins are expected to exhibit little variation, leading to the majority
 of points concentrating around the line M = 0 (indicating no difference between
 group means).
@@ -1058,10 +1059,10 @@ visualize(anlys_MA$`100pmol-50pmol`, graphType = "MA", M.thres = 1)
 ```
 
 where `M.thres = 1` means the M thresholds are set to −1 and 1. The scatters are
-split into three parts: significant up (M > 1), no significant (-1 $\leq$ M
-$\leq$ 1), and significant down (M < -1). Additionally, the warning message
+split into three parts: up regulation (M > 1), no regulation (-1 $\leq$ M
+$\leq$ 1), and down regulation (M < -1). Additionally, the warning message
 "Removed 32 rows containing missing values" indicates that there are 32 proteins
-with no significance.
+with no regulation.
 
 
 ### Normalize

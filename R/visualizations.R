@@ -185,14 +185,14 @@ visualize <- function(
   } else if (graphType == "MA") {
     
     plotData <- data.frame(t(dataSet[c("A","M"),])) %>%
-      mutate(Significant = case_when(
+      mutate(Regulation = case_when(
         M > M.thres & M < Inf ~ "Up",
         M < -M.thres & M > -Inf ~ "Down",
         M >= -M.thres & M <= M.thres ~ "No",
         TRUE ~ "Unknown")) %>% ## optional catch-all for other cases
-      mutate(label = ifelse(Significant != "No", gsub("_.*", "", colnames(dataSet)), NA))
+      mutate(label = ifelse(Regulation != "No", gsub("_.*", "", colnames(dataSet)), NA))
     
-    ggplot(plotData, aes(x = A, y = M, color = Significant, label = label)) +
+    ggplot(plotData, aes(x = A, y = M, color = Regulation, label = label)) +
       geom_hline(yintercept = c(-M.thres, M.thres), linetype = "dashed") +
       geom_point() +
       geom_text_repel(show.legend = FALSE) +
