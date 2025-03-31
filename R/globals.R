@@ -68,9 +68,10 @@ utils::globalVariables(c(
   "R.ConRep", # <visualize>
   "value", # <visualize>
   "Regulation", # <visualize>
+  "Variable", # <visualize>
   "A", # <visualize>
   "M", # <visualize>
-  "RowName", # <visualize>
+  "Comparison", # <visualize>
   "binwidth", # <visualize>
   "Significant", # <visualize>
   "difference", # <visualize>

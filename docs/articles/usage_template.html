@@ -11445,15 +11445,23 @@ M
 1), and down regulation (M &lt; -1). Additionally, the warning message
 “Removed 32 rows containing missing values” indicates that there are 32
 proteins with no regulation.</p>
+<p>If the input <code>dataSet</code> is the whole list
+<code>anlys_MA</code>, <strong>msDiaLogue</strong> will produce
+individual subplots corresponding to each comparison.</p>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_MA</span>, graphType <span class="op">=</span> <span class="st">"MA"</span>, M.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 63 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-69-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
-<h3 id="normalize">Normalize<a class="anchor" aria-label="anchor" href="#normalize"></a>
+<h3 id="normalize">normalize<a class="anchor" aria-label="anchor" href="#normalize"></a>
 </h3>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataNorm</span>, graphType <span class="op">=</span> <span class="st">"normalize"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 55 rows containing non-finite outside the scale range</span></span>
 <span><span class="co">#&gt; (`stat_boxplot()`).</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-69-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-70-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="pca_scree">PCA_scree<a class="anchor" aria-label="anchor" href="#pca_scree"></a>
@@ -11461,7 +11469,7 @@ proteins with no regulation.</p>
 <p>One way to help identify how many PCs to retain, is to explore a
 scree plot. The scree plot shows the eigenvalues of each PC, which
 represent the proportion of variance explained by that component.</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_PCA</span>, graphType <span class="op">=</span> <span class="st">"PCA_scree"</span>,</span>
 <span>          addlabels <span class="op">=</span> <span class="cn">TRUE</span>, choice <span class="op">=</span> <span class="st">"variance"</span>, ncp <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_PCA</span>, graphType <span class="op">=</span> <span class="st">"PCA_scree"</span>,</span>
@@ -11471,7 +11479,7 @@ represent the proportion of variance explained by that component.</p>
 <code>addlabels = TRUE</code> adds information labels at the top of
 bars/points, and <code>ncp = 10</code> sets the number of dimension to
 be displayed.</p>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-71-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-72-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="pca_ind">PCA_ind<a class="anchor" aria-label="anchor" href="#pca_ind"></a>
@@ -11486,10 +11494,10 @@ origin (0, 0), are close to the “average” across all protein abundances.
 If sufficient samples are present, the plot will also produce a 95%
 confidence ellipse, as well as a centroid (mean for each group
 provided), for each groups (condition) provided.</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_PCA</span>, graphType <span class="op">=</span> <span class="st">"PCA_ind"</span>,</span>
 <span>          addlabels <span class="op">=</span> <span class="cn">TRUE</span>, addEllipses <span class="op">=</span> <span class="cn">TRUE</span>, ellipse.level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-72-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-73-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="pca_var">PCA_var<a class="anchor" aria-label="anchor" href="#pca_var"></a>
@@ -11504,24 +11512,24 @@ PC2 may still be highly correlated with other PCs not being plotted.
 Consult the scree plot (and other available methods) to determine the
 appropriate number of PCs to investigate.
 </div>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_PCA</span>, graphType <span class="op">=</span> <span class="st">"PCA_var"</span>, addlabels <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-73-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-74-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="pca_biplot">PCA_biplot<a class="anchor" aria-label="anchor" href="#pca_biplot"></a>
 </h3>
 <p>The PCA biplot includes individual and variable plots. Again, with a
 large number of proteins, this plot can be unwieldy.</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_PCA</span>, graphType <span class="op">=</span> <span class="st">"PCA_biplot"</span>,</span>
 <span>          addEllipses <span class="op">=</span> <span class="cn">TRUE</span>, ellipse.level <span class="op">=</span> <span class="fl">0.95</span>, label <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-74-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-75-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
-<h3 id="t-test">t-test<a class="anchor" aria-label="anchor" href="#t-test"></a>
+<h3 id="test">test<a class="anchor" aria-label="anchor" href="#test"></a>
 </h3>
-<p>The function <code><a href="../reference/visualize.html">visualize()</a></code> can be applied to any t-test
+<p>The function <code><a href="../reference/visualize.html">visualize()</a></code> can be applied to any *-test
 output. It generates two useful plots: a histogram of fold changes
 across the analyzed proteins and a histogram of p-values. The majority
 of proteins are expected to show very small change between conditions,
@@ -11529,9 +11537,15 @@ so the fold change histogram will have a peak at around zero. For the
 p-values, most p-values are expected to be non-significant (above 0.05).
 Depending on the strength of the treatment effect, there may be a peak
 of p-values near 0.</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_mod.t</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, graphType <span class="op">=</span> <span class="st">"t-test"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-75-1.png" width="700" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_mod.t</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, graphType <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-76-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>If the input <code>dataSet</code> is the whole list
+<code>anlys_mod.t</code>, <strong>msDiaLogue</strong> will produce
+individual subplots corresponding to each comparison.</p>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_mod.t</span>, graphType <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-77-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="upset">Upset<a class="anchor" aria-label="anchor" href="#upset"></a>
@@ -11540,10 +11554,10 @@ of p-values near 0.</p>
 overlap and intersection of sets or categories in a dataset. It is
 particularly useful for illustrating the presence or absence of elements
 in combinations of sets.</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataSort</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sortcondition.html">sortcondition</a></span><span class="op">(</span><span class="va">dataSet</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataSort</span>, graphType <span class="op">=</span> <span class="st">"Upset"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-76-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-78-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>This plot reveals that 42 proteins are shared by 50pmol, 100pmol, and
 200pmol, while only 3 proteins are shared by 100 pmol and 200pmol, but
 not with 50pmol.</p>
@@ -11554,12 +11568,12 @@ not with 50pmol.</p>
 <p>The Venn plot is another graphical representation of the
 relationships between sets. Each circle represents a set, and the
 overlapping regions show the elements that are shared between sets.</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">dataSort</span>, graphType <span class="op">=</span> <span class="st">"Venn"</span>,</span>
 <span>          show_percentage <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>          fill_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>, <span class="st">"red"</span><span class="op">)</span>,</span>
 <span>          saveVenn <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-77-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-79-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>where <code>saveVenn = TRUE</code> refers to the data containing
 logical columns representing sets in Venn plot information will be saved
 as a .csv file named <em>Venn_information.csv</em> in the current
@@ -11569,7 +11583,7 @@ proteins. Notably, 3 proteins are exclusively found in the 100pmol and
 200pmol groups.</p>
 </div>
 <div class="section level3">
-<h3 id="volcano">Volcano<a class="anchor" aria-label="anchor" href="#volcano"></a>
+<h3 id="volcano">volcano<a class="anchor" aria-label="anchor" href="#volcano"></a>
 </h3>
 <p>A volcano plot is a graphical representation commonly used in
 proteomics and genomics to visualize differential expression analysis
@@ -11581,12 +11595,20 @@ differences between conditions in a dataset:</p>
 log10 of the p-value.</p></li>
 <li><p>Fold change (horizontal): Represents the fold change.</p></li>
 </ul>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_mod.t</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, graphType <span class="op">=</span> <span class="st">"volcano"</span>,</span>
-<span>          P.thres <span class="op">=</span> <span class="fl">0.05</span>, F.thres <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 29 rows containing missing values or values outside the scale range</span></span>
+<span>          P.thres <span class="op">=</span> <span class="fl">0.05</span>, F.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 32 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-78-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-80-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>If the input <code>dataSet</code> is the whole list
+<code>anlys_mod.t</code>, <strong>msDiaLogue</strong> will produce
+individual subplots corresponding to each comparison.</p>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_mod.t</span>, graphType <span class="op">=</span> <span class="st">"volcano"</span>, P.thres <span class="op">=</span> <span class="fl">0.05</span>, F.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 65 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-81-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">
@@ -11606,7 +11628,7 @@ step was it filtered out?”.</li>
 </ul>
 <p>It can also be used to check whether the fold-change observed for a
 specific protein is an artifact from one of the processing steps.</p>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Check</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pullProteinPath.html">pullProteinPath</a></span><span class="op">(</span></span>
 <span>  listName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LYSC_CHICK"</span>, <span class="st">"BGAL_ECOLI"</span><span class="op">)</span>,</span>
 <span>  regexName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BOVIN"</span><span class="op">)</span>,</span>

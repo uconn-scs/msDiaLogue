@@ -38,7 +38,7 @@
 #' \item "PCA_ind"
 #' \item "PCA_scree"
 #' \item "PCA_var"
-#' \item "t-test"
+#' \item "test"
 #' \item "Upset"
 #' \item "Venn"
 #' \item "volcano"
@@ -123,8 +123,7 @@
 #' 
 #' @details 
 #' The function \code{visualize()} is designed to work directly with output from the
-#' function \code{analyze()}. Please be sure that the arguments \code{graphType} and
-#' \code{testType} match.
+#' function \code{analyze()}.
 #' 
 #' @import dplyr
 #' @import factoextra
@@ -184,13 +183,25 @@ visualize <- function(
     
   } else if (graphType == "MA") {
     
-    plotData <- data.frame(t(dataSet[c("A","M"),])) %>%
+    if (is.data.frame(dataSet)) {
+      plotData <- data.frame(t(dataSet[c("A","M"),])) %>%
+        rownames_to_column("Variable")
+    } else {
+      plotData <- lapply(dataSet, function(df) {
+        t(df[c("A","M"),]) %>%
+          as.data.frame() %>%
+          rownames_to_column("Variable")
+      }) %>%
+        bind_rows(.id = "Comparison")
+    }
+    
+    plotData <- plotData %>%
       mutate(Regulation = case_when(
         M > M.thres & M < Inf ~ "Up",
         M < -M.thres & M > -Inf ~ "Down",
         M >= -M.thres & M <= M.thres ~ "No",
         TRUE ~ "Unknown")) %>% ## optional catch-all for other cases
-      mutate(label = ifelse(Regulation != "No", gsub("_.*", "", colnames(dataSet)), NA))
+      mutate(label = ifelse(Regulation != "No", gsub("_.*", "", Variable), NA))
     
     ggplot(plotData, aes(x = A, y = M, color = Regulation, label = label)) +
       geom_hline(yintercept = c(-M.thres, M.thres), linetype = "dashed") +
@@ -199,7 +210,8 @@ visualize <- function(
       scale_color_manual(values = c("Down" = "blue", "No" = "gray", "Up" = "red")) +
       labs(x = "Average Abundance", y = "Fold Change") +
       theme_bw() +
-      theme(legend.position = "bottom")
+      theme(legend.position = "bottom") +
+      if (!is.data.frame(dataSet)) {facet_wrap("Comparison")}
     
   } else if (graphType == "normalize") {
     
@@ -254,22 +266,36 @@ visualize <- function(
       theme(legend.position = "bottom",
             plot.title = element_text(hjust = 0.5))
     
-  } else if (graphType == "t-test") {
+  } else if (graphType == "test") {
     
-    plotData <- as.data.frame(t(dataSet[c("differenc","p-value"),])) %>%
-      rownames_to_column(var = "RowName") %>%
-      pivot_longer(-RowName) %>%
-      group_by(name) %>%
-      ## binwidth information for reference
-      mutate(binwidth = ceiling(density(value)$bw/0.05)*0.05)
-
+    if (is.data.frame(dataSet)) {
+      plotData <- data.frame(t(dataSet[c("difference","p-value"),])) %>%
+        rownames_to_column("Variable") %>%
+        pivot_longer(-Variable) %>%
+        group_by(name) %>%
+        ## binwidth information for reference
+        mutate(binwidth = ceiling(density(value)$bw/0.05)*0.05)
+    } else {
+      plotData <- lapply(dataSet[names(dataSet) != "total"], function(df) {
+        t(df[c("difference","p-value"),]) %>%
+          as.data.frame() %>%
+          rownames_to_column("Variable")
+      }) %>%
+        bind_rows(.id = "Comparison") %>%
+        rename(p.value = "p-value") %>%
+        pivot_longer(-c("Variable", "Comparison")) %>%
+        group_by(name, Comparison) %>%
+        ## binwidth information for reference
+        mutate(binwidth = ceiling(density(value)$bw/0.05)*0.05)
+    }
+    
     Reduce("+", plyr::llply(unique(plotData$binwidth), function(k) {
       geom_histogram(data = plotData %>% filter(binwidth == k), aes(x = value),
                      binwidth = k, fill = "gray70", color = "black")
     }), init = ggplot()) +
       ylab("Frequency") +
-      facet_wrap(.~name, scales = "free") +
-      theme_bw()
+      theme_bw() +
+      if (is.data.frame(dataSet)) {facet_wrap(.~name, scales = "free")} else {facet_wrap(.~Comparison + name, scales = "free")}
     
   } else if (graphType == "Upset") {
     
@@ -301,7 +327,20 @@ visualize <- function(
     
   } else if (graphType == "volcano") {
     
-    plotData <- data.frame(t(dataSet[c("difference","p-value"),])) %>%
+    if (is.data.frame(dataSet)) {
+      plotData <- data.frame(t(dataSet[c("difference","p-value"),])) %>%
+        rownames_to_column("Variable")
+    } else {
+      plotData <- lapply(dataSet[names(dataSet) != "total"], function(df) {
+        t(df[c("difference","p-value"),]) %>%
+          as.data.frame() %>%
+          rownames_to_column("Variable")
+      }) %>%
+        bind_rows(.id = "Comparison") %>%
+        rename(p.value = "p-value")
+    }
+    
+    plotData <- plotData %>%
       mutate(Significant = case_when(
         p.value < P.thres & difference > F.thres ~ "Up",
         p.value < P.thres & difference < -F.thres ~ "Down",
@@ -309,7 +348,7 @@ visualize <- function(
         p.value >= P.thres ~ "No",
         TRUE ~ "Unknown")) %>% ## optional catch-all for other cases
       mutate(label = ifelse(! Significant %in% c("No", "Inconclusive"),
-                              gsub("_.*", "", colnames(dataSet)), NA))
+                              gsub("_.*", "", Variable), NA))
 
     ggplot(plotData, aes(x = difference, y = -log10(p.value), col = Significant, label = label)) +
       geom_vline(xintercept = c(-F.thres, F.thres), linetype = "dashed") +
@@ -320,7 +359,8 @@ visualize <- function(
                                     "Inconclusive" = "gray", "No" = "gray20")) +
       labs(x = "Fold Change", y = expression("-log"[10]*"p-value")) +
       theme_bw() +
-      theme(legend.position = "bottom")
+      theme(legend.position = "bottom") +
+      if (!is.data.frame(dataSet)) {facet_wrap("Comparison")}
     
   }
 }

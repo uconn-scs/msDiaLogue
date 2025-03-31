@@ -1064,8 +1064,15 @@ $\leq$ 1), and down regulation (M < -1). Additionally, the warning message
 "Removed 32 rows containing missing values" indicates that there are 32 proteins
 with no regulation.
 
+If the input `dataSet` is the whole list `anlys_MA`, **msDiaLogue** will produce
+individual subplots corresponding to each comparison.
 
-### Normalize
+```{r}
+visualize(anlys_MA, graphType = "MA", M.thres = 1)
+```
+
+
+### normalize
 
 ```{r}
 visualize(dataNorm, graphType = "normalize")
@@ -1145,9 +1152,9 @@ visualize(anlys_PCA, graphType = "PCA_biplot",
 ```
 
 
-### t-test
+### test
 
-The function `visualize()` can be applied to any t-test output. It generates two
+The function `visualize()` can be applied to any *-test output. It generates two
 useful plots: a histogram of fold changes across the analyzed proteins and a
 histogram of p-values. The majority of proteins are expected to show very small
 change between conditions, so the fold change histogram will have a peak at
@@ -1156,7 +1163,14 @@ around zero. For the p-values, most p-values are expected to be non-significant
 peak of p-values near 0.
 
 ```{r}
-visualize(anlys_mod.t$`100pmol-50pmol`, graphType = "t-test")
+visualize(anlys_mod.t$`100pmol-50pmol`, graphType = "test")
+```
+
+If the input `dataSet` is the whole list `anlys_mod.t`, **msDiaLogue** will
+produce individual subplots corresponding to each comparison.
+
+```{r fig.height = 6}
+visualize(anlys_mod.t, graphType = "test")
 ```
 
 
@@ -1196,7 +1210,7 @@ In the example above, 50pmol, 100pmol, and 200pmol groups share 42 proteins.
 Notably, 3 proteins are exclusively found in the 100pmol and 200pmol groups.
 
 
-### Volcano
+### volcano
 
 A volcano plot is a graphical representation commonly used in proteomics and
 genomics to visualize differential expression analysis results. It is
@@ -1211,8 +1225,16 @@ p-value.
 
 ```{r}
 visualize(anlys_mod.t$`100pmol-50pmol`, graphType = "volcano",
-          P.thres = 0.05, F.thres = 0.6)
+          P.thres = 0.05, F.thres = 1)
 ```
+
+If the input `dataSet` is the whole list `anlys_mod.t`, **msDiaLogue** will
+produce individual subplots corresponding to each comparison.
+
+```{r}
+visualize(anlys_mod.t, graphType = "volcano", P.thres = 0.05, F.thres = 1)
+```
+
 
 
 ## Other useful function

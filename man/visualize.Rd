@@ -41,7 +41,7 @@ Current options are:
 \item "PCA_ind"
 \item "PCA_scree"
 \item "PCA_var"
-\item "t-test"
+\item "test"
 \item "Upset"
 \item "Venn"
 \item "volcano"
@@ -132,6 +132,5 @@ Create specific graphics to illustrate the results of the data analysis function
 }
 \details{
 The function \code{visualize()} is designed to work directly with output from the
-function \code{analyze()}. Please be sure that the arguments \code{graphType} and
-\code{testType} match.
+function \code{analyze()}.
 }
