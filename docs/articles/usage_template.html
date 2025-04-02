@@ -76,7 +76,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-04-01</h4>
+            <h4 data-toc-skip class="date">2025-04-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -98,7 +98,7 @@ Consulting Services, UConn</p>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/preprocessing.html">preprocessing</a></span><span class="op">(</span></span>
-<span>  <span class="va">fileName</span>,            <span class="co"># name of Spetronaught file</span></span>
+<span>  <span class="va">fileName</span>,            <span class="co"># name of Spectronaut file</span></span>
 <span>  dataSet <span class="op">=</span> <span class="cn">NULL</span>,      <span class="co"># name of dataset if already loaded into R</span></span>
 <span>  filterNaN <span class="op">=</span> <span class="cn">TRUE</span>,    <span class="co"># Should NaN values be removed?</span></span>
 <span>  filterUnique <span class="op">=</span> <span class="fl">2</span>,    <span class="co"># Minimum number of unique peptides</span></span>
@@ -1660,7 +1660,7 @@ heteroscedasticity).</p>
 <span>  <span class="va">dataSet</span>,           <span class="co"># dataset of values</span></span>
 <span>  listName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,    <span class="co"># character vector of proteins</span></span>
 <span>  regexName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,   <span class="co"># character vector for use within a regex</span></span>
-<span>  removeList <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># should named proteins be remove?</span></span>
+<span>  removeList <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># should named proteins be removed?</span></span>
 <span>  saveRm <span class="op">=</span> <span class="cn">TRUE</span>      <span class="co"># should removed proteins be saved?</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -3287,7 +3287,7 @@ exact equality search.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/normalize.html">normalize</a></span><span class="op">(</span><span class="va">dataSet</span>,                 <span class="co"># dataset of experimental values</span></span>
 <span>          applyto <span class="op">=</span> <span class="st">"sample"</span>,      <span class="co"># specify the target of normalization</span></span>
-<span>          normalizeType <span class="op">=</span> <span class="st">"quant"</span>, <span class="co"># why type of normalization to apply</span></span>
+<span>          normalizeType <span class="op">=</span> <span class="st">"quant"</span>, <span class="co"># what type of normalization to apply</span></span>
 <span>          plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>             <span class="co"># should a plot of normalized values be produced?</span></span></code></pre></div>
 </div>
 <div class="section level3">
@@ -4065,14 +4065,14 @@ boxplot but retained in the actual dataset.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/impute.min_local.html">impute.min_local</a></span><span class="op">(</span><span class="va">dataSet</span>,                  <span class="co"># dataset of experimental values</span></span>
-<span>                 reportImputing <span class="op">=</span> <span class="cn">FALSE</span>,   <span class="co"># should record of imputed values be kept?</span></span>
-<span>                 reqPercentPresent <span class="op">=</span> <span class="fl">0.51</span><span class="op">)</span> <span class="co"># what is the required % present to be imputed?</span></span>
+<span>                 reportImputing <span class="op">=</span> <span class="cn">FALSE</span>,   <span class="co"># should a record of imputed values be kept?</span></span>
+<span>                 reqPercentPresent <span class="op">=</span> <span class="fl">0.51</span><span class="op">)</span> <span class="co"># what percent of replicates should be experimentally observed for the others to be imputed?</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/impute.min_global.html">impute.min_global</a></span><span class="op">(</span><span class="va">dataSet</span>,                <span class="co"># dataset of experimental values</span></span>
-<span>                  reportImputing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># should record of imputed values be kept?</span></span>
+<span>                  reportImputing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># should a record of imputed values be kept?</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/impute.knn_seq.html">impute.knn_seq</a></span><span class="op">(</span><span class="va">dataSet</span>,                <span class="co"># dataset of experimental values</span></span>
-<span>               reportImputing <span class="op">=</span> <span class="cn">FALSE</span>, <span class="co"># should record of imputed values be kept?</span></span>
+<span>               reportImputing <span class="op">=</span> <span class="cn">FALSE</span>, <span class="co"># should a record of imputed values be kept?</span></span>
 <span>               k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>                 <span class="co"># number of neighbors for imputation</span></span>
 <span>               </span></code></pre></div>
 </div>
@@ -5748,7 +5748,7 @@ current working directory.</p>
 </h3>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/summarize.html">summarize</a></span><span class="op">(</span><span class="va">dataSet</span>,         <span class="co"># dataset of experimental values</span></span>
-<span>          saveSumm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># dsave table of summary statistics?</span></span></code></pre></div>
+<span>          saveSumm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># save a table of summary statistics?</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="details-examples-5">Details &amp; Examples<a class="anchor" aria-label="anchor" href="#details-examples-5"></a>
@@ -7390,9 +7390,9 @@ statistics:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataSet</span>,                <span class="co"># dataset of experimental values</span></span>
 <span>        method <span class="op">=</span> <span class="st">"t-test"</span>,      <span class="co"># statistical analysis to use</span></span>
 <span>        ref <span class="op">=</span> <span class="cn">NULL</span>,             <span class="co"># which level of condition to use as reference (for *-test, MA)</span></span>
-<span>        adjust.method <span class="op">=</span> <span class="st">"none"</span>, <span class="co"># what methods of p-value adjustment to use (for *-test)</span></span>
+<span>        adjust.method <span class="op">=</span> <span class="st">"none"</span>, <span class="co"># what method of p-value adjustment to use (for *-test)</span></span>
 <span>        paired <span class="op">=</span> <span class="cn">FALSE</span>,         <span class="co"># are the data paired (for t-test and wilcox-test)?</span></span>
-<span>        pool.sd <span class="op">=</span> <span class="cn">FALSE</span>,        <span class="co"># used pooled sd (for t-test)?</span></span>
+<span>        pool.sd <span class="op">=</span> <span class="cn">FALSE</span>,        <span class="co"># used pooled standard deviation (for t-test)?</span></span>
 <span>        center <span class="op">=</span> <span class="cn">TRUE</span>,          <span class="co"># should data be centered before PCA?</span></span>
 <span>        scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>           <span class="co"># should data be scaled before PCA?</span></span></code></pre></div>
 </div>
@@ -7439,9 +7439,8 @@ your dataset.</p>
 <p>Also keep in mind that reducing Type I error typically comes at the
 cost of increasing Type II error, and vice versa. There is no way to
 eliminate all error; each researcher must decide whether they are more
-comfortable with losing more true results along with false ones, or with
-keeping more false results along with true ones, and choose their
-analysis strategies accordingly.</p>
+comfortable with having more false positives or more false negatives in
+the dataset, and choose their analysis strategies accordingly.</p>
 <p>UConn PMF recommends not applying testing corrections to your
 proteomics dataset, but if you would like to explore the effects of
 doing so, several methods are provided below:</p>
@@ -8360,9 +8359,10 @@ In this case, the p-value of t-test returns NaN.
 <p>The main distinction between the Student’s and empirical Bayes
 moderated t-tests <span class="citation">(Smyth 2004)</span> lies in how
 variance is computed. While the Student’s t-test calculates variance
-based on the data available for each protein individually, the moderated
-t-test utilizes information from all the proteins in the current dataset
-to calculate variance.</p>
+based on the data available for each protein individually (which will be
+limited by the number of replicates included for each condition), the
+moderated t-test utilizes information from all replicates of every
+protein in the current dataset to calculate variance.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">anlys_mod.t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="va">ref</span>,</span>
 <span>                       method <span class="op">=</span> <span class="st">"mod.t-test"</span>, adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
@@ -10173,8 +10173,12 @@ returns NaN.
 <h3 id="ma">MA<a class="anchor" aria-label="anchor" href="#ma"></a>
 </h3>
 <p>The result of <code>method = "MA"</code> is to generate the data for
-plotting an MA plot, which represents the protein-wise averages within
-each condition.</p>
+an MA plot, which plots the average fold change between two conditions
+(y-axis) against the average abundance of that protein (x-axis). This is
+helpful for evaluating whether a fold-change difference is being
+enhanced by low overall intensities (e.g. a change from 200 to 400 is
+the same fold-change as from 20,000 to 40,000, but the latter is a more
+robust measurement and less susceptible to noise interference).</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">anlys_MA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="va">ref</span>, method <span class="op">=</span> <span class="st">"MA"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; $`100pmol-50pmol`</span></span></code></pre>
@@ -11340,24 +11344,24 @@ individual plot types.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span></span>
 <span>  <span class="va">dataSet</span>,                                                   <span class="co"># dataset of experimental values</span></span>
 <span>  graphType <span class="op">=</span> <span class="st">"volcano"</span>,                                     <span class="co"># type of image to produce</span></span>
-<span>  pkg <span class="op">=</span> <span class="st">"pheatmap"</span>,                                          <span class="co"># pkg option for heatmap plotting</span></span>
+<span>  pkg <span class="op">=</span> <span class="st">"pheatmap"</span>,                                          <span class="co"># package option for heatmap plotting</span></span>
 <span>  cluster_cols <span class="op">=</span> <span class="cn">TRUE</span>,                                       <span class="co"># cluster heatmap by columns?</span></span>
 <span>  cluster_rows <span class="op">=</span> <span class="cn">FALSE</span>,                                      <span class="co"># cluster heatmap by rows?</span></span>
 <span>  show_colnames <span class="op">=</span> <span class="cn">TRUE</span>,                                      <span class="co"># display heatmap columns?</span></span>
 <span>  show_rownames <span class="op">=</span> <span class="cn">TRUE</span>,                                      <span class="co"># display heatmap rows?</span></span>
-<span>  M.thres <span class="op">=</span> <span class="fl">1</span>,                                               <span class="co"># threshold by foldchange</span></span>
+<span>  M.thres <span class="op">=</span> <span class="fl">1</span>,                                               <span class="co"># threshold by fold-change</span></span>
 <span>  addlabels <span class="op">=</span> <span class="cn">TRUE</span>,                                          <span class="co"># should labels be added to PCA plots?</span></span>
 <span>  choice <span class="op">=</span> <span class="st">"variance"</span>,                                       <span class="co"># type of scree plot to generate</span></span>
-<span>  ncp <span class="op">=</span> <span class="fl">10</span>,                                                  <span class="co"># number of PCs to estimate</span></span>
+<span>  ncp <span class="op">=</span> <span class="fl">10</span>,                                                  <span class="co"># number of principal components to estimate</span></span>
 <span>  addEllipses <span class="op">=</span> <span class="cn">TRUE</span>,                                        <span class="co"># should ellipses be added?</span></span>
 <span>  ellipse.level <span class="op">=</span> <span class="fl">0.95</span>,                                      <span class="co"># level for ellipses</span></span>
 <span>  label <span class="op">=</span> <span class="st">"all"</span>,                                             <span class="co"># what to label in PCA plot</span></span>
-<span>  show_percentage <span class="op">=</span> <span class="cn">TRUE</span>,                                    <span class="co"># should % be shown in Venn diagram</span></span>
-<span>  fill_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>, <span class="st">"red"</span><span class="op">)</span>,          <span class="co"># colors to uses for Venn diagram</span></span>
-<span>  saveVenn <span class="op">=</span> <span class="cn">TRUE</span>,                                           <span class="co"># should Venn diagram be exported?</span></span>
+<span>  show_percentage <span class="op">=</span> <span class="cn">TRUE</span>,                                    <span class="co"># should % be shown in Venn diagram?</span></span>
+<span>  fill_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>, <span class="st">"red"</span><span class="op">)</span>,          <span class="co"># colors to use for Venn diagram</span></span>
+<span>  saveVenn <span class="op">=</span> <span class="cn">TRUE</span>,                                           <span class="co"># should the Venn diagram be exported?</span></span>
 <span>  proteinInformation <span class="op">=</span> <span class="st">"preprocess_protein_information.csv"</span>, <span class="co"># name of file containing protein information</span></span>
-<span>  P.thres <span class="op">=</span> <span class="fl">0.05</span>,                                            <span class="co"># significance level for volcano plots</span></span>
-<span>  F.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>                                               <span class="co"># fold change threshold for volcano plots</span></span></code></pre></div>
+<span>  P.thres <span class="op">=</span> <span class="fl">0.05</span>,                                            <span class="co"># significance level for volcano plot graphing</span></span>
+<span>  F.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>                                               <span class="co"># fold-change threshold for volcano plot graphing</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="details-examples-7">Details &amp; Examples<a class="anchor" aria-label="anchor" href="#details-examples-7"></a>
@@ -11466,9 +11470,9 @@ individual subplots corresponding to each comparison.</p>
 <div class="section level3">
 <h3 id="pca_scree">PCA_scree<a class="anchor" aria-label="anchor" href="#pca_scree"></a>
 </h3>
-<p>One way to help identify how many PCs to retain, is to explore a
-scree plot. The scree plot shows the eigenvalues of each PC, which
-represent the proportion of variance explained by that component.</p>
+<p>One way to help identify how many PCs to retain is to explore a scree
+plot. The scree plot shows the eigenvalues of each PC, which represent
+the proportion of variance explained by that component.</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_PCA</span>, graphType <span class="op">=</span> <span class="st">"PCA_scree"</span>,</span>
 <span>          addlabels <span class="op">=</span> <span class="cn">TRUE</span>, choice <span class="op">=</span> <span class="st">"variance"</span>, ncp <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
@@ -11612,7 +11616,7 @@ individual subplots corresponding to each comparison.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="other-useful-function">Other useful function<a class="anchor" aria-label="anchor" href="#other-useful-function"></a>
+<h2 id="other-useful-functions">Other useful functions<a class="anchor" aria-label="anchor" href="#other-useful-functions"></a>
 </h2>
 <p>The function <code><a href="../reference/pullProteinPath.html">pullProteinPath()</a></code> allows you to see the
 quantitative values associated with specific proteins at each step of

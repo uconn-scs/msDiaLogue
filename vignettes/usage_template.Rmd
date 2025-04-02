@@ -697,8 +697,9 @@ changes in your dataset.
 
 Also keep in mind that reducing Type I error typically comes at the cost of
 increasing Type II error, and vice versa. There is no way to eliminate all error;
-each researcher must decide whether they are more comfortable with having more false positives
-or more false negatives in the dataset, and choose their analysis strategies accordingly.
+each researcher must decide whether they are more comfortable with having more
+false positives or more false negatives in the dataset, and choose their
+analysis strategies accordingly.
 
 UConn PMF recommends not applying testing corrections to your proteomics dataset,
 but if you would like to explore the effects of doing so, several methods are
@@ -764,8 +765,8 @@ The main distinction between the Student's and empirical Bayes moderated t-tests
 [@smyth2004linear] lies in how variance is computed. While the Student's t-test
 calculates variance based on the data available for each protein individually
 (which will be limited by the number of replicates included for each condition),
-the moderated t-test utilizes information from all replicates of every protein in the current
-dataset to calculate variance.
+the moderated t-test utilizes information from all replicates of every protein
+in the current dataset to calculate variance.
 
 ```{r}
 anlys_mod.t <- analyze(dataImput, ref = ref,
@@ -866,13 +867,13 @@ knitr::kable(anlys_wilcox$total)
 
 ### MA
 
-The result of `method = "MA"` is to generate the data for an MA plot,
-which plots the average fold change between two conditions (y-axis) against the average 
-abundance of that protein (x-axis).  
-This is helpful for evaluating whether a fold-change difference is being enhanced 
-by low overall intensities (e.g. a change from 200 to 400 is the same fold-change 
-as from 20,000 to 40,000, but the latter is a more robust measurement
-and less susceptible to noise interference).
+The result of `method = "MA"` is to generate the data for an MA plot, which
+plots the average fold change between two conditions (y-axis) against the
+average abundance of that protein (x-axis). This is helpful for evaluating
+whether a fold-change difference is being enhanced by low overall intensities
+(e.g. a change from 200 to 400 is the same fold-change as from 20,000 to 40,000,
+but the latter is a more robust measurement and less susceptible to noise
+interference).
 
 ```{r}
 anlys_MA <- analyze(dataImput, ref = ref, method = "MA")
