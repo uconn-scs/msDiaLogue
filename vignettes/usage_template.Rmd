@@ -35,7 +35,7 @@ library(msDiaLogue)
 
 ```{r eval=FALSE}
 preprocessing(
-  fileName,            # name of Spetronaught file
+  fileName,            # name of Spectronaut file
   dataSet = NULL,      # name of dataset if already loaded into R
   filterNaN = TRUE,    # Should NaN values be removed?
   filterUnique = 2,    # Minimum number of unique peptides
@@ -206,7 +206,7 @@ filterOutIn(
   dataSet,           # dataset of values
   listName = c(),    # character vector of proteins
   regexName = c(),   # character vector for use within a regex
-  removeList = TRUE, # should named proteins be remove?
+  removeList = TRUE, # should named proteins be removed?
   saveRm = TRUE      # should removed proteins be saved?
 )
 ```
@@ -343,7 +343,7 @@ knitr::kable(
 ```{r eval=FALSE}
 normalize(dataSet,                 # dataset of experimental values
           applyto = "sample",      # specify the target of normalization
-          normalizeType = "quant", # why type of normalization to apply
+          normalizeType = "quant", # what type of normalization to apply
           plot = TRUE)             # should a plot of normalized values be produced?
 ```
 
@@ -434,14 +434,14 @@ dataMissing(
 )
 
 impute.min_local(dataSet,                  # dataset of experimental values
-                 reportImputing = FALSE,   # should record of imputed values be kept?
-                 reqPercentPresent = 0.51) # what is the required % present to be imputed?
+                 reportImputing = FALSE,   # should a record of imputed values be kept?
+                 reqPercentPresent = 0.51) # what percent of replicates should be experimentally observed for the others to be imputed?
 
 impute.min_global(dataSet,                # dataset of experimental values
-                  reportImputing = FALSE) # should record of imputed values be kept?
+                  reportImputing = FALSE) # should a record of imputed values be kept?
 
 impute.knn_seq(dataSet,                # dataset of experimental values
-               reportImputing = FALSE, # should record of imputed values be kept?
+               reportImputing = FALSE, # should a record of imputed values be kept?
                k = 10)                 # number of neighbors for imputation
                
 ```
@@ -602,7 +602,7 @@ knitr::kable(dataImput)
 
 ```{r eval=FALSE}
 summarize(dataSet,         # dataset of experimental values
-          saveSumm = TRUE) # dsave table of summary statistics?
+          saveSumm = TRUE) # save a table of summary statistics?
 ```
 
 
@@ -647,9 +647,9 @@ The column "Stat" in the generated result includes the following statistics:
 analyze(dataSet,                # dataset of experimental values
         method = "t-test",      # statistical analysis to use
         ref = NULL,             # which level of condition to use as reference (for *-test, MA)
-        adjust.method = "none", # what methods of p-value adjustment to use (for *-test)
+        adjust.method = "none", # what method of p-value adjustment to use (for *-test)
         paired = FALSE,         # are the data paired (for t-test and wilcox-test)?
-        pool.sd = FALSE,        # used pooled sd (for t-test)?
+        pool.sd = FALSE,        # used pooled standard deviation (for t-test)?
         center = TRUE,          # should data be centered before PCA?
         scale = TRUE)           # should data be scaled before PCA?
 ```
@@ -697,9 +697,8 @@ changes in your dataset.
 
 Also keep in mind that reducing Type I error typically comes at the cost of
 increasing Type II error, and vice versa. There is no way to eliminate all error;
-each researcher must decide whether they are more comfortable with losing more
-true results along with false ones, or with keeping more false results along
-with true ones, and choose their analysis strategies accordingly.
+each researcher must decide whether they are more comfortable with having more false positives
+or more false negatives in the dataset, and choose their analysis strategies accordingly.
 
 UConn PMF recommends not applying testing corrections to your proteomics dataset,
 but if you would like to explore the effects of doing so, several methods are
@@ -763,8 +762,9 @@ knitr::kable(anlys_t$total)
 
 The main distinction between the Student's and empirical Bayes moderated t-tests
 [@smyth2004linear] lies in how variance is computed. While the Student's t-test
-calculates variance based on the data available for each protein individually,
-the moderated t-test utilizes information from all the proteins in the current
+calculates variance based on the data available for each protein individually
+(which will be limited by the number of replicates included for each condition),
+the moderated t-test utilizes information from all replicates of every protein in the current
 dataset to calculate variance.
 
 ```{r}
@@ -866,8 +866,13 @@ knitr::kable(anlys_wilcox$total)
 
 ### MA
 
-The result of `method = "MA"` is to generate the data for plotting an MA plot,
-which represents the protein-wise averages within each condition.
+The result of `method = "MA"` is to generate the data for an MA plot,
+which plots the average fold change between two conditions (y-axis) against the average 
+abundance of that protein (x-axis).  
+This is helpful for evaluating whether a fold-change difference is being enhanced 
+by low overall intensities (e.g. a change from 200 to 400 is the same fold-change 
+as from 20,000 to 40,000, but the latter is a more robust measurement
+and less susceptible to noise interference).
 
 ```{r}
 anlys_MA <- analyze(dataImput, ref = ref, method = "MA")
@@ -965,24 +970,24 @@ List of some of the plot options:
 visualize(
   dataSet,                                                   # dataset of experimental values
   graphType = "volcano",                                     # type of image to produce
-  pkg = "pheatmap",                                          # pkg option for heatmap plotting
+  pkg = "pheatmap",                                          # package option for heatmap plotting
   cluster_cols = TRUE,                                       # cluster heatmap by columns?
   cluster_rows = FALSE,                                      # cluster heatmap by rows?
   show_colnames = TRUE,                                      # display heatmap columns?
   show_rownames = TRUE,                                      # display heatmap rows?
-  M.thres = 1,                                               # threshold by foldchange
+  M.thres = 1,                                               # threshold by fold-change
   addlabels = TRUE,                                          # should labels be added to PCA plots?
   choice = "variance",                                       # type of scree plot to generate
-  ncp = 10,                                                  # number of PCs to estimate
+  ncp = 10,                                                  # number of principal components to estimate
   addEllipses = TRUE,                                        # should ellipses be added?
   ellipse.level = 0.95,                                      # level for ellipses
   label = "all",                                             # what to label in PCA plot
-  show_percentage = TRUE,                                    # should % be shown in Venn diagram
-  fill_color = c("blue", "yellow", "green", "red"),          # colors to uses for Venn diagram
-  saveVenn = TRUE,                                           # should Venn diagram be exported?
+  show_percentage = TRUE,                                    # should % be shown in Venn diagram?
+  fill_color = c("blue", "yellow", "green", "red"),          # colors to use for Venn diagram
+  saveVenn = TRUE,                                           # should the Venn diagram be exported?
   proteinInformation = "preprocess_protein_information.csv", # name of file containing protein information
-  P.thres = 0.05,                                            # significance level for volcano plots
-  F.thres = 1)                                               # fold change threshold for volcano plots
+  P.thres = 0.05,                                            # significance level for volcano plot graphing
+  F.thres = 1)                                               # fold-change threshold for volcano plot graphing
 ```
 
 
@@ -1081,7 +1086,7 @@ visualize(dataNorm, graphType = "normalize")
 
 ### PCA_scree
 
-One way to help identify how many PCs to retain, is to explore a scree plot. The
+One way to help identify how many PCs to retain is to explore a scree plot. The
 scree plot shows the eigenvalues of each PC, which represent the proportion of
 variance explained by that component.
 
@@ -1237,7 +1242,7 @@ visualize(anlys_mod.t, graphType = "volcano", P.thres = 0.05, F.thres = 1)
 
 
 
-## Other useful function
+## Other useful functions
 
 The function `pullProteinPath()` allows you to see the quantitative values
 associated with specific proteins at each step of processing, using either the
