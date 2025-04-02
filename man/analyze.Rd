@@ -30,8 +30,9 @@ use:
 \insertCite{pearson1901lines,hotelling1933analysis}{msDiaLogue}.
 }}
 
-\item{ref}{A string (default = NULL) specifying the reference condition for comparison.
-If NULL, all pairwise comparisons are performed.}
+\item{ref}{A string (default = NULL) specifying the reference condition for comparison
+when \code{method = "*-test"} or \code{method = "MA"}. If NULL, all pairwise
+comparisons are performed.}
 
 \item{adjust.method}{A string (default = "none") specifying the correction method for
 p-value adjustment when \code{method = "*-test"}: \itemize{

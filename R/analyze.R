@@ -39,8 +39,9 @@
 #' \insertCite{pearson1901lines,hotelling1933analysis}{msDiaLogue}.
 #' }
 #' 
-#' @param ref A string (default = NULL) specifying the reference condition for comparison.
-#' If NULL, all pairwise comparisons are performed.
+#' @param ref A string (default = NULL) specifying the reference condition for comparison
+#' when \code{method = "*-test"} or \code{method = "MA"}. If NULL, all pairwise
+#' comparisons are performed.
 #' 
 #' @param adjust.method A string (default = "none") specifying the correction method for
 #' p-value adjustment when \code{method = "*-test"}: \itemize{
@@ -94,7 +95,11 @@ analyze <- function(dataSet, method = "t-test", ref = NULL, adjust.method = "non
                     paired = FALSE, pool.sd = FALSE,
                     center = TRUE, scale = TRUE) {
   
-  conds <- levels(dataSet$R.Condition)
+  if (is.factor(dataSet$R.Condition)) {
+    conds <- levels(dataSet$R.Condition)
+  } else {
+    conds <- unique(as.character(dataSet$R.Condition))
+  }
   
   if (is.null(ref)) {
     ## if 'ref' is not provided, perform all pairwise comparisons
