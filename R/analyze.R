@@ -19,32 +19,19 @@
 ################################
 #### Code for data analysis ####
 ################################
-#' 
-#' Analyzing summarized data
-#' 
+#'
+#' Student's t-test
+#'
 #' @description
-#' Apply a statistical test to the data.
+#' Perform Student's t-tests on the data.
 #' 
 #' @param dataSet The 2d data set of data.
 #' 
-#' @param method A string (default = "t-test") specifying which statistical analysis to
-#' use:
-#' \enumerate{
-#' \item "t-test": Student's t-test.
-#' \item "mod.t-test": Empirical Bayes moderated t-test
-#' \insertCite{smyth2004linear}{msDiaLogue}.
-#' \item "wilcox-test": Wilcoxon test.
-#' \item "MA": Output to plot an MA plot.
-#' \item "PCA": Principal components analysis
-#' \insertCite{pearson1901lines,hotelling1933analysis}{msDiaLogue}.
-#' }
-#' 
-#' @param ref A string (default = NULL) specifying the reference condition for comparison
-#' when \code{method = "*-test"} or \code{method = "MA"}. If NULL, all pairwise
-#' comparisons are performed.
+#' @param ref A string (default = NULL) specifying the reference condition for comparison.
+#' If NULL, all pairwise comparisons are performed.
 #' 
 #' @param adjust.method A string (default = "none") specifying the correction method for
-#' p-value adjustment when \code{method = "*-test"}: \itemize{
+#' p-value adjustment: \itemize{
 #' \item "BH" or its alias "fdr": \insertCite{benjamini1995controlling;textual}{msDiaLogue}.
 #' \item "BY": \insertCite{benjamini2001control;textual}{msDiaLogue}.
 #' \item "bonferroni": \insertCite{bonferroni1936teoria;textual}{msDiaLogue}.
@@ -56,44 +43,28 @@
 #' See \code{\link[stats]{p.adjust}} for more details.
 #' 
 #' @param paired A boolean (default = FALSE) specifying whether or not to perform a paired
-#' test when \code{method = "t-test"} or \code{method = "wilcox-test"}.
+#' test.
 #' 
 #' @param pool.sd A boolean (default = FALSE) specifying whether or not to use a pooled
-#' standard deviation when \code{method = "t-test"}.
+#' standard deviation.
 #' 
-#' @param center A boolean (default = TRUE) indicating whether the variables should be
-#' shifted to be zero centered when \code{method = "PCA"}.
-#' 
-#' @param scale A boolean (default = TRUE) indicating whether the variables should be
-#' scaled to have unit variance before the analysis takes place when \code{method = "PCA"}.
-#' 
-#' @import limma
-#' @importFrom stats model.matrix t.test
+#' @importFrom stats t.test p.adjust
+#' @importFrom utils combn
 #' @importFrom Rdpack reprompt
 #' 
-#' @returns \itemize{
-#' \item "t-test", "mod.t-test", "wilcox-test": A list comprising data frames for each
-#' comparison, with each data frame containing the means of the two compared conditions
-#' for each protein, the difference in means, and the p-values. Additionally, a separate
-#' data frame called "total" summarizes the results of multiple comparisons.
-#' \item "MA": A list comprising data frames for each comparison, with each data frame
-#' containing the means of the two compared conditions for each protein, as well as the
-#' average and difference in means.
-#' \item "PCA": A list containing the standard deviations of the principal components
-#' `sdev`, the matrix of variable loadings `rotation`, the centering used `center`,
-#' the scaling used `scale`, and the principal component scores `x`.
-#' }
+#' @returns
+#' A list comprising data frames for each comparison, with each data frame containing
+#' the means of the two compared conditions for each protein, the difference in means,
+#' and the p-values. Additionally, a separate data frame called "total" summarizes
+#' the results of multiple comparisons.
 #' 
 #' @references
 #' \insertAllCited{}
 #' 
-#' @autoglobal
-#' 
 #' @export
 
-analyze <- function(dataSet, method = "t-test", ref = NULL, adjust.method = "none",
-                    paired = FALSE, pool.sd = FALSE,
-                    center = TRUE, scale = TRUE) {
+analyze.t <- function(dataSet, ref = NULL, adjust.method = "none",
+                           paired = FALSE, pool.sd = FALSE) {
   
   if (is.factor(dataSet$R.Condition)) {
     conds <- levels(dataSet$R.Condition)
@@ -127,109 +98,370 @@ analyze <- function(dataSet, method = "t-test", ref = NULL, adjust.method = "non
     tapply(x, g, mean, na.rm = TRUE)
   })
   
-  if (grepl("test$", method)) {
+  pval <- lapply(1:length(compA), function(k) {
     
-    if (method == "t-test") {
-      
-      pval <- lapply(1:length(compA), function(k) {
-        
-        ## index of the two conditions
-        indexA <- which(g == compA[k])
-        indexB <- which(g == compB[k])
-        
-        ## the p-value of t-test
-        res <- apply(xs, 2, function(x) {
-          tryCatch({
-            t.test(x[indexA], x[indexB], paired = paired, var.equal = pool.sd)$p.value
-          }, error = function(e) {
-            ## if an error is thrown, return the fold change and set the p-value to 'NA'.
-            message("Data are essentially constant.")
-            return(NaN)
-          })
-        })
-        
-        return(res)
+    ## index of the two conditions
+    indexA <- which(g == compA[k])
+    indexB <- which(g == compB[k])
+    
+    ## the p-value of t-test
+    res <- apply(xs, 2, function(x) {
+      tryCatch({
+        t.test(x[indexA], x[indexB], paired = paired, var.equal = pool.sd)$p.value
+      }, error = function(e) {
+        ## if an error is thrown, return the fold change and set the p-value to 'NA'.
+        message("Data are essentially constant.")
+        return(NaN)
       })
-      
-    } else if (method == "mod.t-test") {
-      
-      ## construct the design matrix
-      model.formula <- eval(parse(text = "~ 0 + R.Condition"), envir = dataSet)
-      design <- model.matrix(model.formula)
-      
-      ## fit linear model for each protein
-      fit1 <- limma::lmFit(t(xs), design)
-      
-      ## construct the contrast matrix
-      contrast.matrix <- limma::makeContrasts(
-        contrasts = paste0("R.Condition", compA, "-R.Condition", compB), levels = design)
-      
-      ## compute contrasts from linear model 'fit1'
-      fit2 <- limma::contrasts.fit(fit1, contrast.matrix)
-      
-      ## empirical Bayes statistics
-      fit3 <- limma::eBayes(fit2)
-      
-      pval <- lapply(1:length(compA), function(k) {
-        return(fit3$p.value[,k])
-      })
-      
-    } else if (method == "wilcox-test") {
-      
-      pval <- lapply(1:length(compA), function(k) {
-        
-        ## index of the two conditions
-        indexA <- which(g == compA[k])
-        indexB <- which(g == compB[k])
-        
-        ## the p-value of t-test
-        res <- apply(xs, 2, function(x) {
-          wilcox.test(x[indexA], x[indexB], paired = paired)$p.value
-        })
-        
-        return(res)
-      })
-    }
-    
-    pval <- split(p.adjust(unlist(pval), method = adjust.method),
-                  rep(seq_along(pval), lengths(pval)))
-    
-    result <- lapply(1:length(compA), function(k) {
-      res <- means[c(compA[k], compB[k]),]
-      res <- as.data.frame(rbind(res, res[1,] - res[2,], pval[[k]]))
-      rownames(res) <- c(paste(c(compA[k], compB[k]), "mean"), "difference", "p-value")
-      return(res)
-    })
-    names(result) <- paste0(compA, "-", compB)
-    
-    total <- do.call(rbind, lapply(result, `[`, c("difference", "p-value"), , drop = FALSE))
-    total <- rbind(means, total)
-    rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0))))
-    result$total <- total
-    
-  } else if (method == "MA") {
-    
-    result <- lapply(1:length(compA), function(k) {
-      res <- means[c(compA[k], compB[k]),]
-      res <- as.data.frame(rbind(res, colMeans(res), res[1,] - res[2,]))
-      rownames(res) <- c(paste(c(compA[k], compB[k]), "mean"), "A", "M")
-      return(res)
     })
     
-    names(result) <- paste0(compA, "-", compB)
-    
-  } else if (method == "PCA") {
-    
-    plotData <- dataSet %>%
-      mutate(R.ConRep = paste0(R.Condition, "_", R.Replicate)) %>%
-      remove_rownames() %>%
-      column_to_rownames(var = "R.ConRep") %>%
-      select(-c(R.Condition, R.Replicate))
-    
-    result <- prcomp(plotData, center = center, scale = scale)
-    result$habillage <- dataSet$R.Condition
-    
+    return(res)
+  })
+  
+  pval <- split(p.adjust(unlist(pval), method = adjust.method),
+                rep(seq_along(pval), lengths(pval)))
+  
+  result <- lapply(1:length(compA), function(k) {
+    res <- means[c(compA[k], compB[k]),]
+    res <- as.data.frame(rbind(res, res[1,] - res[2,], pval[[k]]))
+    rownames(res) <- c(paste(c(compA[k], compB[k]), "mean"), "difference", "p-value")
+    return(res)
+  })
+  names(result) <- paste0(compA, "-", compB)
+  
+  total <- do.call(rbind, lapply(result, `[`, c("difference", "p-value"), , drop = FALSE))
+  total <- rbind(means, total)
+  rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0))))
+  result$total <- total
+  
+  ## return to the analysis result
+  return(result)
+}
+
+
+##----------------------------------------------------------------------------------------
+#'
+#' Empirical Bayes moderated t-test
+#' 
+#' @description
+#' Perform empirical Bayes moderated t-tests \insertCite{smyth2004linear}{msDiaLogue}
+#' on the data.
+#' 
+#' @param dataSet The 2d data set of data.
+#' 
+#' @param ref A string (default = NULL) specifying the reference condition for comparison.
+#' If NULL, all pairwise comparisons are performed.
+#' 
+#' @param adjust.method A string (default = "none") specifying the correction method for
+#' p-value adjustment: \itemize{
+#' \item "BH" or its alias "fdr": \insertCite{benjamini1995controlling;textual}{msDiaLogue}.
+#' \item "BY": \insertCite{benjamini2001control;textual}{msDiaLogue}.
+#' \item "bonferroni": \insertCite{bonferroni1936teoria;textual}{msDiaLogue}.
+#' \item "hochberg": \insertCite{hochberg1988sharper;textual}{msDiaLogue}.
+#' \item "holm": \insertCite{holm1979simple;textual}{msDiaLogue}.
+#' \item "hommel": \insertCite{hommel1988stagewise;textual}{msDiaLogue}.
+#' \item "none": None
+#' }
+#' See \code{\link[stats]{p.adjust}} for more details.
+#' 
+#' @import limma
+#' @importFrom stats model.matrix p.adjust
+#' @importFrom utils combn
+#' @importFrom Rdpack reprompt
+#' 
+#' @returns
+#' A list comprising data frames for each comparison, with each data frame containing
+#' the means of the two compared conditions for each protein, the difference in means,
+#' and the p-values. Additionally, a separate data frame called "total" summarizes
+#' the results of multiple comparisons.
+#' 
+#' @references
+#' \insertAllCited{}
+#' 
+#' @export
+
+analyze.mod_t <- function(dataSet, ref = NULL, adjust.method = "none") {
+  
+  if (is.factor(dataSet$R.Condition)) {
+    conds <- levels(dataSet$R.Condition)
+  } else {
+    conds <- unique(as.character(dataSet$R.Condition))
   }
+  
+  if (is.null(ref)) {
+    ## if 'ref' is not provided, perform all pairwise comparisons
+    ## create a pairwise vector
+    comp <- combn(conds, 2)
+    compA <- comp[1,]
+    compB <- comp[2,]
+  } else {
+    ## check for reference condition
+    if (!(ref %in% conds)) {
+      stop("'ref' is not in the 'R.Condition'!")
+    }
+    compA <- conds[conds != ref]
+    compB <- rep(ref, length(compA))
+  }
+  
+  xs <- select(dataSet, -c(R.Condition, R.Replicate))
+  g <- dataSet$R.Condition
+  
+  means <- apply(xs, 2, function(x) {
+    tapply(x, g, mean, na.rm = TRUE)
+  })
+  
+  ## construct the design matrix
+  model.formula <- eval(parse(text = "~ 0 + R.Condition"), envir = dataSet)
+  design <- model.matrix(model.formula)
+  
+  ## fit linear model for each protein
+  fit1 <- limma::lmFit(t(xs), design)
+  
+  ## construct the contrast matrix
+  contrast.matrix <- limma::makeContrasts(
+    contrasts = paste0("R.Condition", compA, "-R.Condition", compB), levels = design)
+  
+  ## compute contrasts from linear model 'fit1'
+  fit2 <- limma::contrasts.fit(fit1, contrast.matrix)
+  
+  ## empirical Bayes statistics
+  fit3 <- limma::eBayes(fit2)
+  
+  pval <- lapply(1:length(compA), function(k) {
+    return(fit3$p.value[,k])
+  })
+  
+  pval <- split(p.adjust(unlist(pval), method = adjust.method),
+                rep(seq_along(pval), lengths(pval)))
+  
+  result <- lapply(1:length(compA), function(k) {
+    res <- means[c(compA[k], compB[k]),]
+    res <- as.data.frame(rbind(res, res[1,] - res[2,], pval[[k]]))
+    rownames(res) <- c(paste(c(compA[k], compB[k]), "mean"), "difference", "p-value")
+    return(res)
+  })
+  names(result) <- paste0(compA, "-", compB)
+  
+  total <- do.call(rbind, lapply(result, `[`, c("difference", "p-value"), , drop = FALSE))
+  total <- rbind(means, total)
+  rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0))))
+  result$total <- total
+  
+  ## return to the analysis result
+  return(result)
+}
+
+
+##----------------------------------------------------------------------------------------
+#'
+#' Wilcoxon test
+#' 
+#' @description
+#' Perform Wilcoxon tests on the data.
+#' 
+#' @param dataSet The 2d data set of data.
+#' 
+#' @param ref A string (default = NULL) specifying the reference condition for comparison.
+#' If NULL, all pairwise comparisons are performed.
+#' 
+#' @param adjust.method A string (default = "none") specifying the correction method for
+#' p-value adjustment: \itemize{
+#' \item "BH" or its alias "fdr": \insertCite{benjamini1995controlling;textual}{msDiaLogue}.
+#' \item "BY": \insertCite{benjamini2001control;textual}{msDiaLogue}.
+#' \item "bonferroni": \insertCite{bonferroni1936teoria;textual}{msDiaLogue}.
+#' \item "hochberg": \insertCite{hochberg1988sharper;textual}{msDiaLogue}.
+#' \item "holm": \insertCite{holm1979simple;textual}{msDiaLogue}.
+#' \item "hommel": \insertCite{hommel1988stagewise;textual}{msDiaLogue}.
+#' \item "none": None
+#' }
+#' See \code{\link[stats]{p.adjust}} for more details.
+#' 
+#' @param paired A boolean (default = FALSE) specifying whether or not to perform a paired
+#' test.
+#' 
+#' @importFrom stats wilcox.test p.adjust
+#' @importFrom utils combn
+#' @importFrom Rdpack reprompt
+#' 
+#' @returns
+#' A list comprising data frames for each comparison, with each data frame containing
+#' the means of the two compared conditions for each protein, the difference in means,
+#' and the p-values. Additionally, a separate data frame called "total" summarizes
+#' the results of multiple comparisons.
+#' 
+#' @references
+#' \insertAllCited{}
+#' 
+#' @export
+
+analyze.wilcox <- function(dataSet, ref = NULL, adjust.method = "none", paired = FALSE) {
+  
+  if (is.factor(dataSet$R.Condition)) {
+    conds <- levels(dataSet$R.Condition)
+  } else {
+    conds <- unique(as.character(dataSet$R.Condition))
+  }
+  
+  if (is.null(ref)) {
+    ## if 'ref' is not provided, perform all pairwise comparisons
+    ## create a pairwise vector
+    comp <- combn(conds, 2)
+    compA <- comp[1,]
+    compB <- comp[2,]
+  } else {
+    ## check for reference condition
+    if (!(ref %in% conds)) {
+      stop("'ref' is not in the 'R.Condition'!")
+    }
+    compA <- conds[conds != ref]
+    compB <- rep(ref, length(compA))
+  }
+  
+  xs <- select(dataSet, -c(R.Condition, R.Replicate))
+  g <- dataSet$R.Condition
+  
+  means <- apply(xs, 2, function(x) {
+    tapply(x, g, mean, na.rm = TRUE)
+  })
+  
+  pval <- lapply(1:length(compA), function(k) {
+    
+    ## index of the two conditions
+    indexA <- which(g == compA[k])
+    indexB <- which(g == compB[k])
+    
+    ## the p-value of t-test
+    res <- apply(xs, 2, function(x) {
+      wilcox.test(x[indexA], x[indexB], paired = paired)$p.value
+    })
+    
+    return(res)
+  })
+  
+  pval <- split(p.adjust(unlist(pval), method = adjust.method),
+                rep(seq_along(pval), lengths(pval)))
+  
+  result <- lapply(1:length(compA), function(k) {
+    res <- means[c(compA[k], compB[k]),]
+    res <- as.data.frame(rbind(res, res[1,] - res[2,], pval[[k]]))
+    rownames(res) <- c(paste(c(compA[k], compB[k]), "mean"), "difference", "p-value")
+    return(res)
+  })
+  names(result) <- paste0(compA, "-", compB)
+  
+  total <- do.call(rbind, lapply(result, `[`, c("difference", "p-value"), , drop = FALSE))
+  total <- rbind(means, total)
+  rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0))))
+  result$total <- total
+  
+  ## return to the analysis result
+  return(result)
+}
+
+
+##----------------------------------------------------------------------------------------
+#'
+#' MA: fold change versus average abundance
+#' 
+#' @description
+#' Compute the fold change (M) and average abundance (A) values from the data for MA plots.
+#' 
+#' @param dataSet The 2d data set of data.
+#' 
+#' @param ref A string (default = NULL) specifying the reference condition for comparison.
+#' If NULL, all pairwise comparisons are performed.
+#' 
+#' @returns
+#' A list comprising data frames for each comparison, with each data frame containing
+#' the means of the two compared conditions for each protein, as well as the average and
+#' difference in means.
+#' 
+#' @importFrom utils combn
+#' 
+#' @export
+
+analyze.ma <- function(dataSet, ref = NULL) {
+  
+  if (is.factor(dataSet$R.Condition)) {
+    conds <- levels(dataSet$R.Condition)
+  } else {
+    conds <- unique(as.character(dataSet$R.Condition))
+  }
+  
+  if (is.null(ref)) {
+    ## if 'ref' is not provided, perform all pairwise comparisons
+    ## create a pairwise vector
+    comp <- combn(conds, 2)
+    compA <- comp[1,]
+    compB <- comp[2,]
+  } else {
+    ## check for reference condition
+    if (!(ref %in% conds)) {
+      stop("'ref' is not in the 'R.Condition'!")
+    }
+    compA <- conds[conds != ref]
+    compB <- rep(ref, length(compA))
+  }
+  
+  xs <- select(dataSet, -c(R.Condition, R.Replicate))
+  g <- dataSet$R.Condition
+  
+  means <- apply(xs, 2, function(x) {
+    tapply(x, g, mean, na.rm = TRUE)
+  })
+  
+  result <- lapply(1:length(compA), function(k) {
+    res <- means[c(compA[k], compB[k]),]
+    res <- as.data.frame(rbind(res, colMeans(res), res[1,] - res[2,]))
+    rownames(res) <- c(paste(c(compA[k], compB[k]), "mean"), "A", "M")
+    return(res)
+  })
+  names(result) <- paste0(compA, "-", compB)
+  
+  ## return to the analysis result
+  return(result)
+}
+
+
+##----------------------------------------------------------------------------------------
+#'
+#' PCA: principal component analysis
+#' 
+#' @description
+#' Perform a principal component analysis
+#' \insertCite{pearson1901lines,hotelling1933analysis}{msDiaLogue} on the data.
+#' 
+#' @param dataSet The 2d data set of data.
+#' 
+#' @param center A boolean (default = TRUE) indicating whether the variables should be
+#' shifted to be zero centered.
+#' 
+#' @param scale A boolean (default = TRUE) indicating whether the variables should be
+#' scaled to have unit variance before the analysis takes place.
+#' 
+#' @importFrom stats prcomp
+#' @importFrom Rdpack reprompt
+#' 
+#' @returns
+#' A list containing the standard deviations of the principal components `sdev`,
+#' the matrix of variable loadings `rotation`, the centering used `center`,
+#' the scaling used `scale`, and the principal component scores `x`.
+#' 
+#' @references
+#' \insertAllCited{}
+#' 
+#' @export
+
+analyze.pca <- function(dataSet, center = TRUE, scale = TRUE) {
+  
+  plotData <- dataSet %>%
+    mutate(R.ConRep = paste0(R.Condition, "_", R.Replicate)) %>%
+    remove_rownames() %>%
+    column_to_rownames(var = "R.ConRep") %>%
+    select(-c(R.Condition, R.Replicate))
+  
+  result <- prcomp(plotData, center = center, scale = scale)
+  result$habillage <- dataSet$R.Condition
   
   ## return to the analysis result
   return(result)

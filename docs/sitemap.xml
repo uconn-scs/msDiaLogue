@@ -7,7 +7,11 @@
 <url><loc>https://uconn-scs.github.io/msDiaLogue/articles/usage_template.html</loc></url>
 <url><loc>https://uconn-scs.github.io/msDiaLogue/authors.html</loc></url>
 <url><loc>https://uconn-scs.github.io/msDiaLogue/index.html</loc></url>
-<url><loc>https://uconn-scs.github.io/msDiaLogue/reference/analyze.html</loc></url>
+<url><loc>https://uconn-scs.github.io/msDiaLogue/reference/analyze.ma.html</loc></url>
+<url><loc>https://uconn-scs.github.io/msDiaLogue/reference/analyze.mod_t.html</loc></url>
+<url><loc>https://uconn-scs.github.io/msDiaLogue/reference/analyze.pca.html</loc></url>
+<url><loc>https://uconn-scs.github.io/msDiaLogue/reference/analyze.t.html</loc></url>
+<url><loc>https://uconn-scs.github.io/msDiaLogue/reference/analyze.wilcox.html</loc></url>
 <url><loc>https://uconn-scs.github.io/msDiaLogue/reference/dataMissing.html</loc></url>
 <url><loc>https://uconn-scs.github.io/msDiaLogue/reference/filterNA.html</loc></url>
 <url><loc>https://uconn-scs.github.io/msDiaLogue/reference/filterOutIn.html</loc></url>

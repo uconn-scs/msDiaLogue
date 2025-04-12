@@ -52,8 +52,8 @@ dataImput <- impute.min_local(dataNorm, reportImputing = FALSE,
 dataImput <- filterNA(dataImput, saveRm = TRUE)
 ## Analysis
 ref <- "50pmol"
-anlys_mod.t <- analyze(dataImput, method = "mod.t-test", ref = ref)
-anlys_MA <- analyze(dataImput, method = "MA", ref = ref)
+anlys_modt <- analyze.mod_t(dataImput, ref = ref)
+anlys_MA <- analyze.ma(dataImput, ref = ref)
 ```
 
 
@@ -61,7 +61,7 @@ anlys_MA <- analyze(dataImput, method = "MA", ref = ref)
 
 ```{r}
 ## default volcano
-visualize(anlys_mod.t$`100pmol-50pmol`, graphType = "volcano",
+visualize(anlys_modt$`100pmol-50pmol`, graphType = "volcano",
           P.thres = 0.05, F.thres = 1)
 ```
 
@@ -72,7 +72,7 @@ The following code is shown to demonstrate how to replace the default labels in
 the volcano plot with gene or protein names, using additional information.
 
 ```{r message=FALSE}
-volcano <- visualize(anlys_mod.t$`100pmol-50pmol`, graphType = "volcano",
+volcano <- visualize(anlys_modt$`100pmol-50pmol`, graphType = "volcano",
                      P.thres = 0.05, F.thres = 1)
 
 ## read a csv file containing full protein information, including gene/protein names
@@ -99,7 +99,7 @@ To customize the colors in your volcano plot, you can use the function
 different significance levels in the output plot.
 
 ```{r}
-volcano <- visualize(anlys_mod.t$`100pmol-50pmol`, graphType = "volcano",
+volcano <- visualize(anlys_modt$`100pmol-50pmol`, graphType = "volcano",
                      P.thres = 0.05, F.thres = 1)
 
 library(ggplot2)
@@ -118,7 +118,7 @@ current theme using ggplot2's `theme_*()` functions. Themes control the overall
 look of the plot, including the background, gridlines, and text.
 
 ```{r}
-volcano <- visualize(anlys_mod.t$`100pmol-50pmol`, graphType = "volcano",
+volcano <- visualize(anlys_modt$`100pmol-50pmol`, graphType = "volcano",
                      P.thres = 0.05, F.thres = 1)
 
 library(ggplot2)

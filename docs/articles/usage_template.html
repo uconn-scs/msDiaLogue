@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">msDiaLogue</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,7 +76,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-04-02</h4>
+            <h4 data-toc-skip class="date">2025-04-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -7387,28 +7387,40 @@ statistics:</p>
 <h3 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a>
 </h3>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataSet</span>,                <span class="co"># dataset of experimental values</span></span>
-<span>        method <span class="op">=</span> <span class="st">"t-test"</span>,      <span class="co"># statistical analysis to use</span></span>
-<span>        ref <span class="op">=</span> <span class="cn">NULL</span>,             <span class="co"># which level of condition to use as reference (for *-test, MA)</span></span>
-<span>        adjust.method <span class="op">=</span> <span class="st">"none"</span>, <span class="co"># what method of p-value adjustment to use (for *-test)</span></span>
-<span>        paired <span class="op">=</span> <span class="cn">FALSE</span>,         <span class="co"># are the data paired (for t-test and wilcox-test)?</span></span>
-<span>        pool.sd <span class="op">=</span> <span class="cn">FALSE</span>,        <span class="co"># used pooled standard deviation (for t-test)?</span></span>
-<span>        center <span class="op">=</span> <span class="cn">TRUE</span>,          <span class="co"># should data be centered before PCA?</span></span>
-<span>        scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>           <span class="co"># should data be scaled before PCA?</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/analyze.t.html">analyze.t</a></span><span class="op">(</span><span class="va">dataSet</span>,                <span class="co"># dataset of experimental values</span></span>
+<span>          ref <span class="op">=</span> <span class="cn">NULL</span>,             <span class="co"># which level of condition to use as reference</span></span>
+<span>          adjust.method <span class="op">=</span> <span class="st">"none"</span>, <span class="co"># what method of p-value adjustment to use</span></span>
+<span>          paired <span class="op">=</span> <span class="cn">FALSE</span>,         <span class="co"># are the data paired?</span></span>
+<span>          pool.sd <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>        <span class="co"># used pooled standard deviation?</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/analyze.mod_t.html">analyze.mod_t</a></span><span class="op">(</span><span class="va">dataSet</span>,                <span class="co"># dataset of experimental values</span></span>
+<span>              ref <span class="op">=</span> <span class="cn">NULL</span>,             <span class="co"># which level of condition to use as reference</span></span>
+<span>              adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="co"># what method of p-value adjustment to use</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/analyze.wilcox.html">analyze.wilcox</a></span><span class="op">(</span><span class="va">dataSet</span>,                <span class="co"># dataset of experimental values</span></span>
+<span>               ref <span class="op">=</span> <span class="cn">NULL</span>,             <span class="co"># which level of condition to use as reference</span></span>
+<span>               adjust.method <span class="op">=</span> <span class="st">"none"</span>, <span class="co"># what method of p-value adjustment to use</span></span>
+<span>               paired <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>         <span class="co"># are the data paired?</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/analyze.ma.html">analyze.ma</a></span><span class="op">(</span><span class="va">dataSet</span>,    <span class="co"># dataset of experimental values</span></span>
+<span>           ref <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="co"># which level of condition to use as reference</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/analyze.pca.html">analyze.pca</a></span><span class="op">(</span><span class="va">dataSet</span>,       <span class="co"># dataset of experimental values</span></span>
+<span>            center <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># should data be centered before PCA?</span></span>
+<span>            scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># should data be scaled before PCA?</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="details-examples-6">Details &amp; Examples<a class="anchor" aria-label="anchor" href="#details-examples-6"></a>
 </h3>
-<p>The function <code><a href="../reference/analyze.html">analyze()</a></code> calculates the results that can
-be used in subsequent visualizations.</p>
+<p>The functions in the analyze module calculate the results that can be
+used in subsequent visualizations.</p>
 <div class="note">
-<strong>Note:</strong> The following analyses using
-<code>method = "*-test"</code> or <code>method = "MA"</code> compare all
-other conditions against the reference condition, which is specified by
-the argument <code>ref</code>, for multiple comparisons. If
-<code>ref</code> is not provided, it will be automatically generated by
-all the combinations of two conditions, based on the level attributes of
-the condition.<br>
+<strong>Note:</strong> The following analyses compare all other
+conditions against the reference condition, which is specified by the
+argument <code>ref</code>, for multiple comparisons. If <code>ref</code>
+is not provided, it will be automatically generated by all the
+combinations of two conditions, based on the level attributes of the
+condition.<br>
 For example, suppose there are three conditions in the data: “A”, “B”,
 and “C”. If you specify <code>ref = "A"</code>, then the result includes
 two comparisons: “B-A” and “C-A”. If <code>ref = NULL</code>, there will
@@ -7460,8 +7472,7 @@ Hochberg (1995)</span>.</p></li>
 error control. The default value <code>"none"</code> indicates that no
 correction is applied.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">anlys_t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="va">ref</span>,</span>
-<span>                   method <span class="op">=</span> <span class="st">"t-test"</span>, adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">anlys_t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.t.html">analyze.t</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="va">ref</span>, adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Data are essentially constant.</span></span>
 <span><span class="co">#&gt; Data are essentially constant.</span></span></code></pre></div>
 <div class="note">
@@ -8364,8 +8375,7 @@ limited by the number of replicates included for each condition), the
 moderated t-test utilizes information from all replicates of every
 protein in the current dataset to calculate variance.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">anlys_mod.t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="va">ref</span>,</span>
-<span>                       method <span class="op">=</span> <span class="st">"mod.t-test"</span>, adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">anlys_modt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.mod_t.html">analyze.mod_t</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="va">ref</span>, adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Zero sample variances detected, have been offset away from zero</span></span></code></pre></div>
 <div class="note">
 <strong>Note:</strong> In the moderated t-test, a warning message might
@@ -9275,8 +9285,7 @@ known as Mann-Whitney test) is performed to test the null hypothesis
 that the distribution of the two conditions for the protein are the
 same.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">anlys_wilcox</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="va">ref</span>,</span>
-<span>                        method <span class="op">=</span> <span class="st">"wilcox-test"</span>, adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">anlys_wilcox</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.wilcox.html">analyze.wilcox</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="va">ref</span>, adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
 <div class="note">
 <strong>Note:</strong> In the Wilcoxon test, the warning message
 “<strong>cannot compute exact p-value with ties.</strong>” may be
@@ -10180,7 +10189,7 @@ enhanced by low overall intensities (e.g. a change from 200 to 400 is
 the same fold-change as from 20,000 to 40,000, but the latter is a more
 robust measurement and less susceptible to noise interference).</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">anlys_MA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="va">ref</span>, method <span class="op">=</span> <span class="st">"MA"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">anlys_MA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.ma.html">analyze.ma</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="va">ref</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; $`100pmol-50pmol`</span></span></code></pre>
 <div style="overflow-x: auto;">
 <table style="width:100%;" class="table">
@@ -10720,7 +10729,7 @@ choose to remove this protein in the PCA.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">dataImput</span>, <span class="kw">function</span><span class="op">(</span><span class="va">col</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">col</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1] "ALBU_BOVIN"</span></span>
 <span><span class="va">dataPCA</span> <span class="op">&lt;-</span> <span class="va">dataImput</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">)</span> <span class="op">!=</span> <span class="st">"ALBU_BOVIN"</span><span class="op">]</span></span>
-<span><span class="va">anlys_PCA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.html">analyze</a></span><span class="op">(</span><span class="va">dataPCA</span>, method <span class="op">=</span> <span class="st">"PCA"</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">anlys_PCA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.pca.html">analyze.pca</a></span><span class="op">(</span><span class="va">dataPCA</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; Standard deviations (1, .., p=12):</span></span></code></pre>
 <div style="overflow-x: auto;">
 <pre><code><span><span class="co">#&gt;  [1] 3.581885e+00 2.285701e+00 2.092323e+00 1.907073e+00 1.649030e+00</span></span>
@@ -11413,7 +11422,7 @@ distribution of the data. Most proteins are expected to show little
 variation, and so the majority of the points will be concentrated around
 the M = 0 line (no difference between group means). Typically, points
 falling above
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>b</mi><mi>s</mi><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">abs(1)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>b</mi><mi>s</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">abs(1)</annotation></semantics></math>
 are highlighted.</p>
 <div class="note">
 <strong>Note:</strong> As the MA plot does not include any measure of
@@ -11425,11 +11434,11 @@ statistically differentially expressed.
 <li>M axis (vertical): Represents the fold change, usually on the
 logarithm base 2 scale, or the ratio of the expression levels, between
 two conditions. It is calculated as:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>=</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mi>/</mi><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>X</mi><mo>−</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>Y</mi></mrow><annotation encoding="application/x-tex">M = log_2(X/Y) = log_2 X - log_2 Y</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>=</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mi>/</mi><mi>Y</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>X</mi><mo>−</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mi>Y</mi></mrow><annotation encoding="application/x-tex">M = log_2(X/Y) = log_2 X - log_2 Y</annotation></semantics></math>
 </li>
 <li>A axis (horizontal): Represents the average intensity of the two
 conditions, calculated as:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mrow><mo stretchy="true" form="prefix">[</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>Y</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">A = \frac{1}{2}log_2(XY) = \frac{1}{2}\left[log_2(X)+log_2(Y)\right]</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mi>Y</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mrow><mo stretchy="true" form="prefix">[</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">A = \frac{1}{2}log_2(XY) = \frac{1}{2}\left[log_2(X)+log_2(Y)\right]</annotation></semantics></math>
 </li>
 </ul>
 <p>Most proteins are expected to exhibit little variation, leading to
@@ -11542,13 +11551,13 @@ p-values, most p-values are expected to be non-significant (above 0.05).
 Depending on the strength of the treatment effect, there may be a peak
 of p-values near 0.</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_mod.t</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, graphType <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, graphType <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-76-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>If the input <code>dataSet</code> is the whole list
-<code>anlys_mod.t</code>, <strong>msDiaLogue</strong> will produce
+<code>anlys_modt</code>, <strong>msDiaLogue</strong> will produce
 individual subplots corresponding to each comparison.</p>
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_mod.t</span>, graphType <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_modt</span>, graphType <span class="op">=</span> <span class="st">"test"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-77-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
@@ -11600,16 +11609,16 @@ log10 of the p-value.</p></li>
 <li><p>Fold change (horizontal): Represents the fold change.</p></li>
 </ul>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_mod.t</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, graphType <span class="op">=</span> <span class="st">"volcano"</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, graphType <span class="op">=</span> <span class="st">"volcano"</span>,</span>
 <span>          P.thres <span class="op">=</span> <span class="fl">0.05</span>, F.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 32 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-80-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>If the input <code>dataSet</code> is the whole list
-<code>anlys_mod.t</code>, <strong>msDiaLogue</strong> will produce
+<code>anlys_modt</code>, <strong>msDiaLogue</strong> will produce
 individual subplots corresponding to each comparison.</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_mod.t</span>, graphType <span class="op">=</span> <span class="st">"volcano"</span>, P.thres <span class="op">=</span> <span class="fl">0.05</span>, F.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.html">visualize</a></span><span class="op">(</span><span class="va">anlys_modt</span>, graphType <span class="op">=</span> <span class="st">"volcano"</span>, P.thres <span class="op">=</span> <span class="fl">0.05</span>, F.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 65 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-81-1.png" width="700" style="display: block; margin: auto;"></p>
