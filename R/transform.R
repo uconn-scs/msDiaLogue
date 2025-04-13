@@ -42,9 +42,6 @@
 #' 
 #' @param title A string with the desired title for the mean-variance plot.
 #' 
-#' @import ggplot2
-#' @importFrom stats var median
-#' 
 #' @returns An object of class \code{plot}.
 #' 
 #' @autoglobal
@@ -99,8 +96,6 @@ meanVarPlot <- function(datMV, title = "") {
 #' }
 #' 
 #' @returns The transformed data.
-#'
-#' @autoglobal
 #' 
 #' @export
 

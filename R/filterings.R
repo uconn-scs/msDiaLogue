@@ -41,9 +41,6 @@
 #' 
 #' @details
 #' All forms of filtering are recommended for most use cases.
-#' 
-#' @import dplyr
-#' @importFrom utils write.csv
 #'  
 #' @returns A filtered 2d dataframe.
 #' 
@@ -135,12 +132,7 @@ preProcessFiltering <- function(dataSet,
 #' or removed will be the union of those specified in \code{listName} and those matching
 #' the regex pattern in \code{regexName}.
 #' 
-#' @import dplyr
-#' @importFrom utils write.csv
-#' 
 #' @returns A filtered 2d dataframe.
-#' 
-#' @autoglobal
 #' 
 #' @export
 
@@ -245,12 +237,7 @@ filterOutIn <- function(dataSet,
 #' \code{\link[msDiaLogue]{preprocessing_scaffold}} that allows for filtering proteins
 #' based on additional information.
 #' 
-#' @import dplyr
-#' @importFrom utils read.csv write.csv
-#' 
 #' @returns A filtered 2d dataframe.
-#' 
-#' @autoglobal
 #' 
 #' @export
 
@@ -321,12 +308,7 @@ filterProtein <- function(dataSet,
 #' If proteins that do not meet the imputation requirement are removed, a .csv file is
 #' created with the removed data.
 #' 
-#' @import dplyr
-#' @importFrom utils write.csv
-#' 
 #' @returns A filtered 2d dataframe.
-#' 
-#' @autoglobal
 #' 
 #' @export
 

@@ -40,15 +40,10 @@
 #' Depending on the size of the FASTA file, this function may run slowly and take several
 #' minutes. The FASTA file must be in .txt format; other formats will not work.
 #' 
-#' @import dplyr
-#' @import tictoc
 #' @importFrom data.table fread
 #' @importFrom seqinr getName read.fasta write.fasta
-#' @importFrom Rdpack reprompt
 #' 
 #' @returns A FASTA file with only the specified proteins present.
-#' 
-#' @autoglobal
 #' 
 #' @export
 
@@ -61,7 +56,7 @@ trimFASTA <- function(FASTAFileName,
   message("Depending on the size of the FASTA files,
           this function may run slowly and take multiple minutes to run.")
   
-  tic("Time to run trimFASTA")
+  tic <- proc.time()["elapsed"]
   
   ## read in full fasta file
   full_Fasta <- read.fasta(FASTAFileName, seqtype = "AA", whole.header = TRUE)
@@ -89,6 +84,8 @@ trimFASTA <- function(FASTAFileName,
   ## write a fasta file with only the selected indices
   write.fasta(part_Fasta, part_names, outputFileName, nbchar = 60)
   
-  toc()
+  toc <- proc.time()["elapsed"]
+  
+  cat("Time to run trimFASTA:", as.numeric(toc-tic, units = "secs"), "sec elapsed.\n")
 }
 

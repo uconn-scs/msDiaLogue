@@ -125,15 +125,10 @@
 #' The function \code{visualize()} is designed to work directly with output from the
 #' function \code{analyze()}.
 #' 
-#' @import dplyr
 #' @import factoextra
-#' @import ggplot2
 #' @import ggrepel
 #' @import ggvenn
 #' @import pheatmap
-#' @import tibble
-#' @import tidyr
-#' @importFrom stats density prcomp
 #' @importFrom UpSetR fromList upset
 #' 
 #' @returns An object of class \code{ggplot}.

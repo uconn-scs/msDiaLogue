@@ -9,34 +9,6 @@ utils::globalVariables(c(
   "PG.NrOfStrippedSequencesIdentified", # <preProcessFiltering>
   "PG.ProteinNames", # <preProcessFiltering>
   "PG.ProteinAccessions", # <preProcessFiltering>
-  "R.Condition", # <filterOutIn>
-  "R.Replicate", # <filterOutIn>
-  "R.Condition", # <filterProtein>
-  "R.Replicate", # <filterProtein>
-  "R.Condition", # <filterNA>
-  "R.Replicate", # <filterNA>
-  "R.Condition", # <impute.min_global>
-  "R.Replicate", # <impute.min_global>
-  "R.Condition", # <impute.min_local>
-  "R.Replicate", # <impute.min_local>
-  "R.Condition", # <impute.knn>
-  "R.Replicate", # <impute.knn>
-  "R.Condition", # <impute.knn_seq>
-  "R.Replicate", # <impute.knn_seq>
-  "R.Condition", # <impute.knn_trunc>
-  "R.Replicate", # <impute.knn_trunc>
-  "R.Condition", # <impute.nuc_norm>
-  "R.Replicate", # <impute.nuc_norm>
-  "R.Condition", # <impute.mice_norm>
-  "R.Replicate", # <impute.mice_norm>
-  "R.Condition", # <impute.mice_cart>
-  "R.Replicate", # <impute.mice_cart>
-  "R.Condition", # <impute.pca_bayes>
-  "R.Replicate", # <impute.pca_bayes>
-  "R.Condition", # <impute.pca_prob>
-  "R.Replicate", # <impute.pca_prob>
-  "R.Condition", # <normalize>
-  "R.Replicate", # <normalize>
   "value", # <preprocessing>
   "PG.Genes", # <preprocessing>
   "PG.ProteinAccessions", # <preprocessing>
@@ -52,15 +24,8 @@ utils::globalVariables(c(
   "R.Replicate", # <preprocessing_scaffold>
   "Quantity", # <preprocessing_scaffold>
   "value", # <preprocessing_scaffold>
-  "R.Replicate", # <sortcondition>
-  "R.Condition", # <sortcondition>
-  "R.Replicate", # <summarize>
-  ".", # <summarize>
   "Mean", # <meanVarPlot>
   "Variance", # <meanVarPlot>
-  "R.Condition", # <transform>
-  "R.Replicate", # <transform>
-  ".", # <trimFASTA>
   "R.Condition", # <visualize>
   "R.Replicate", # <visualize>
   "R.ConRep", # <visualize>

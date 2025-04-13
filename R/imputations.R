@@ -32,16 +32,12 @@
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
-#' @import dplyr
-#' 
 #' @returns
 #' \itemize{
 #' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
 #' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
 #' dataframe and a shadow matrix showing which proteins by replicate were imputed.
 #' }
-#' 
-#' @autoglobal
 #' 
 #' @export
 
@@ -86,16 +82,12 @@ impute.min_global <- function(dataSet, reportImputing = FALSE) {
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
-#' @import dplyr
-#' 
 #' @returns
 #' \itemize{
 #' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
 #' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
 #' dataframe and a shadow matrix showing which proteins by replicate were imputed.
 #' }
-#' 
-#' @autoglobal
 #' 
 #' @export
 
@@ -197,7 +189,6 @@ impute.min_local <- function(dataSet, reportImputing = FALSE,
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
-#' @import dplyr
 #' @importFrom impute impute.knn
 #' 
 #' @returns
@@ -209,8 +200,6 @@ impute.min_local <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @references
 #' \insertAllCited{}
-#' 
-#' @autoglobal
 #' 
 #' @export
 
@@ -257,7 +246,6 @@ impute.knn <- function(dataSet, reportImputing = FALSE,
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
-#' @import dplyr
 #' @importFrom multiUS seqKNNimp
 #' 
 #' @returns
@@ -269,8 +257,6 @@ impute.knn <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @references
 #' \insertAllCited{}
-#' 
-#' @autoglobal
 #' 
 #' @export
 
@@ -315,7 +301,6 @@ impute.knn_seq <- function(dataSet, reportImputing = FALSE,
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
-#' @importFrom stats cor integrate na.omit pnorm sd
 #' @returns
 #' \itemize{
 #' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
@@ -325,8 +310,6 @@ impute.knn_seq <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @references
 #' \insertAllCited{}
-#' 
-#' @autoglobal
 #' 
 #' @export
 
@@ -391,7 +374,6 @@ impute.knn_trunc <- function(dataSet, reportImputing = FALSE,
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
-#' @import dplyr
 #' @importFrom softImpute complete softImpute
 #' 
 #' @returns
@@ -403,8 +385,6 @@ impute.knn_trunc <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @references
 #' \insertAllCited{}
-#' 
-#' @autoglobal
 #' 
 #' @export
 
@@ -466,7 +446,6 @@ impute.nuc_norm <- function(dataSet, reportImputing = FALSE,
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
-#' @import dplyr
 #' @importFrom mice complete mice
 #' 
 #' @returns
@@ -478,8 +457,6 @@ impute.nuc_norm <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @references
 #' \insertAllCited{}
-#' 
-#' @autoglobal
 #' 
 #' @export
 
@@ -527,7 +504,6 @@ impute.mice_norm <- function(dataSet, reportImputing = FALSE,
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
-#' @import dplyr
 #' @importFrom mice complete mice
 #' 
 #' @returns
@@ -539,8 +515,6 @@ impute.mice_norm <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @references
 #' \insertAllCited{}
-#' 
-#' @autoglobal
 #' 
 #' @export
 
@@ -589,7 +563,6 @@ impute.mice_cart <- function(dataSet, reportImputing = FALSE,
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
-#' @import dplyr
 #' @importFrom pcaMethods completeObs pca
 #' 
 #' @returns
@@ -601,8 +574,6 @@ impute.mice_cart <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @references
 #' \insertAllCited{}
-#' 
-#' @autoglobal
 #' 
 #' @export
 
@@ -656,7 +627,6 @@ impute.pca_bayes <- function(dataSet, reportImputing = FALSE,
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
-#' @import dplyr
 #' @importFrom pcaMethods completeObs pca
 #' 
 #' @returns
@@ -668,8 +638,6 @@ impute.pca_bayes <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @references
 #' \insertAllCited{}
-#' 
-#' @autoglobal
 #' 
 #' @export
 

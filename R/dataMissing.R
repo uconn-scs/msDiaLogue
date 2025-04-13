@@ -43,9 +43,6 @@
 #' missing data in the samples for that protein are shown in the labels of the
 #' visualization when \code{show_labels = TRUE}.
 #' 
-#' @import dplyr
-#' @import ggplot2
-#' @import tidyr
 #' @importFrom glue glue
 #' @importFrom scales percent
 #' 

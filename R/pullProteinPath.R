@@ -50,8 +50,6 @@
 #' 
 #' @returns A 2d dataframe, with the protein data at each step present in the \code{dataSetList}.
 #' 
-#' @autoglobal
-#' 
 #' @export
 
 pullProteinPath <- function(listName = NULL, regexName = NULL, dataSetList,

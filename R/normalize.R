@@ -53,17 +53,12 @@
 #' Boxplots are also generated for before and after the normalization to give a visual
 #' indicator of the changes.
 #' 
-#' @import dplyr
-#' @import ggplot2
 #' @importFrom limma normalizeQuantiles
-#' @importFrom Rdpack reprompt
 #' 
 #' @returns A normalized 2d dataframe.
 #' 
 #' @references
 #' \insertAllCited{}
-#' 
-#' @autoglobal
 #' 
 #' @export
 

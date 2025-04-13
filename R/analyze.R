@@ -48,10 +48,6 @@
 #' @param pool.sd A boolean (default = FALSE) specifying whether or not to use a pooled
 #' standard deviation.
 #' 
-#' @importFrom stats t.test p.adjust
-#' @importFrom utils combn
-#' @importFrom Rdpack reprompt
-#' 
 #' @returns
 #' A list comprising data frames for each comparison, with each data frame containing
 #' the means of the two compared conditions for each protein, the difference in means,
@@ -165,9 +161,6 @@ analyze.t <- function(dataSet, ref = NULL, adjust.method = "none",
 #' See \code{\link[stats]{p.adjust}} for more details.
 #' 
 #' @import limma
-#' @importFrom stats model.matrix p.adjust
-#' @importFrom utils combn
-#' @importFrom Rdpack reprompt
 #' 
 #' @returns
 #' A list comprising data frames for each comparison, with each data frame containing
@@ -279,10 +272,6 @@ analyze.mod_t <- function(dataSet, ref = NULL, adjust.method = "none") {
 #' @param paired A boolean (default = FALSE) specifying whether or not to perform a paired
 #' test.
 #' 
-#' @importFrom stats wilcox.test p.adjust
-#' @importFrom utils combn
-#' @importFrom Rdpack reprompt
-#' 
 #' @returns
 #' A list comprising data frames for each comparison, with each data frame containing
 #' the means of the two compared conditions for each protein, the difference in means,
@@ -376,8 +365,6 @@ analyze.wilcox <- function(dataSet, ref = NULL, adjust.method = "none", paired =
 #' the means of the two compared conditions for each protein, as well as the average and
 #' difference in means.
 #' 
-#' @importFrom utils combn
-#' 
 #' @export
 
 analyze.ma <- function(dataSet, ref = NULL) {
@@ -438,9 +425,6 @@ analyze.ma <- function(dataSet, ref = NULL) {
 #' 
 #' @param scale A boolean (default = TRUE) indicating whether the variables should be
 #' scaled to have unit variance before the analysis takes place.
-#' 
-#' @importFrom stats prcomp
-#' @importFrom Rdpack reprompt
 #' 
 #' @returns
 #' A list containing the standard deviations of the principal components `sdev`,

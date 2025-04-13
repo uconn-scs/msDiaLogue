@@ -227,9 +227,6 @@ preprocessing <- function(fileName,
 #' replicate to the user.
 #' }
 #' 
-#' @import dplyr
-#' @import ggplot2
-#' @import tidyr
 #' @importFrom readxl read_excel
 #' @importFrom purrr discard map
 #' 
