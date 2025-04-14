@@ -50,7 +50,8 @@
 #' 
 #' @importFrom psych describeBy
 #' 
-#' @returns A 2d summarized data frame.
+#' @return
+#' A 2d summarized data frame.
 #' 
 #' @export
 

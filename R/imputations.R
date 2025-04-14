@@ -32,7 +32,7 @@
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
-#' @returns
+#' @return
 #' \itemize{
 #' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
 #' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
@@ -82,7 +82,7 @@ impute.min_global <- function(dataSet, reportImputing = FALSE) {
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
-#' @returns
+#' @return
 #' \itemize{
 #' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
 #' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
@@ -191,7 +191,7 @@ impute.min_local <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @importFrom impute impute.knn
 #' 
-#' @returns
+#' @return
 #' \itemize{
 #' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
 #' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
@@ -248,7 +248,7 @@ impute.knn <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @importFrom multiUS seqKNNimp
 #' 
-#' @returns
+#' @return
 #' \itemize{
 #' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
 #' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
@@ -301,7 +301,7 @@ impute.knn_seq <- function(dataSet, reportImputing = FALSE,
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
 #' 
-#' @returns
+#' @return
 #' \itemize{
 #' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
 #' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
@@ -376,7 +376,7 @@ impute.knn_trunc <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @importFrom softImpute complete softImpute
 #' 
-#' @returns
+#' @return
 #' \itemize{
 #' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
 #' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
@@ -448,7 +448,7 @@ impute.nuc_norm <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @importFrom mice complete mice
 #' 
-#' @returns
+#' @return
 #' \itemize{
 #' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
 #' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
@@ -506,7 +506,7 @@ impute.mice_norm <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @importFrom mice complete mice
 #' 
-#' @returns
+#' @return
 #' \itemize{
 #' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
 #' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
@@ -565,7 +565,7 @@ impute.mice_cart <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @importFrom pcaMethods completeObs pca
 #' 
-#' @returns
+#' @return
 #' \itemize{
 #' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
 #' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
@@ -629,7 +629,7 @@ impute.pca_bayes <- function(dataSet, reportImputing = FALSE,
 #' 
 #' @importFrom pcaMethods completeObs pca
 #' 
-#' @returns
+#' @return
 #' \itemize{
 #' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
 #' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d

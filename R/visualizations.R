@@ -131,7 +131,8 @@
 #' @import pheatmap
 #' @importFrom UpSetR fromList upset
 #' 
-#' @returns An object of class \code{ggplot}.
+#' @return
+#' An object of class \code{ggplot}.
 #' 
 #' @autoglobal
 #' 

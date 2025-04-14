@@ -3,6 +3,7 @@
 export(analyze.ma)
 export(analyze.mod_t)
 export(analyze.pca)
+export(analyze.plsda)
 export(analyze.t)
 export(analyze.wilcox)
 export(dataMissing)

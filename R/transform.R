@@ -42,7 +42,8 @@
 #' 
 #' @param title A string with the desired title for the mean-variance plot.
 #' 
-#' @returns An object of class \code{plot}.
+#' @return
+#' An object of class \code{plot}.
 #' 
 #' @autoglobal
 #' 
@@ -95,7 +96,8 @@ meanVarPlot <- function(datMV, title = "") {
 #' \item Plots the mean-variance relationship again for comparison.
 #' }
 #' 
-#' @returns The transformed data.
+#' @return
+#' The transformed data.
 #' 
 #' @export
 

@@ -48,7 +48,7 @@
 #' @param pool.sd A boolean (default = FALSE) specifying whether or not to use a pooled
 #' standard deviation.
 #' 
-#' @returns
+#' @return
 #' A list comprising data frames for each comparison, with each data frame containing
 #' the means of the two compared conditions for each protein, the difference in means,
 #' and the p-values. Additionally, a separate data frame called "total" summarizes
@@ -162,7 +162,7 @@ analyze.t <- function(dataSet, ref = NULL, adjust.method = "none",
 #' 
 #' @import limma
 #' 
-#' @returns
+#' @return
 #' A list comprising data frames for each comparison, with each data frame containing
 #' the means of the two compared conditions for each protein, the difference in means,
 #' and the p-values. Additionally, a separate data frame called "total" summarizes
@@ -272,7 +272,7 @@ analyze.mod_t <- function(dataSet, ref = NULL, adjust.method = "none") {
 #' @param paired A boolean (default = FALSE) specifying whether or not to perform a paired
 #' test.
 #' 
-#' @returns
+#' @return
 #' A list comprising data frames for each comparison, with each data frame containing
 #' the means of the two compared conditions for each protein, the difference in means,
 #' and the p-values. Additionally, a separate data frame called "total" summarizes
@@ -360,7 +360,7 @@ analyze.wilcox <- function(dataSet, ref = NULL, adjust.method = "none", paired =
 #' @param ref A string (default = NULL) specifying the reference condition for comparison.
 #' If NULL, all pairwise comparisons are performed.
 #' 
-#' @returns
+#' @return
 #' A list comprising data frames for each comparison, with each data frame containing
 #' the means of the two compared conditions for each protein, as well as the average and
 #' difference in means.
@@ -426,10 +426,14 @@ analyze.ma <- function(dataSet, ref = NULL) {
 #' @param scale A boolean (default = TRUE) indicating whether the variables should be
 #' scaled to have unit variance before the analysis takes place.
 #' 
-#' @returns
-#' A list containing the standard deviations of the principal components `sdev`,
-#' the matrix of variable loadings `rotation`, the centering used `center`,
-#' the scaling used `scale`, and the principal component scores `x`.
+#' @return
+#' A list containing the following components: \describe{
+#' \item{sdev}{The standard deviations of the principal components.}
+#' \item{rotation}{The matrix of variable loadings.}
+#' \item{center}{The centering used.}
+#' \item{scale}{The scaling used.}
+#' \item{x}{The principal component scores.}
+#' }
 #' 
 #' @references
 #' \insertAllCited{}
@@ -448,6 +452,88 @@ analyze.pca <- function(dataSet, center = TRUE, scale = TRUE) {
   result$habillage <- dataSet$R.Condition
   
   ## return to the analysis result
+  return(result)
+}
+
+
+##----------------------------------------------------------------------------------------
+#'
+#' PLS-DA: partial least squares discriminant analysis
+#' 
+#' @description
+#' Perform a partial least squares discriminant analysis on the data.
+#' 
+#' @param dataSet The 2d data set of data.
+#' 
+#' @param ncomp An integer (default = the maximal number of components) specifying the
+#' number of components to include in the model.
+#' 
+#' @param method A character string (default = "kernelpls") specifying the multivariate
+#' regression method to be used: \itemize{
+#' \item "kernelpls": Kernel algorithm \insertCite{dayal1997improved}{msDiaLogue}.
+#' \item "widekernelpls": Wide kernel algorithm \insertCite{rannar1994pls}{msDiaLogue}.
+#' \item "simpls": SIMPLS  algorithm \insertCite{dejong1993simpls}{msDiaLogue}.
+#' \item "oscorespls": NIPALS algorithm (classical orthogonal scores algorithm) \insertCite{martens1989multivariate}{msDiaLogue}.
+#' }
+#' 
+#' @param center A boolean (default = TRUE) indicating whether the variables should be
+#' shifted to be zero centered.
+#' 
+#' @param scale A boolean (default = FALSE) indicating whether the variables should be
+#' scaled to have unit variance before the analysis takes place.
+#' 
+#' @return
+#' A list containing the following components: \describe{
+#' \item{coefficients}{An array of regression coefficients for \code{ncomp} components.
+#' The dimensions are c(nvar, npred, \code{ncomp}), where nvar is the number of variables
+#' X (proteins) and npred is the number of predicted variables Y (conditions).}
+#' \item{scores}{A matrix of scores.}
+#' \item{loadings}{A matrix of loadings.}
+#' \item{loading.weights}{A matrix of loading weights.}
+#' \item{Yscores}{A matrix of Y-scores.}
+#' \item{Yloadings}{A matrix of Y-loadings.}
+#' \item{projection}{The projection matrix used to convert X to scores.}
+#' \item{Xmeans}{A vector of means of the X variables.}
+#' \item{Ymeans}{A vector of means of the Y variables.}
+#' \item{fitted.values}{An array of fitted values. The dimensions are
+#' c(nobj, npred, \code{ncomp}), where nobj is the number of samples and npred is the
+#' number of Y variables.}
+#' \item{residuals}{An array of regression residuals. The dimensions are
+#' c(nobj, npred, \code{ncomp}), where nobj is the number of samples and npred is the
+#' number of Y variables.}
+#' \item{Xvar}{A vector with the amount of X-variance explained by each component.}
+#' \item{Xtotvar}{Total variance in X.}
+#' \item{ncomp}{The number of components.}
+#' \item{method}{The method used to fit the model.}
+#' \item{center}{Indicates whether centering was applied to the model.}
+#' \item{scale}{The scaling used.}
+#' \item{model}{The model frame.}
+#' }
+#' 
+#' @references
+#' \insertAllCited{}
+#' 
+#' @export
+
+analyze.plsda <- function(dataSet, ncomp, method = "kernelpls",
+                          center = TRUE, scale = FALSE) {
+  model.formula <- eval(parse(text = "~ 0 + R.Condition"), envir = dataSet)
+  y <- model.matrix(model.formula)
+  colnames(y) <- gsub("^R.Condition", "", colnames(y))
+  xs <- as.matrix(select(dataSet, -c(R.Condition, R.Replicate)))
+  if (missing(ncomp)) {
+    ncomp <- min(nrow(xs)-1, ncol(xs))
+  }
+  result <- pls::plsr(y ~ xs, method = method, center = center, scale = scale)
+  if (is.null(result$scale)) {
+    result$scale <- FALSE
+  }
+  model <- result$model
+  result$model <- NULL
+  result$call <- NULL
+  result$fit.time <- NULL
+  result$terms <- NULL
+  result <- append(result, list(model = model))
   return(result)
 }
 

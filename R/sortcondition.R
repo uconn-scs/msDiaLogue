@@ -24,7 +24,8 @@
 #' 
 #' @param dataSet The 2d data set of experimental values.
 #' 
-#' @returns A list of lists.
+#' @return
+#' A list of lists.
 #' 
 #' @export
 

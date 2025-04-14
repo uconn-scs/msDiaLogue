@@ -31,6 +31,7 @@ Imports:
     multiUS,
     pcaMethods,
     pheatmap,
+    pls,
     psych,
     purrr,
     readxl,
@@ -39,7 +40,6 @@ Imports:
     softImpute,
     tidyr (>= 1.3.0),
     tibble,
-    tictoc,
     utils
 Suggests:
     roxyglobals,

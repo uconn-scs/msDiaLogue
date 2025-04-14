@@ -55,7 +55,8 @@
 #' 
 #' @importFrom limma normalizeQuantiles
 #' 
-#' @returns A normalized 2d dataframe.
+#' @return
+#' A normalized 2d dataframe.
 #' 
 #' @references
 #' \insertAllCited{}

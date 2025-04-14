@@ -16,9 +16,13 @@ shifted to be zero centered.}
 scaled to have unit variance before the analysis takes place.}
 }
 \value{
-A list containing the standard deviations of the principal components \code{sdev},
-the matrix of variable loadings \code{rotation}, the centering used \code{center},
-the scaling used \code{scale}, and the principal component scores \code{x}.
+A list containing the following components: \describe{
+\item{sdev}{The standard deviations of the principal components.}
+\item{rotation}{The matrix of variable loadings.}
+\item{center}{The centering used.}
+\item{scale}{The scaling used.}
+\item{x}{The principal component scores.}
+}
 }
 \description{
 Perform a principal component analysis

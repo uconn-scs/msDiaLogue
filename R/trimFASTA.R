@@ -43,7 +43,8 @@
 #' @importFrom data.table fread
 #' @importFrom seqinr getName read.fasta write.fasta
 #' 
-#' @returns A FASTA file with only the specified proteins present.
+#' @return
+#' A FASTA file with only the specified proteins present.
 #' 
 #' @export
 

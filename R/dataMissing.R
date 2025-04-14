@@ -46,8 +46,8 @@
 #' @importFrom glue glue
 #' @importFrom scales percent
 #' 
-#' @returns A 2d dataframe including:
-#' \itemize{
+#' @return
+#' A 2d dataframe including: \itemize{
 #' \item "count_miss": The count of missing values for each protein.
 #' \item "pct_miss_col": The percentage of missing values for each protein.
 #' \item "pct_miss_tot": The percentage of missing values for each protein relative to

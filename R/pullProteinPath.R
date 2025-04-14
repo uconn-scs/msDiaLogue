@@ -48,7 +48,8 @@
 #' \code{\link[msDiaLogue]{preprocessing}} or
 #' \code{\link[msDiaLogue]{preprocessing_scaffold}}.
 #' 
-#' @returns A 2d dataframe, with the protein data at each step present in the \code{dataSetList}.
+#' @return
+#' A 2d dataframe, with the protein data at each step present in the \code{dataSetList}.
 #' 
 #' @export
 

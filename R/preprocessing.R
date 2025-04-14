@@ -61,7 +61,8 @@
 #' @import tidyr
 #' @importFrom utils read.csv write.csv
 #' 
-#' @returns A 2d dataframe.
+#' @return
+#' A 2d dataframe.
 #' 
 #' @autoglobal
 #' 
@@ -230,7 +231,7 @@ preprocessing <- function(fileName,
 #' @importFrom readxl read_excel
 #' @importFrom purrr discard map
 #' 
-#' @returns
+#' @return
 #' \itemize{
 #' \item If the data contains columns for Gene Ontology (GO) annotation terms,
 #' the function returns a list containing both the preprocessed 2d dataframe and a list of

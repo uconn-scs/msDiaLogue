@@ -33,8 +33,7 @@ missing data in the samples for that protein are shown in the labels of the
 visualization when \code{show_labels = TRUE}.}
 }
 \value{
-A 2d dataframe including:
-\itemize{
+A 2d dataframe including: \itemize{
 \item "count_miss": The count of missing values for each protein.
 \item "pct_miss_col": The percentage of missing values for each protein.
 \item "pct_miss_tot": The percentage of missing values for each protein relative to
