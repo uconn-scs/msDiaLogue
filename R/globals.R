@@ -26,18 +26,25 @@ utils::globalVariables(c(
   "value", # <preprocessing_scaffold>
   "Mean", # <meanVarPlot>
   "Variance", # <meanVarPlot>
-  "R.Condition", # <visualize>
-  "R.Replicate", # <visualize>
-  "R.ConRep", # <visualize>
-  "value", # <visualize>
-  "Regulation", # <visualize>
-  "Variable", # <visualize>
-  "A", # <visualize>
-  "M", # <visualize>
-  "Comparison", # <visualize>
-  "binwidth", # <visualize>
-  "Significant", # <visualize>
-  "difference", # <visualize>
-  "p.value", # <visualize>
+  "R.Condition", # <visualize.heatmap>
+  "R.Replicate", # <visualize.heatmap>
+  "R.ConRep", # <visualize.heatmap>
+  "name", # <visualize.heatmap>
+  "value", # <visualize.heatmap>
+  "Regulation", # <visualize.ma>
+  "Variable", # <visualize.ma>
+  "A", # <visualize.ma>
+  "M", # <visualize.ma>
+  "label", # <visualize.ma>
+  "Variable", # <visualize.test>
+  "name", # <visualize.test>
+  "value", # <visualize.test>
+  "Comparison", # <visualize.test>
+  "binwidth", # <visualize.test>
+  "Significant", # <visualize.volcano>
+  "Variable", # <visualize.volcano>
+  "difference", # <visualize.volcano>
+  "p.value", # <visualize.volcano>
+  "label", # <visualize.volcano>
   NULL
 ))

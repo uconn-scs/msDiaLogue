@@ -67,7 +67,7 @@ normalize <- function(dataSet, applyto = "sample", normalizeType = "quant", plot
   
   ## create a boxplot for pre-normalization
   if (plot) {
-    plotobj <- visualize(dataSet, graphType = "normalize") +
+    plotobj <- visualize.boxplot(dataSet) +
       ggtitle("Pre-Normalization Boxplot")
     print(plotobj)
   }
@@ -159,7 +159,7 @@ normalize <- function(dataSet, applyto = "sample", normalizeType = "quant", plot
   
   ## create a boxplot for post-normalization
   if (plot) {
-    plotobj <- visualize(normDataSet, graphType = "normalize") +
+    plotobj <- visualize.boxplot(normDataSet) +
       ggtitle("Post-Normalization Boxplot")
     print(plotobj)
   }
