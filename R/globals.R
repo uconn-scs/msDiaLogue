@@ -36,6 +36,13 @@ utils::globalVariables(c(
   "A", # <visualize.ma>
   "M", # <visualize.ma>
   "label", # <visualize.ma>
+  "R.Condition", # <visualize.rank>
+  "R.Replicate", # <visualize.rank>
+  "Name", # <visualize.rank>
+  "Abundance", # <visualize.rank>
+  "Rank", # <visualize.rank>
+  "Proteins", # <visualize.rank>
+  "Label", # <visualize.rank>
   "Variable", # <visualize.test>
   "name", # <visualize.test>
   "value", # <visualize.test>

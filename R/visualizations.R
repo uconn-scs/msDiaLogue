@@ -177,6 +177,99 @@ visualize.ma <- function(dataSet, M.thres = 1) {
 
 ##----------------------------------------------------------------------------------------
 #' 
+#' Rank abundance distribution plot (Whittaker plot)
+#' 
+#' @description
+#' Generate a rank abundance distribution plot, also known as Whittaker plot, for the data.
+#' 
+#' @param dataSet The 2d data set of data.
+#' 
+#' @param listName A character vector of proteins to highlight.
+#' 
+#' @param regexName A character vector specifying proteins for regular expression pattern
+#' matching to highlight.
+#' 
+#' @param facet A character string (default = c("Replicate", "Condition")) specifying
+#' grouping variables for faceting. Allowed values are "Condition", "Replicate",
+#' c("Condition", "Replicate"), c("Replicate", "Condition"), or "none" for no grouping.
+#' 
+#' @param color A string (default = red") specifying the color used to highlight proteins.
+#' 
+#' @import ggrepel
+#' 
+#' @return
+#' An object of class \code{ggplot}.
+#' 
+#' @autoglobal
+#' 
+#' @export
+
+visualize.rank <- function(dataSet, listName = NULL, regexName = NULL,
+                           facet = c("Condition", "Replicate"), color = "red") {
+  
+  plotData <- dataSet %>%
+    rename(Condition = R.Condition, Replicate = R.Replicate) %>%
+    pivot_longer(cols = -c("Condition", "Replicate"),
+                 names_to = "Name", values_to = "Abundance")
+  
+  ## match regexName if provided
+  if (!is.null(regexName)) {
+    regexName <- unique(grep(paste(regexName, collapse = "|"), plotData$Name, value = TRUE))
+  }
+  
+  ## combine protein names from list and regex names
+  unionName <- union(listName, regexName)
+  
+  highlight_label <- if (length(unionName) == 1) unionName else "Highlight"
+  
+  plotData <- plotData %>%
+    mutate(Proteins = ifelse(Name %in% unionName, "Highlight", "Other"),
+           Label = case_when(
+             Proteins == "Highlight" & identical(facet, "Condition") ~ paste(Name, Replicate, sep = "_"),
+             Proteins == "Highlight" & identical(facet, "Replicate") ~ paste(Name, Condition, sep = "_"),
+             Proteins == "Highlight" & length(facet) == 2 ~ Name,
+             Proteins == "Other" ~ NA))
+  
+  if (all(facet %in% c("Condition", "Replicate"))) {
+    plotData <- plotData %>%
+      group_by(across(all_of(facet))) %>%
+      arrange(desc(Abundance), .by_group = TRUE) %>%
+      mutate(Rank = row_number()) %>%
+      ungroup()
+  } else {
+    plotData <- plotData %>%
+      arrange(desc(Abundance)) %>%
+      mutate(Rank = row_number())
+  }
+  
+  plot <- ggplot(plotData, aes(x = Rank, y = Abundance, shape = Proteins, color = Proteins)) +
+    geom_point() +
+    scale_color_manual(values = c("Highlight" = color, "Other" = "black"),
+                       labels = c("Highlight" = highlight_label, "Other" = "Other")) +
+    scale_shape_manual(values = c("Highlight" = 17, "Other" = 16),
+                       labels = c("Highlight" = highlight_label, "Other" = "Other")) +
+    labs(x = "Rank", y = "Abundance") +
+    theme_bw() +
+    theme(legend.position = "bottom",
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank())
+  
+  if (length(facet) == 1) {
+    plot <- plot + facet_wrap(as.formula(paste("~", facet)))
+  } else {
+    plot <- plot + facet_grid(as.formula(paste(facet[1], "~", facet[2])))
+  }
+  
+  if (length(unionName) > 1) {
+    plot <- plot + geom_text_repel(data = plotData, aes(label = Label), size = 2.5, show.legend = FALSE)
+  }
+  
+  return(plot)
+}
+
+
+##----------------------------------------------------------------------------------------
+#' 
 #' Histograms of fold changes and p-values from test results
 #' 
 #' @description

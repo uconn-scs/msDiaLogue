@@ -991,6 +991,12 @@ visualize.heatmap(dataSet,              # dataset of experimental values
 visualize.ma(dataSet,     # output from the function analyze.ma()
              M.thres = 1) # threshold by fold-change
 
+visualize.rank(dataSet,   # dataset of experimental values
+               listName,  # a character vector of proteins to highlight
+               regexName, # a character vector specifying proteins for regular expression pattern matching to highlight
+               facet,     # grouping variables for faceting
+               color)     # the color used to highlight proteins
+
 visualize.test(dataSet) # output from the function analyze.mod_t(), analyze.t(), or analyze.wilcox()
 
 visualize.upset(dataSet) # dataset of experimental values
@@ -1064,6 +1070,18 @@ visualize.heatmap(dataImput, pkg = "ggplot2")
 
 In a heatmap, similar colors within a row indicate relatively consistent values,
 suggesting similar protein expression levels across different samples.
+
+
+### rank abundance plot
+
+The rank abundance plot shows proteins ranked by abundance to visualize
+distribution patterns and highlight specific proteins across conditions or
+replicates.
+
+```{r fig.height=6}
+visualize.rank(dataImput, listName = "POLK_HUMAN",
+               facet = c("Replicate", "Condition"))
+```
 
 
 ### MA

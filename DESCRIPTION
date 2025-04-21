@@ -20,7 +20,6 @@ Imports:
     UpSetR,
     data.table,
     dplyr (>= 1.0.10),
-    factoextra,
     ggplot2,
     ggpubr,
     ggrepel,
