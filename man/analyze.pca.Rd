@@ -18,10 +18,10 @@ scaled to have unit variance before the analysis takes place.}
 \value{
 A list containing the following components: \describe{
 \item{sdev}{The standard deviations of the principal components.}
-\item{rotation}{The matrix of variable loadings.}
+\item{loadings}{The matrix of variable loadings.}
+\item{scores}{The principal component scores.}
 \item{center}{The centering used.}
 \item{scale}{The scaling used.}
-\item{x}{The principal component scores.}
 }
 }
 \description{

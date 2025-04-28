@@ -18,10 +18,10 @@ Depends: R (>= 4.1.0)
 Imports:
     Rdpack,
     UpSetR,
+    cowplot,
     data.table,
     dplyr (>= 1.0.10),
     ggplot2,
-    ggpubr,
     ggrepel,
     ggvenn,
     glue,

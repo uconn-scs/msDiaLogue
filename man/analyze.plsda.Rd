@@ -6,17 +6,14 @@
 \usage{
 analyze.plsda(
   dataSet,
-  ncomp,
   method = "kernelpls",
+  ncomp,
   center = TRUE,
   scale = FALSE
 )
 }
 \arguments{
 \item{dataSet}{The 2d data set of data.}
-
-\item{ncomp}{An integer (default = the maximal number of components) specifying the
-number of components to include in the model.}
 
 \item{method}{A character string (default = "kernelpls") specifying the multivariate
 regression method to be used: \itemize{
@@ -25,6 +22,9 @@ regression method to be used: \itemize{
 \item "simpls": SIMPLS  algorithm \insertCite{dejong1993simpls}{msDiaLogue}.
 \item "oscorespls": NIPALS algorithm (classical orthogonal scores algorithm) \insertCite{martens1989multivariate}{msDiaLogue}.
 }}
+
+\item{ncomp}{An integer specifying the number of components to include in the model.
+Defaults to min(n-1, p).}
 
 \item{center}{A boolean (default = TRUE) indicating whether the variables should be
 shifted to be zero centered.}
@@ -38,19 +38,9 @@ A list containing the following components: \describe{
 The dimensions are c(nvar, npred, \code{ncomp}), where nvar is the number of variables
 X (proteins) and npred is the number of predicted variables Y (conditions).}
 \item{scores}{A matrix of scores.}
+\item{vips}{A matrix of variable importance in projection (VIP) scores.}
 \item{loadings}{A matrix of loadings.}
 \item{loading.weights}{A matrix of loading weights.}
-\item{Yscores}{A matrix of Y-scores.}
-\item{Yloadings}{A matrix of Y-loadings.}
-\item{projection}{The projection matrix used to convert X to scores.}
-\item{Xmeans}{A vector of means of the X variables.}
-\item{Ymeans}{A vector of means of the Y variables.}
-\item{fitted.values}{An array of fitted values. The dimensions are
-c(nobj, npred, \code{ncomp}), where nobj is the number of samples and npred is the
-number of Y variables.}
-\item{residuals}{An array of regression residuals. The dimensions are
-c(nobj, npred, \code{ncomp}), where nobj is the number of samples and npred is the
-number of Y variables.}
 \item{Xvar}{A vector with the amount of X-variance explained by each component.}
 \item{Xtotvar}{Total variance in X.}
 \item{ncomp}{The number of components.}

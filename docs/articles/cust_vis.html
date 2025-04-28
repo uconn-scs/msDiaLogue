@@ -76,7 +76,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-04-20</h4>
+            <h4 data-toc-skip class="date">2025-04-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/cust_vis.Rmd" class="external-link"><code>vignettes/cust_vis.Rmd</code></a></small>
       <div class="d-none name"><code>cust_vis.Rmd</code></div>
@@ -112,7 +112,7 @@ visualization in msDiaLogue:</p>
 <span><span class="co">## Analysis</span></span>
 <span><span class="va">ref</span> <span class="op">&lt;-</span> <span class="st">"50pmol"</span></span>
 <span><span class="va">anlys_modt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.mod_t.html">analyze.mod_t</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="va">ref</span><span class="op">)</span></span>
-<span><span class="va">anlys_MA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.ma.html">analyze.ma</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="va">ref</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">anlys_ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.ma.html">analyze.ma</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="va">ref</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="volcano-plot">Volcano plot<a class="anchor" aria-label="anchor" href="#volcano-plot"></a>
 </h2>
@@ -195,7 +195,7 @@ background, gridlines, and text.</p>
 </h2>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## default MA</span></span>
-<span><span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_MA</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, M.thres <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_ma</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, M.thres <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 22 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
 <p><img src="cust_vis_files/figure-html/unnamed-chunk-7-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -205,7 +205,7 @@ background, gridlines, and text.</p>
 <p>To change the labels on your plot from accession numbers to gene or
 protein names, follow these steps:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_MA</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, M.thres <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_ma</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, M.thres <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## read a csv file containing full protein information, including gene/protein names</span></span>
 <span><span class="va">protNames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"full_protein_information.csv"</span><span class="op">)</span></span>
@@ -232,7 +232,7 @@ protein names, follow these steps:</p>
 scheme to better highlight different categories of significance. Here is
 how you can modify the colors in the plot:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_MA</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, M.thres <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_ma</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, M.thres <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="va">new</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot_build.html" class="external-link">ggplot_build</a></span><span class="op">(</span><span class="va">ma</span><span class="op">)</span></span>
@@ -250,7 +250,7 @@ how you can modify the colors in the plot:</p>
 <p>To alter the visual style of your MA plot, you can apply a different
 theme using ggplot2’s theme functions.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_MA</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, M.thres <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_ma</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, M.thres <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span> <span class="co">## use a minimal theme</span></span>

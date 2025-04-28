@@ -2,13 +2,19 @@
 % Please edit documentation in R/visualizations.R
 \name{visualize.biplot}
 \alias{visualize.biplot}
-\title{Biplot of individuals and variables}
+\title{Biplot of score (individuals) and loading (variables)}
 \usage{
-visualize.biplot(dataSet, label = "all", ellipse = TRUE, ellipse.level = 0.95)
+visualize.biplot(dataSet, ellipse = TRUE, ellipse.level = 0.95, label = "all")
 }
 \arguments{
 \item{dataSet}{The data set corresponds to the output from the function
-\code{\link[msDiaLogue]{analyze.pca}}.}
+\code{\link[msDiaLogue]{analyze.pca}} or \code{\link[msDiaLogue]{analyze.plsda}}.}
+
+\item{ellipse}{A boolean (default = TRUE) specifying whether to draw ellipses around
+the individuals.}
+
+\item{ellipse.level}{A numeric value (default = 0.95) specifying the size of the
+concentration ellipse in normal probability.}
 
 \item{label}{A text (default = "all") specifying the elements to be labelled.
 Allowed values:
@@ -18,12 +24,6 @@ Allowed values:
 \item "var": Label only active variables.
 \item "none": No labels.
 }}
-
-\item{ellipse}{A boolean (default = TRUE) specifying whether to draw ellipses around
-the individuals.}
-
-\item{ellipse.level}{A numeric value (default = 0.95) specifying the size of the
-concentration ellipse in normal probability.}
 }
 \value{
 An object of class \code{ggplot}.

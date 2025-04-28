@@ -517,7 +517,8 @@ visualize.scree <- function(dataSet, type = c("bar", "line"),
     theme(plot.title = element_text(hjust = 0.5))
   
   if (label) {
-    plot <- plot + geom_text(label = paste0(round(df$percent, 1), "%"), vjust = -0.4, hjust = 0)
+    plot <- plot +
+      geom_text(label = paste0(round(df$percent, 1), "%"), vjust = -0.4, hjust = 0)
   }
   
   return(plot)
@@ -527,13 +528,13 @@ visualize.scree <- function(dataSet, type = c("bar", "line"),
 
 ##----------------------------------------------------------------------------------------
 #' 
-#' Graph of individuals
+#' Score plot / graph of individuals
 #' 
 #' @description
-#' Generate a graph of individuals for the data.
+#' Generate a scores plot (graph of individuals) for the data.
 #' 
 #' @param dataSet The data set corresponds to the output from the function
-#' \code{\link[msDiaLogue]{analyze.pca}}.
+#' \code{\link[msDiaLogue]{analyze.pca}} or \code{\link[msDiaLogue]{analyze.plsda}}.
 #' 
 #' @param ellipse A boolean (default = TRUE) specifying whether to draw ellipses around
 #' the individuals.
@@ -544,39 +545,44 @@ visualize.scree <- function(dataSet, type = c("bar", "line"),
 #' @param label A boolean (default = TRUE) specifying whether the active individuals to be
 #' labeled.
 #' 
-#' @importFrom ggpubr ggscatter
-#' 
 #' @return
 #' An object of class \code{ggplot}.
 #' 
 #' @export
 
-visualize.ind <- function(dataSet, label = TRUE, ellipse = TRUE, ellipse.level = 0.95) {
+visualize.score <- function(dataSet, ellipse = TRUE, ellipse.level = 0.95, label = TRUE) {
   
   ## individual coordinates (scores)
-  ind.coord <- dataSet$x
+  ind.coord <- dataSet$scores
   colnames(ind.coord) <- paste0("Dim.", 1:ncol(ind.coord))
   
   ## percentage of variance explained by each component
-  variance <- dataSet$sdev^2
-  variance <- 100 * variance / sum(variance)
+  if (inherits(dataSet, "pca")) {
+    variance <- dataSet$sdev^2
+    variance <- 100 * variance / sum(variance)
+  } else if (inherits(dataSet, "plsda")) {
+    variance <- 100 * dataSet$Xvar / dataSet$Xtotvar
+  }
   
   ## extract coordinates for selected axes
-  ind <- data.frame(group = dataSet$habillage,
-                    name = rownames(ind.coord),
+  ind <- data.frame(Group = factor(gsub("_.*", "", rownames(ind.coord))),
+                    Name = gsub("^.*_", "", rownames(ind.coord)),
                     ind.coord[, c(1,2), drop = FALSE],
                     stringsAsFactors = TRUE)
   
-  ggscatter(data = ind, x = "Dim.1", y = "Dim.2",
-            color = "group", label = if (label) "name" else NULL,
-            shape = "group", fill = "white", alpha = 1, font.label = 4*3, size = 1.5,
-            point = TRUE, mean.point = TRUE, repel = TRUE,
-            ellipse = ellipse, ellipse.level = ellipse.level,
-            ggtheme = theme_bw(), show.legend.text = FALSE) +
+  ggplot(ind, aes(x = Dim.1, y = Dim.2, color = Group, shape = Group)) +
+    geom_point() +
+    { if (ellipse) stat_ellipse(aes(group = Group, fill = Group),
+                                geom = "polygon", alpha = 0.1,
+                                type = "norm", level = ellipse.level,
+                                linetype = "solid", size = 0.5, show.legend = TRUE) } +
+    { if (label) geom_text_repel(aes(label = Name), size = 3,
+                                 max.overlaps = Inf, show.legend = FALSE) } +
     geom_hline(yintercept = 0, color = "black", linetype = "dashed") +
     geom_vline(xintercept = 0, color = "black", linetype = "dashed") +
     labs(x = paste0("Dim.1 (", round(variance[1], 1), "%)"),
          y = paste0("Dim.2 (", round(variance[2], 1), "%)")) +
+    theme_bw() +
     theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
   
 }
@@ -584,62 +590,61 @@ visualize.ind <- function(dataSet, label = TRUE, ellipse = TRUE, ellipse.level =
 
 ##----------------------------------------------------------------------------------------
 #' 
-#' Graph of variables
+#' Loading plot / graph of variables
 #' 
 #' @description
-#' Generate a graph of variables for the data.
+#' Generate a loadings plot (graph of variables) for the data.
 #' 
 #' @param dataSet The data set corresponds to the output from the function
-#' \code{\link[msDiaLogue]{analyze.pca}}.
+#' \code{\link[msDiaLogue]{analyze.pca}} or \code{\link[msDiaLogue]{analyze.plsda}}.
 #' 
 #' @param label A boolean (default = TRUE) specifying whether the active variables to be
 #' labeled.
 #' 
-#' @importFrom ggpubr geom_exec ggscatter
-#' @importFrom grid arrow unit
-#' 
 #' @return
 #' An object of class \code{ggplot}.
 #' 
+#' @autoglobal
+#' 
 #' @export
 
-visualize.var <- function(dataSet, label = TRUE) {
+visualize.loading <- function(dataSet, label = TRUE) {
   
   ## variable-component correlaiton
-  var.coord <- sweep(dataSet$rotation, 2, dataSet$sdev, "*")
+  ## percentage of variance explained by each component
+  if (inherits(dataSet, "pca")) {
+    var.coord <- sweep(dataSet$loadings, 2, dataSet$sdev, "*")
+    variance <- dataSet$sdev^2
+    variance <- 100 * variance / sum(variance)
+  } else if (inherits(dataSet, "plsda")) {
+    var.coord <- sweep(dataSet$loadings, 2, sqrt(dataSet$Xvar/dataSet$Xtotvar), "*")
+    variance <- 100 * dataSet$Xvar / dataSet$Xtotvar
+  }
   colnames(var.coord) <- paste0("Dim.", 1:ncol(var.coord))
   
-  ## percentage of variance explained by each component
-  variance <- dataSet$sdev^2
-  variance <- 100 * variance / sum(variance)
-  
   ## combine into result data frame
-  var <- data.frame(name = rownames(var.coord),
+  var <- data.frame(Name = rownames(var.coord),
                     var.coord[, c(1,2), drop = FALSE],
                     xstart = 0, ystart = 0,
                     stringsAsFactors = TRUE)
   
-  plot <- ggscatter(data = var, x = "Dim.1", y = "Dim.2",
-                    color = "black", label = if (label) "name" else NULL, shape = 19,
-                    fill = "white", alpha = 1, font.label = 4*3, size = 1.5,
-                    point = FALSE,  mean.point = FALSE, repel = FALSE,
-                    ellipse = FALSE, ellipse.level = 0.95,
-                    ggtheme = theme_bw(), show.legend.text = FALSE) +
-    geom_exec(geomfunc = geom_segment, data = var,
-              x = "xstart", y = "ystart", xend = "Dim.1", yend = "Dim.2",
-              arrow = grid::arrow(length = grid::unit(0.2, "cm"))) +
+  plot <- ggplot(var, aes(x = Dim.1, y = Dim.2)) +
+    geom_segment(data = var, aes(x = 0, y = 0, xend = Dim.1, yend = Dim.2),
+                 arrow = arrow(length = unit(0.2, "cm")), color = "black") +
+    { if (label) geom_text_repel(aes(label = Name), size = 3, max.overlaps = Inf) } +
     geom_hline(yintercept = 0, color = "black", linetype = "dashed") +
     geom_vline(xintercept = 0, color = "black", linetype = "dashed") +
     labs(x = paste0("Dim1 (", round(variance[1], 1), "%)"),
          y = paste0("Dim2 (", round(variance[2], 1), "%)")) +
+    theme_bw() +
     theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
   
   ## add unit correlation circle if scaling was applied
   if (is.numeric(dataSet$scale)) {
     theta <- c(seq(-pi, pi, length = 50), seq(pi, -pi, length = 50))
     circle <- data.frame(xcircle = cos(theta), ycircle = sin(theta), stringsAsFactors = TRUE)
-    plot <- plot + geom_path(mapping = aes_string("xcircle", "ycircle"),
-                             data = circle, color = "grey70", size = 0.5) +
+    plot <- plot +
+      geom_path(data = circle, aes(xcircle, ycircle), color = "grey70", size = 0.5) +
       coord_fixed()
   }
   
@@ -649,13 +654,13 @@ visualize.var <- function(dataSet, label = TRUE) {
 
 ##----------------------------------------------------------------------------------------
 #' 
-#' Biplot of individuals and variables
+#' Biplot of score (individuals) and loading (variables)
 #' 
 #' @description
 #' Generate a biplot of individuals and variables for the data.
 #' 
 #' @param dataSet The data set corresponds to the output from the function
-#' \code{\link[msDiaLogue]{analyze.pca}}.
+#' \code{\link[msDiaLogue]{analyze.pca}} or \code{\link[msDiaLogue]{analyze.plsda}}.
 #' 
 #' @param ellipse A boolean (default = TRUE) specifying whether to draw ellipses around
 #' the individuals.
@@ -672,37 +677,35 @@ visualize.var <- function(dataSet, label = TRUE) {
 #' \item "none": No labels.
 #' }
 #' 
-#' @importFrom ggpubr geom_exec ggscatter
-#' @importFrom grid arrow unit
-#' 
 #' @return
 #' An object of class \code{ggplot}.
 #' 
 #' @export
 
-visualize.biplot <- function(dataSet, label = "all", ellipse = TRUE, ellipse.level = 0.95) {
+visualize.biplot <- function(dataSet, ellipse = TRUE, ellipse.level = 0.95, label = "all") {
   
   ## individual coordinates (scores)
-  ind.coord <- dataSet$x
+  ind.coord <- dataSet$scores
   colnames(ind.coord) <- paste0("Dim.", 1:ncol(ind.coord))
   
-  ind <- data.frame(group = dataSet$habillage,
-                    name = rownames(ind.coord),
+  ind <- data.frame(Group = factor(gsub("_.*", "", rownames(ind.coord))),
+                    Name = gsub("^.*_", "", rownames(ind.coord)),
                     ind.coord[, c(1,2), drop = FALSE],
                     stringsAsFactors = TRUE)
   
-  plot <- ggscatter(data = ind, x = "Dim.1", y = "Dim.2",
-                    color = "group", label = if (label %in% c("all", "ind")) "name" else NULL,
-                    shape = "group", fill = "white", alpha = 1, font.label = 4*3, size = 1.5,
-                    point = TRUE, mean.point = TRUE, repel = TRUE,
-                    ellipse = ellipse, ellipse.level = ellipse.level,
-                    ggtheme = theme_bw(), show.legend.text = FALSE)
-  
   ## variable-component correlaiton
-  var.coord <- sweep(dataSet$rotation, 2, dataSet$sdev, "*")
+  ## percentage of variance explained by each component
+  if (inherits(dataSet, "pca")) {
+    var.coord <- sweep(dataSet$loadings, 2, dataSet$sdev, "*")
+    variance <- dataSet$sdev^2
+    variance <- 100 * variance / sum(variance)
+  } else if (inherits(dataSet, "plsda")) {
+    var.coord <- sweep(dataSet$loadings, 2, sqrt(dataSet$Xvar/dataSet$Xtotvar), "*")
+    variance <- 100 * dataSet$Xvar / dataSet$Xtotvar
+  }
   colnames(var.coord) <- paste0("Dim.", 1:ncol(var.coord))
   
-  var <- data.frame(name = rownames(var.coord),
+  var <- data.frame(Name = rownames(var.coord),
                     var.coord[, c(1,2), drop = FALSE],
                     xstart = 0, ystart = 0,
                     stringsAsFactors = TRUE)
@@ -712,29 +715,107 @@ visualize.biplot <- function(dataSet, label = "all", ellipse = TRUE, ellipse.lev
   
   var[, c("Dim.1", "Dim.2")] <- var[, c("Dim.1", "Dim.2")] * r * 0.7
   
-  plot <- ggscatter(data = var, x = "Dim.1", y = "Dim.2",
-                    color = "black", label = if (label %in% c("all", "var")) "name" else NULL, shape = 19,
-                    fill = "white", alpha = 1, font.label = 4*3, size = 1.5,
-                    point = FALSE,  mean.point = FALSE, repel = FALSE,
-                    ellipse = FALSE, ellipse.level = 0.95,
-                    ggtheme = theme_bw(), show.legend.text = FALSE,
-                    ggp = plot) +
-    geom_exec(geomfunc = geom_segment, data = var,
-              x = "xstart", y = "ystart", xend = "Dim.1", yend = "Dim.2",
-              arrow = grid::arrow(length = grid::unit(0.2, "cm")))
-  
-  ## percentage of variance explained by each component
-  variance <- dataSet$sdev^2
-  variance <- 100 * variance / sum(variance)
-  
-  plot <- plot +
+  ggplot(ind, aes(x = Dim.1, y = Dim.2, color = Group, shape = Group)) +
+    geom_point() +
+    { if (ellipse) stat_ellipse(aes(group = Group, fill = Group),
+                                geom = "polygon", alpha = 0.1,
+                                type = "norm", level = ellipse.level,
+                                linetype = "solid", size = 0.5, show.legend = TRUE) } +
+    { if (label %in% c("all", "ind")) geom_text_repel(aes(label = Name), size = 3,
+                                                      max.overlaps = Inf, show.legend = FALSE) } +
+    geom_segment(inherit.aes = FALSE, data = var,
+                 aes(x = 0, y = 0, xend = Dim.1, yend = Dim.2),
+                 arrow = arrow(length = unit(0.2, "cm")), color = "black") +
+    { if (label %in% c("all", "var")) geom_text_repel(inherit.aes = FALSE, data = var,
+                                                      aes(x = Dim.1, y = Dim.2, label = Name),
+                                                      size = 3, max.overlaps = Inf) } +
     geom_hline(yintercept = 0, color = "black", linetype = "dashed") +
     geom_vline(xintercept = 0, color = "black", linetype = "dashed") +
-    labs(x = paste0("Dim.1 (", round(variance[1], 1), "%)"),
-         y = paste0("Dim.2 (", round(variance[2], 1), "%)")) +
+    labs(x = paste0("Dim1 (", round(variance[1], 1), "%)"),
+         y = paste0("Dim2 (", round(variance[2], 1), "%)")) +
+    theme_bw() +
     theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
   
-  return(plot)
+}
+
+
+##----------------------------------------------------------------------------------------
+#' 
+#' VIP scores plot
+#' 
+#' @description
+#' Generate a variable importance in projection (VIP) scores plot for the data.
+#' 
+#' @param dataSet The data set corresponds to the output from the function
+#' \code{\link[msDiaLogue]{analyze.plsda}}.
+#' 
+#' @param comp An integer (default = 1) specifying the PLS-DA component to use when
+#' ranking variables.
+#' 
+#' @param num An integer (default = 10) specifying the number of top variables (highest
+#' VIP scores) to display.
+#' 
+#' @param thres A scalar (default = 1) specifying the vertical dashed line drawn at this
+#' VIP value.
+#' 
+#' @param rel.widths A numerical vector specifying the proportion of relative widths for
+#' the plot panels. Defaults to widths chosen based on the range of the top variables' VIP
+#' scores and the number of group conditions.
+#' 
+#' @importFrom cowplot plot_grid
+#' 
+#' @return
+#' An object of class \code{ggplot}.
+#' 
+#' @autoglobal
+#' 
+#' @export
+
+visualize.vip <- function(dataSet, comp = 1, num = 10, thres = 1, rel.widths) {
+  
+  vips <- as.data.frame(dataSet$vips) %>%
+    select(Score = paste("Comp", comp)) %>%
+    slice_max(order_by = Score, n = num, with_ties = FALSE) %>%
+    arrange(Score) %>%
+    rownames_to_column("Variable") %>%
+    mutate(Variable = factor(Variable, levels = Variable))
+  
+  plot1 <- ggplot(vips, aes(x = Score, y = Variable)) +
+    geom_point() +
+    geom_vline(xintercept = thres, linetype = "dashed", color = "black") +
+    labs(x = "VIP scores", y = NULL) +
+    theme_bw() +
+    theme(panel.grid.major.x = element_blank(),
+          panel.grid.minor.x = element_blank(),
+          panel.grid.major.y = element_line(linetype = "dashed"))
+  
+  xs <- dataSet$model[["xs"]][,levels(vips$Variable), drop = FALSE]
+  y <- dataSet$model[["y"]]
+  group <- factor(colnames(y)[max.col(y, ties.method = "first")], levels = colnames(y))
+  abundances <- do.call(cbind, by(xs, group, function(x) {apply(x, 2, mean, trim = 0.1)})) %>%
+    as.data.frame() %>%
+    rownames_to_column("Variable") %>%
+    mutate(Variable = factor(Variable, levels = levels(vips$Variable))) %>%
+    pivot_longer(-Variable, names_to = "Group", values_to = "Abundance")
+  
+  plot2 <- ggplot(abundances, aes(x = Group, y = Variable, fill = Abundance)) +
+    # geom_tile(width = 0.5, height = 0.5, color = "white") +
+    geom_tile(color = "white", lwd = 7) +
+    scale_x_discrete(position = "bottom") +
+    guides(fill = guide_colourbar(title = NULL)) +
+    scale_fill_distiller(palette = "RdYlBu") +
+    xlab(NULL) +
+    ylab(NULL) +
+    coord_fixed(ratio = 1) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+          axis.text.y = element_blank(),
+          axis.ticks.y = element_blank())
+  
+  if (missing(rel.widths)) {
+    rel.widths <- c(diff(range(vips$Score)), nlevels(group)/3)
+  }
+  
+  plot_grid(plot1, plot2, ncol = 2, rel_widths = rel.widths, align = "h", axis = "b")
   
 }
 

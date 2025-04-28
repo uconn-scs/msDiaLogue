@@ -53,7 +53,7 @@ dataImput <- filterNA(dataImput, saveRm = TRUE)
 ## Analysis
 ref <- "50pmol"
 anlys_modt <- analyze.mod_t(dataImput, ref = ref)
-anlys_MA <- analyze.ma(dataImput, ref = ref)
+anlys_ma <- analyze.ma(dataImput, ref = ref)
 ```
 
 
@@ -130,7 +130,7 @@ volcano + theme_classic()
 
 ```{r}
 ## default MA
-visualize.ma(anlys_MA$`100pmol-50pmol`, M.thres = 0.5)
+visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
 ```
 
 
@@ -140,7 +140,7 @@ To change the labels on your plot from accession numbers to gene or protein
 names, follow these steps:
 
 ```{r message=FALSE}
-ma <- visualize.ma(anlys_MA$`100pmol-50pmol`, M.thres = 0.5)
+ma <- visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
 
 ## read a csv file containing full protein information, including gene/protein names
 protNames <- read.csv("full_protein_information.csv")
@@ -166,7 +166,7 @@ better highlight different categories of significance. Here is how you can
 modify the colors in the plot:
 
 ```{r}
-ma <- visualize.ma(anlys_MA$`100pmol-50pmol`, M.thres = 0.5)
+ma <- visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
 
 library(ggplot2)
 new <- ggplot_build(ma)
@@ -183,7 +183,7 @@ To alter the visual style of your MA plot, you can apply a different theme using
 ggplot2's theme functions.
 
 ```{r}
-ma <- visualize.ma(anlys_MA$`100pmol-50pmol`, M.thres = 0.5)
+ma <- visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
 
 library(ggplot2)
  ## use a minimal theme

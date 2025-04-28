@@ -76,7 +76,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-04-20</h4>
+            <h4 data-toc-skip class="date">2025-04-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -7386,28 +7386,33 @@ statistics:</p>
 <div class="section level3">
 <h3 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a>
 </h3>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/analyze.t.html">analyze.t</a></span><span class="op">(</span><span class="va">dataSet</span>,                <span class="co"># dataset of experimental values</span></span>
-<span>          ref <span class="op">=</span> <span class="cn">NULL</span>,             <span class="co"># which level of condition to use as reference</span></span>
-<span>          adjust.method <span class="op">=</span> <span class="st">"none"</span>, <span class="co"># what method of p-value adjustment to use</span></span>
-<span>          paired <span class="op">=</span> <span class="cn">FALSE</span>,         <span class="co"># are the data paired?</span></span>
-<span>          pool.sd <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>        <span class="co"># used pooled standard deviation?</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/analyze.mod_t.html">analyze.mod_t</a></span><span class="op">(</span><span class="va">dataSet</span>,                <span class="co"># dataset of experimental values</span></span>
-<span>              ref <span class="op">=</span> <span class="cn">NULL</span>,             <span class="co"># which level of condition to use as reference</span></span>
-<span>              adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="co"># what method of p-value adjustment to use</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/analyze.wilcox.html">analyze.wilcox</a></span><span class="op">(</span><span class="va">dataSet</span>,                <span class="co"># dataset of experimental values</span></span>
-<span>               ref <span class="op">=</span> <span class="cn">NULL</span>,             <span class="co"># which level of condition to use as reference</span></span>
-<span>               adjust.method <span class="op">=</span> <span class="st">"none"</span>, <span class="co"># what method of p-value adjustment to use</span></span>
-<span>               paired <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>         <span class="co"># are the data paired?</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/analyze.ma.html">analyze.ma</a></span><span class="op">(</span><span class="va">dataSet</span>,    <span class="co"># dataset of experimental values</span></span>
-<span>           ref <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="co"># which level of condition to use as reference</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/analyze.pca.html">analyze.pca</a></span><span class="op">(</span><span class="va">dataSet</span>,       <span class="co"># dataset of experimental values</span></span>
-<span>            center <span class="op">=</span> <span class="cn">TRUE</span>, <span class="co"># should data be centered before PCA?</span></span>
-<span>            scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  <span class="co"># should data be scaled before PCA?</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">analyze.t</span>(dataSet,                <span class="co"># dataset of experimental values</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>          <span class="at">ref =</span> <span class="cn">NULL</span>,             <span class="co"># which level of condition to use as reference</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>          <span class="at">adjust.method =</span> <span class="st">"none"</span>, <span class="co"># what method of p-value adjustment to use</span></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>          <span class="at">paired =</span> <span class="cn">FALSE</span>,         <span class="co"># are the data paired?</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>          <span class="at">pool.sd =</span> <span class="cn">FALSE</span>)        <span class="co"># used pooled standard deviation?</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a><span class="fu">analyze.mod_t</span>(dataSet,                <span class="co"># dataset of experimental values</span></span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>              <span class="at">ref =</span> <span class="cn">NULL</span>,             <span class="co"># which level of condition to use as reference</span></span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>              <span class="at">adjust.method =</span> <span class="st">"none"</span>) <span class="co"># what method of p-value adjustment to use</span></span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a><span class="fu">analyze.wilcox</span>(dataSet,                <span class="co"># dataset of experimental values</span></span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>               <span class="at">ref =</span> <span class="cn">NULL</span>,             <span class="co"># which level of condition to use as reference</span></span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>               <span class="at">adjust.method =</span> <span class="st">"none"</span>, <span class="co"># what method of p-value adjustment to use</span></span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a>               <span class="at">paired =</span> <span class="cn">FALSE</span>)         <span class="co"># are the data paired?</span></span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a></span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a><span class="fu">analyze.ma</span>(dataSet,    <span class="co"># dataset of experimental values</span></span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a>           <span class="at">ref =</span> <span class="cn">NULL</span>) <span class="co"># which level of condition to use as reference</span></span>
+<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" tabindex="-1"></a><span class="fu">analyze.pca</span>(dataSet,       <span class="co"># dataset of experimental values</span></span>
+<span id="cb23-20"><a href="#cb23-20" tabindex="-1"></a>            <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="co"># should data be centered before PCA?</span></span>
+<span id="cb23-21"><a href="#cb23-21" tabindex="-1"></a>            <span class="at">scale =</span> <span class="cn">TRUE</span>)  <span class="co"># should data be scaled before PCA?</span></span>
+<span id="cb23-22"><a href="#cb23-22" tabindex="-1"></a></span>
+<span id="cb23-23"><a href="#cb23-23" tabindex="-1"></a><span class="fu">analyze.plsda</span>(dataSet,              <span class="co"># dataset of experimental values</span></span>
+<span id="cb23-24"><a href="#cb23-24" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">"kernelpls"</span>, <span class="co"># multivariate regression algorithm to use</span></span>
+<span id="cb23-25"><a href="#cb23-25" tabindex="-1"></a>              ncomp,                <span class="co"># the number of components</span></span>
+<span id="cb23-26"><a href="#cb23-26" tabindex="-1"></a>              <span class="at">center =</span> <span class="cn">TRUE</span>,        <span class="co"># should data be centered before PLS-DA?</span></span>
+<span id="cb23-27"><a href="#cb23-27" tabindex="-1"></a>              <span class="at">scale =</span> <span class="cn">FALSE</span>).       <span class="co"># should data be scaled before PLS-DA?</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="details-examples-6">Details &amp; Examples<a class="anchor" aria-label="anchor" href="#details-examples-6"></a>
@@ -10189,7 +10194,7 @@ enhanced by low overall intensities (e.g. a change from 200 to 400 is
 the same fold-change as from 20,000 to 40,000, but the latter is a more
 robust measurement and less susceptible to noise interference).</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">anlys_MA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.ma.html">analyze.ma</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="va">ref</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">anlys_ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.ma.html">analyze.ma</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="va">ref</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; $`100pmol-50pmol`</span></span></code></pre>
 <div style="overflow-x: auto;">
 <table style="width:100%;" class="table">
@@ -10729,14 +10734,7 @@ choose to remove this protein in the PCA.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">dataImput</span>, <span class="kw">function</span><span class="op">(</span><span class="va">col</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">col</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1] "ALBU_BOVIN"</span></span>
 <span><span class="va">dataPCA</span> <span class="op">&lt;-</span> <span class="va">dataImput</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">)</span> <span class="op">!=</span> <span class="st">"ALBU_BOVIN"</span><span class="op">]</span></span>
-<span><span class="va">anlys_PCA</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.pca.html">analyze.pca</a></span><span class="op">(</span><span class="va">dataPCA</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; Standard deviations (1, .., p=12):</span></span></code></pre>
-<div style="overflow-x: auto;">
-<pre><code><span><span class="co">#&gt;  [1] 3.581885e+00 2.285701e+00 2.092323e+00 1.907073e+00 1.649030e+00</span></span>
-<span><span class="co">#&gt;  [6] 1.513033e+00 1.352933e+00 1.210993e+00 1.042803e+00 9.208106e-01</span></span>
-<span><span class="co">#&gt; [11] 8.307195e-01 2.172933e-14</span></span></code></pre>
-</div>
-<pre><code><span><span class="co">#&gt; Rotation (n x k) = (37 x 12):</span></span></code></pre>
+<span><span class="va">anlys_pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.pca.html">analyze.pca</a></span><span class="op">(</span><span class="va">dataPCA</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div style="overflow-x: auto;">
 <table class="table">
 <colgroup>
@@ -11329,6 +11327,602 @@ choose to remove this protein in the PCA.</p>
 </table>
 </div>
 </div>
+<div class="section level3">
+<h3 id="pls-da">PLS-DA<a class="anchor" aria-label="anchor" href="#pls-da"></a>
+</h3>
+<p>Partial least squares-discriminant analysis (PLS-DA) adapts PLS
+regression for supervised classification. Rather than simply finding
+directions of maximal variances in the predictors as PCA does, PLS-DA
+extracts latent components that maximize the covariance between
+predictors and dummy-coded group labels. This ensures that the resulting
+components optimally separate predefined groups and yields
+variable-importance scores directly tied to classification.</p>
+<p>For PLS-DA, the argument <code>method</code> specifies which
+multivariate regression algorithm to use:</p>
+<ol style="list-style-type: decimal">
+<li><p>“kernelpls”: Kernel algorithm <span class="citation">(Dayal and
+MacGregor 1997)</span>.</p></li>
+<li><p>“widekernelpls”: Wide kernel algorithm <span class="citation">(Rännar et al. 1994)</span>.</p></li>
+<li><p>“simpls”: SIMPLS algorithm <span class="citation">(Jong
+1993)</span>.</p></li>
+<li><p>“oscorespls”: NIPALS algorithm (classical orthogonal scores
+algorithm) <span class="citation">(Martens and Næs
+1989)</span>.</p></li>
+</ol>
+<p>The argument <code>ncomp</code> sets the number of components to
+include in the model. It defaults to min(n-1, p). The arguments
+<code>center</code> and <code>scale</code> control whether the data are
+centered to zero mean and scaled to unit variance, respectively.</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">anlys_plsda</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.plsda.html">analyze.plsda</a></span><span class="op">(</span><span class="va">dataImput</span>, method <span class="op">=</span> <span class="st">"kernelpls"</span>,</span>
+<span>                             center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<div style="overflow-x: auto;">
+<table class="table">
+<colgroup>
+<col width="12%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+<col width="7%">
+</colgroup>
+<thead><tr class="header">
+<th align="left"></th>
+<th align="right">Comp 1</th>
+<th align="right">Comp 2</th>
+<th align="right">Comp 3</th>
+<th align="right">Comp 4</th>
+<th align="right">Comp 5</th>
+<th align="right">Comp 6</th>
+<th align="right">Comp 7</th>
+<th align="right">Comp 8</th>
+<th align="right">Comp 9</th>
+<th align="right">Comp 10</th>
+<th align="right">Comp 11</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">NUD4B_HUMAN</td>
+<td align="right">-0.0721647</td>
+<td align="right">-0.0120098</td>
+<td align="right">0.1953417</td>
+<td align="right">-0.1265834</td>
+<td align="right">-0.2770654</td>
+<td align="right">0.2088323</td>
+<td align="right">-0.2009317</td>
+<td align="right">-0.0648547</td>
+<td align="right">0.0819363</td>
+<td align="right">-0.0454658</td>
+<td align="right">0.0636382</td>
+</tr>
+<tr class="even">
+<td align="left">A0A7P0T808_HUMAN</td>
+<td align="right">0.7186598</td>
+<td align="right">0.6655256</td>
+<td align="right">-0.3729955</td>
+<td align="right">-0.0614608</td>
+<td align="right">0.2153595</td>
+<td align="right">0.0844135</td>
+<td align="right">-0.1686950</td>
+<td align="right">-0.0100014</td>
+<td align="right">-0.1347304</td>
+<td align="right">0.0754667</td>
+<td align="right">0.0196661</td>
+</tr>
+<tr class="odd">
+<td align="left">A0A8I5KU53_HUMAN</td>
+<td align="right">0.1319886</td>
+<td align="right">-0.5206130</td>
+<td align="right">0.3662075</td>
+<td align="right">-0.1771716</td>
+<td align="right">0.1953444</td>
+<td align="right">-0.1257639</td>
+<td align="right">-0.0554701</td>
+<td align="right">0.0647629</td>
+<td align="right">-0.2340413</td>
+<td align="right">0.1951236</td>
+<td align="right">-0.0178531</td>
+</tr>
+<tr class="even">
+<td align="left">ZN840_HUMAN</td>
+<td align="right">0.0759383</td>
+<td align="right">0.0051305</td>
+<td align="right">-0.1438278</td>
+<td align="right">-0.1839000</td>
+<td align="right">-0.0285629</td>
+<td align="right">-0.1132148</td>
+<td align="right">0.7376771</td>
+<td align="right">-0.5636673</td>
+<td align="right">-0.0141927</td>
+<td align="right">0.0786254</td>
+<td align="right">0.0553176</td>
+</tr>
+<tr class="odd">
+<td align="left">CC85C_HUMAN</td>
+<td align="right">-0.0193422</td>
+<td align="right">0.0726843</td>
+<td align="right">0.2930632</td>
+<td align="right">0.2616026</td>
+<td align="right">-0.2469929</td>
+<td align="right">-0.1845150</td>
+<td align="right">0.0807948</td>
+<td align="right">0.0392711</td>
+<td align="right">-0.2827831</td>
+<td align="right">0.0400909</td>
+<td align="right">-0.0442734</td>
+</tr>
+<tr class="even">
+<td align="left">C9JEV0_HUMAN</td>
+<td align="right">-0.2703730</td>
+<td align="right">0.2837151</td>
+<td align="right">-0.1926834</td>
+<td align="right">0.0625934</td>
+<td align="right">-0.0185917</td>
+<td align="right">0.1284127</td>
+<td align="right">-0.0099575</td>
+<td align="right">-0.2120263</td>
+<td align="right">0.2746758</td>
+<td align="right">0.3386334</td>
+<td align="right">-0.5534373</td>
+</tr>
+<tr class="odd">
+<td align="left">C9JNU9_HUMAN</td>
+<td align="right">-0.0210992</td>
+<td align="right">-0.0655873</td>
+<td align="right">0.0920396</td>
+<td align="right">-0.1411416</td>
+<td align="right">0.0807395</td>
+<td align="right">-0.0782736</td>
+<td align="right">-0.0859163</td>
+<td align="right">-0.0237348</td>
+<td align="right">-0.1772656</td>
+<td align="right">-0.3822360</td>
+<td align="right">-0.1003000</td>
+</tr>
+<tr class="even">
+<td align="left">ALBU_BOVIN</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">CYC_BOVIN</td>
+<td align="right">0.0630095</td>
+<td align="right">-0.1487569</td>
+<td align="right">0.0827505</td>
+<td align="right">0.2645965</td>
+<td align="right">-0.3231046</td>
+<td align="right">0.3509137</td>
+<td align="right">-0.2245885</td>
+<td align="right">-0.0907853</td>
+<td align="right">0.0138095</td>
+<td align="right">-0.1201481</td>
+<td align="right">0.0574934</td>
+</tr>
+<tr class="even">
+<td align="left">TRFE_BOVIN</td>
+<td align="right">0.0003603</td>
+<td align="right">0.0327004</td>
+<td align="right">0.0563023</td>
+<td align="right">0.0921118</td>
+<td align="right">0.0790271</td>
+<td align="right">0.1782056</td>
+<td align="right">-0.0577101</td>
+<td align="right">-0.0134763</td>
+<td align="right">0.1384664</td>
+<td align="right">-0.0601031</td>
+<td align="right">0.0685727</td>
+</tr>
+<tr class="odd">
+<td align="left">F8W0H2_HUMAN</td>
+<td align="right">-0.0836310</td>
+<td align="right">-0.0409287</td>
+<td align="right">-0.0097821</td>
+<td align="right">-0.0467141</td>
+<td align="right">0.0900126</td>
+<td align="right">0.0470618</td>
+<td align="right">0.0413209</td>
+<td align="right">-0.0304372</td>
+<td align="right">0.0481555</td>
+<td align="right">0.0222324</td>
+<td align="right">0.0601126</td>
+</tr>
+<tr class="even">
+<td align="left">H0Y7V7_HUMAN</td>
+<td align="right">0.0661155</td>
+<td align="right">-0.0130440</td>
+<td align="right">-0.1035646</td>
+<td align="right">0.2440707</td>
+<td align="right">-0.1735985</td>
+<td align="right">-0.0442730</td>
+<td align="right">0.1092398</td>
+<td align="right">-0.1508836</td>
+<td align="right">-0.1183611</td>
+<td align="right">0.0666902</td>
+<td align="right">-0.0792505</td>
+</tr>
+<tr class="odd">
+<td align="left">H0YD14_HUMAN</td>
+<td align="right">-0.0643955</td>
+<td align="right">0.0066205</td>
+<td align="right">0.0315022</td>
+<td align="right">-0.1133884</td>
+<td align="right">-0.0765332</td>
+<td align="right">0.1873019</td>
+<td align="right">0.0368123</td>
+<td align="right">-0.1086267</td>
+<td align="right">-0.0615209</td>
+<td align="right">0.2608078</td>
+<td align="right">0.0311635</td>
+</tr>
+<tr class="even">
+<td align="left">H3BUF6_HUMAN</td>
+<td align="right">-0.0817169</td>
+<td align="right">0.0172734</td>
+<td align="right">-0.0456413</td>
+<td align="right">-0.1147691</td>
+<td align="right">0.1181330</td>
+<td align="right">0.0299963</td>
+<td align="right">0.0002947</td>
+<td align="right">0.1473198</td>
+<td align="right">0.0783225</td>
+<td align="right">0.0595555</td>
+<td align="right">-0.0939223</td>
+</tr>
+<tr class="odd">
+<td align="left">H7C1W4_HUMAN</td>
+<td align="right">0.1101453</td>
+<td align="right">0.0652563</td>
+<td align="right">-0.1173529</td>
+<td align="right">0.5945244</td>
+<td align="right">-0.1593862</td>
+<td align="right">-0.2350004</td>
+<td align="right">-0.1490996</td>
+<td align="right">-0.0677561</td>
+<td align="right">0.2601399</td>
+<td align="right">0.2009991</td>
+<td align="right">-0.2223581</td>
+</tr>
+<tr class="even">
+<td align="left">H7C3M7_HUMAN</td>
+<td align="right">-0.0034187</td>
+<td align="right">-0.0629444</td>
+<td align="right">-0.0597674</td>
+<td align="right">0.0426410</td>
+<td align="right">0.0879519</td>
+<td align="right">-0.0625672</td>
+<td align="right">0.0024389</td>
+<td align="right">0.1157673</td>
+<td align="right">0.0775421</td>
+<td align="right">-0.4824154</td>
+<td align="right">-0.2049414</td>
+</tr>
+<tr class="odd">
+<td align="left">TLR3_HUMAN</td>
+<td align="right">0.0441759</td>
+<td align="right">0.0098471</td>
+<td align="right">-0.1081594</td>
+<td align="right">0.0667498</td>
+<td align="right">-0.0814554</td>
+<td align="right">-0.0948429</td>
+<td align="right">-0.0060339</td>
+<td align="right">0.0128601</td>
+<td align="right">-0.0473093</td>
+<td align="right">-0.0720274</td>
+<td align="right">0.2667861</td>
+</tr>
+<tr class="even">
+<td align="left">LRIG2_HUMAN</td>
+<td align="right">-0.0260332</td>
+<td align="right">0.0370571</td>
+<td align="right">0.0887307</td>
+<td align="right">0.0548165</td>
+<td align="right">-0.0055628</td>
+<td align="right">-0.1406393</td>
+<td align="right">0.1311827</td>
+<td align="right">-0.1666427</td>
+<td align="right">0.1044586</td>
+<td align="right">0.1446907</td>
+<td align="right">-0.0941133</td>
+</tr>
+<tr class="odd">
+<td align="left">RAB3D_HUMAN</td>
+<td align="right">-0.0636594</td>
+<td align="right">-0.0205192</td>
+<td align="right">0.0081626</td>
+<td align="right">-0.0408032</td>
+<td align="right">-0.0886833</td>
+<td align="right">0.0241637</td>
+<td align="right">0.1057128</td>
+<td align="right">0.0619038</td>
+<td align="right">-0.0443293</td>
+<td align="right">0.0400687</td>
+<td align="right">0.1096532</td>
+</tr>
+<tr class="even">
+<td align="left">ADH1_YEAST</td>
+<td align="right">0.0886732</td>
+<td align="right">-0.0249521</td>
+<td align="right">-0.0403430</td>
+<td align="right">0.0903633</td>
+<td align="right">-0.0779594</td>
+<td align="right">0.0441123</td>
+<td align="right">-0.0239604</td>
+<td align="right">0.0747446</td>
+<td align="right">-0.0543856</td>
+<td align="right">0.0371257</td>
+<td align="right">-0.0134305</td>
+</tr>
+<tr class="odd">
+<td align="left">LYSC_CHICK</td>
+<td align="right">0.0559316</td>
+<td align="right">-0.1146442</td>
+<td align="right">-0.0857625</td>
+<td align="right">0.0670823</td>
+<td align="right">-0.2123522</td>
+<td align="right">0.1175924</td>
+<td align="right">-0.1913011</td>
+<td align="right">0.0088550</td>
+<td align="right">0.1390133</td>
+<td align="right">-0.0373356</td>
+<td align="right">0.0392854</td>
+</tr>
+<tr class="even">
+<td align="left">BGAL_ECOLI</td>
+<td align="right">0.0354376</td>
+<td align="right">-0.0711086</td>
+<td align="right">-0.1189625</td>
+<td align="right">0.0522730</td>
+<td align="right">-0.1471152</td>
+<td align="right">0.0179722</td>
+<td align="right">-0.0593368</td>
+<td align="right">0.0304717</td>
+<td align="right">0.0460744</td>
+<td align="right">-0.0709726</td>
+<td align="right">-0.0830799</td>
+</tr>
+<tr class="odd">
+<td align="left">CYTA_HUMAN</td>
+<td align="right">-0.2408724</td>
+<td align="right">0.1808954</td>
+<td align="right">-0.0650776</td>
+<td align="right">-0.0752154</td>
+<td align="right">-0.0405000</td>
+<td align="right">0.1463552</td>
+<td align="right">0.2409196</td>
+<td align="right">0.0368326</td>
+<td align="right">-0.0089404</td>
+<td align="right">0.0389971</td>
+<td align="right">-0.0296202</td>
+</tr>
+<tr class="even">
+<td align="left">KPCB_HUMAN</td>
+<td align="right">-0.0378512</td>
+<td align="right">-0.0135789</td>
+<td align="right">-0.0613165</td>
+<td align="right">-0.1643575</td>
+<td align="right">-0.1085606</td>
+<td align="right">-0.0451864</td>
+<td align="right">0.0301777</td>
+<td align="right">0.1125958</td>
+<td align="right">0.0218511</td>
+<td align="right">0.0296297</td>
+<td align="right">0.1979495</td>
+</tr>
+<tr class="odd">
+<td align="left">LIPL_HUMAN</td>
+<td align="right">-0.0574665</td>
+<td align="right">-0.0353568</td>
+<td align="right">-0.0050660</td>
+<td align="right">0.0030499</td>
+<td align="right">0.1003712</td>
+<td align="right">-0.0147210</td>
+<td align="right">-0.1869732</td>
+<td align="right">-0.0219275</td>
+<td align="right">0.3410786</td>
+<td align="right">0.0676615</td>
+<td align="right">-0.0420835</td>
+</tr>
+<tr class="even">
+<td align="left">CO6_HUMAN</td>
+<td align="right">-0.0732950</td>
+<td align="right">-0.0688572</td>
+<td align="right">-0.0320353</td>
+<td align="right">-0.0213450</td>
+<td align="right">0.1139149</td>
+<td align="right">-0.1666744</td>
+<td align="right">-0.1351959</td>
+<td align="right">0.0021596</td>
+<td align="right">0.1066948</td>
+<td align="right">0.0883733</td>
+<td align="right">0.1395078</td>
+</tr>
+<tr class="odd">
+<td align="left">BGAL_HUMAN</td>
+<td align="right">-0.0143422</td>
+<td align="right">-0.2101695</td>
+<td align="right">0.0838454</td>
+<td align="right">0.1545052</td>
+<td align="right">-0.3928935</td>
+<td align="right">0.3207376</td>
+<td align="right">-0.0666900</td>
+<td align="right">-0.0715498</td>
+<td align="right">-0.0912390</td>
+<td align="right">0.1973253</td>
+<td align="right">-0.1710358</td>
+</tr>
+<tr class="even">
+<td align="left">SYTC_HUMAN</td>
+<td align="right">-0.0756364</td>
+<td align="right">0.0885254</td>
+<td align="right">0.0966614</td>
+<td align="right">-0.0037612</td>
+<td align="right">0.1212615</td>
+<td align="right">0.0467116</td>
+<td align="right">-0.0428996</td>
+<td align="right">-0.0263406</td>
+<td align="right">-0.0298009</td>
+<td align="right">0.0069434</td>
+<td align="right">-0.0031882</td>
+</tr>
+<tr class="odd">
+<td align="left">CASPE_HUMAN</td>
+<td align="right">-0.3483297</td>
+<td align="right">0.3750765</td>
+<td align="right">-0.1535783</td>
+<td align="right">0.0477597</td>
+<td align="right">-0.1098289</td>
+<td align="right">0.2295415</td>
+<td align="right">-0.0611326</td>
+<td align="right">-0.2841158</td>
+<td align="right">-0.0494692</td>
+<td align="right">-0.1608693</td>
+<td align="right">0.1757337</td>
+</tr>
+<tr class="even">
+<td align="left">DCAF6_HUMAN</td>
+<td align="right">0.0418068</td>
+<td align="right">0.0849396</td>
+<td align="right">0.1310571</td>
+<td align="right">-0.1964884</td>
+<td align="right">0.0685438</td>
+<td align="right">0.0520614</td>
+<td align="right">-0.0021802</td>
+<td align="right">0.2694899</td>
+<td align="right">0.1406201</td>
+<td align="right">-0.3056558</td>
+<td align="right">-0.0866475</td>
+</tr>
+<tr class="odd">
+<td align="left">DALD3_HUMAN</td>
+<td align="right">0.1896420</td>
+<td align="right">-0.1432009</td>
+<td align="right">-0.0340628</td>
+<td align="right">-0.2470246</td>
+<td align="right">-0.1349039</td>
+<td align="right">0.1876184</td>
+<td align="right">0.1936865</td>
+<td align="right">0.0137017</td>
+<td align="right">-0.0889047</td>
+<td align="right">0.0389107</td>
+<td align="right">-0.4605911</td>
+</tr>
+<tr class="even">
+<td align="left">HGNAT_HUMAN</td>
+<td align="right">0.1046402</td>
+<td align="right">-0.2416903</td>
+<td align="right">0.2325612</td>
+<td align="right">0.1301691</td>
+<td align="right">0.0327822</td>
+<td align="right">0.3781608</td>
+<td align="right">0.1030650</td>
+<td align="right">-0.4802290</td>
+<td align="right">0.0558312</td>
+<td align="right">-0.0006821</td>
+<td align="right">0.1799745</td>
+</tr>
+<tr class="odd">
+<td align="left">RFFL_HUMAN</td>
+<td align="right">0.0181685</td>
+<td align="right">-0.0152259</td>
+<td align="right">0.0389704</td>
+<td align="right">0.2295137</td>
+<td align="right">-0.0023865</td>
+<td align="right">0.2135595</td>
+<td align="right">0.0617714</td>
+<td align="right">0.1891520</td>
+<td align="right">0.1219770</td>
+<td align="right">0.0433609</td>
+<td align="right">-0.0823849</td>
+</tr>
+<tr class="even">
+<td align="left">RN185_HUMAN</td>
+<td align="right">0.0585569</td>
+<td align="right">-0.0112455</td>
+<td align="right">0.3784554</td>
+<td align="right">0.1343171</td>
+<td align="right">-0.1741584</td>
+<td align="right">-0.0543047</td>
+<td align="right">0.2908758</td>
+<td align="right">0.0307732</td>
+<td align="right">0.0956419</td>
+<td align="right">-0.2721382</td>
+<td align="right">0.0447837</td>
+</tr>
+<tr class="odd">
+<td align="left">ZN462_HUMAN</td>
+<td align="right">0.0964568</td>
+<td align="right">-0.2647605</td>
+<td align="right">0.2505166</td>
+<td align="right">-0.3012533</td>
+<td align="right">0.4054542</td>
+<td align="right">-0.1195386</td>
+<td align="right">0.0206231</td>
+<td align="right">-0.3445674</td>
+<td align="right">0.3837608</td>
+<td align="right">0.2115073</td>
+<td align="right">-0.2285650</td>
+</tr>
+<tr class="even">
+<td align="left">ALKB7_HUMAN</td>
+<td align="right">-0.1715043</td>
+<td align="right">-0.1780380</td>
+<td align="right">-0.2018088</td>
+<td align="right">0.2414476</td>
+<td align="right">0.1568775</td>
+<td align="right">0.2092464</td>
+<td align="right">-0.4265611</td>
+<td align="right">0.2582000</td>
+<td align="right">-0.2462521</td>
+<td align="right">-0.0188007</td>
+<td align="right">-0.0232842</td>
+</tr>
+<tr class="odd">
+<td align="left">POLK_HUMAN</td>
+<td align="right">0.1889136</td>
+<td align="right">0.0622625</td>
+<td align="right">0.2948281</td>
+<td align="right">-0.2461720</td>
+<td align="right">-0.4850179</td>
+<td align="right">0.3996914</td>
+<td align="right">-0.2316628</td>
+<td align="right">0.1115249</td>
+<td align="right">0.3279035</td>
+<td align="right">0.0315702</td>
+<td align="right">-0.0332998</td>
+</tr>
+<tr class="even">
+<td align="left">ACAD8_HUMAN</td>
+<td align="right">0.1306602</td>
+<td align="right">-0.1492646</td>
+<td align="right">-0.3520092</td>
+<td align="right">0.1200877</td>
+<td align="right">0.0612338</td>
+<td align="right">0.2134321</td>
+<td align="right">0.1391003</td>
+<td align="right">-0.0406605</td>
+<td align="right">0.3262590</td>
+<td align="right">-0.2431010</td>
+<td align="right">0.1337232</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
@@ -11342,65 +11936,77 @@ individual plot types.</p>
 <li>Boxplots</li>
 <li>Heatmaps</li>
 <li>MA plots</li>
+<li>Rank abundance distribution plot (Whittaker plot)</li>
 <li>UpSet plots</li>
 <li>Venn diagrams</li>
 <li>Volcano plots</li>
+<li>Scree plot</li>
+<li>Score plot / graph of individuals</li>
+<li>Loading plot / graph of variables</li>
+<li>Biplot of score (individuals) and loading (variables)</li>
+<li>VIP scores plot</li>
 </ul>
 <div class="section level3">
 <h3 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a>
 </h3>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="fu">visualize.boxplot</span>(dataSet) <span class="co"># dataset of experimental values</span></span>
-<span id="cb44-2"><a href="#cb44-2" tabindex="-1"></a></span>
-<span id="cb44-3"><a href="#cb44-3" tabindex="-1"></a><span class="fu">visualize.heatmap</span>(dataSet,              <span class="co"># dataset of experimental values</span></span>
-<span id="cb44-4"><a href="#cb44-4" tabindex="-1"></a>                  <span class="at">pkg =</span> <span class="st">"pheatmap"</span>,     <span class="co"># package option for heatmap plotting</span></span>
-<span id="cb44-5"><a href="#cb44-5" tabindex="-1"></a>                  <span class="at">cluster_cols =</span> <span class="cn">TRUE</span>,  <span class="co"># cluster heatmap by columns?</span></span>
-<span id="cb44-6"><a href="#cb44-6" tabindex="-1"></a>                  <span class="at">cluster_rows =</span> <span class="cn">FALSE</span>, <span class="co"># cluster heatmap by rows?</span></span>
-<span id="cb44-7"><a href="#cb44-7" tabindex="-1"></a>                  <span class="at">show_colnames =</span> <span class="cn">TRUE</span>, <span class="co"># display heatmap columns?</span></span>
-<span id="cb44-8"><a href="#cb44-8" tabindex="-1"></a>                  <span class="at">show_rownames =</span> <span class="cn">TRUE</span>) <span class="co"># display heatmap rows?</span></span>
-<span id="cb44-9"><a href="#cb44-9" tabindex="-1"></a></span>
-<span id="cb44-10"><a href="#cb44-10" tabindex="-1"></a><span class="fu">visualize.ma</span>(dataSet,     <span class="co"># output from the function analyze.ma()</span></span>
-<span id="cb44-11"><a href="#cb44-11" tabindex="-1"></a>             <span class="at">M.thres =</span> <span class="dv">1</span>) <span class="co"># threshold by fold-change</span></span>
-<span id="cb44-12"><a href="#cb44-12" tabindex="-1"></a></span>
-<span id="cb44-13"><a href="#cb44-13" tabindex="-1"></a><span class="fu">visualize.rank</span>(dataSet,   <span class="co"># dataset of experimental values</span></span>
-<span id="cb44-14"><a href="#cb44-14" tabindex="-1"></a>               listName,  <span class="co"># a character vector of proteins to highlight</span></span>
-<span id="cb44-15"><a href="#cb44-15" tabindex="-1"></a>               regexName, <span class="co"># a character vector specifying proteins for regular expression pattern matching to highlight</span></span>
-<span id="cb44-16"><a href="#cb44-16" tabindex="-1"></a>               facet,     <span class="co"># grouping variables for faceting</span></span>
-<span id="cb44-17"><a href="#cb44-17" tabindex="-1"></a>               color)     <span class="co"># the color used to highlight proteins</span></span>
-<span id="cb44-18"><a href="#cb44-18" tabindex="-1"></a></span>
-<span id="cb44-19"><a href="#cb44-19" tabindex="-1"></a><span class="fu">visualize.test</span>(dataSet) <span class="co"># output from the function analyze.mod_t(), analyze.t(), or analyze.wilcox()</span></span>
-<span id="cb44-20"><a href="#cb44-20" tabindex="-1"></a></span>
-<span id="cb44-21"><a href="#cb44-21" tabindex="-1"></a><span class="fu">visualize.upset</span>(dataSet) <span class="co"># dataset of experimental values</span></span>
-<span id="cb44-22"><a href="#cb44-22" tabindex="-1"></a></span>
-<span id="cb44-23"><a href="#cb44-23" tabindex="-1"></a><span class="fu">visualize.venn</span>(dataSet,                                                   <span class="co"># dataset of experimental values</span></span>
-<span id="cb44-24"><a href="#cb44-24" tabindex="-1"></a>               <span class="at">show_percentage =</span> <span class="cn">TRUE</span>,                                    <span class="co"># should % be shown in Venn diagram?</span></span>
-<span id="cb44-25"><a href="#cb44-25" tabindex="-1"></a>               <span class="at">fill_color =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>, <span class="st">"red"</span>),          <span class="co"># colors to use for Venn diagram</span></span>
-<span id="cb44-26"><a href="#cb44-26" tabindex="-1"></a>               <span class="at">saveVenn =</span> <span class="cn">TRUE</span>,                                           <span class="co"># should the Venn diagram be exported?</span></span>
-<span id="cb44-27"><a href="#cb44-27" tabindex="-1"></a>               <span class="at">proteinInformation =</span> <span class="st">"preprocess_protein_information.csv"</span>) <span class="co"># name of file containing protein information</span></span>
-<span id="cb44-28"><a href="#cb44-28" tabindex="-1"></a></span>
-<span id="cb44-29"><a href="#cb44-29" tabindex="-1"></a><span class="fu">visualize.volcano</span>(dataSet,        <span class="co"># output from the function analyze.mod_t(), analyze.t(), or analyze.wilcox()</span></span>
-<span id="cb44-30"><a href="#cb44-30" tabindex="-1"></a>                  <span class="at">P.thres =</span> <span class="fl">0.05</span>, <span class="co"># significance level for volcano plot graphing</span></span>
-<span id="cb44-31"><a href="#cb44-31" tabindex="-1"></a>                  <span class="at">F.thres =</span> <span class="dv">1</span>).   <span class="co"># fold-change threshold for volcano plot graphing</span></span>
-<span id="cb44-32"><a href="#cb44-32" tabindex="-1"></a></span>
-<span id="cb44-33"><a href="#cb44-33" tabindex="-1"></a><span class="fu">visualize.scree</span>(dataSet,                 <span class="co"># output from the function analyze.pca()</span></span>
-<span id="cb44-34"><a href="#cb44-34" tabindex="-1"></a>                <span class="at">type =</span> <span class="fu">c</span>(<span class="st">"bar"</span>, <span class="st">"line"</span>), <span class="co"># type of image to produce</span></span>
-<span id="cb44-35"><a href="#cb44-35" tabindex="-1"></a>                <span class="at">bar.color =</span> <span class="st">"gray"</span>,      <span class="co"># color of the bar outline in the bar plot</span></span>
-<span id="cb44-36"><a href="#cb44-36" tabindex="-1"></a>                <span class="at">bar.fill =</span> <span class="st">"gray"</span>,       <span class="co"># fill color of the bars in the bar plot</span></span>
-<span id="cb44-37"><a href="#cb44-37" tabindex="-1"></a>                <span class="at">line.color =</span> <span class="st">"black"</span>,    <span class="co"># color of the line and point in the line plot</span></span>
-<span id="cb44-38"><a href="#cb44-38" tabindex="-1"></a>                <span class="at">label =</span> <span class="cn">TRUE</span>,            <span class="co"># should labels be added to plot?</span></span>
-<span id="cb44-39"><a href="#cb44-39" tabindex="-1"></a>                <span class="at">ncp =</span> <span class="dv">10</span>)                <span class="co"># number of components</span></span>
-<span id="cb44-40"><a href="#cb44-40" tabindex="-1"></a></span>
-<span id="cb44-41"><a href="#cb44-41" tabindex="-1"></a><span class="fu">visualize.ind</span>(dataSet,              <span class="co"># output from the function analyze.pca()</span></span>
-<span id="cb44-42"><a href="#cb44-42" tabindex="-1"></a>              <span class="at">label =</span> <span class="cn">TRUE</span>,         <span class="co"># should labels be added to plot?</span></span>
-<span id="cb44-43"><a href="#cb44-43" tabindex="-1"></a>              <span class="at">ellipse =</span> <span class="cn">TRUE</span>,       <span class="co"># should ellipses be added?</span></span>
-<span id="cb44-44"><a href="#cb44-44" tabindex="-1"></a>              <span class="at">ellipse.level =</span> <span class="fl">0.95</span>) <span class="co"># level for ellipses</span></span>
-<span id="cb44-45"><a href="#cb44-45" tabindex="-1"></a></span>
-<span id="cb44-46"><a href="#cb44-46" tabindex="-1"></a><span class="fu">visualize.var</span>(dataSet,      <span class="co"># output from the function analyze.pca()</span></span>
-<span id="cb44-47"><a href="#cb44-47" tabindex="-1"></a>              <span class="at">label =</span> <span class="cn">TRUE</span>) <span class="co"># should labels be added to plot?</span></span>
-<span id="cb44-48"><a href="#cb44-48" tabindex="-1"></a></span>
-<span id="cb44-49"><a href="#cb44-49" tabindex="-1"></a><span class="fu">visualize.biplot</span>(dataSet,              <span class="co"># output from the function analyze.pca()</span></span>
-<span id="cb44-50"><a href="#cb44-50" tabindex="-1"></a>                 <span class="at">label =</span> <span class="st">"all"</span>,        <span class="co"># what to label in the plot</span></span>
-<span id="cb44-51"><a href="#cb44-51" tabindex="-1"></a>                 <span class="at">ellipse =</span> <span class="cn">TRUE</span>,       <span class="co"># should ellipses be added?</span></span>
-<span id="cb44-52"><a href="#cb44-52" tabindex="-1"></a>                 <span class="at">ellipse.level =</span> <span class="fl">0.95</span>) <span class="co"># level for ellipses</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="fu">visualize.boxplot</span>(dataSet) <span class="co"># dataset of experimental values</span></span>
+<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a><span class="fu">visualize.heatmap</span>(dataSet,              <span class="co"># dataset of experimental values</span></span>
+<span id="cb42-4"><a href="#cb42-4" tabindex="-1"></a>                  <span class="at">pkg =</span> <span class="st">"pheatmap"</span>,     <span class="co"># package option for heatmap plotting</span></span>
+<span id="cb42-5"><a href="#cb42-5" tabindex="-1"></a>                  <span class="at">cluster_cols =</span> <span class="cn">TRUE</span>,  <span class="co"># cluster heatmap by columns?</span></span>
+<span id="cb42-6"><a href="#cb42-6" tabindex="-1"></a>                  <span class="at">cluster_rows =</span> <span class="cn">FALSE</span>, <span class="co"># cluster heatmap by rows?</span></span>
+<span id="cb42-7"><a href="#cb42-7" tabindex="-1"></a>                  <span class="at">show_colnames =</span> <span class="cn">TRUE</span>, <span class="co"># display heatmap columns?</span></span>
+<span id="cb42-8"><a href="#cb42-8" tabindex="-1"></a>                  <span class="at">show_rownames =</span> <span class="cn">TRUE</span>) <span class="co"># display heatmap rows?</span></span>
+<span id="cb42-9"><a href="#cb42-9" tabindex="-1"></a></span>
+<span id="cb42-10"><a href="#cb42-10" tabindex="-1"></a><span class="fu">visualize.ma</span>(dataSet,     <span class="co"># output from the function analyze.ma()</span></span>
+<span id="cb42-11"><a href="#cb42-11" tabindex="-1"></a>             <span class="at">M.thres =</span> <span class="dv">1</span>) <span class="co"># threshold by fold-change</span></span>
+<span id="cb42-12"><a href="#cb42-12" tabindex="-1"></a></span>
+<span id="cb42-13"><a href="#cb42-13" tabindex="-1"></a><span class="fu">visualize.rank</span>(dataSet,   <span class="co"># dataset of experimental values</span></span>
+<span id="cb42-14"><a href="#cb42-14" tabindex="-1"></a>               listName,  <span class="co"># a character vector of proteins to highlight</span></span>
+<span id="cb42-15"><a href="#cb42-15" tabindex="-1"></a>               regexName, <span class="co"># a character vector specifying proteins for regular expression pattern matching to highlight</span></span>
+<span id="cb42-16"><a href="#cb42-16" tabindex="-1"></a>               facet,     <span class="co"># grouping variables for faceting</span></span>
+<span id="cb42-17"><a href="#cb42-17" tabindex="-1"></a>               color)     <span class="co"># the color used to highlight proteins</span></span>
+<span id="cb42-18"><a href="#cb42-18" tabindex="-1"></a></span>
+<span id="cb42-19"><a href="#cb42-19" tabindex="-1"></a><span class="fu">visualize.test</span>(dataSet) <span class="co"># output from the function analyze.mod_t(), analyze.t(), or analyze.wilcox()</span></span>
+<span id="cb42-20"><a href="#cb42-20" tabindex="-1"></a></span>
+<span id="cb42-21"><a href="#cb42-21" tabindex="-1"></a><span class="fu">visualize.upset</span>(dataSet) <span class="co"># dataset of experimental values</span></span>
+<span id="cb42-22"><a href="#cb42-22" tabindex="-1"></a></span>
+<span id="cb42-23"><a href="#cb42-23" tabindex="-1"></a><span class="fu">visualize.venn</span>(dataSet,                                                   <span class="co"># dataset of experimental values</span></span>
+<span id="cb42-24"><a href="#cb42-24" tabindex="-1"></a>               <span class="at">show_percentage =</span> <span class="cn">TRUE</span>,                                    <span class="co"># should % be shown in Venn diagram?</span></span>
+<span id="cb42-25"><a href="#cb42-25" tabindex="-1"></a>               <span class="at">fill_color =</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>, <span class="st">"red"</span>),          <span class="co"># colors to use for Venn diagram</span></span>
+<span id="cb42-26"><a href="#cb42-26" tabindex="-1"></a>               <span class="at">saveVenn =</span> <span class="cn">TRUE</span>,                                           <span class="co"># should the Venn diagram be exported?</span></span>
+<span id="cb42-27"><a href="#cb42-27" tabindex="-1"></a>               <span class="at">proteinInformation =</span> <span class="st">"preprocess_protein_information.csv"</span>) <span class="co"># name of file containing protein information</span></span>
+<span id="cb42-28"><a href="#cb42-28" tabindex="-1"></a></span>
+<span id="cb42-29"><a href="#cb42-29" tabindex="-1"></a><span class="fu">visualize.volcano</span>(dataSet,        <span class="co"># output from the function analyze.mod_t(), analyze.t(), or analyze.wilcox()</span></span>
+<span id="cb42-30"><a href="#cb42-30" tabindex="-1"></a>                  <span class="at">P.thres =</span> <span class="fl">0.05</span>, <span class="co"># significance level for volcano plot graphing</span></span>
+<span id="cb42-31"><a href="#cb42-31" tabindex="-1"></a>                  <span class="at">F.thres =</span> <span class="dv">1</span>).   <span class="co"># fold-change threshold for volcano plot graphing</span></span>
+<span id="cb42-32"><a href="#cb42-32" tabindex="-1"></a></span>
+<span id="cb42-33"><a href="#cb42-33" tabindex="-1"></a><span class="fu">visualize.scree</span>(dataSet,                 <span class="co"># output from the function analyze.pca()</span></span>
+<span id="cb42-34"><a href="#cb42-34" tabindex="-1"></a>                <span class="at">type =</span> <span class="fu">c</span>(<span class="st">"bar"</span>, <span class="st">"line"</span>), <span class="co"># type of image to produce</span></span>
+<span id="cb42-35"><a href="#cb42-35" tabindex="-1"></a>                <span class="at">bar.color =</span> <span class="st">"gray"</span>,      <span class="co"># color of the bar outline in the bar plot</span></span>
+<span id="cb42-36"><a href="#cb42-36" tabindex="-1"></a>                <span class="at">bar.fill =</span> <span class="st">"gray"</span>,       <span class="co"># fill color of the bars in the bar plot</span></span>
+<span id="cb42-37"><a href="#cb42-37" tabindex="-1"></a>                <span class="at">line.color =</span> <span class="st">"black"</span>,    <span class="co"># color of the line and point in the line plot</span></span>
+<span id="cb42-38"><a href="#cb42-38" tabindex="-1"></a>                <span class="at">label =</span> <span class="cn">TRUE</span>,            <span class="co"># should labels be added to plot?</span></span>
+<span id="cb42-39"><a href="#cb42-39" tabindex="-1"></a>                <span class="at">ncp =</span> <span class="dv">10</span>)                <span class="co"># number of components</span></span>
+<span id="cb42-40"><a href="#cb42-40" tabindex="-1"></a></span>
+<span id="cb42-41"><a href="#cb42-41" tabindex="-1"></a><span class="fu">visualize.score</span>(dataSet,              <span class="co"># output from the function analyze.pca() or analyze.plsda()</span></span>
+<span id="cb42-42"><a href="#cb42-42" tabindex="-1"></a>                <span class="at">ellipse =</span> <span class="cn">TRUE</span>,       <span class="co"># should ellipses be added?</span></span>
+<span id="cb42-43"><a href="#cb42-43" tabindex="-1"></a>                <span class="at">ellipse.level =</span> <span class="fl">0.95</span>, <span class="co"># level for ellipses</span></span>
+<span id="cb42-44"><a href="#cb42-44" tabindex="-1"></a>                <span class="at">label =</span> <span class="cn">TRUE</span>)         <span class="co"># should labels be added to plot?</span></span>
+<span id="cb42-45"><a href="#cb42-45" tabindex="-1"></a></span>
+<span id="cb42-46"><a href="#cb42-46" tabindex="-1"></a><span class="fu">visualize.loading</span>(dataSet,      <span class="co"># output from the function analyze.pca() or analyze.plsda()</span></span>
+<span id="cb42-47"><a href="#cb42-47" tabindex="-1"></a>                  <span class="at">label =</span> <span class="cn">TRUE</span>) <span class="co"># should labels be added to plot?</span></span>
+<span id="cb42-48"><a href="#cb42-48" tabindex="-1"></a></span>
+<span id="cb42-49"><a href="#cb42-49" tabindex="-1"></a><span class="fu">visualize.biplot</span>(dataSet,              <span class="co"># output from the function analyze.pca() or analyze.plsda()</span></span>
+<span id="cb42-50"><a href="#cb42-50" tabindex="-1"></a>                 <span class="at">ellipse =</span> <span class="cn">TRUE</span>,       <span class="co"># should ellipses be added?</span></span>
+<span id="cb42-51"><a href="#cb42-51" tabindex="-1"></a>                 <span class="at">ellipse.level =</span> <span class="fl">0.95</span>, <span class="co"># level for ellipses</span></span>
+<span id="cb42-52"><a href="#cb42-52" tabindex="-1"></a>                 <span class="at">label =</span> <span class="st">"all"</span>)        <span class="co"># what to label in the plot</span></span>
+<span id="cb42-53"><a href="#cb42-53" tabindex="-1"></a></span>
+<span id="cb42-54"><a href="#cb42-54" tabindex="-1"></a><span class="fu">visualize.vip</span>(dataSet,    <span class="co"># output from the function analyze.plsda()</span></span>
+<span id="cb42-55"><a href="#cb42-55" tabindex="-1"></a>              <span class="at">comp =</span> <span class="dv">1</span>,   <span class="co"># which PLS-DA component to visualize</span></span>
+<span id="cb42-56"><a href="#cb42-56" tabindex="-1"></a>              <span class="at">num =</span> <span class="dv">10</span>,   <span class="co"># number of top variables to display</span></span>
+<span id="cb42-57"><a href="#cb42-57" tabindex="-1"></a>              <span class="at">thres =</span> <span class="dv">1</span>,  <span class="co"># VIP threshold for the dashed reference line</span></span>
+<span id="cb42-58"><a href="#cb42-58" tabindex="-1"></a>              rel.widths) <span class="co"># optional numeric vector c(left, right) specifying panel width ratio</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="details-examples-7">Details &amp; Examples<a class="anchor" aria-label="anchor" href="#details-examples-7"></a>
@@ -11414,7 +12020,16 @@ not as a means to find a point/question.
 </div>
 </div>
 <div class="section level3">
-<h3 id="heatmap">heatmap<a class="anchor" aria-label="anchor" href="#heatmap"></a>
+<h3 id="boxplot">Boxplot<a class="anchor" aria-label="anchor" href="#boxplot"></a>
+</h3>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.boxplot.html">visualize.boxplot</a></span><span class="op">(</span><span class="va">dataNorm</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 55 rows containing non-finite outside the scale range</span></span>
+<span><span class="co">#&gt; (`stat_boxplot()`).</span></span></code></pre></div>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-65-1.png" width="700" style="display: block; margin: auto;"></p>
+</div>
+<div class="section level3">
+<h3 id="heatmap">Heatmap<a class="anchor" aria-label="anchor" href="#heatmap"></a>
 </h3>
 <p>The package offers two options for plotting the heatmap.</p>
 <ul>
@@ -11422,7 +12037,7 @@ not as a means to find a point/question.
 of plotting the dendrogram simultaneously. It is the default choice for
 heatmaps in this package.</li>
 </ul>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.heatmap.html">visualize.heatmap</a></span><span class="op">(</span><span class="va">dataImput</span>, pkg <span class="op">=</span> <span class="st">"pheatmap"</span>,</span>
 <span>                  cluster_cols <span class="op">=</span> <span class="cn">TRUE</span>, cluster_rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                  show_colnames <span class="op">=</span> <span class="cn">TRUE</span>, show_rownames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
@@ -11433,7 +12048,7 @@ heatmaps in this package.</li>
 <li>Option 2 use the source package <code>ggplot2</code> to generate a
 ggplot object but does not include the dendrogram.</li>
 </ul>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.heatmap.html">visualize.heatmap</a></span><span class="op">(</span><span class="va">dataImput</span>, pkg <span class="op">=</span> <span class="st">"ggplot2"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-67-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>In a heatmap, similar colors within a row indicate relatively
@@ -11441,18 +12056,18 @@ consistent values, suggesting similar protein expression levels across
 different samples.</p>
 </div>
 <div class="section level3">
-<h3 id="rank-abundance-plot">rank abundance plot<a class="anchor" aria-label="anchor" href="#rank-abundance-plot"></a>
+<h3 id="rank-abundance-plot">Rank abundance plot<a class="anchor" aria-label="anchor" href="#rank-abundance-plot"></a>
 </h3>
 <p>The rank abundance plot shows proteins ranked by abundance to
 visualize distribution patterns and highlight specific proteins across
 conditions or replicates.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.rank.html">visualize.rank</a></span><span class="op">(</span><span class="va">dataImput</span>, listName <span class="op">=</span> <span class="st">"POLK_HUMAN"</span>,</span>
 <span>               facet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Replicate"</span>, <span class="st">"Condition"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-68-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
-<h3 id="ma-1">MA<a class="anchor" aria-label="anchor" href="#ma-1"></a>
+<h3 id="ma-plot">MA plot<a class="anchor" aria-label="anchor" href="#ma-plot"></a>
 </h3>
 <p>An MA plot visualizes the differences between measurements taken in
 two samples, by transforming the data onto M (log ratio or fold change)
@@ -11484,8 +12099,8 @@ conditions, calculated as:
 <p>Most proteins are expected to exhibit little variation, leading to
 the majority of points concentrating around the line M = 0 (indicating
 no difference between group means).</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_MA</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, M.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_ma</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, M.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 32 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-69-1.png" width="700" style="display: block; margin: auto;"></p>
@@ -11501,79 +12116,14 @@ proteins with no regulation.</p>
 <p>If the input <code>dataSet</code> is the whole list
 <code>anlys_MA</code>, <strong>msDiaLogue</strong> will produce
 individual subplots corresponding to each comparison.</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_MA</span>, M.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_ma</span>, M.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 63 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
 <p><img src="usage_template_files/figure-html/unnamed-chunk-70-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
-<h3 id="boxplot">boxplot<a class="anchor" aria-label="anchor" href="#boxplot"></a>
-</h3>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.boxplot.html">visualize.boxplot</a></span><span class="op">(</span><span class="va">dataNorm</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 55 rows containing non-finite outside the scale range</span></span>
-<span><span class="co">#&gt; (`stat_boxplot()`).</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-71-1.png" width="700" style="display: block; margin: auto;"></p>
-</div>
-<div class="section level3">
-<h3 id="pca_scree">PCA_scree<a class="anchor" aria-label="anchor" href="#pca_scree"></a>
-</h3>
-<p>One way to help identify how many PCs to retain is to explore a scree
-plot. The scree plot shows the percentage of variance explained by each
-PC.</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.scree.html">visualize.scree</a></span><span class="op">(</span><span class="va">anlys_PCA</span>, type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bar"</span>, <span class="st">"line"</span><span class="op">)</span>, label <span class="op">=</span> <span class="cn">TRUE</span>, ncp <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-72-1.png" width="700" style="display: block; margin: auto;"></p>
-<p>where <code>label = TRUE</code> adds information labels at the top of
-bars/points, and <code>ncp = 10</code> sets the number of dimension to
-be displayed.</p>
-</div>
-<div class="section level3">
-<h3 id="pca_ind">PCA_ind<a class="anchor" aria-label="anchor" href="#pca_ind"></a>
-</h3>
-<p>The primary PCA plot of individual data visually represents the
-distribution of individual observations in a reduced-dimensional space,
-typically defined by the PCs. The x and y axes of the PCA plot represent
-the PCs. Each axis corresponds to a linear combination of the original
-variables. Individual data points on the PCA plot represent observations
-(e.g., samples) from the original dataset. Points that are close to the
-origin (0, 0), are close to the “average” across all protein abundances.
-If sufficient samples are present, the plot will also produce a 95%
-confidence ellipse, as well as a centroid (mean for each group
-provided), for each groups (condition) provided.</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.ind.html">visualize.ind</a></span><span class="op">(</span><span class="va">anlys_PCA</span>, label <span class="op">=</span> <span class="cn">TRUE</span>, ellipse <span class="op">=</span> <span class="cn">TRUE</span>, ellipse.level <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-73-1.png" width="700" style="display: block; margin: auto;"></p>
-</div>
-<div class="section level3">
-<h3 id="pca_var">PCA_var<a class="anchor" aria-label="anchor" href="#pca_var"></a>
-</h3>
-<p>This plot will be more useful if your analyses are based on a
-relatively small number of proteins. It represents the association, or
-loading of each protein on the first two PCs. Longer arrows represents
-stronger associations.</p>
-<div class="note">
-<strong>Note:</strong> Proteins that are weakly associated with PC1 or
-PC2 may still be highly correlated with other PCs not being plotted.
-Consult the scree plot (and other available methods) to determine the
-appropriate number of PCs to investigate.
-</div>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.var.html">visualize.var</a></span><span class="op">(</span><span class="va">anlys_PCA</span>, label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-74-1.png" width="700" style="display: block; margin: auto;"></p>
-</div>
-<div class="section level3">
-<h3 id="pca_biplot">PCA_biplot<a class="anchor" aria-label="anchor" href="#pca_biplot"></a>
-</h3>
-<p>The PCA biplot includes individual and variable plots. Again, with a
-large number of proteins, this plot can be unwieldy.</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.biplot.html">visualize.biplot</a></span><span class="op">(</span><span class="va">anlys_PCA</span>, ellipse <span class="op">=</span> <span class="cn">TRUE</span>, ellipse.level <span class="op">=</span> <span class="fl">0.95</span>, label <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-75-1.png" width="700" style="display: block; margin: auto;"></p>
-</div>
-<div class="section level3">
-<h3 id="test">test<a class="anchor" aria-label="anchor" href="#test"></a>
+<h3 id="histogram-of-fold-changes-and-p-values-for-test">Histogram of fold changes and p-values for test<a class="anchor" aria-label="anchor" href="#histogram-of-fold-changes-and-p-values-for-test"></a>
 </h3>
 <p>The function <code>visualize().test</code> can be applied to any test
 output. It generates two useful plots: a histogram of fold changes
@@ -11583,42 +12133,42 @@ so the fold change histogram will have a peak at around zero. For the
 p-values, most p-values are expected to be non-significant (above 0.05).
 Depending on the strength of the treatment effect, there may be a peak
 of p-values near 0.</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.test.html">visualize.test</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-76-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-71-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>If the input <code>dataSet</code> is the whole list
 <code>anlys_modt</code>, <strong>msDiaLogue</strong> will produce
 individual subplots corresponding to each comparison.</p>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.test.html">visualize.test</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-77-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-72-1.png" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
-<h3 id="upset">upset<a class="anchor" aria-label="anchor" href="#upset"></a>
+<h3 id="upset-plot">UpSet plot<a class="anchor" aria-label="anchor" href="#upset-plot"></a>
 </h3>
 <p>The UpSet plot is a visual representation that helps display the
 overlap and intersection of sets or categories in a dataset. It is
 particularly useful for illustrating the presence or absence of elements
 in combinations of sets.</p>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dataSort</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sortcondition.html">sortcondition</a></span><span class="op">(</span><span class="va">dataSet</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/visualize.upset.html">visualize.upset</a></span><span class="op">(</span><span class="va">dataSort</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-78-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-73-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>This plot reveals that 42 proteins are shared by 50pmol, 100pmol, and
 200pmol, while only 3 proteins are shared by 100 pmol and 200pmol, but
 not with 50pmol.</p>
 </div>
 <div class="section level3">
-<h3 id="venn">Venn<a class="anchor" aria-label="anchor" href="#venn"></a>
+<h3 id="venn-plot">Venn plot<a class="anchor" aria-label="anchor" href="#venn-plot"></a>
 </h3>
 <p>The Venn plot is another graphical representation of the
 relationships between sets. Each circle represents a set, and the
 overlapping regions show the elements that are shared between sets.</p>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.venn.html">visualize.venn</a></span><span class="op">(</span><span class="va">dataSort</span>, show_percentage <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>               fill_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>, <span class="st">"red"</span><span class="op">)</span>,</span>
 <span>               saveVenn <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-79-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-74-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>where <code>saveVenn = TRUE</code> refers to the data containing
 logical columns representing sets in Venn plot information will be saved
 as a .csv file named <em>Venn_information.csv</em> in the current
@@ -11628,7 +12178,7 @@ proteins. Notably, 3 proteins are exclusively found in the 100pmol and
 200pmol groups.</p>
 </div>
 <div class="section level3">
-<h3 id="volcano">volcano<a class="anchor" aria-label="anchor" href="#volcano"></a>
+<h3 id="volcano-plot">Volcano plot<a class="anchor" aria-label="anchor" href="#volcano-plot"></a>
 </h3>
 <p>A volcano plot is a graphical representation commonly used in
 proteomics and genomics to visualize differential expression analysis
@@ -11640,19 +12190,91 @@ differences between conditions in a dataset:</p>
 log10 of the p-value.</p></li>
 <li><p>Fold change (horizontal): Represents the fold change.</p></li>
 </ul>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.volcano.html">visualize.volcano</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, P.thres <span class="op">=</span> <span class="fl">0.05</span>, F.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 32 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-80-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-75-1.png" width="700" style="display: block; margin: auto;"></p>
 <p>If the input <code>dataSet</code> is the whole list
 <code>anlys_modt</code>, <strong>msDiaLogue</strong> will produce
 individual subplots corresponding to each comparison.</p>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.volcano.html">visualize.volcano</a></span><span class="op">(</span><span class="va">anlys_modt</span>, P.thres <span class="op">=</span> <span class="fl">0.05</span>, F.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 65 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
-<p><img src="usage_template_files/figure-html/unnamed-chunk-81-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-76-1.png" width="700" style="display: block; margin: auto;"></p>
+</div>
+<div class="section level3">
+<h3 id="scree-plot">Scree plot<a class="anchor" aria-label="anchor" href="#scree-plot"></a>
+</h3>
+<p>One way to help identify how many PCs to retain is to explore a scree
+plot. The scree plot shows the percentage of variance explained by each
+PC.</p>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.scree.html">visualize.scree</a></span><span class="op">(</span><span class="va">anlys_pca</span>, type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bar"</span>, <span class="st">"line"</span><span class="op">)</span>,</span>
+<span>                bar.color <span class="op">=</span> <span class="st">"gray"</span>, bar.fill <span class="op">=</span> <span class="st">"gray"</span>, line.color <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>                label <span class="op">=</span> <span class="cn">TRUE</span>, ncp <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-77-1.png" width="700" style="display: block; margin: auto;"></p>
+<p>where <code>label = TRUE</code> adds information labels at the top of
+bars/points, and <code>ncp = 10</code> sets the number of dimension to
+be displayed.</p>
+</div>
+<div class="section level3">
+<h3 id="score-plot-graph-of-individuals">Score plot / graph of individuals<a class="anchor" aria-label="anchor" href="#score-plot-graph-of-individuals"></a>
+</h3>
+<p>The primary PCA plot of individual data visually represents the
+distribution of individual observations in a reduced-dimensional space,
+typically defined by the PCs. The x and y axes of the PCA plot represent
+the PCs. Each axis corresponds to a linear combination of the original
+variables. Individual data points on the PCA plot represent observations
+(e.g., samples) from the original dataset. Points that are close to the
+origin (0, 0), are close to the “average” across all protein abundances.
+If sufficient samples are present, the plot will also produce a 95%
+confidence ellipse, as well as a centroid (mean for each group
+provided), for each groups (condition) provided.</p>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.score.html">visualize.score</a></span><span class="op">(</span><span class="va">anlys_pca</span>, ellipse <span class="op">=</span> <span class="cn">TRUE</span>, ellipse.level <span class="op">=</span> <span class="fl">0.95</span>, label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-78-1.png" width="700" style="display: block; margin: auto;"></p>
+</div>
+<div class="section level3">
+<h3 id="loading-plot-graph-of-variables">Loading plot / graph of variables<a class="anchor" aria-label="anchor" href="#loading-plot-graph-of-variables"></a>
+</h3>
+<p>This plot will be more useful if your analyses are based on a
+relatively small number of proteins. It represents the association, or
+loading of each protein on the first two PCs. Longer arrows represents
+stronger associations.</p>
+<div class="note">
+<strong>Note:</strong> Proteins that are weakly associated with PC1 or
+PC2 may still be highly correlated with other PCs not being plotted.
+Consult the scree plot (and other available methods) to determine the
+appropriate number of PCs to investigate.
+</div>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.loading.html">visualize.loading</a></span><span class="op">(</span><span class="va">anlys_pca</span>, label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-79-1.png" width="700" style="display: block; margin: auto;"></p>
+</div>
+<div class="section level3">
+<h3 id="biplot-of-score-individuals-and-loading-variables">Biplot of score (individuals) and loading (variables)<a class="anchor" aria-label="anchor" href="#biplot-of-score-individuals-and-loading-variables"></a>
+</h3>
+<p>The biplot includes individual and variable plots. Again, with a
+large number of proteins, this plot can be unwieldy.</p>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.biplot.html">visualize.biplot</a></span><span class="op">(</span><span class="va">anlys_pca</span>, ellipse <span class="op">=</span> <span class="cn">TRUE</span>, ellipse.level <span class="op">=</span> <span class="fl">0.95</span>, label <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-80-1.png" width="700" style="display: block; margin: auto;"></p>
+</div>
+<div class="section level3">
+<h3 id="vip-score-plot">VIP score plot<a class="anchor" aria-label="anchor" href="#vip-score-plot"></a>
+</h3>
+<p>This combined plot pairs a VIP-score chart on the left with a heatmap
+on the right. The left panel shows each variable as a dot at its VIP
+score from PLS-DA. Higher scores indicate greater importance for class
+separation. The right panel uses colored tiles to show each top
+variable’s average abundance across conditions. So you can instantly see
+which variables matter most for class separation and how they behave in
+each condition.</p>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.vip.html">visualize.vip</a></span><span class="op">(</span><span class="va">anlys_plsda</span>, comp <span class="op">=</span> <span class="fl">1</span>, num <span class="op">=</span> <span class="fl">10</span>, thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p><img src="usage_template_files/figure-html/unnamed-chunk-81-1.png" width="864" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">
@@ -11672,7 +12294,7 @@ step was it filtered out?”.</li>
 </ul>
 <p>It can also be used to check whether the fold-change observed for a
 specific protein is an artifact from one of the processing steps.</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Check</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pullProteinPath.html">pullProteinPath</a></span><span class="op">(</span></span>
 <span>  listName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LYSC_CHICK"</span>, <span class="st">"BGAL_ECOLI"</span><span class="op">)</span>,</span>
 <span>  regexName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BOVIN"</span><span class="op">)</span>,</span>
@@ -12463,6 +13085,11 @@ Breiman, L., J. Friedman, R. A. Olshen, and C. J. Stone. 1984.
 <em>Classification and Regression Trees</em>. New York, NY, USA:
 Routledge.
 </div>
+<div id="ref-dayal1997improved" class="csl-entry">
+Dayal, Bhupinder S., and John F. MacGregor. 1997. <span>“Improved
+<span>PLS</span> Algorithms.”</span> <em>Journal of Chemometrics</em> 11
+(1): 73–85. <a href="https://doi.org/10.1002/(SICI)1099-128X(199701)11:1%3C73::AID-CEM435%3E3.0.CO;2-%5C%23" class="external-link">https://doi.org/10.1002/(SICI)1099-128X(199701)11:1&lt;73::AID-CEM435&gt;3.0.CO;2-\%23</a>.
+</div>
 <div id="ref-doove2014recursive" class="csl-entry">
 Doove, Lisa L., Stef van Buuren, and Elise Dusseldorp. 2014.
 <span>“Recursive Partitioning for Missing Data Imputation in the
@@ -12494,6 +13121,12 @@ Procedure Based on a Modified <span>B</span>onferroni Test.”</span>
 Jackson, J. Edward. 1991. <em>A User’s Guide to Principal
 Components</em>. John Wiley &amp; Sons.
 </div>
+<div id="ref-dejong1993simpls" class="csl-entry">
+Jong, Sijmen de. 1993. <span>“<span>SIMPLS</span>: <span>A</span>n
+Alternative Approach to Partial Least Squares Regression.”</span>
+<em>Chemometrics and Intelligent Laboratory Systems</em> 18 (3): 251–63.
+<a href="https://doi.org/10.1016/0169-7439(93)85002-X" class="external-link">https://doi.org/10.1016/0169-7439(93)85002-X</a>.
+</div>
 <div id="ref-keun2003improved" class="csl-entry">
 Keun, Hector C., Timothy M. D. Ebbels, Henrik Antti, Mary E. Bollard,
 Olaf Beckonert, Elaine Holmes, John C. Lindon, and Jeremy K. Nicholson.
@@ -12507,11 +13140,21 @@ Kim, Ki-Yeol, Byoung-Jin Kim, and Gwan-Su Yi. 2004. <span>“Reuse of
 Imputed Data in Microarray Analysis Increases Imputation
 Efficiency.”</span> <em>BMC Bioinformatics</em> 5: 160. <a href="https://doi.org/10.1186/1471-2105-5-160" class="external-link">https://doi.org/10.1186/1471-2105-5-160</a>.
 </div>
+<div id="ref-martens1989multivariate" class="csl-entry">
+Martens, Harald, and Tormod Næs. 1989. <em>Multivariate
+Calibration</em>. Wiley, New York, USA: Chichester.
+</div>
 <div id="ref-oba2003bayesian" class="csl-entry">
 Oba, Shigeyuki, Masa-aki Sato, Ichiro Takemasa, Morito Monden, Ken-ichi
 Matsubara, and Shin Ishii. 2003. <span>“A <span>B</span>ayesian Missing
 Value Estimation Method for Gene Expression Profile Data.”</span>
 <em>Bioinformatics</em> 19 (16): 2088–96. <a href="https://doi.org/10.1093/bioinformatics/btg287" class="external-link">https://doi.org/10.1093/bioinformatics/btg287</a>.
+</div>
+<div id="ref-rannar1994pls" class="csl-entry">
+Rännar, Stefan, Fredrik Lindgren, Paul Geladi, and Svante Wold. 1994.
+<span>“A <span>PLS</span> Kernel Algorithm for Data Sets with Many
+Variables and Fewer Objects. Part 1: <span>T</span>heory and
+Algorithm.”</span> <em>Journal of Chemometrics</em> 8 (2): 111–25. <a href="https://doi.org/10.1002/cem.1180080204" class="external-link">https://doi.org/10.1002/cem.1180080204</a>.
 </div>
 <div id="ref-rubin1987multiple" class="csl-entry">
 Rubin, Donald B. 1987. <em>Multiple Imputation for Nonresponse in

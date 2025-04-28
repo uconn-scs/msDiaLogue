@@ -53,5 +53,14 @@ utils::globalVariables(c(
   "difference", # <visualize.volcano>
   "p.value", # <visualize.volcano>
   "label", # <visualize.volcano>
+  "Dim.1", # <visualize.loading>
+  "Dim.2", # <visualize.loading>
+  "Name", # <visualize.loading>
+  "xcircle", # <visualize.loading>
+  "ycircle", # <visualize.loading>
+  "Score", # <visualize.vip>
+  "Variable", # <visualize.vip>
+  "Group", # <visualize.vip>
+  "Abundance", # <visualize.vip>
   NULL
 ))

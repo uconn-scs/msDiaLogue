@@ -429,10 +429,10 @@ analyze.ma <- function(dataSet, ref = NULL) {
 #' @return
 #' A list containing the following components: \describe{
 #' \item{sdev}{The standard deviations of the principal components.}
-#' \item{rotation}{The matrix of variable loadings.}
+#' \item{loadings}{The matrix of variable loadings.}
+#' \item{scores}{The principal component scores.}
 #' \item{center}{The centering used.}
 #' \item{scale}{The scaling used.}
-#' \item{x}{The principal component scores.}
 #' }
 #' 
 #' @references
@@ -444,14 +444,13 @@ analyze.pca <- function(dataSet, center = TRUE, scale = TRUE) {
   
   plotData <- dataSet %>%
     mutate(R.ConRep = paste0(R.Condition, "_", R.Replicate)) %>%
-    remove_rownames() %>%
     column_to_rownames(var = "R.ConRep") %>%
     select(-c(R.Condition, R.Replicate))
   
   result <- prcomp(plotData, center = center, scale = scale)
-  result$habillage <- dataSet$R.Condition
-  
-  ## return to the analysis result
+  result <- list(sdev = result$sdev, loadings = result$rotation, scores = result$x,
+                 center = result$center, scale = result$scale)
+  class(result) <- "pca"
   return(result)
 }
 
@@ -465,9 +464,6 @@ analyze.pca <- function(dataSet, center = TRUE, scale = TRUE) {
 #' 
 #' @param dataSet The 2d data set of data.
 #' 
-#' @param ncomp An integer (default = the maximal number of components) specifying the
-#' number of components to include in the model.
-#' 
 #' @param method A character string (default = "kernelpls") specifying the multivariate
 #' regression method to be used: \itemize{
 #' \item "kernelpls": Kernel algorithm \insertCite{dayal1997improved}{msDiaLogue}.
@@ -475,6 +471,9 @@ analyze.pca <- function(dataSet, center = TRUE, scale = TRUE) {
 #' \item "simpls": SIMPLS  algorithm \insertCite{dejong1993simpls}{msDiaLogue}.
 #' \item "oscorespls": NIPALS algorithm (classical orthogonal scores algorithm) \insertCite{martens1989multivariate}{msDiaLogue}.
 #' }
+#' 
+#' @param ncomp An integer specifying the number of components to include in the model.
+#' Defaults to min(n-1, p).
 #' 
 #' @param center A boolean (default = TRUE) indicating whether the variables should be
 #' shifted to be zero centered.
@@ -488,19 +487,9 @@ analyze.pca <- function(dataSet, center = TRUE, scale = TRUE) {
 #' The dimensions are c(nvar, npred, \code{ncomp}), where nvar is the number of variables
 #' X (proteins) and npred is the number of predicted variables Y (conditions).}
 #' \item{scores}{A matrix of scores.}
+#' \item{vips}{A matrix of variable importance in projection (VIP) scores.}
 #' \item{loadings}{A matrix of loadings.}
 #' \item{loading.weights}{A matrix of loading weights.}
-#' \item{Yscores}{A matrix of Y-scores.}
-#' \item{Yloadings}{A matrix of Y-loadings.}
-#' \item{projection}{The projection matrix used to convert X to scores.}
-#' \item{Xmeans}{A vector of means of the X variables.}
-#' \item{Ymeans}{A vector of means of the Y variables.}
-#' \item{fitted.values}{An array of fitted values. The dimensions are
-#' c(nobj, npred, \code{ncomp}), where nobj is the number of samples and npred is the
-#' number of Y variables.}
-#' \item{residuals}{An array of regression residuals. The dimensions are
-#' c(nobj, npred, \code{ncomp}), where nobj is the number of samples and npred is the
-#' number of Y variables.}
 #' \item{Xvar}{A vector with the amount of X-variance explained by each component.}
 #' \item{Xtotvar}{Total variance in X.}
 #' \item{ncomp}{The number of components.}
@@ -515,7 +504,7 @@ analyze.pca <- function(dataSet, center = TRUE, scale = TRUE) {
 #' 
 #' @export
 
-analyze.plsda <- function(dataSet, ncomp, method = "kernelpls",
+analyze.plsda <- function(dataSet, method = "kernelpls", ncomp,
                           center = TRUE, scale = FALSE) {
   model.formula <- eval(parse(text = "~ 0 + R.Condition"), envir = dataSet)
   y <- model.matrix(model.formula)
@@ -524,16 +513,26 @@ analyze.plsda <- function(dataSet, ncomp, method = "kernelpls",
   if (missing(ncomp)) {
     ncomp <- min(nrow(xs)-1, ncol(xs))
   }
-  result <- pls::plsr(y ~ xs, method = method, center = center, scale = scale)
+  result <- pls::plsr(y ~ xs, method = method, ncomp = ncomp, center = center, scale = scale)
   if (is.null(result$scale)) {
     result$scale <- FALSE
   }
-  model <- result$model
-  result$model <- NULL
-  result$call <- NULL
-  result$fit.time <- NULL
-  result$terms <- NULL
-  result <- append(result, list(model = model))
+  SS <- c(result$Yloadings)[1:ncomp]^2 * colSums(result$scores^2)
+  Wnorm2 <- colSums(result$loading.weights^2)
+  SSW <- sweep(result$loading.weights^2, 2, SS/Wnorm2, "*")
+  vips <- t(sqrt(nrow(SSW) * apply(SSW, 1, cumsum) / cumsum(SS)))
+  
+  class(result$scores) <- NULL
+  class(result$loadings) <- NULL
+  class(result$loading.weights) <- NULL
+  class(result$model) <- NULL
+  rownames(result$scores) <- paste0(dataSet$R.Condition, "_", dataSet$R.Replicate)
+  result <- list(coefficients = result$coefficients, scores = result$scores, vips = vips,
+                 loadings = result$loadings, loading.weights = result$loading.weights,
+                 Xvar = result$Xvar, Xtotvar = result$Xtotvar,
+                 ncomp = result$ncomp, method = result$method,
+                 center = result$center, scale = result$scale, model = result$model)
+  class(result) <- "plsda"
   return(result)
 }
 

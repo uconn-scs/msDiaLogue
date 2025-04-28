@@ -94,3 +94,22 @@ test_that("analyze.pca", {
   expect_equal(data, analyze.pca_Toy)
   
 })
+
+
+test_that("analyze.plsda", {
+  
+  ## load data from previous step in work flow
+  load("../storedData/filterNA_Toy.RData")
+  
+  ## execute current function 'analyze' on data file
+  invisible(capture.output(
+    data <- analyze.plsda(filterNA_Toy)
+  ))
+  
+  ## load stored correct data
+  load("../storedData/analyze.plsda_Toy.RData")
+  
+  ## test if current function yields equal results to previous version
+  expect_equal(data, analyze.plsda_Toy)
+  
+})

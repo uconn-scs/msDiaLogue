@@ -1,5 +1,6 @@
 #' @import dplyr
 #' @import ggplot2
+#' @import ggrepel
 #' @import tibble
 #' @import tidyr
 #' @importFrom Rdpack reprompt
