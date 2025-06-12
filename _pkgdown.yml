@@ -1,6 +1,6 @@
 home:
   title: msDiaLogue
-  description: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
+  description: Analysis and Visuals for Data-Independent Aquisition Mass Spectrometry Data
 
 url: https://uconn-scs.github.io/msDiaLogue
 
@@ -8,7 +8,7 @@ template:
   bootstrap: 5
   opengraph:
     image:
-      src: https://github.com/uconn-scs/msDiaLogue/blob/main/man/figure/logo.png
+      src: https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figure/logo.png
 
 authors:
   Shiying Xiao:
@@ -20,10 +20,103 @@ authors:
 development:
   mode: auto
 
-articles:
-- title: Articles
-  navbar: ~
+reference:
+- title: Preprocessing
   contents:
-  - usage_template
-  - scaffold
-  - cust_vis
+  - preprocessing
+  - preprocessing_scaffold
+- title: Transformation
+  contents:
+  - transform
+- title: Filtering
+  contents:
+  - filterNA
+  - filterOutIn
+  - filterProtein
+- title: Normalization
+  contents:
+  - normalize
+- title: Imputation
+  contents:
+  - impute.knn
+  - impute.knn_seq
+  - impute.knn_trunc
+  - impute.mice_cart
+  - impute.mice_norm
+  - impute.min_global
+  - impute.min_local
+  - impute.nuc_norm
+  - impute.pca_bayes
+  - impute.pca_prob
+- title: Summarization
+  contents:
+  - summarize
+- title: Analysis
+  contents:
+  - analyze.ma
+  - analyze.mod_t
+  - analyze.pca
+  - analyze.plsda
+  - analyze.t
+  - analyze.wilcox
+- title: Visualization
+  contents:
+  - visualize.biplot
+  - visualize.boxplot
+  - visualize.heatmap
+  - visualize.loading
+  - visualize.ma
+  - visualize.rank
+  - visualize.score
+  - visualize.scree
+  - visualize.test
+  - visualize.upset
+  - visualize.venn
+  - visualize.vip
+  - visualize.volcano
+- title: Other useful
+  contents:
+  - dataMissing
+  - pullProteinPath
+  - sortcondition
+  - trimFASTA
+
+navbar:
+  structure:
+    left: [intro, reference, modules, tutorials, faq, news]
+    right: [search, github]
+  components:
+    modules:
+      text: Modules
+      icon: fa-solid fa-hand-spock
+      menu:
+        - text: Preprocessing
+          href: articles/preprocessing.html
+        - text: Transformation
+          href: articles/transformation.html
+        - text: Filtering
+          href: articles/filtering.html
+        - text: Normalization
+          href: articles/normalization.html
+        - text: Imputation
+          href: articles/imputation.html
+        - text: Summarization
+          href: articles/summarization.html
+        - text: Analysis
+          href: articles/analysis.html
+        - text: Visualization
+          href: articles/visualization.html
+        - text: Other Useful
+          href: articles/other.html
+    tutorials:
+      text: Tutorials
+      icon: fa-solid fa-book
+      menu:
+        - text: Scaffold Export for msDiaLogue
+          href: articles/scaffold.html
+        - text: Customizing msDiaLogue Visualizations
+          href: articles/cust_vis.html
+    faq:
+      text: FAQ
+      icon: fa-solid fa-clipboard-question
+      href: articles/faq.html

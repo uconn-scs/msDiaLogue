@@ -1,11 +1,21 @@
-pandoc: 3.6.4
-pkgdown: 2.1.0
+pandoc: 3.7.0.2
+pkgdown: 2.1.2
 pkgdown_sha: ~
 articles:
+  analysis: analysis.html
   cust_vis: cust_vis.html
+  faq: faq.html
+  filtering: filtering.html
+  imputation: imputation.html
+  normalization: normalization.html
+  other: other.html
+  preprocessing: preprocessing.html
   scaffold: scaffold.html
+  summarization: summarization.html
+  transformation: transformation.html
   usage_template: usage_template.html
-last_built: 2025-04-28T03:33Z
+  visualization: visualization.html
+last_built: 2025-06-12T03:46Z
 urls:
   reference: https://uconn-scs.github.io/msDiaLogue/reference
   article: https://uconn-scs.github.io/msDiaLogue/articles

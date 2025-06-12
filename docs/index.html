@@ -12,9 +12,9 @@
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="msDiaLogue">
-<meta name="description" content="Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data">
-<meta property="og:description" content="Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data">
-<meta property="og:image" content="https://github.com/uconn-scs/msDiaLogue/blob/main/man/figure/logo.png">
+<meta name="description" content="Analysis and Visuals for Data-Independent Aquisition Mass Spectrometry Data">
+<meta property="og:description" content="Analysis and Visuals for Data-Independent Aquisition Mass Spectrometry Data">
+<meta property="og:image" content="https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figure/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -35,13 +35,28 @@
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="articles/usage_template.html">A Usage Template for the R Package msDiaLogue</a></li>
-    <li><a class="dropdown-item" href="articles/scaffold.html">Instructions for Exporting Data from Scaffold for Use in msDiaLogue Analysis</a></li>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-modules" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><span class="fa fa-solid fa-hand-spock"></span> Modules</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-modules">
+<li><a class="dropdown-item" href="articles/preprocessing.html">Preprocessing</a></li>
+    <li><a class="dropdown-item" href="articles/transformation.html">Transformation</a></li>
+    <li><a class="dropdown-item" href="articles/filtering.html">Filtering</a></li>
+    <li><a class="dropdown-item" href="articles/normalization.html">Normalization</a></li>
+    <li><a class="dropdown-item" href="articles/imputation.html">Imputation</a></li>
+    <li><a class="dropdown-item" href="articles/summarization.html">Summarization</a></li>
+    <li><a class="dropdown-item" href="articles/analysis.html">Analysis</a></li>
+    <li><a class="dropdown-item" href="articles/visualization.html">Visualization</a></li>
+    <li><a class="dropdown-item" href="articles/other.html">Other Useful</a></li>
+  </ul>
+</li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><span class="fa fa-solid fa-book"></span> Tutorials</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials">
+<li><a class="dropdown-item" href="articles/scaffold.html">Scaffold Export for msDiaLogue</a></li>
     <li><a class="dropdown-item" href="articles/cust_vis.html">Customizing msDiaLogue Visualizations</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="articles/faq.html"><span class="fa fa-solid fa-clipboard-question"></span> FAQ</a></li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -60,11 +75,7 @@
 </h1></div>
 <!-- badges: start -->
 
-<div class="section level2">
-<h2 id="code-building-for-workflow-package">Code building for workflow package<a class="anchor" aria-label="anchor" href="#code-building-for-workflow-package"></a>
-</h2>
-<p>This repository will be used to build a customized <a href="https://uconn.edu/" class="external-link">UConn</a> <a href="https://proteomics.uconn.edu/" class="external-link">PMF</a>-<a href="https://statsconsulting.uconn.edu/" class="external-link">SCS</a> workflow for Data-Independent Acquisition (DIA) proteomics data. The code will be expanded to include more options for users, and more detailed explanations of the steps in the analysis process.</p>
-</div>
+<p><strong>msDiaLogue</strong> is a customized, modular, and flexible workflow developed jointly by <a href="https://uconn.edu/" class="external-link">UConn</a>’s <a href="https://proteomics.uconn.edu/" class="external-link">PMF</a> and <a href="https://statsconsulting.uconn.edu/" class="external-link">SCS</a> for data-independent acquisition (DIA) mass spectrometry (MS)-based proteomics data.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -74,39 +85,19 @@
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"uconn-scs/msDiaLogue"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="main-areas-include">Main areas include<a class="anchor" aria-label="anchor" href="#main-areas-include"></a>
+<h2 id="modular-structure">Modular Structure<a class="anchor" aria-label="anchor" href="#modular-structure"></a>
 </h2>
+<p><img src="https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figure/workflow.png"></p>
 <ul>
-<li>Data preprocessing: getting data from Spectronaut</li>
-<li>Data transformation: options for transforming abundance data</li>
-<li>Data filtering: providing options to filter out data based on preset levels</li>
-<li>Data normalization: normalization procedures</li>
-<li>Data imputation: missing data procedures</li>
-<li>Data summary: calculating and presenting numerical summaries in tabular form</li>
-<li>Differential Abundance Analysis: statistical tools for DIA data analysis</li>
-<li>Data visualization: providing clean visuals to aid in data analysis decisions</li>
+<li>Preprocessing: Getting data from Spectronaut.</li>
+<li>Transformation: Options for transforming abundance data.</li>
+<li>Normalization: Normalization procedures.</li>
+<li>Imputation: Missing data procedures.</li>
+<li>Summarization: Calculating and presenting numerical summaries in tabular form.</li>
+<li>Analysis: Statistical tools for DIA data analysis.</li>
+<li>Filtering: Providing options to filter out data based on preset levels.</li>
+<li>Visualization: Providing clean visuals to aid in data analysis decisions.</li>
 </ul>
-</div>
-<div class="section level2">
-<h2 id="general-problems-during-installation">General problems during installation<a class="anchor" aria-label="anchor" href="#general-problems-during-installation"></a>
-</h2>
-<ol style="list-style-type: decimal">
-<li><code>WARNING: Rtools is required to build R packages but is not currently installed.</code></li>
-</ol>
-<p>For Windows, the <a href="https://cran.r-project.org/bin/windows/Rtools/" class="external-link">RTools</a> is required to build this package.</p>
-<ol start="2" style="list-style-type: decimal">
-<li><code>sh: /opt/gfortran/bin/gfortran: No such file or directory</code></li>
-</ol>
-<p>The <a href="https://fortran-lang.org/learn/os_setup/install_gfortran/" class="external-link">GFortran</a> compiler is required to build this package.</p>
-<ol start="3" style="list-style-type: decimal">
-<li><code>dependency 'impute' is not available</code></li>
-</ol>
-<p>There are dependent packages—<a href="https://bioconductor.org/packages/impute/" class="external-link">impute</a>, <a href="https://bioconductor.org/packages/limma/" class="external-link">limma</a>, and <a href="https://bioconductor.org/packages/pcaMethods/" class="external-link">pcaMethods</a>—that are available via Bioconductor rather than CRAN. If you get an error message about these packages, simply install them using:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"impute"</span><span class="op">)</span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"limma"</span><span class="op">)</span></span>
-<span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://bioconductor.github.io/BiocManager/reference/install.html" class="external-link">install</a></span><span class="op">(</span><span class="st">"pcaMethods"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -138,10 +129,10 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="http://shiying-xiao.com" class="external-link">Shiying Xiao</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-8846-3258" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<a href="http://shiying-xiao.com" class="external-link">Shiying Xiao</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-8846-3258" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 <li>
-<a href="https://statsconsulting.uconn.edu/the-consulting-team" class="external-link">Timothy Moore</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-9576-0517" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Charles Watt <br><small class="roles"> Author, contributor </small>  </li>
+<a href="https://statsconsulting.uconn.edu/the-consulting-team" class="external-link">Timothy Moore</a> <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-9576-0517" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
+<li>Charles Watt <br><small class="roles"> Author, contributor </small>   </li>
 </ul>
 </div>
 
@@ -156,7 +147,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer>

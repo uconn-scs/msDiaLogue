@@ -8,11 +8,11 @@ author:
     $^1$Department of Statistics, UConn \
     $^2$Proteomics and Metabolomics Facility, UConn \
     $^3$Statistical Consulting Services, UConn
-date: "`r Sys.Date()`"
+date: "`r format(file.info('usage_template.Rmd')$mtime, '%Y-%m-%d')`"
 bibliography:
   - ../inst/REFERENCES.bib
 vignette: >
-  %\VignetteIndexEntry{A Usage Template}
+  %\VignetteIndexEntry{usage_template}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

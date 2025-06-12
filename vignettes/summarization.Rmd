@@ -1,0 +1,94 @@
+---
+title: "Summarization"
+output: rmarkdown::html_vignette
+author: 
+  - |
+    Shiying Xiao$^1$, Charles Watt$^1$, Jennifer C. Liddle$^2$, Jeremy L. Balsbaugh$^2$, Timothy E. Moore$^3$
+  - |
+    $^1$Department of Statistics, UConn \
+    $^2$Proteomics and Metabolomics Facility, UConn \
+    $^3$Statistical Consulting Services, UConn
+date: "`r format(file.info('summarization.Rmd')$mtime, '%Y-%m-%d')`"
+bibliography:
+  - ../inst/REFERENCES.bib
+vignette: >
+  %\VignetteIndexEntry{summarization}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center")
+```
+
+
+## Preliminary
+
+
+```{r warning=FALSE, message=FALSE, results='hide', fig.show='hide'}
+## load R package
+library(msDiaLogue)
+## preprocessing
+fileName <- "../tests/testData/Toy_Spectronaut_Data.csv"
+dataSet <- preprocessing(fileName,
+                         filterNaN = TRUE, filterUnique = 2,
+                         replaceBlank = TRUE, saveRm = TRUE)
+## transformation
+dataTran <- transform(dataSet, logFold = 2)
+## normalization
+dataNorm <- normalize(dataTran, normalizeType = "quant")
+## imputation
+dataImput <- impute.min_local(dataNorm, reportImputing = FALSE,
+                              reqPercentPresent = 0.51)
+## filtering
+dataImput <- filterNA(dataImput, saveRm = TRUE)
+```
+
+
+## Example
+
+
+```{r}
+dataSumm <- summarize(dataImput, saveSumm = TRUE)
+```
+
+
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(dataSumm)
+```
+</div>
+
+
+## Details
+
+
+This summarization provides a table of values for each protein in the final
+dataset that include the final processed abundances and fold changes in each
+condition, and that protein's statistical relation to the global dataset in
+terms of its mean, median, standard deviation, and other parameters.
+
+
+The column "Stat" in the generated result includes the following statistics:
+
++ n: Number.
++ mean: Mean.
++ sd: Standard deviation.
++ median: Median.
++ trimmed: Trimmed mean with a trim of 0.1.
++ mad: Median absolute deviation (from the median).
++ min: Minimum.
++ max: Maximum.
++ range: The difference between the maximum and minimum value.
++ skew: Skewness.
++ kurtosis: Kurtosis.
++ se: Standard error.
+
+
+<div class="nav-button left-button">
+<a href="imputation.html">← Previous</a>
+</div>
+<div class="nav-button right-button">
+<a href="analysis.html">Next →</a>
+</div>
+

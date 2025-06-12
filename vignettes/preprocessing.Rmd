@@ -1,0 +1,180 @@
+---
+title: "Preprocessing"
+output: rmarkdown::html_vignette
+author: 
+  - |
+    Shiying Xiao$^1$, Charles Watt$^1$, Jennifer C. Liddle$^2$, Jeremy L. Balsbaugh$^2$, Timothy E. Moore$^3$
+  - |
+    $^1$Department of Statistics, UConn \
+    $^2$Proteomics and Metabolomics Facility, UConn \
+    $^3$Statistical Consulting Services, UConn
+date: "`r format(file.info('preprocessing.Rmd')$mtime, '%Y-%m-%d')`"
+bibliography:
+  - ../inst/REFERENCES.bib
+vignette: >
+  %\VignetteIndexEntry{preprocessing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center")
+```
+
+
+## Preliminary
+
+
+```{r warning=FALSE, message=FALSE}
+## load R package
+library(msDiaLogue)
+```
+
+
+## Example
+
+
+```{r eval=FALSE}
+## if the raw data is in a .csv file
+fileName <- "../tests/testData/Toy_Spectronaut_Data.csv"
+dataSet <- preprocessing(fileName,
+                         filterNaN = TRUE, filterUnique = 2,
+                         replaceBlank = TRUE, saveRm = TRUE)
+```
+
+
+<div class="note">
+**Note:** `preprocessing()` does not perform a transformation on your data. You
+still need to use the function `transform()`. </div>
+
+
+```{r}
+## if the raw data is in an .Rdata file
+load("../tests/testData/Toy_Spectronaut_Data.RData")
+dataSet <- preprocessing(dataSet = Toy_Spectronaut_Data,
+                         filterNaN = TRUE, filterUnique = 2,
+                         replaceBlank = TRUE, saveRm = TRUE)
+```
+
+
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(dataSet, align = "l")
+```
+</div>
+
+
+## Details
+
+
+The function `preprocessing()` takes a `.csv` file of summarized protein
+abundances, exported from **Spectronaut**. The most important columns that need
+to be included in this file are: `R.Condition`, `R.Replicate`,
+`PG.ProteinAccessions`, `PG.ProteinNames`, `PG.NrOfStrippedSequencesIdentified`,
+and `PG.Quantity`. This function will reformat the data and provide
+functionality for some initial filtering (based on the number of unique peptides).
+The steps below describe the functions that happen in the Preprocessing code.
+
+
+**1\.** Loads the raw data
+
+
++ If the raw data is in a .csv file
+[Toy_Spectronaut_Data.csv](https://github.com/uconn-scs/msDiaLogue/blob/main/tests/testData/Toy_Spectronaut_Data.csv),
+specify the `fileName` to read the raw data file into **R**.
+
+
++ If the raw data is stored as an .RData file
+[Toy_Spectronaut_Data.RData](https://github.com/uconn-scs/msDiaLogue/blob/main/tests/testData/Toy_Spectronaut_Data.RData),
+first load the data file directly, then specify the `dataSet` in the function.
+
+
+**2\.** Filters out identified proteins that exhibit "NaN" quantitative values
+
+
+NaN, which stands for 'Not a Number,' can be found in the PG.Quantity column for
+proteins that were identified by MS and MS/MS evidence in the raw data, but all
+peptides from that protein lack an associated integrated peak area or intensity.
+This usually occurs in low abundance peptides that exhibit intensities close to
+the limit of detection resulting in poor signal-to-noise (S/N) and/or when there
+is interference from other co-eluting peptide ions with very similar or
+identical m/z values that lead to difficulty in parsing out individual intensity
+profiles.
+
+
+**3\.** Applies a unique peptides per protein filter
+
+
+General practice in the proteomics field is to filter out proteins which were
+identified on the basis of a single peptide. Because approximately 1\% of all
+identified peptides are false positive matches, it's more likely that 1 peptide
+was incorrectly identified and that protein ID is incorrect than that, for
+example, 5 peptides from the same protein were all incorrectly identified and
+that protein ID is incorrect. We recommend focusing on proteins with 2 or more
+peptide identifications, as these will be higher confidence. If you have a
+protein of interest with only 1 peptide identified, contact [PMF faculty](https://proteomics.uconn.edu/about-us/)
+and we can help you evaluate the evidence from the raw data to determine
+believability.
+
+
+**4\.** Adds accession numbers to identified proteins without informative names
+
+
+**Spectronaut** reports contain 4 different columns of identifying information:
+
+
++ `PG.Genes`, which is the gene name (e.g. CDK1).
++ `PG.ProteinAccessions`, which is the UniProt identifier number for a unique
+entry in the online database (e.g. P06493).
++ `PG.ProteinDescriptions`, which is the protein name as provided on UniProt
+(e.g. cyclin-dependent kinase 1).
++ `PG.ProteinNames`, which is a concatenation of an identifier and the species
+(e.g. CDK1_HUMAN).
+
+
+Every entry in UniProt will have an accession number, but may not have all of
+the other identifiers, due to incomplete annotation.  Because Uniprot includes
+entries for fragments of proteins and some proteins entries are redundant, a
+peptide can match to multiple entries for the same protein, which generates
+multiple possible identifiers in **Spectronaut**. Further, the `ProteinNames`
+entry in **Spectronaut** can switch formats: the preference is accession number
+and species, but can also be gene name and species instead.
+
+
+This option tells **msDiaLogue** to substitute the accession number for an
+identifier if it tries to pull an identifier from a column with no information.
+
+
+<div class="note">
+**Note:** Not all proteins can be identified unambiguously. In many cases, the
+identified peptides can be found in multiple protein sequences, which yields a
+protein group or protein cluster rather than a single protein identification.
+When this happens, the accession numbers for all potential matches are
+concatenated into one string, separated by periods. When you see long strings of
+multiple identifiers later in your data processing, this is why. **Spectronaut**
+sorts these alphanumerically, so you should not assume that the first protein in
+the list is most likely to be correct (other search algorithms such as MaxQuant,
+which is used in PMF for most Scaffold-based results, do rank protein
+cluster IDs by likelihood of correctness). </div>
+
+
+**5\.** Saves a document to your working directory with all filtered out data,
+if desired
+
+
+If `saveRm = TRUE`, the data removed in step 2 (*preprocess_Filtered_Out_NaN.csv*)
+and step 3 (*preprocess_Filtered_Out_Unique.csv*) will be saved in the current
+working directory.
+
+
+As part of the `preprocessing()`, a histogram of $log_2$-transformed protein
+abundances is provided. This is a helpful way to confirm that the data have been
+read in correctly, and there are no issues with the numerical values of the
+protein abundances. Ideally, this histogram will appear fairly symmetrical
+(bell-shaped) without too much skew towards smaller or larger values.
+
+
+<div class="nav-button right-button">
+<a href="transformation.html">Next →</a>
+</div>
+

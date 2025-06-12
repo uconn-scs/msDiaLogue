@@ -1,0 +1,46 @@
+"PG.ProteinNames","PG.Genes","PG.ProteinAccessions","PG.ProteinDescriptions","100pmol","200pmol","50pmol"
+"A0A7I2PK40_HUMAN","AHRR","A0A7I2PK40","Aryl hydrocarbon receptor repressor",TRUE,TRUE,FALSE
+"A0A7P0T808_HUMAN","PIP5K1C","A0A7P0T808","Phosphatidylinositol 4-phosphate 5-kinase type-1 gamma",TRUE,TRUE,TRUE
+"A0A8I5KU53_HUMAN","MYLK","A0A8I5KU53","Myosin light chain kinase, smooth muscle;Myosin light chain kinase, smooth muscle",TRUE,TRUE,TRUE
+"ACAD8_HUMAN","ACAD8","Q9UKU7","Isobutyryl-CoA dehydrogenase, mitochondrial",TRUE,TRUE,TRUE
+"ADH1_YEAST","ADH1","P00330","Alcohol dehydrogenase 1",TRUE,TRUE,TRUE
+"ALBU_BOVIN","ALB","CON__P02769","Bovine serum albumin",TRUE,TRUE,TRUE
+"ALKB7_HUMAN","ALKBH7","Q9BT30","Alpha-ketoglutarate-dependent dioxygenase alkB homolog 7, mitochondrial",TRUE,TRUE,TRUE
+"BGAL_ECOLI","lacZ","P00722","Beta-galactosidase",TRUE,TRUE,TRUE
+"BGAL_HUMAN","GLB1","P16278","Beta-galactosidase",TRUE,TRUE,TRUE
+"C9JEV0_HUMAN","AZGP1","C9JEV0","Zinc-alpha-2-glycoprotein",TRUE,TRUE,TRUE
+"C9JNU9_HUMAN","USP4","C9JNU9","Ubiquitin carboxyl-terminal hydrolase 4",TRUE,TRUE,TRUE
+"CASPE_HUMAN","CASP14","P31944","Caspase-14",TRUE,TRUE,TRUE
+"CC85C_HUMAN","CCDC85C","A6NKD9","Coiled-coil domain-containing protein 85C",TRUE,TRUE,TRUE
+"CO6_HUMAN","C6","P13671","Complement component C6",TRUE,TRUE,TRUE
+"CYC_BOVIN","CYCS","CON__P62894","Cytochrome c",TRUE,TRUE,TRUE
+"CYTA_HUMAN","CSTA","P01040","Cystatin-A",TRUE,TRUE,TRUE
+"DALD3_HUMAN","DALRD3","Q5D0E6","DALR anticodon-binding domain-containing protein 3",TRUE,TRUE,TRUE
+"DCAF6_HUMAN","DCAF6","Q58WW2","DDB1- and CUL4-associated factor 6",TRUE,TRUE,TRUE
+"F8W0H2_HUMAN","BRDT","F8W0H2","Bromodomain testis-specific protein (Fragment)",TRUE,TRUE,TRUE
+"H0Y5R1_HUMAN","BMAL2","H0Y5R1","Basic helix-loop-helix ARNT-like 2 (Fragment);Basic helix-loop-helix ARNT-like protein 2",TRUE,TRUE,FALSE
+"H0Y7V7_HUMAN","DEF6","H0Y7V7","Differentially-expressed in FDCP 6 homolog;Differentially expressed in FDCP 6 homolog",TRUE,TRUE,TRUE
+"H0YD14_HUMAN","MYOF","H0YD14","Myoferlin (Fragment)",TRUE,TRUE,TRUE
+"H3BUF6_HUMAN","ATXN2L","H3BUF6","Ataxin-2-like protein",TRUE,TRUE,TRUE
+"H7C1W4_HUMAN",";TATDN2","H7C1W4","Deoxyribonuclease TATDN2 (Fragment);Putative deoxyribonuclease TATDN2",TRUE,TRUE,TRUE
+"H7C3M7_HUMAN","FARP2","H7C3M7","FERM, ARHGEF and pleckstrin domain-containing protein 2 (Fragment)",TRUE,TRUE,TRUE
+"HGNAT_HUMAN","HGSNAT","Q68CP4","Heparan-alpha-glucosaminide N-acetyltransferase",TRUE,TRUE,TRUE
+"KPCB_HUMAN","PRKCB","P05771","Protein kinase C beta type",TRUE,TRUE,TRUE
+"KRT16_MOUSE","KRT16","CON__Q3ZAW8","Keratin intermediate filament 16a;Keratin, type I cytoskeletal 16",TRUE,TRUE,TRUE
+"LIPL_HUMAN","LPL","P06858","Lipoprotein lipase",TRUE,TRUE,TRUE
+"LRIG2_HUMAN","LRIG2","O94898","Leucine-rich repeats and immunoglobulin-like domains protein 2",TRUE,TRUE,TRUE
+"LYSC_CHICK","LYZ","P00698","Lysozyme C",TRUE,TRUE,TRUE
+"NBDY_HUMAN","NBDY","A0A0U1RRE5","Negative regulator of P-body association",TRUE,TRUE,FALSE
+"NUD4B_HUMAN","NUDT4B;NUDT4","A0A024RBG1","Diphosphoinositol polyphosphate phosphohydrolase NUDT4B;Diphosphoinositol polyphosphate phosphohydrolase 2",TRUE,TRUE,TRUE
+"PIP_HUMAN","PIP","P12273","Prolactin-inducible protein",TRUE,TRUE,TRUE
+"POLK_HUMAN","POLK","Q9UBT6","DNA polymerase kappa",TRUE,TRUE,TRUE
+"RAB3D_HUMAN","RAB3D","O95716","Ras-related protein Rab-3D",TRUE,TRUE,TRUE
+"RFFL_HUMAN","RFFL","Q8WZ73","E3 ubiquitin-protein ligase rififylin",TRUE,TRUE,TRUE
+"RN185_HUMAN","RNF185","Q96GF1","E3 ubiquitin-protein ligase RNF185",TRUE,TRUE,TRUE
+"SYTC_HUMAN","TARS1","P26639","Threonine--tRNA ligase 1, cytoplasmic",TRUE,TRUE,TRUE
+"TCPR2_HUMAN","TECPR2","O15040","Tectonin beta-propeller repeat-containing protein 2",TRUE,TRUE,TRUE
+"TLR3_HUMAN","TLR3","O15455","Toll-like receptor 3",TRUE,TRUE,TRUE
+"TMC5B_HUMAN","TMCO5B","A8MYB1","Transmembrane and coiled-coil domain-containing protein 5B",TRUE,TRUE,TRUE
+"TRFE_BOVIN","TF","CON__Q0IIK2","Serotransferrin (UP merge to Q29443)",TRUE,TRUE,TRUE
+"ZN462_HUMAN","ZNF462","Q96JM2","Zinc finger protein 462",TRUE,TRUE,TRUE
+"ZN840_HUMAN","ZNF840P","A6NDX5","Putative zinc finger protein 840",TRUE,TRUE,TRUE

@@ -1,0 +1,132 @@
+---
+title: "Normalization"
+output: rmarkdown::html_vignette
+author: 
+  - |
+    Shiying Xiao$^1$, Charles Watt$^1$, Jennifer C. Liddle$^2$, Jeremy L. Balsbaugh$^2$, Timothy E. Moore$^3$
+  - |
+    $^1$Department of Statistics, UConn \
+    $^2$Proteomics and Metabolomics Facility, UConn \
+    $^3$Statistical Consulting Services, UConn
+date: "`r format(file.info('normalization.Rmd')$mtime, '%Y-%m-%d')`"
+bibliography:
+  - ../inst/REFERENCES.bib
+vignette: >
+  %\VignetteIndexEntry{normalization}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center")
+```
+
+
+## Preliminary
+
+
+```{r warning=FALSE, message=FALSE, results='hide', fig.show='hide'}
+## load R package
+library(msDiaLogue)
+## preprocessing
+fileName <- "../tests/testData/Toy_Spectronaut_Data.csv"
+dataSet <- preprocessing(fileName,
+                         filterNaN = TRUE, filterUnique = 2,
+                         replaceBlank = TRUE, saveRm = TRUE)
+## transformation
+dataTran <- transform(dataSet, logFold = 2)
+```
+
+
+## Example
+
+
+```{r}
+dataNorm <- normalize(dataTran, normalizeType = "quant")
+```
+
+
+The message "Warning: Removed 55 rows containing non-finite values" indicates
+the presence of 55 NA (Not Available) values in the data. These NA values arise
+when a protein was not identified in a particular sample or condition and are
+automatically excluded when generating the boxplot but retained in the actual
+dataset.
+
+
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(dataNorm)
+```
+</div>
+
+
+## Details
+
+
+Normalization is designed to address systematic biases in the data. Biases can
+arise from inadvertent sample grouping during generation or preparation, from
+variations in instrument performance during acquisition, analysis of different
+peptide amounts across experiments, or other reasons. These factors can
+artificially mask or enhance actual biological changes. 
+
+
+Many normalization methods have been developed for large datasets, each with its
+own strengths and weaknesses. The following factors should be considered when
+choosing a normalization method:
+
+
+a) Experiment-Specific Normalization: \
+Most experiments run with [UConn PMF](https://proteomics.uconn.edu) are
+normalized by injection amount at the time of analysis to facilitate comparison.
+"Amount" is measured by UV absorbance at 280 nm, a standard method for generic
+protein quantification.
+
+
+b) Assumption of Non-Changing Species: \
+Most biological experiments implicitly assume that the majority of measured
+species in an experiment will not change across conditions. This assumption is
+more robust the more measurements your experiment has (e.g. several thousand
+proteins). It may not be true at all for small datasets (tens of proteins).
+
+
+If you are analyzing a batch of samples with very different complexities (e.g.
+a set of IPs where the control samples have tens of proteins and the
+experimental samples have hundreds of proteins), you should not normalize all of
+these together, but break them up into subsets of similar complexity.
+
+
+By default, normalization is performed across samples, adjusting protein
+expression levels within each sample relative to the other samples.
+So far, this package provides eight normalization methods for use:
+
+
+1. "auto": Auto scaling (mean centering and then dividing by the standard
+deviation of each variable) [@jackson1991user].
+
+2. "level": Level scaling (mean centering and then dividing by the mean of each variable).
+
+3. "mean": Mean centering.
+
+4. "median": Median centering.
+
+5. "pareto": Pareto scaling (mean centering and then dividing by the square root
+of the standard deviation of each variable).
+
+6. "quant": Quantile normalization [@bolstad2003comparison].
+
+7. "range": Range scaling (mean centering and then dividing by the range of each
+variable).
+
+8. "vast": Variable stability (VAST) scaling [@keun2003improved].
+
+
+## Reference {-}
+
+
+<div class="nav-button left-button">
+<a href="filtering.html">← Previous</a>
+</div>
+<div class="nav-button right-button">
+<a href="imputation.html">Next →</a>
+</div>
+

@@ -1,0 +1,181 @@
+---
+title: "Imputation"
+output: rmarkdown::html_vignette
+author: 
+  - |
+    Shiying Xiao$^1$, Charles Watt$^1$, Jennifer C. Liddle$^2$, Jeremy L. Balsbaugh$^2$, Timothy E. Moore$^3$
+  - |
+    $^1$Department of Statistics, UConn \
+    $^2$Proteomics and Metabolomics Facility, UConn \
+    $^3$Statistical Consulting Services, UConn
+date: "`r format(file.info('imputation.Rmd')$mtime, '%Y-%m-%d')`"
+bibliography:
+  - ../inst/REFERENCES.bib
+vignette: >
+  %\VignetteIndexEntry{imputation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center")
+```
+
+
+## Preliminary
+
+
+```{r warning=FALSE, message=FALSE, results='hide', fig.show='hide'}
+## load R package
+library(msDiaLogue)
+## preprocessing
+fileName <- "../tests/testData/Toy_Spectronaut_Data.csv"
+dataSet <- preprocessing(fileName,
+                         filterNaN = TRUE, filterUnique = 2,
+                         replaceBlank = TRUE, saveRm = TRUE)
+## transformation
+dataTran <- transform(dataSet, logFold = 2)
+## normalization
+dataNorm <- normalize(dataTran, normalizeType = "quant")
+```
+
+
+## Examples
+
+
+For example, to impute the NA value of `dataNorm` using `impute.min_local()`,
+set the required percentage of values that must be present in a given protein by
+condition combination for values to be imputed to 51\%.
+
+
+<div class="note">
+**Note:** There is no rule in the field of proteomics for filtering based on
+percentage of missingness, similar to there being no rule for the number of
+replicates required to draw a conclusion. However, reproducible observations
+make conclusions more credible. Setting the `reqPercentPresent` to 0.51 requires
+that any protein be observed in a majority of the replicates by condition in
+order to be considered. For 3 replicates, this would require 2 measurements to
+allow imputation of the 3rd value. If only 1 measurement is seen, the other
+values will remain NA, and will be filtered out in a subsequent step.  </div>
+
+
+```{r}
+dataImput <- impute.min_local(dataNorm, reportImputing = FALSE,
+                              reqPercentPresent = 0.51)
+```
+
+
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(dataImput)
+```
+</div>
+
+
+If `reportImputing = TRUE`, the returned result structure will be altered to a
+list, adding a shadow data frame with imputed data labels, where 1 indicates the
+corresponding entries have been imputed, and 0 indicates otherwise.
+
+
+After the above imputation, any entries that did not pass the percent present
+threshold will still have NA values and will need to be filtered out.
+
+
+```{r}
+dataImput <- filterNA(dataImput, saveRm = TRUE)
+```
+
+
+where `saveRm = TRUE` indicates that the filtered data will be saved as a .csv
+file named *filtered_NA_data.csv* in the current working directory.
+
+
+The `dataImput` is as follows:
+
+
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(dataImput)
+```
+</div>
+
+
+## Details
+
+
+The two primary MS/MS acquisition types implemented in large scale MS-based
+proteomics have unique advantages and disadvantages. Traditional Data-Dependent
+Acquisition (DDA) methods favor specificity in MS/MS sampling over comprehensive
+proteome coverage. Small peptide isolation windows (<3 m/z) result in MS/MS
+spectra that contain fragmentation data from ideally only one peptide. This
+specificity promotes clear peptide identifications but comes at the expense of
+added scan time. In DDA experiments, the number of peptides that can be selected
+for MS/MS is limited by instrument scan speeds and is therefore prioritized by
+highest peptide abundance.  Low abundance peptides are sampled less frequently
+for MS/MS and this can result in variable peptide coverage and many missing
+protein data across large sample datasets.
+
+
+Data-Independent Acquisition (DIA) methods promote comprehensive peptide
+coverage over specificity by sampling many peptides for MS/MS simultaneously.
+Sequential and large mass isolation windows (4-50 m/z) are used to isolate large
+numbers of peptides at once for concurrent MS/MS. This produces complicated
+fragmentation spectra, but these spectra contain data on every observable
+peptide.  A major disadvantage with this type of acquisition is that DIA MS/MS
+spectra are incredibly complex and difficult to deconvolve.  Powerful and
+relatively new software programs like Spectronaut are capable of successfully
+parsing out which fragment ions came from each co-fragmented peptide using
+custom libraries, machine learning algorithms, and precisely determined
+retention times or measured ion mobility data. Because all observable ions are
+sampled for MS/MS, DIA reduces missingness substantially compared to DDA, though
+not entirely.
+
+
+Various imputation methods have been developed to address the missing-value
+issue and assign a reasonable guess of quantitative value to proteins with
+missing values. So far, this package provides 10 imputation methods for use:
+
+
+1. `impute.min_local()`: Replaces missing values with the lowest measured value
+for that protein in that condition.
+
+2. `impute.min_global()`: Replaces missing values with the lowest measured value
+from any protein found within the entire dataset.
+
+3. `impute.knn()`: Replaces missing values using the k-nearest neighbors
+algorithm [@troyanskaya2001missing].
+
+4. `impute.knn_seq()`: Replaces missing values using the sequential k-nearest
+neighbors algorithm [@kim2004reuse].
+
+5. `impute.knn_trunc()`: Replaces missing values using the truncated k-nearest
+neighbors algorithm [@shah2017distribution].
+
+6. `impute.nuc_norm()`: Replaces missing values using the nuclear-norm
+regularization [@hastie2015matrix].
+
+7. `impute.mice_cart()`: Replaces missing values using the classification and
+regression trees [@breiman1984classification; @doove2014recursive; @van2018flexible].
+
+8. `impute.mice_norm()`: Replaces missing values using the Bayesian linear
+regression [@rubin1987multiple; @schafer1997analysis; @van2011mice].
+
+9. `impute.pca_bayes()`: Replaces missing values using the Bayesian principal
+components analysis [@oba2003bayesian].
+
+10. `impute.pca_prob()`: Replaces missing values using the probabilistic
+principal components analysis [@stacklies2007pcamethods].
+
+Additional methods will be added later.
+
+
+## Reference {-}
+
+
+<div class="nav-button left-button">
+<a href="normalization.html">← Previous</a>
+</div>
+<div class="nav-button right-button">
+<a href="summarization.html">Next →</a>
+</div>
+

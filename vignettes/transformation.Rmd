@@ -1,0 +1,71 @@
+---
+title: "Transformation"
+output: rmarkdown::html_vignette
+author: 
+  - |
+    Shiying Xiao$^1$, Charles Watt$^1$, Jennifer C. Liddle$^2$, Jeremy L. Balsbaugh$^2$, Timothy E. Moore$^3$
+  - |
+    $^1$Department of Statistics, UConn \
+    $^2$Proteomics and Metabolomics Facility, UConn \
+    $^3$Statistical Consulting Services, UConn
+date: "`r format(file.info('transformation.Rmd')$mtime, '%Y-%m-%d')`"
+bibliography:
+  - ../inst/REFERENCES.bib
+vignette: >
+  %\VignetteIndexEntry{transformation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center")
+```
+
+
+## Preliminary
+
+
+```{r warning=FALSE, message=FALSE, results='hide', fig.show='hide'}
+## load R package
+library(msDiaLogue)
+## preprocessing
+fileName <- "../tests/testData/Toy_Spectronaut_Data.csv"
+dataSet <- preprocessing(fileName,
+                         filterNaN = TRUE, filterUnique = 2,
+                         replaceBlank = TRUE, saveRm = TRUE)
+```
+
+
+## Example
+
+
+```{r}
+dataTran <- transform(dataSet, logFold = 2)
+```
+
+
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(dataTran)
+```
+</div>
+
+
+## Details
+
+Raw mass spectrometry intensity measurements are often unsuitable for direct
+statistical modeling because the shape of the data is usually not symmetrical
+and the variance is not consistent across the range of intensities. Most
+proteomic workflows will convert these raw values with a log$_2$ transformation,
+which both reshapes the data into a more symmetrical distribution, making it
+easier to interpret mean-based fold changes, and also stabilizes the variance
+across the intensity range (i.e. reduces heteroscedasticity).
+
+
+<div class="nav-button left-button">
+<a href="preprocessing.html">← Previous</a>
+</div>
+<div class="nav-button right-button">
+<a href="filtering.html">Next →</a>
+</div>
+

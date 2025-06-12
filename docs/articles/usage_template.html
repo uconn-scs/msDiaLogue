@@ -31,14 +31,29 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="active nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/usage_template.html">A Usage Template for the R Package msDiaLogue</a></li>
-    <li><a class="dropdown-item" href="../articles/scaffold.html">Instructions for Exporting Data from Scaffold for Use in msDiaLogue Analysis</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-modules" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><span class="fa fa-solid fa-hand-spock"></span> Modules</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-modules">
+<li><a class="dropdown-item" href="../articles/preprocessing.html">Preprocessing</a></li>
+    <li><a class="dropdown-item" href="../articles/transformation.html">Transformation</a></li>
+    <li><a class="dropdown-item" href="../articles/filtering.html">Filtering</a></li>
+    <li><a class="dropdown-item" href="../articles/normalization.html">Normalization</a></li>
+    <li><a class="dropdown-item" href="../articles/imputation.html">Imputation</a></li>
+    <li><a class="dropdown-item" href="../articles/summarization.html">Summarization</a></li>
+    <li><a class="dropdown-item" href="../articles/analysis.html">Analysis</a></li>
+    <li><a class="dropdown-item" href="../articles/visualization.html">Visualization</a></li>
+    <li><a class="dropdown-item" href="../articles/other.html">Other Useful</a></li>
+  </ul>
+</li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-tutorials" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true"><span class="fa fa-solid fa-book"></span> Tutorials</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-tutorials">
+<li><a class="dropdown-item" href="../articles/scaffold.html">Scaffold Export for msDiaLogue</a></li>
     <li><a class="dropdown-item" href="../articles/cust_vis.html">Customizing msDiaLogue Visualizations</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="../articles/faq.html"><span class="fa fa-solid fa-clipboard-question"></span> FAQ</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -76,7 +91,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-04-27</h4>
+            <h4 data-toc-skip class="date">2025-06-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/usage_template.Rmd" class="external-link"><code>vignettes/usage_template.Rmd</code></a></small>
       <div class="d-none name"><code>usage_template.Rmd</code></div>
@@ -10781,7 +10796,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">0.2575418</td>
 <td align="right">-0.0874986</td>
 <td align="right">0.2653179</td>
-<td align="right">-0.0429097</td>
+<td align="right">-0.0443054</td>
 </tr>
 <tr class="even">
 <td align="left">A0A7P0T808_HUMAN</td>
@@ -10796,7 +10811,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.0110135</td>
 <td align="right">-0.1744425</td>
 <td align="right">0.0072387</td>
-<td align="right">-0.1217506</td>
+<td align="right">-0.1197070</td>
 </tr>
 <tr class="odd">
 <td align="left">A0A8I5KU53_HUMAN</td>
@@ -10811,7 +10826,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.0814145</td>
 <td align="right">-0.0598182</td>
 <td align="right">-0.2562817</td>
-<td align="right">0.1205890</td>
+<td align="right">0.1123945</td>
 </tr>
 <tr class="even">
 <td align="left">ZN840_HUMAN</td>
@@ -10826,7 +10841,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.0575034</td>
 <td align="right">0.2849940</td>
 <td align="right">0.1804638</td>
-<td align="right">0.1408170</td>
+<td align="right">0.1344338</td>
 </tr>
 <tr class="odd">
 <td align="left">CC85C_HUMAN</td>
@@ -10841,7 +10856,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.0636165</td>
 <td align="right">0.0124279</td>
 <td align="right">-0.0867440</td>
-<td align="right">0.1434867</td>
+<td align="right">0.1428931</td>
 </tr>
 <tr class="even">
 <td align="left">C9JEV0_HUMAN</td>
@@ -10856,7 +10871,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">0.1698661</td>
 <td align="right">-0.0474144</td>
 <td align="right">0.0727410</td>
-<td align="right">0.1155364</td>
+<td align="right">0.1134314</td>
 </tr>
 <tr class="odd">
 <td align="left">C9JNU9_HUMAN</td>
@@ -10871,7 +10886,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.1766131</td>
 <td align="right">-0.1663948</td>
 <td align="right">0.3947327</td>
-<td align="right">-0.2027905</td>
+<td align="right">-0.2030588</td>
 </tr>
 <tr class="even">
 <td align="left">CYC_BOVIN</td>
@@ -10886,7 +10901,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.0361334</td>
 <td align="right">-0.0545473</td>
 <td align="right">0.1969247</td>
-<td align="right">0.0150975</td>
+<td align="right">0.0133054</td>
 </tr>
 <tr class="odd">
 <td align="left">TRFE_BOVIN</td>
@@ -10901,7 +10916,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.1781309</td>
 <td align="right">0.0867631</td>
 <td align="right">0.1887143</td>
-<td align="right">0.1720558</td>
+<td align="right">0.1707446</td>
 </tr>
 <tr class="even">
 <td align="left">F8W0H2_HUMAN</td>
@@ -10916,7 +10931,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.1060480</td>
 <td align="right">0.1500850</td>
 <td align="right">0.0055537</td>
-<td align="right">-0.2274161</td>
+<td align="right">-0.2234328</td>
 </tr>
 <tr class="odd">
 <td align="left">H0Y7V7_HUMAN</td>
@@ -10931,7 +10946,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.0798505</td>
 <td align="right">-0.0086801</td>
 <td align="right">0.0640366</td>
-<td align="right">0.1890137</td>
+<td align="right">0.1886111</td>
 </tr>
 <tr class="even">
 <td align="left">H0YD14_HUMAN</td>
@@ -10946,7 +10961,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.0081617</td>
 <td align="right">-0.1506331</td>
 <td align="right">-0.0924136</td>
-<td align="right">-0.3278828</td>
+<td align="right">-0.3311737</td>
 </tr>
 <tr class="odd">
 <td align="left">H3BUF6_HUMAN</td>
@@ -10961,7 +10976,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">0.0829339</td>
 <td align="right">0.0852264</td>
 <td align="right">-0.2389092</td>
-<td align="right">-0.2424864</td>
+<td align="right">-0.2428304</td>
 </tr>
 <tr class="even">
 <td align="left">H7C1W4_HUMAN</td>
@@ -10976,7 +10991,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">0.2157584</td>
 <td align="right">-0.0357477</td>
 <td align="right">-0.0274390</td>
-<td align="right">-0.1195775</td>
+<td align="right">-0.1202732</td>
 </tr>
 <tr class="odd">
 <td align="left">H7C3M7_HUMAN</td>
@@ -10991,7 +11006,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.0435478</td>
 <td align="right">0.3395591</td>
 <td align="right">0.3337349</td>
-<td align="right">0.0905416</td>
+<td align="right">0.0890861</td>
 </tr>
 <tr class="even">
 <td align="left">TLR3_HUMAN</td>
@@ -11006,7 +11021,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.0887085</td>
 <td align="right">0.0761335</td>
 <td align="right">0.1526797</td>
-<td align="right">-0.2646218</td>
+<td align="right">-0.2647170</td>
 </tr>
 <tr class="odd">
 <td align="left">LRIG2_HUMAN</td>
@@ -11021,7 +11036,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">0.2643580</td>
 <td align="right">0.1422136</td>
 <td align="right">0.0010136</td>
-<td align="right">-0.1265372</td>
+<td align="right">-0.1246348</td>
 </tr>
 <tr class="even">
 <td align="left">RAB3D_HUMAN</td>
@@ -11036,7 +11051,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.0559570</td>
 <td align="right">0.3159153</td>
 <td align="right">-0.1320459</td>
-<td align="right">0.1380167</td>
+<td align="right">0.1398686</td>
 </tr>
 <tr class="odd">
 <td align="left">ADH1_YEAST</td>
@@ -11051,7 +11066,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.0507490</td>
 <td align="right">-0.0663319</td>
 <td align="right">-0.1758915</td>
-<td align="right">0.2204639</td>
+<td align="right">0.2232915</td>
 </tr>
 <tr class="even">
 <td align="left">LYSC_CHICK</td>
@@ -11066,7 +11081,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">0.2384278</td>
 <td align="right">-0.0317316</td>
 <td align="right">0.1313226</td>
-<td align="right">0.0535367</td>
+<td align="right">0.0503470</td>
 </tr>
 <tr class="odd">
 <td align="left">BGAL_ECOLI</td>
@@ -11081,7 +11096,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">0.2250153</td>
 <td align="right">0.0457059</td>
 <td align="right">0.1041234</td>
-<td align="right">-0.0961512</td>
+<td align="right">-0.0946921</td>
 </tr>
 <tr class="even">
 <td align="left">CYTA_HUMAN</td>
@@ -11096,7 +11111,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.0276568</td>
 <td align="right">0.1505360</td>
 <td align="right">0.0409124</td>
-<td align="right">0.0159581</td>
+<td align="right">0.0175259</td>
 </tr>
 <tr class="odd">
 <td align="left">KPCB_HUMAN</td>
@@ -11111,7 +11126,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">0.2303199</td>
 <td align="right">0.2291294</td>
 <td align="right">-0.0922683</td>
-<td align="right">0.3094787</td>
+<td align="right">0.3101692</td>
 </tr>
 <tr class="even">
 <td align="left">LIPL_HUMAN</td>
@@ -11126,7 +11141,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">0.4209711</td>
 <td align="right">0.0006371</td>
 <td align="right">0.0513403</td>
-<td align="right">0.1108841</td>
+<td align="right">0.1113975</td>
 </tr>
 <tr class="odd">
 <td align="left">CO6_HUMAN</td>
@@ -11141,7 +11156,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">0.1237697</td>
 <td align="right">-0.0386718</td>
 <td align="right">-0.0644920</td>
-<td align="right">-0.0069248</td>
+<td align="right">-0.0086929</td>
 </tr>
 <tr class="even">
 <td align="left">BGAL_HUMAN</td>
@@ -11156,7 +11171,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">0.0402230</td>
 <td align="right">-0.0405328</td>
 <td align="right">-0.0633152</td>
-<td align="right">0.0677152</td>
+<td align="right">0.0726581</td>
 </tr>
 <tr class="odd">
 <td align="left">SYTC_HUMAN</td>
@@ -11171,7 +11186,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.1463871</td>
 <td align="right">-0.1240736</td>
 <td align="right">0.0653873</td>
-<td align="right">0.4412066</td>
+<td align="right">0.4425293</td>
 </tr>
 <tr class="even">
 <td align="left">CASPE_HUMAN</td>
@@ -11186,7 +11201,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.0373315</td>
 <td align="right">-0.0237263</td>
 <td align="right">0.2765286</td>
-<td align="right">0.0479283</td>
+<td align="right">0.0461540</td>
 </tr>
 <tr class="odd">
 <td align="left">DCAF6_HUMAN</td>
@@ -11201,7 +11216,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">0.1486062</td>
 <td align="right">0.1974166</td>
 <td align="right">0.0071470</td>
-<td align="right">0.0560832</td>
+<td align="right">0.0559504</td>
 </tr>
 <tr class="even">
 <td align="left">DALD3_HUMAN</td>
@@ -11216,7 +11231,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">0.0760953</td>
 <td align="right">-0.0233357</td>
 <td align="right">-0.1372768</td>
-<td align="right">0.0957882</td>
+<td align="right">0.0977357</td>
 </tr>
 <tr class="odd">
 <td align="left">HGNAT_HUMAN</td>
@@ -11231,7 +11246,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.2087894</td>
 <td align="right">0.0202744</td>
 <td align="right">0.1469799</td>
-<td align="right">-0.0267353</td>
+<td align="right">-0.0225062</td>
 </tr>
 <tr class="even">
 <td align="left">RFFL_HUMAN</td>
@@ -11246,7 +11261,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.1577143</td>
 <td align="right">0.3487386</td>
 <td align="right">-0.3588672</td>
-<td align="right">-0.1701846</td>
+<td align="right">-0.1740691</td>
 </tr>
 <tr class="odd">
 <td align="left">RN185_HUMAN</td>
@@ -11261,7 +11276,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">0.0092404</td>
 <td align="right">0.4236179</td>
 <td align="right">0.0600972</td>
-<td align="right">-0.1669904</td>
+<td align="right">-0.1655283</td>
 </tr>
 <tr class="even">
 <td align="left">ZN462_HUMAN</td>
@@ -11276,7 +11291,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">0.1494307</td>
 <td align="right">-0.0475510</td>
 <td align="right">-0.0870126</td>
-<td align="right">0.1292038</td>
+<td align="right">0.1314355</td>
 </tr>
 <tr class="odd">
 <td align="left">ALKB7_HUMAN</td>
@@ -11291,7 +11306,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.2482360</td>
 <td align="right">-0.1677388</td>
 <td align="right">-0.0951268</td>
-<td align="right">0.0526540</td>
+<td align="right">0.0521427</td>
 </tr>
 <tr class="even">
 <td align="left">POLK_HUMAN</td>
@@ -11306,7 +11321,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">0.3273576</td>
 <td align="right">-0.0500830</td>
 <td align="right">0.0379469</td>
-<td align="right">-0.0494715</td>
+<td align="right">-0.0507182</td>
 </tr>
 <tr class="odd">
 <td align="left">ACAD8_HUMAN</td>
@@ -11321,7 +11336,7 @@ choose to remove this protein in the PCA.</p>
 <td align="right">-0.0648194</td>
 <td align="right">0.2567213</td>
 <td align="right">0.1180605</td>
-<td align="right">0.0174867</td>
+<td align="right">0.0196439</td>
 </tr>
 </tbody>
 </table>
@@ -13212,7 +13227,7 @@ van Buuren, Stef, and Karin Groothuis-Oudshoorn. 2011. <span>“Mice:
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer>
