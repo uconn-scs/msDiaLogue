@@ -1,4 +1,29 @@
+# msDiaLogue 0.0.6
+
+
+* Analysis:
+  * Separate all options into individual functions `analyze.*()`.
+  * Add`analyze.plsda()`.
+  * Rewrite `analyze.pca()` and `analyze.plsda()` to improve clarity.
+
+* Visualization:
+  * Separate all options into individual functions `visualize.*()`.
+  * Add `visualize.rank()`.
+  * Rename `visualize.ind()` to `visualize.score()` to ensure compatibility with
+    PLS-DA and any other future analyses that include scores.
+  * Rename `visualize.var()` to `visualize.loading()` to ensure compatibility
+    with PLS-DA and any other future analyses that include loadings.
+  * Add `visualize.vip()`.
+
+* Vignette:
+  * Separate usage template into individual modules.
+  * Add an FAQ section.
+
+* Add NEWS.
+
+
 # msDiaLogue 0.0.5
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15663360.svg)](https://doi.org/10.5281/zenodo.15663360)
 
 
 * `preProcessFiltering()`: Intended for internal use only.
