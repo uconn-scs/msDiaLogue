@@ -2,7 +2,10 @@
 
 
 <!-- badges: start -->
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15663360.svg)](https://doi.org/10.5281/zenodo.15663360)
+[![GitHub R package version](https://img.shields.io/github/r-package/v/uconn-scs/msDiaLogue?label=R%20in%20dev&color=green)](https://github.com/uconn-scs/msDiaLogue/commits/main)
 [![R-CMD-check](https://github.com/uconn-scs/msDiaLogue/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/uconn-scs/msDiaLogue/actions/workflows/R-CMD-check.yaml)
+[![GitHub License](https://img.shields.io/github/license/uconn-scs/msDiaLogue?color=blue)](https://github.com/uconn-scs/msDiaLogue/blob/main/LICENSE)
 <!-- badges: end -->
 
 

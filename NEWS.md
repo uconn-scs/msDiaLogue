@@ -19,7 +19,8 @@
   * Use NA to represent missing values in both the pre- and post-imputation data. <br><br>
 
 * `analyze()`:
-  * Make it capable of performing multiple comparisons and reconstruct the result structure.
+  * Make it capable of performing multiple comparisons and reconstruct the
+    result structure.
   * Add Wilcoxon test (`method = "wilcox-test"`).
   * Add PCA (`method = "PCA"`; seperate PCA into analyze and visualize).
   * Add argument `adjust.method`. <br><br>
@@ -35,7 +36,8 @@
   * PCA_ind and PCA_biplot: Remove the 'a' marker from the scatter in the legend. <br><br>
 
 * Other:
-  * `dataMissing()`: Add arguments `sort_miss`, `show_pct_legend`, and `show_pct_col`.
+  * `dataMissing()`: Add arguments `sort_miss`, `show_pct_legend`, and
+    `show_pct_col`.
   * `pullProteinPath()`: Add arguments `listName`, `regexName`, and `by`. <br><br>
 
 * vignette:
@@ -77,7 +79,8 @@
 # msDiaLogue 0.0.3
 
 
-* For `impute()`, add options for `"knn"`,  `"seq-knn"`, `"trunc-knn"` and `"nuc-norm"`.
+* For `impute()`, add options for `"knn"`,  `"seq-knn"`, `"trunc-knn"` and
+  `"nuc-norm"`.
 
 * Add `filterProtein()`.
 
