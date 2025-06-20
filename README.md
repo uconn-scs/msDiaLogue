@@ -1,7 +1,7 @@
 # msDiaLogue <img src="man/figure/logo.png" align="right" alt="" width="150">
 
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15663360.svg)](https://doi.org/10.5281/zenodo.15663360)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15706003.svg)](https://doi.org/10.5281/zenodo.15706003)
 [![GitHub R package version](https://img.shields.io/github/r-package/v/uconn-scs/msDiaLogue?label=R%20in%20dev&color=green)](https://github.com/uconn-scs/msDiaLogue/blob/main/DESCRIPTION)
 [![GitHub last commit](https://img.shields.io/github/last-commit/uconn-scs/msDiaLogue)](https://github.com/uconn-scs/msDiaLogue/commits/main)
 [![R-CMD-check](https://github.com/uconn-scs/msDiaLogue/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/uconn-scs/msDiaLogue/actions/workflows/R-CMD-check.yaml)
@@ -29,12 +29,12 @@ devtools::install_github("uconn-scs/msDiaLogue")
 ```
 
 
-+ Specific released version (e.g. v0.0.5):
++ Specific released version (e.g. v0.0.6):
 
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("uconn-scs/msDiaLogue@v0.0.5")
+devtools::install_github("uconn-scs/msDiaLogue@v0.0.6")
 ```
 
 

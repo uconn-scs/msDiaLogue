@@ -1,4 +1,5 @@
 # msDiaLogue 0.0.6
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15706003.svg)](https://doi.org/10.5281/zenodo.15706003)
 
 
 * Analysis:
