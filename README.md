@@ -1,13 +1,11 @@
 # msDiaLogue <img src="man/figure/logo.png" align="right" alt="" width="150">
 
 
-<!-- badges: start -->
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15663360.svg)](https://doi.org/10.5281/zenodo.15663360)
 [![GitHub R package version](https://img.shields.io/github/r-package/v/uconn-scs/msDiaLogue?label=R%20in%20dev&color=green)](https://github.com/uconn-scs/msDiaLogue/blob/main/DESCRIPTION)
 [![GitHub last commit](https://img.shields.io/github/last-commit/uconn-scs/msDiaLogue)](https://github.com/uconn-scs/msDiaLogue/commits/main)
 [![R-CMD-check](https://github.com/uconn-scs/msDiaLogue/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/uconn-scs/msDiaLogue/actions/workflows/R-CMD-check.yaml)
 [![GitHub License](https://img.shields.io/github/license/uconn-scs/msDiaLogue?color=blue)](https://github.com/uconn-scs/msDiaLogue/blob/main/LICENSE)
-<!-- badges: end -->
 
 
 **msDiaLogue** is a customized, modular, and flexible workflow developed jointly
@@ -19,13 +17,24 @@ mass spectrometry (MS)-based proteomics data.
 ## Installation
 
 
-You can install the development version of **msDiaLogue** from
-[GitHub](https://github.com/) with:
+You can install **msDiaLogue** directly from [GitHub](https://github.com/).
+
+
++ Development (latest) version:
 
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("uconn-scs/msDiaLogue")
+```
+
+
++ Specific released version (e.g. v0.0.5):
+
+
+``` r
+# install.packages("devtools")
+devtools::install_github("uconn-scs/msDiaLogue@v0.0.5")
 ```
 
 
