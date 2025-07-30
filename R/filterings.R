@@ -96,7 +96,8 @@ preProcessFiltering <- function(dataSet,
     ## replace blank protein name entries with their accession numbers
     filteredData <- filteredData %>%
       mutate(PG.ProteinNames =
-               replace(PG.ProteinNames, PG.ProteinNames == "", PG.ProteinAccessions))
+               replace(PG.ProteinNames, PG.ProteinNames == "",
+                       PG.ProteinAccessions[PG.ProteinNames == ""]))
   }
   
   ## return the filtered data

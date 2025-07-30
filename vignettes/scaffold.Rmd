@@ -61,10 +61,14 @@ Do not use these. </div>
 ### 2. Turning Off Normalization in Scaffold
 
 
-Normalization **must** be turned off. In (Experiment --> Quantitative Analysis
+Normalization **must** be turned off and **no** quantitative analyses should be
+applied. In (Experiment --> Quantitative Analysis
 --> Other Settings), make sure the "Use Normalization" box is unchecked. You
 will have the option to normalize by various methods in msDiaLogue, but you
-should not stack normalizations between programs.
+should not stack normalizations between programs. Also make sure that the
+"Statistical Test" pane (upper left) is the "Quantitative Analysis" window is
+set to "No Test" and the "Fold Change" pane (lower left) is set to
+"No Fold Change".
 
 
 <div class="note">

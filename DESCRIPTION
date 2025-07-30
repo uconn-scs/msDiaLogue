@@ -1,6 +1,6 @@
 Package: msDiaLogue
 Title: Analysis and Visuals for Data-Independent Aquisition Mass Spectrometry Data
-Version: 0.0.6
+Version: 0.0.7
 Authors@R: c(
     person("Shiying", "Xiao", email = "shiying.xiao@uconn.edu",
            role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8846-3258")),
