@@ -41,7 +41,7 @@ To generate an input report for msDiaLogue from **Scaffold**, first
 adjust the following 6 parameters in your **Scaffold 5** file</span>.
 
 
-### 1. Setting Quantitative Value in Scaffold
+### 1. Define Quantitative Value by an Intensity Measurement in Scaffold
 
 
 The quantitative value **must** be set to an intensity measurement and not a
@@ -58,7 +58,7 @@ quantification schema, with the exception of Total Spectra or Weighted Spectra.
 Do not use these. </div>
 
 
-### 2. Turning Off Normalization in Scaffold
+### 2. Turn Off Normalization and All Quantitative Comparisons in Scaffold
 
 
 Normalization **must** be turned off and **no** quantitative analyses should be
@@ -66,7 +66,7 @@ applied. In (Experiment --> Quantitative Analysis
 --> Other Settings), make sure the "Use Normalization" box is unchecked. You
 will have the option to normalize by various methods in msDiaLogue, but you
 should not stack normalizations between programs. Also make sure that the
-"Statistical Test" pane (upper left) is the "Quantitative Analysis" window is
+"Statistical Test" pane (upper left) in the "Quantitative Analysis" window is
 set to "No Test" and the "Fold Change" pane (lower left) is set to
 "No Fold Change".
 
@@ -80,7 +80,7 @@ abundances are transformed into fractional values which will not be converted
 properly in `preprocessing` and your data will no longer yield sensible analyses. </div>
 
 
-### 3. Minimum Requirements for Experiment Conditions
+### 3. Confirm Experiment has Required Minimum Replicates and Conditions
 
 
 The experiment **must** contain a minimum of 2 conditions, and each condition
@@ -97,7 +97,7 @@ statistical tests really should not be run on fewer than 3 replicates in general
 whether in msDiaLogue or other programs. </div>
 
 
-### 4. Sample Naming Format Requirements
+### 4. Confirm or Correct Sample Name Formatting
 
 
 The samples **must** be named in the following format:
@@ -117,7 +117,7 @@ can also fix this in **Excel** after exporting, before you import into **R**,
 which will likely be easier. </div>
 
 
-### 5. Filtering Dataset for Protein Identification
+### 5. Filter Dataset for Proteins Identified by >1 Peptide
 
 
 We **strongly recommend** that you filter the dataset to hide proteins that only
@@ -133,7 +133,7 @@ were identified, so unlike with a **Spectronaut**-based report, you cannot
 filter based on this information once in msDiaLogue. </div>
 
 
-### 6. Collapsing Protein Clusters in Samples Tab
+### 6. Ensure No Protein Clusters are Expanded in Samples Tab
 
 
 All protein clusters **must** be collapsed. In the "Samples" tab, in the very
@@ -161,9 +161,14 @@ future and choose the location you'll be using as your working directory in **R*
 The report can be saved as .xls or .csv.
 
 
-You can now use the `preprocessing_scaffold` script available on this page and
+You may now use the `preprocessing_scaffold` script available on this page and
 pick up at the `transformation` step in the msDiaLogue script as provided in the
 main [Usage Template](https://uconn-scs.github.io/msDiaLogue/articles/usage_template.html) page.
+
+<div class="note">
+**Note:** You cannot use the function "preprocessing" in the main template, as that is designed for 
+inputs in a Spectronaut report format.  The function for Scaffold data is called "preprocessing_Scaffold",
+given in the code box below. </div>
 
 
 + If the raw data is in a .xls file
