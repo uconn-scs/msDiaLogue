@@ -48,11 +48,13 @@
 #' @param pool.sd A boolean (default = FALSE) specifying whether or not to use a pooled
 #' standard deviation.
 #' 
+#' @param saveRes A boolean (default = TRUE) specifying whether to save the analysis
+#' results to the current working directory.
+#' 
 #' @return
 #' A list comprising data frames for each comparison, with each data frame containing
 #' the means of the two compared conditions for each protein, the difference in means,
-#' and the p-values. Additionally, a separate data frame called "total" summarizes
-#' the results of multiple comparisons.
+#' and the p-values.
 #' 
 #' @references
 #' \insertAllCited{}
@@ -60,7 +62,8 @@
 #' @export
 
 analyze.t <- function(dataSet, ref = NULL, adjust.method = "none",
-                           paired = FALSE, pool.sd = FALSE) {
+                      paired = FALSE, pool.sd = FALSE,
+                      saveRes = TRUE) {
   
   if (is.factor(dataSet$R.Condition)) {
     conds <- levels(dataSet$R.Condition)
@@ -125,10 +128,22 @@ analyze.t <- function(dataSet, ref = NULL, adjust.method = "none",
   })
   names(result) <- paste0(compA, "-", compB)
   
-  total <- do.call(rbind, lapply(result, `[`, c("difference", "p-value"), , drop = FALSE))
-  total <- rbind(means, total)
-  rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0))))
-  result$total <- total
+  if (saveRes) {
+    
+    total <- do.call(rbind, lapply(result, `[`, c("difference", "p-value"), , drop = FALSE))
+    total <- rbind(means, total)
+    rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0))))
+    
+    information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
+    scaffoldCheck <- any(colnames(information) == "Visible?")
+    IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+    
+    total <- as.data.frame(t(total)) %>%
+      rownames_to_column(IDcol) %>%
+      left_join(information, by = IDcol)
+    
+    write.csv(total, file = "analyze_t.csv", row.names = FALSE)
+  }
   
   ## return to the analysis result
   return(result)
@@ -160,20 +175,22 @@ analyze.t <- function(dataSet, ref = NULL, adjust.method = "none",
 #' }
 #' See \code{\link[stats]{p.adjust}} for more details.
 #' 
+#' @param saveRes A boolean (default = TRUE) specifying whether to save the analysis
+#' results to the current working directory.
+#' 
 #' @import limma
 #' 
 #' @return
 #' A list comprising data frames for each comparison, with each data frame containing
 #' the means of the two compared conditions for each protein, the difference in means,
-#' and the p-values. Additionally, a separate data frame called "total" summarizes
-#' the results of multiple comparisons.
+#' and the p-values.
 #' 
 #' @references
 #' \insertAllCited{}
 #' 
 #' @export
 
-analyze.mod_t <- function(dataSet, ref = NULL, adjust.method = "none") {
+analyze.mod_t <- function(dataSet, ref = NULL, adjust.method = "none", saveRes = TRUE) {
   
   if (is.factor(dataSet$R.Condition)) {
     conds <- levels(dataSet$R.Condition)
@@ -235,10 +252,22 @@ analyze.mod_t <- function(dataSet, ref = NULL, adjust.method = "none") {
   })
   names(result) <- paste0(compA, "-", compB)
   
-  total <- do.call(rbind, lapply(result, `[`, c("difference", "p-value"), , drop = FALSE))
-  total <- rbind(means, total)
-  rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0))))
-  result$total <- total
+  if (saveRes) {
+    
+    total <- do.call(rbind, lapply(result, `[`, c("difference", "p-value"), , drop = FALSE))
+    total <- rbind(means, total)
+    rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0))))
+    
+    information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
+    scaffoldCheck <- any(colnames(information) == "Visible?")
+    IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+    
+    total <- as.data.frame(t(total)) %>%
+      rownames_to_column(IDcol) %>%
+      left_join(information, by = IDcol)
+    
+    write.csv(total, file = "analyze_modt.csv", row.names = FALSE)
+  }
   
   ## return to the analysis result
   return(result)
@@ -272,18 +301,20 @@ analyze.mod_t <- function(dataSet, ref = NULL, adjust.method = "none") {
 #' @param paired A boolean (default = FALSE) specifying whether or not to perform a paired
 #' test.
 #' 
+#' @param saveRes A boolean (default = TRUE) specifying whether to save the analysis
+#' results to the current working directory.
+#' 
 #' @return
 #' A list comprising data frames for each comparison, with each data frame containing
 #' the means of the two compared conditions for each protein, the difference in means,
-#' and the p-values. Additionally, a separate data frame called "total" summarizes
-#' the results of multiple comparisons.
+#' and the p-values.
 #' 
 #' @references
 #' \insertAllCited{}
 #' 
 #' @export
 
-analyze.wilcox <- function(dataSet, ref = NULL, adjust.method = "none", paired = FALSE) {
+analyze.wilcox <- function(dataSet, ref = NULL, adjust.method = "none", paired = FALSE, saveRes = TRUE) {
   
   if (is.factor(dataSet$R.Condition)) {
     conds <- levels(dataSet$R.Condition)
@@ -338,10 +369,22 @@ analyze.wilcox <- function(dataSet, ref = NULL, adjust.method = "none", paired =
   })
   names(result) <- paste0(compA, "-", compB)
   
-  total <- do.call(rbind, lapply(result, `[`, c("difference", "p-value"), , drop = FALSE))
-  total <- rbind(means, total)
-  rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0))))
-  result$total <- total
+  if (saveRes) {
+    
+    total <- do.call(rbind, lapply(result, `[`, c("difference", "p-value"), , drop = FALSE))
+    total <- rbind(means, total)
+    rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0))))
+    
+    information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
+    scaffoldCheck <- any(colnames(information) == "Visible?")
+    IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+    
+    total <- as.data.frame(t(total)) %>%
+      rownames_to_column(IDcol) %>%
+      left_join(information, by = IDcol)
+    
+    write.csv(total, file = "analyze_wilcox.csv", row.names = FALSE)
+  }
   
   ## return to the analysis result
   return(result)
@@ -360,6 +403,9 @@ analyze.wilcox <- function(dataSet, ref = NULL, adjust.method = "none", paired =
 #' @param ref A string (default = NULL) specifying the reference condition for comparison.
 #' If NULL, all pairwise comparisons are performed.
 #' 
+#' @param saveRes A boolean (default = TRUE) specifying whether to save the analysis
+#' results to the current working directory.
+#' 
 #' @return
 #' A list comprising data frames for each comparison, with each data frame containing
 #' the means of the two compared conditions for each protein, as well as the average and
@@ -367,7 +413,7 @@ analyze.wilcox <- function(dataSet, ref = NULL, adjust.method = "none", paired =
 #' 
 #' @export
 
-analyze.ma <- function(dataSet, ref = NULL) {
+analyze.ma <- function(dataSet, ref = NULL, saveRes = TRUE) {
   
   if (is.factor(dataSet$R.Condition)) {
     conds <- levels(dataSet$R.Condition)
@@ -404,6 +450,23 @@ analyze.ma <- function(dataSet, ref = NULL) {
     return(res)
   })
   names(result) <- paste0(compA, "-", compB)
+  
+  if (saveRes) {
+    
+    total <- do.call(rbind, lapply(result, `[`, c("A", "M"), , drop = FALSE))
+    total <- rbind(means, total)
+    rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": A", ": M"), paste0))))
+    
+    information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
+    scaffoldCheck <- any(colnames(information) == "Visible?")
+    IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+    
+    total <- as.data.frame(t(total)) %>%
+      rownames_to_column(IDcol) %>%
+      left_join(information, by = IDcol)
+    
+    write.csv(total, file = "analyze_ma.csv", row.names = FALSE)
+  }
   
   ## return to the analysis result
   return(result)
