@@ -142,14 +142,19 @@ visualize.heatmap <- function(dataSet, pkg = "pheatmap",
 
 visualize.ma <- function(dataSet, M.thres = 1) {
   
+  information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
+  scaffoldCheck <- any(colnames(information) == "Visible?")
+  IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+  labelCol <- ifelse(scaffoldCheck, "AlternateID", "PG.ProteinName")
+  
   if (is.data.frame(dataSet)) {
-    plotData <- data.frame(t(dataSet[c("A","M"),])) %>%
-      rownames_to_column("Variable")
+    plotData <- as.data.frame(t(dataSet[c("A","M"),])) %>%
+      rownames_to_column(IDcol)
   } else {
     plotData <- lapply(dataSet, function(df) {
       t(df[c("A","M"),]) %>%
         as.data.frame() %>%
-        rownames_to_column("Variable")
+        rownames_to_column(IDcol)
     }) %>%
       bind_rows(.id = "Comparison")
   }
@@ -160,9 +165,10 @@ visualize.ma <- function(dataSet, M.thres = 1) {
       M < -M.thres & M > -Inf ~ "Down",
       M >= -M.thres & M <= M.thres ~ "No",
       TRUE ~ "Unknown")) %>% ## optional catch-all for other cases
-    mutate(label = ifelse(Regulation != "No", gsub("_.*", "", Variable), NA))
+    left_join(information, by = IDcol) %>%
+    mutate(Label = ifelse(Regulation != "No", .data[[labelCol]], NA)) # gsub("_.*", "", .data[[labelCol]])
   
-  ggplot(plotData, aes(x = A, y = M, color = Regulation, label = label)) +
+  ggplot(plotData, aes(x = A, y = M, color = Regulation, label = Label)) +
     geom_hline(yintercept = c(-M.thres, M.thres), linetype = "dashed") +
     geom_point() +
     geom_text_repel(show.legend = FALSE) +
@@ -189,13 +195,20 @@ visualize.ma <- function(dataSet, M.thres = 1) {
 #' @param regexName A character vector specifying proteins for regular expression pattern
 #' matching to highlight.
 #' 
+#' @param by A character string (default = "PG.ProteinName" for Spectronaut, default =
+#' "AccessionNumber" for Scaffold) specifying the information to which \code{listName}
+#' and/or \code{regexName} filter is applied. Allowable options include:
+#' \itemize{
+#' \item For Spectronaut: "PG.Genes", "PG.ProteinAccession", "PG.ProteinDescriptions", and
+#' "PG.ProteinName".
+#' \item For Scaffold: "ProteinDescriptions", "AccessionNumber", and "AlternateID".
+#' }
+#' 
 #' @param facet A character string (default = c("Replicate", "Condition")) specifying
 #' grouping variables for faceting. Allowed values are "Condition", "Replicate",
 #' c("Condition", "Replicate"), c("Replicate", "Condition"), or "none" for no grouping.
 #' 
 #' @param color A string (default = red") specifying the color used to highlight proteins.
-#' 
-#' @import ggrepel
 #' 
 #' @return
 #' An object of class \code{ggplot}.
@@ -204,31 +217,50 @@ visualize.ma <- function(dataSet, M.thres = 1) {
 #' 
 #' @export
 
-visualize.rank <- function(dataSet, listName = NULL, regexName = NULL,
+visualize.rank <- function(dataSet, listName = NULL, regexName = NULL, by = NULL,
                            facet = c("Condition", "Replicate"), color = "red") {
   
-  plotData <- dataSet %>%
-    rename(Condition = R.Condition, Replicate = R.Replicate) %>%
-    pivot_longer(cols = -c("Condition", "Replicate"),
-                 names_to = "Name", values_to = "Abundance")
+  information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
+  scaffoldCheck <- any(colnames(information) == "Visible?")
+  IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+  labelCol <- ifelse(scaffoldCheck, "AlternateID", "PG.ProteinName")
   
-  ## match regexName if provided
-  if (!is.null(regexName)) {
-    regexName <- unique(grep(paste(regexName, collapse = "|"), plotData$Name, value = TRUE))
+  if (is.null(by)) {
+    by <- IDcol
+  }
+  
+  ## only list filter if listName is present
+  if (length(listName) != 0) {
+    listIndex <- which(information[[by]] %in% listName)
+  } else {
+    listIndex <- NULL
+  }
+  
+  ## only regex filter if regexName is present
+  if (length(regexName) != 0) {
+    regexIndex <- grep(paste(regexName, collapse = "|"), information[[by]])
+  } else {
+    regexIndex <- NULL
   }
   
   ## combine protein names from list and regex names
-  unionName <- union(listName, regexName)
+  unionIndex <- sort(union(listIndex, regexIndex))
+  unionName <- information[unionIndex, IDcol]
   
-  highlight_label <- if (length(unionName) == 1) unionName else "Highlight"
-  
-  plotData <- plotData %>%
-    mutate(Proteins = ifelse(Name %in% unionName, "Highlight", "Other"),
+  plotData <- dataSet %>%
+    rename(Condition = R.Condition, Replicate = R.Replicate) %>%
+    pivot_longer(-c("Condition", "Replicate"), names_to = IDcol, values_to = "Abundance") %>%
+    left_join(information, by = IDcol) %>%
+    mutate(Type = ifelse(.data[[IDcol]] %in% unionName, "Highlight", "Other"),
            Label = case_when(
-             Proteins == "Highlight" & identical(facet, "Condition") ~ paste(Name, Replicate, sep = "_"),
-             Proteins == "Highlight" & identical(facet, "Replicate") ~ paste(Name, Condition, sep = "_"),
-             Proteins == "Highlight" & length(facet) == 2 ~ Name,
-             Proteins == "Other" ~ NA))
+             Type == "Highlight" & identical(facet, "Condition") ~ paste(.data[[labelCol]], Replicate, sep = "_"),
+             Type == "Highlight" & identical(facet, "Replicate") ~ paste(.data[[labelCol]], Condition, sep = "_"),
+             Type == "Highlight" & length(facet) == 2 ~ .data[[labelCol]],
+             Type == "Other" ~ NA))
+  
+  if (!any(plotData$Type == "Highlight")) {
+    stop("No matching proteins found in the input dataset to highlight!")
+  }
   
   if (all(facet %in% c("Condition", "Replicate"))) {
     plotData <- plotData %>%
@@ -242,7 +274,9 @@ visualize.rank <- function(dataSet, listName = NULL, regexName = NULL,
       mutate(Rank = row_number())
   }
   
-  plot <- ggplot(plotData, aes(x = Rank, y = Abundance, shape = Proteins, color = Proteins)) +
+  highlight_label <- if (length(unionName) == 1) unionName else "Highlight"
+  
+  plot <- ggplot(plotData, aes(x = Rank, y = Abundance, shape = Type, color = Type)) +
     geom_point() +
     scale_color_manual(values = c("Highlight" = color, "Other" = "black"),
                        labels = c("Highlight" = highlight_label, "Other" = "Other")) +
@@ -289,7 +323,8 @@ visualize.rank <- function(dataSet, listName = NULL, regexName = NULL,
 visualize.test <- function(dataSet) {
   
   if (is.data.frame(dataSet)) {
-    plotData <- data.frame(t(dataSet[c("difference","p-value"),])) %>%
+    plotData <- t(dataSet[c("difference","p-value"),]) %>%
+      as.data.frame(check.names = FALSE) %>%
       rownames_to_column("Variable") %>%
       pivot_longer(-Variable) %>%
       group_by(name) %>%
@@ -298,11 +333,11 @@ visualize.test <- function(dataSet) {
   } else {
     plotData <- lapply(dataSet[names(dataSet) != "total"], function(df) {
       t(df[c("difference","p-value"),]) %>%
-        as.data.frame() %>%
+        as.data.frame(check.names = FALSE) %>%
         rownames_to_column("Variable")
     }) %>%
       bind_rows(.id = "Comparison") %>%
-      rename(p.value = "p-value") %>%
+      # rename(p.value = "p-value") %>%
       pivot_longer(-c("Variable", "Comparison")) %>%
       group_by(name, Comparison) %>%
       ## binwidth information for reference
@@ -358,12 +393,8 @@ visualize.upset <- function(dataSet) {
 #' @param fill_color A text (default = c("blue", "yellow", "green", "red")) specifying the
 #' colors to fill in circles.
 #' 
-#' @param saveVenn A boolean (default = TRUE) specifying whether to save the data, with
+#' @param saveRes A boolean (default = TRUE) specifying whether to save the data, with
 #' logical columns representing sets, to current working directory.
-#' 
-#' @param proteinInformation The name of the .csv file containing protein information data
-#' (including the path to the file, if needed). This file is automatically generated by
-#' the function \code{\link[msDiaLogue]{preprocessing}}.
 #' 
 #' @import ggvenn
 #' 
@@ -374,25 +405,27 @@ visualize.upset <- function(dataSet) {
 
 visualize.venn <- function(dataSet, show_percentage = TRUE,
                            fill_color = c("blue", "yellow", "green", "red"),
-                           saveVenn = TRUE,
-                           proteinInformation = "preprocess_protein_information.csv") {
+                           saveRes = TRUE) {
   
   if (length(dataSet) > 4) {
     message("More than 4 sets in a Venn diagram
              may result in crowded visualization and information overload.")
   }
   
-  if (saveVenn) {
-    df <- tibble(Protein = unique(unlist(dataSet)))
+  if (saveRes) {
+    
+    information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
+    scaffoldCheck <- any(colnames(information) == "Visible?")
+    IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+    
+    df <- tibble(!!IDcol := unique(unlist(dataSet)))
     for (name in names(dataSet)) {
-      df[, name] <- df$Protein %in% dataSet[[name]]
+      df[,name] <- df[[IDcol]] %in% dataSet[[name]]
     }
-    if (!is.null(proteinInformation)) {
-      proteinInformation <- read.csv(proteinInformation)
-      keyid <- ifelse(startsWith(colnames(proteinInformation)[1], "PG."), "PG.ProteinNames", "AccessionNumber")
-      df <- merge(proteinInformation, df, by.x = keyid, by.y = "Protein", sort = TRUE)
-    }
-    write.csv(df, file = "Venn_information.csv", row.names = FALSE)
+    
+    df <- left_join(df, information, by = IDcol)
+      
+    write.csv(df, file = "venn_information.csv", row.names = FALSE)
   }
   
   ggvenn::ggvenn(dataSet, show_percentage = show_percentage, fill_color = fill_color)
@@ -428,30 +461,35 @@ visualize.venn <- function(dataSet, show_percentage = TRUE,
 
 visualize.volcano <- function(dataSet, P.thres = 0.05, F.thres = 1) {
   
+  information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
+  scaffoldCheck <- any(colnames(information) == "Visible?")
+  IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+  labelCol <- ifelse(scaffoldCheck, "AlternateID", "PG.ProteinName")
+  
   if (is.data.frame(dataSet)) {
-    plotData <- data.frame(t(dataSet[c("difference","p-value"),])) %>%
-      rownames_to_column("Variable")
+    plotData <- t(dataSet[c("difference","p-value"),]) %>%
+      as.data.frame() %>%
+      rownames_to_column(IDcol)
   } else {
-    plotData <- lapply(dataSet[names(dataSet) != "total"], function(df) {
+    plotData <- lapply(dataSet, function(df) {
       t(df[c("difference","p-value"),]) %>%
         as.data.frame() %>%
-        rownames_to_column("Variable")
+        rownames_to_column(IDcol)
     }) %>%
-      bind_rows(.id = "Comparison") %>%
-      rename(p.value = "p-value")
+      bind_rows(.id = "Comparison")
   }
   
   plotData <- plotData %>%
     mutate(Significant = case_when(
-      p.value < P.thres & difference > F.thres ~ "Up",
-      p.value < P.thres & difference < -F.thres ~ "Down",
-      p.value < P.thres & difference >= -F.thres & difference <= F.thres ~ "Inconclusive",
-      p.value >= P.thres ~ "No",
+      `p-value` < P.thres & difference > F.thres ~ "Up",
+      `p-value` < P.thres & difference < -F.thres ~ "Down",
+      `p-value` < P.thres & difference >= -F.thres & difference <= F.thres ~ "Inconclusive",
+      `p-value` >= P.thres ~ "No",
       TRUE ~ "Unknown")) %>% ## optional catch-all for other cases
-    mutate(label = ifelse(! Significant %in% c("No", "Inconclusive"),
-                          gsub("_.*", "", Variable), NA))
+    left_join(information, by = IDcol) %>%
+    mutate(Label = ifelse(! Significant %in% c("No", "Inconclusive"), .data[[labelCol]], NA)) # gsub("_.*", "", .data[[labelCol]])
   
-  ggplot(plotData, aes(x = difference, y = -log10(p.value), col = Significant, label = label)) +
+  ggplot(plotData, aes(x = difference, y = -log10(`p-value`), col = Significant, label = Label)) +
     geom_vline(xintercept = c(-F.thres, F.thres), linetype = "dashed") +
     geom_hline(yintercept = -log10(P.thres), linetype = "dashed") +
     geom_point() +
@@ -773,14 +811,21 @@ visualize.biplot <- function(dataSet, ellipse = TRUE, ellipse.level = 0.95, labe
 
 visualize.vip <- function(dataSet, comp = 1, num = 10, thres = 1, rel.widths) {
   
-  vips <- as.data.frame(dataSet$vips) %>%
+  information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
+  scaffoldCheck <- any(colnames(information) == "Visible?")
+  IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+  labelCol <- ifelse(scaffoldCheck, "AlternateID", "PG.ProteinName")
+  
+  vips <- as.data.frame(dataSet[["vips"]]) %>%
     select(Score = paste("Comp", comp)) %>%
     slice_max(order_by = Score, n = num, with_ties = FALSE) %>%
     arrange(Score) %>%
-    rownames_to_column("Variable") %>%
-    mutate(Variable = factor(Variable, levels = Variable))
+    rownames_to_column(IDcol) %>%
+    left_join(information, by = IDcol) %>%
+    mutate(!!IDcol := factor(.data[[IDcol]], levels = .data[[IDcol]]),
+           !!labelCol := factor(.data[[labelCol]], levels = .data[[labelCol]]))
   
-  plot1 <- ggplot(vips, aes(x = Score, y = Variable)) +
+  plot1 <- ggplot(vips, aes(x = Score, y = .data[[labelCol]])) +
     geom_point() +
     geom_vline(xintercept = thres, linetype = "dashed", color = "black") +
     labs(x = "VIP scores", y = NULL) +
@@ -789,16 +834,16 @@ visualize.vip <- function(dataSet, comp = 1, num = 10, thres = 1, rel.widths) {
           panel.grid.minor.x = element_blank(),
           panel.grid.major.y = element_line(linetype = "dashed"))
   
-  xs <- dataSet$model[["xs"]][,levels(vips$Variable), drop = FALSE]
+  xs <- dataSet$model[["xs"]][,levels(vips[[IDcol]]), drop = FALSE]
   y <- dataSet$model[["y"]]
   group <- factor(colnames(y)[max.col(y, ties.method = "first")], levels = colnames(y))
   abundances <- do.call(cbind, by(xs, group, function(x) {apply(x, 2, mean, trim = 0.1)})) %>%
     as.data.frame() %>%
-    rownames_to_column("Variable") %>%
-    mutate(Variable = factor(Variable, levels = levels(vips$Variable))) %>%
-    pivot_longer(-Variable, names_to = "Group", values_to = "Abundance")
+    rownames_to_column(IDcol) %>%
+    mutate(!!IDcol := factor(.data[[IDcol]], levels = .data[[IDcol]])) %>%
+    pivot_longer(-!!IDcol, names_to = "Group", values_to = "Abundance")
   
-  plot2 <- ggplot(abundances, aes(x = Group, y = Variable, fill = Abundance)) +
+  plot2 <- ggplot(abundances, aes(x = Group, y = .data[[IDcol]], fill = Abundance)) +
     # geom_tile(width = 0.5, height = 0.5, color = "white") +
     geom_tile(color = "white", lwd = 7) +
     scale_x_discrete(position = "bottom") +
