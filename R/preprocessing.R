@@ -20,6 +20,35 @@
 #### Code for data pre-processing ####
 ######################################
 #'
+#' Extract the first name from a semicolon-separated names
+#'
+#' @description
+#' Take a character vector. If an element contains multiple names separated by semicolons
+#' (e.g., "A;B;C"), only the first name is kept and annotated with the number of
+#' additional names (e.g., "A (+2)"). Single names (e.g., "A") are returned unchanged.
+#'
+#' @param vecName A character vector, with elements possibly containing multiple names
+#' separated by semicolons.
+#'
+#' @return A character vector of the same length as \code{vecName}, with either the
+#' original name (if only one) or the first name followed by the count of additional names.
+#'
+#' @noRd
+
+firstName <- function(vecName) {
+  sapply(vecName, function(element) {
+    parts <- unlist(strsplit(element, ";", fixed = TRUE))
+    if (length(parts) > 1) {
+      paste0(parts[1], " (+", length(parts)-1, ")")
+    } else {
+      element
+    }
+  })
+}
+
+
+##----------------------------------------------------------------------------------------
+#'
 #' Loading, filtering and reformatting of MS DIA data from Spectronaut
 #' 
 #' @description
@@ -85,8 +114,9 @@ preprocessing <- function(fileName,
   }
   
   ## keep only the first entry of protein names and accessions
-  dataSet$PG.ProteinNames <- sub(";.*", "", dataSet$PG.ProteinNames)
-  dataSet$PG.ProteinAccessions <- sub(";.*", "", dataSet$PG.ProteinAccessions)
+  dataSet <- dataSet %>%
+    mutate(PG.ProteinName = firstName(PG.ProteinNames),
+           PG.ProteinAccession = firstName(PG.ProteinAccessions))
   
   ## generate a histogram of the log2-transformed values for full raw data set
   temp <- log2(dataSet$PG.Quantity)
@@ -103,17 +133,11 @@ preprocessing <- function(fileName,
     theme(plot.title = element_text(hjust = 0.5))
   print(plot)
   
-  proteinInformation <- dataSet %>%
-    select(PG.Genes, PG.ProteinAccessions, PG.ProteinDescriptions, PG.ProteinNames) %>%
-    distinct()
-  
-  write.csv(proteinInformation, file = "full_protein_information.csv", row.names = FALSE)
-  
   ## filter data by NaN and unique peptide count
   filteredData <- preProcessFiltering(dataSet, filterNaN, filterUnique, replaceBlank, saveRm)
   
   proteinInformation <- filteredData %>%
-    select(PG.Genes, PG.ProteinAccessions, PG.ProteinDescriptions, PG.ProteinNames) %>%
+    select(PG.Genes, PG.ProteinAccession, PG.ProteinAccessions, PG.ProteinDescriptions, PG.ProteinName, PG.ProteinNames) %>%
     distinct()
   
   write.csv(proteinInformation, file = "preprocess_protein_information.csv", row.names = FALSE)
@@ -122,7 +146,7 @@ preprocessing <- function(fileName,
   selectedData <- filteredData %>%
     mutate(R.Condition = factor(as.character(R.Condition), levels = unique(as.character(R.Condition))),
            R.Replicate = factor(as.character(R.Replicate), levels = unique(as.character(R.Replicate)))) %>%
-    select(R.Condition, R.Replicate, PG.Quantity, PG.ProteinNames, PG.ProteinAccessions)
+    select(R.Condition, R.Replicate, PG.Quantity, PG.ProteinName, PG.ProteinAccession)
   
   ## print summary statistics for full raw data set
   cat("Summary of Full Data Signals (Raw):\n")
@@ -151,7 +175,7 @@ preprocessing <- function(fileName,
     ## to group replicates under each protein
     reformatedData <- selectedData %>% pivot_wider(
       id_cols = c(R.Condition, R.Replicate),
-      names_from = PG.ProteinNames, values_from = PG.Quantity)
+      names_from = PG.ProteinName, values_from = PG.Quantity)
     
   }, warning = function(w) {
     
@@ -162,25 +186,25 @@ preprocessing <- function(fileName,
     
     ## compile a database if the entries with duplicates
     warningTmp <- selectedData %>%
-      dplyr::group_by(R.Condition, R.Replicate, PG.ProteinNames) %>%
+      dplyr::group_by(R.Condition, R.Replicate, PG.ProteinName) %>%
       dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
       dplyr::filter(n > 1L)
     
     ## create a unique list of duplicated values
-    duplicateName <- unique(warningTmp$PG.ProteinNames)
+    duplicateName <- unique(warningTmp$PG.ProteinName)
     
     ## for each duplicate protein, replace all instances of the name,
     ## with the accession numbers
     for (i in duplicateName) {
       selectedData <- selectedData %>%
-        mutate(PG.ProteinNames = ifelse(
-          PG.ProteinNames == i, PG.ProteinAccessions, PG.ProteinNames))
+        mutate(PG.ProteinName = ifelse(
+          PG.ProteinName == i, PG.ProteinAccession, PG.ProteinName))
     }
     
     ## try to reformat the data again
     reformatedData <- selectedData %>%
       pivot_wider(id_cols = c(R.Condition, R.Replicate),
-                  names_from = PG.ProteinNames, values_from = PG.Quantity)
+                  names_from = PG.ProteinName, values_from = PG.Quantity)
     return(reformatedData)
   })
   
@@ -267,8 +291,8 @@ preprocessing_scaffold <- function(fileName, dataSet = NULL, zeroNA = TRUE, oneN
   
   colnames(dataSet) <- gsub(" ", "", colnames(dataSet))
   
-  dataSet <- dataSet %>%
-    mutate(AccessionNumber = paste0("00", AccessionNumber))
+  # dataSet <- dataSet %>%
+  #   mutate(AccessionNumber = paste0("00", AccessionNumber))
   
   infoColName <- c("Visible?", "Starred?",
                    "ProteinDescriptions", "AccessionNumber", "AlternateID",
