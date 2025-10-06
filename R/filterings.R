@@ -41,7 +41,7 @@
 #' 
 #' @details
 #' All forms of filtering are recommended for most use cases.
-#'  
+#' 
 #' @return
 #' A filtered 2d dataframe.
 #' 
@@ -65,7 +65,7 @@ preProcessFiltering <- function(dataSet,
       removedData <- filteredData %>% filter(is.nan(PG.Quantity))
       
       ## save removed data to current working directory
-      write.csv(removedData, file = "preprocess_Filtered_Out_NaN.csv", row.names = FALSE)
+      write.csv(removedData, file = "preprocess_filterNaN.csv", row.names = FALSE)
     }
     
     ## filter out the proteins that have no recorded value
@@ -82,7 +82,7 @@ preProcessFiltering <- function(dataSet,
         filter(PG.NrOfStrippedSequencesIdentified < filterUnique)
       
       ## save removed data to current working directory
-      write.csv(removedData, file = "preprocess_Filtered_Out_Unique.csv", row.names = FALSE)
+      write.csv(removedData, file = "preprocess_filterUnique.csv", row.names = FALSE)
     }
     
     ## filter out proteins that have only 1 unique peptide
@@ -95,9 +95,9 @@ preProcessFiltering <- function(dataSet,
     
     ## replace blank protein name entries with their accession numbers
     filteredData <- filteredData %>%
-      mutate(PG.ProteinNames =
-               replace(PG.ProteinNames, PG.ProteinNames == "",
-                       PG.ProteinAccessions[PG.ProteinNames == ""]))
+      mutate(PG.ProteinName =
+               replace(PG.ProteinName, PG.ProteinName == "",
+                       PG.ProteinAccession[PG.ProteinName == ""]))
   }
   
   ## return the filtered data
@@ -114,10 +114,20 @@ preProcessFiltering <- function(dataSet,
 #' 
 #' @param dataSet The 2d data set of experimental values.
 #' 
-#' @param listName A character vector of proteins to select or remove.
+#' @param listName A character vector of text strings used as keys for selecting or
+#' removing.
 #' 
 #' @param regexName A character vector specifying proteins for regular expression pattern
 #' matching to select or remove.
+#' 
+#' @param by A character string (default = "PG.ProteinName" for Spectronaut, default =
+#' "AccessionNumber" for Scaffold) specifying the information to which \code{listName}
+#' and/or \code{regexName} filter is applied. Allowable options include:
+#' \itemize{
+#' \item For Spectronaut: "PG.Genes", "PG.ProteinAccession", "PG.ProteinDescriptions", and
+#' "PG.ProteinName".
+#' \item For Scaffold: "ProteinDescriptions", "AccessionNumber", and "AlternateID".
+#' }
 #' 
 #' @param removeList A boolean (default = TRUE) specifying whether the list of proteins
 #' should be removed or selected.
@@ -130,8 +140,8 @@ preProcessFiltering <- function(dataSet,
 #' current working directory. This option only works when \code{removeList = TRUE}.
 #' 
 #' @details
-#' If both \code{listName} and \code{regexName} are provided, the protein names selected
-#' or removed will be the union of those specified in \code{listName} and those matching
+#' If both \code{listName} and \code{regexName} are provided, the proteins selected or
+#' removed will be the union of those specified in \code{listName} and those matching
 #' the regex pattern in \code{regexName}.
 #' 
 #' @return
@@ -142,6 +152,7 @@ preProcessFiltering <- function(dataSet,
 filterOutIn <- function(dataSet,
                         listName = c(),
                         regexName = c(),
+                        by = NULL,
                         removeList = TRUE,
                         saveRm = TRUE) {
   
@@ -149,22 +160,31 @@ filterOutIn <- function(dataSet,
   filteredData <- dataSet %>%
     select(-c(R.Condition, R.Replicate))
   
+  information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
+  scaffoldCheck <- any(colnames(information) == "Visible?")
+  IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+  
+  if (is.null(by)) {
+    by <- IDcol
+  }
+  
   ## only list filter if listName is present
   if (length(listName) != 0) {
-    listIndex <- which(colnames(filteredData) %in% listName)
+    listIndex <- which(information[[by]] %in% listName)
   } else {
     listIndex <- NULL
   }
   
   ## only regex filter if regexName is present
   if (length(regexName) != 0) {
-    regexIndex <- grep(paste(regexName, collapse = "|"), colnames(filteredData))
+    regexIndex <- grep(paste(regexName, collapse = "|"), information[[by]])
   } else {
     regexIndex <- NULL
   }
   
   ## combine protein names from list and regex filters
-  unionName <- colnames(filteredData)[sort(union(listIndex, regexIndex))]
+  unionIndex <- sort(union(listIndex, regexIndex))
+  unionName <- information[unionIndex, IDcol]
   
   ## create a dataframe of the data of proteins
   unionData <- dataSet %>%
@@ -173,10 +193,13 @@ filterOutIn <- function(dataSet,
   ## if contaminants are being removed
   if (removeList == TRUE) {
     
+    ## save removed data to current working directory
     if (saveRm) {
-      
-      ## save removed data to current working directory
-      write.csv(unionData, file = "filtered_out_data.csv", row.names = FALSE)
+      unionData_long <- unionData %>%
+        pivot_longer(-c("R.Condition", "R.Replicate"), names_to = IDcol, values_to = "PG.Quantity") %>%
+        left_join(information, by = IDcol) %>%
+        arrange(match(.data[[IDcol]], unionName), R.Condition)
+      write.xlsx(list(unionData, unionData_long), file = "filterOutIn.xlsx")
     }
     
     ## remove all of the contaminants if they are present
@@ -189,109 +212,7 @@ filterOutIn <- function(dataSet,
     filteredData <- unionData
   }
   
-  ## return the filtered data 
-  return(filteredData)
-}
-
-
-##----------------------------------------------------------------------------------------
-#'
-#' Filter proteins by gene, accession or description
-#' 
-#' @description
-#' Filter the preprocessed dataset by gene, accession, or description.
-#' 
-#' @param dataSet The 2d data set of experimental values.
-#' 
-#' @param proteinInformation The name of the .csv file containing protein information data
-#' (including the path to the file, if needed). The file should include the following
-#' columns:
-#' \itemize{
-#' \item For Spectronaut: "PG.Genes", "PG.ProteinAccessions", "PG.ProteinDescriptions",
-#' and "PG.ProteinNames".
-#' \item For Scaffold: "ProteinDescriptions", "AccessionNumber", and "AlternateID".
-#' }
-#' This file is automatically generated by the function
-#' \code{\link[msDiaLogue]{preprocessing}} or
-#' \code{\link[msDiaLogue]{preprocessing_scaffold}}.
-#' 
-#' @param text A character vector of text used as the key for selecting or removing.
-#' 
-#' @param by A character string specifying the information to which the \code{text} filter
-#' is applied, with allowable options:
-#' \itemize{
-#' \item For Spectronaut: "PG.Genes", "PG.ProteinAccessions", "PG.ProteinDescriptions",
-#' and "PG.ProteinNames".
-#' \item For Scaffold: "ProteinDescriptions", "AccessionNumber", and "AlternateID".
-#' }
-#' 
-#' @param removeList A boolean (default = TRUE) specifying whether the list of proteins
-#' should be removed or selected.
-#' \itemize{
-#' \item TRUE: Remove the list of proteins from the data set. 
-#' \item FALSE: Remove all proteins not in the list from the data set.
-#' }
-#' 
-#' @param saveRm A boolean (default = TRUE) specifying whether to save removed data to
-#' current working directory. This option only works when \code{removeList = TRUE}.
-#' 
-#' @details
-#' The function is an extension of the function \code{\link[msDiaLogue]{preprocessing}} or
-#' \code{\link[msDiaLogue]{preprocessing_scaffold}} that allows for filtering proteins
-#' based on additional information.
-#' 
-#' @return
-#' A filtered 2d dataframe.
-#' 
-#' @export
-
-filterProtein <- function(dataSet,
-                          proteinInformation = "preprocess_protein_information.csv",
-                          text = c(),
-                          by = c("PG.Genes", "PG.ProteinAccessions",
-                                 "PG.ProteinDescriptions", "PG.ProteinNames",
-                                 "ProteinDescriptions", "AccessionNumber", "AlternateID"),
-                          removeList = TRUE,
-                          saveRm = TRUE) {
-  
-  proteinInformation <- read.csv(proteinInformation)
-  
-  ## relabel the data frame
-  filteredData <- dataSet %>%
-    select(-c(R.Condition, R.Replicate))
-  
-  index <- grep(paste(text, collapse = "|"), proteinInformation[[by]])
-  
-  if (by %in% c("PG.Genes", "PG.ProteinAccessions",
-                "PG.ProteinDescriptions", "PG.ProteinNames")) {
-    proteinName <- proteinInformation[index,]$PG.ProteinNames
-  } else {
-    proteinName <- proteinInformation[index,]$AccessionNumber
-  }
-  
-  result <- dataSet %>%
-    select(any_of(c("R.Condition", "R.Replicate", proteinName)))
-  
-  ## if contaminants are being removed
-  if (removeList == TRUE) {
-    
-    if (saveRm) {
-      
-      ## save removed data to current working directory
-      write.csv(result, file = "filtered_protein_data.csv", row.names = FALSE)
-    }
-    
-    ## remove all of the contaminants if they are present
-    filteredData <- dataSet %>% select(-any_of(proteinName))
-    
-    ## if certain proteins are being selected
-  } else if (removeList == FALSE) {
-    
-    ## select only proteins of interest
-    filteredData <- result
-  }
-  
-  ## return the filtered data 
+  ## return the filtered data
   return(filteredData)
 }
 
@@ -300,7 +221,7 @@ filterProtein <- function(dataSet,
 #' 
 #' Filtering NA's post-imputation
 #' 
-#' @description 
+#' @description
 #' Remove proteins with NA values.
 #' 
 #' @param dataSet The 2d data set of experimental values.
@@ -319,20 +240,30 @@ filterProtein <- function(dataSet,
 
 filterNA <- function(dataSet, saveRm = TRUE) {
   
+  information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
+  
   if (saveRm) {
     
     ## create a dataframe of the removed data
     removedData <- bind_cols(select(dataSet, c(R.Condition, R.Replicate)),
                              select_if(dataSet, ~any(is.na(.))))
     
+    scaffoldCheck <- any(colnames(information) == "Visible?")
+    IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+    
     ## save removed data to current working directory
-    write.csv(removedData, file = "filtered_NA_data.csv", row.names = FALSE)
+    removedData_long <- removedData %>%
+      pivot_longer(-c("R.Condition", "R.Replicate"), names_to = IDcol, values_to = "PG.Quantity") %>%
+      left_join(information, by = IDcol)
+    
+    write.xlsx(list(removedData, removedData_long), file = "filterNA.xlsx")
+    
   }
   
   ## remove all of the contaminants if they are present
   filteredData <- dataSet %>% select_if(~!any(is.na(.)))
   
-  ## return the filtered data 
+  ## return the filtered data
   return(filteredData)
 }
 
