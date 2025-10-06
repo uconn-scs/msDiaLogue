@@ -74,17 +74,17 @@ summarize <- function(dataSet, saveSumm = TRUE) {
   
   ## combine summaries into a single data frame
   proteinSummary <- do.call(rbind, lapply(conditionsList, function(k) {
-    data.frame(t(proteinSummary[[k]])) %>%
+    data.frame(t(proteinSummary[[k]]), check.names = FALSE) %>%
       select(-"R.Condition") %>%
       rownames_to_column("Stat") %>%
       filter(Stat != "vars") %>%
-      mutate(Condition = k, .before = "Stat")
+      mutate(R.Condition = k, .before = "Stat")
   }))
   
   if (saveSumm) {
     
     ## save file to current working directory
-    write.csv(proteinSummary, file = "summarize_data.csv", row.names = FALSE)
+    write.csv(proteinSummary, file = "summarize.csv", row.names = FALSE)
   } 
   
   ## return protein data summary
