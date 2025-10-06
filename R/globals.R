@@ -7,13 +7,15 @@ utils::globalVariables(c(
   "value", # <dataMissing>
   "PG.Quantity", # <preProcessFiltering>
   "PG.NrOfStrippedSequencesIdentified", # <preProcessFiltering>
-  "PG.ProteinNames", # <preProcessFiltering>
-  "PG.ProteinAccessions", # <preProcessFiltering>
+  "PG.ProteinName", # <preProcessFiltering>
+  "PG.ProteinAccession", # <preProcessFiltering>
+  "PG.ProteinNames", # <preprocessing>
+  "PG.ProteinAccessions", # <preprocessing>
   "value", # <preprocessing>
   "PG.Genes", # <preprocessing>
-  "PG.ProteinAccessions", # <preprocessing>
+  "PG.ProteinAccession", # <preprocessing>
   "PG.ProteinDescriptions", # <preprocessing>
-  "PG.ProteinNames", # <preprocessing>
+  "PG.ProteinName", # <preprocessing>
   "R.Condition", # <preprocessing>
   "R.Replicate", # <preprocessing>
   "PG.Quantity", # <preprocessing>
@@ -32,16 +34,14 @@ utils::globalVariables(c(
   "name", # <visualize.heatmap>
   "value", # <visualize.heatmap>
   "Regulation", # <visualize.ma>
-  "Variable", # <visualize.ma>
   "A", # <visualize.ma>
   "M", # <visualize.ma>
-  "label", # <visualize.ma>
+  "Label", # <visualize.ma>
   "R.Condition", # <visualize.rank>
   "R.Replicate", # <visualize.rank>
-  "Name", # <visualize.rank>
   "Abundance", # <visualize.rank>
   "Rank", # <visualize.rank>
-  "Proteins", # <visualize.rank>
+  "Type", # <visualize.rank>
   "Label", # <visualize.rank>
   "Variable", # <visualize.test>
   "name", # <visualize.test>
@@ -49,17 +49,16 @@ utils::globalVariables(c(
   "Comparison", # <visualize.test>
   "binwidth", # <visualize.test>
   "Significant", # <visualize.volcano>
-  "Variable", # <visualize.volcano>
   "difference", # <visualize.volcano>
-  "p.value", # <visualize.volcano>
-  "label", # <visualize.volcano>
+  "p-value", # <visualize.volcano>
+  "Label", # <visualize.volcano>
   "Dim.1", # <visualize.loading>
   "Dim.2", # <visualize.loading>
   "Name", # <visualize.loading>
   "xcircle", # <visualize.loading>
   "ycircle", # <visualize.loading>
   "Score", # <visualize.vip>
-  "Variable", # <visualize.vip>
+  ":=", # <visualize.vip>
   "Group", # <visualize.vip>
   "Abundance", # <visualize.vip>
   NULL

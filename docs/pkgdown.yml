@@ -1,4 +1,4 @@
-pandoc: 3.7.0.2
+pandoc: '3.8'
 pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
@@ -13,9 +13,8 @@ articles:
   scaffold: scaffold.html
   summarization: summarization.html
   transformation: transformation.html
-  usage_template: usage_template.html
   visualization: visualization.html
-last_built: 2025-07-30T23:13Z
+last_built: 2025-10-06T05:15Z
 urls:
   reference: https://uconn-scs.github.io/msDiaLogue/reference
   article: https://uconn-scs.github.io/msDiaLogue/articles

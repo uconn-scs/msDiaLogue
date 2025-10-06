@@ -13,7 +13,6 @@
 <url><loc>https://uconn-scs.github.io/msDiaLogue/articles/scaffold.html</loc></url>
 <url><loc>https://uconn-scs.github.io/msDiaLogue/articles/summarization.html</loc></url>
 <url><loc>https://uconn-scs.github.io/msDiaLogue/articles/transformation.html</loc></url>
-<url><loc>https://uconn-scs.github.io/msDiaLogue/articles/usage_template.html</loc></url>
 <url><loc>https://uconn-scs.github.io/msDiaLogue/articles/visualization.html</loc></url>
 <url><loc>https://uconn-scs.github.io/msDiaLogue/authors.html</loc></url>
 <url><loc>https://uconn-scs.github.io/msDiaLogue/index.html</loc></url>
@@ -27,7 +26,6 @@
 <url><loc>https://uconn-scs.github.io/msDiaLogue/reference/dataMissing.html</loc></url>
 <url><loc>https://uconn-scs.github.io/msDiaLogue/reference/filterNA.html</loc></url>
 <url><loc>https://uconn-scs.github.io/msDiaLogue/reference/filterOutIn.html</loc></url>
-<url><loc>https://uconn-scs.github.io/msDiaLogue/reference/filterProtein.html</loc></url>
 <url><loc>https://uconn-scs.github.io/msDiaLogue/reference/impute.knn.html</loc></url>
 <url><loc>https://uconn-scs.github.io/msDiaLogue/reference/impute.knn_seq.html</loc></url>
 <url><loc>https://uconn-scs.github.io/msDiaLogue/reference/impute.knn_trunc.html</loc></url>

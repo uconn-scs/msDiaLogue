@@ -4,7 +4,13 @@
 \alias{analyze.wilcox}
 \title{Wilcoxon test}
 \usage{
-analyze.wilcox(dataSet, ref = NULL, adjust.method = "none", paired = FALSE)
+analyze.wilcox(
+  dataSet,
+  ref = NULL,
+  adjust.method = "none",
+  paired = FALSE,
+  saveRes = TRUE
+)
 }
 \arguments{
 \item{dataSet}{The 2d data set of data.}
@@ -26,12 +32,14 @@ See \code{\link[stats]{p.adjust}} for more details.}
 
 \item{paired}{A boolean (default = FALSE) specifying whether or not to perform a paired
 test.}
+
+\item{saveRes}{A boolean (default = TRUE) specifying whether to save the analysis
+results to the current working directory.}
 }
 \value{
 A list comprising data frames for each comparison, with each data frame containing
 the means of the two compared conditions for each protein, the difference in means,
-and the p-values. Additionally, a separate data frame called "total" summarizes
-the results of multiple comparisons.
+and the p-values.
 }
 \description{
 Perform Wilcoxon tests on the data.

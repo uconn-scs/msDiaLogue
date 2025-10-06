@@ -80,18 +80,11 @@ the volcano plot with gene or protein names, using additional information.
 volcano <- visualize.volcano(anlys_modt$`100pmol-50pmol`,
                              P.thres = 0.05, F.thres = 1)
 
-## read a csv file containing full protein information, including gene/protein names
-protNames <- read.csv("full_protein_information.csv")
-
 ## change labels of proteins
 library(dplyr)
 volcano[["data"]] <- volcano[["data"]] %>%
-  ## rename the column "Variable" to "PG.ProteinNames"
-  rename(PG.ProteinNames = Variable) %>%
-  ## merge the data with protNames based on the "PG.ProteinNames" column
-  left_join(protNames, by  = "PG.ProteinNames") %>%
   ## change the default labels from accessions to gene/protein names
-  mutate(label = ifelse(is.na(label), label, PG.Genes))
+  mutate(Label = ifelse(is.na(Label), Label, PG.Genes))
 
 volcano
 ```
@@ -161,12 +154,8 @@ protNames <- read.csv("full_protein_information.csv")
 ## change labels of proteins
 library(dplyr)
 ma[["data"]] <- ma[["data"]] %>%
-  ## rename the column "Variable" to "PG.ProteinNames"
-  rename(PG.ProteinNames = Variable) %>%
-  ## merge the data with protNames based on the "PG.ProteinNames" column
-  left_join(protNames, by  = "PG.ProteinNames") %>%
   ## change the default labels from accessions to gene/protein names
-  mutate(label = ifelse(is.na(label), label, PG.Genes))
+  mutate(Label = ifelse(is.na(Label), Label, PG.Genes))
 
 ma
 ```

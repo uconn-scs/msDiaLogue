@@ -166,9 +166,9 @@ pick up at the `transformation` step in the msDiaLogue script as provided in the
 main [Usage Template](https://uconn-scs.github.io/msDiaLogue/articles/usage_template.html) page.
 
 <div class="note">
-**Note:** You cannot use the function "preprocessing" in the main template, as that is designed for 
-inputs in a Spectronaut report format.  The function for Scaffold data is called "preprocessing_Scaffold",
-given in the code box below. </div>
+**Note:** You cannot use the function `preprocessing()` in the main template,
+as that is designed for inputs in a Spectronaut report format. The function for
+Scaffold data is called `preprocessing_scaffold()`, given in the code box below. </div>
 
 
 + If the raw data is in a .xls file

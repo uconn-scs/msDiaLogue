@@ -32,7 +32,6 @@ reference:
   contents:
   - filterNA
   - filterOutIn
-  - filterProtein
 - title: Normalization
   contents:
   - normalize

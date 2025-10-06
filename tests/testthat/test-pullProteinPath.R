@@ -15,9 +15,7 @@ test_that("pullProteinPath", {
       dataSetList = list(Initial = preprocessing_Toy,
                          Transformed = transform_Toy,
                          Normalized = normalize_quant_Toy,
-                         Imputed = impute.min_local_Toy),
-      by = "PG.ProteinNames",
-      proteinInformation = "../storedData/preprocess_protein_information_Toy.csv")
+                         Imputed = impute.min_local_Toy))
   ))
   
   ## load stored correct data

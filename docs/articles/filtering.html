@@ -91,7 +91,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-06-11</h4>
+            <h4 data-toc-skip class="date">2025-10-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/filtering.Rmd" class="external-link"><code>vignettes/filtering.Rmd</code></a></small>
       <div class="d-none name"><code>filtering.Rmd</code></div>
@@ -274,715 +274,30 @@ specified and keep the rest.</p>
 </tbody>
 </table>
 </div>
-<p>If you want to exclude two sets of proteins and no specific ones
-(e.g. contaminants and decoys, but not specifically albumin), you can
-drop the <code>listName</code> designator entirely, and set the
-<code>regexName</code> to include a combination, like this:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/filterOutIn.html">filterOutIn</a></span><span class="op">(</span><span class="va">dataTran</span>, regexName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DECOY"</span>, <span class="st">"CON__"</span><span class="op">)</span>,</span>
-<span>            removeList <span class="op">=</span> <span class="cn">TRUE</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<div style="overflow-x: auto;">
-<table class="table">
-<colgroup>
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="1%">
-<col width="1%">
-<col width="1%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="1%">
-<col width="2%">
-<col width="2%">
-<col width="1%">
-<col width="1%">
-<col width="1%">
-<col width="1%">
-<col width="1%">
-<col width="1%">
-<col width="1%">
-<col width="1%">
-<col width="1%">
-<col width="1%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="1%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="1%">
-<col width="2%">
-<col width="2%">
-<col width="1%">
-<col width="2%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">R.Condition</th>
-<th align="left">R.Replicate</th>
-<th align="right">NUD4B_HUMAN</th>
-<th align="right">A0A7P0T808_HUMAN</th>
-<th align="right">A0A8I5KU53_HUMAN</th>
-<th align="right">ZN840_HUMAN</th>
-<th align="right">CC85C_HUMAN</th>
-<th align="right">TMC5B_HUMAN</th>
-<th align="right">C9JEV0_HUMAN</th>
-<th align="right">C9JNU9_HUMAN</th>
-<th align="right">ALBU_BOVIN</th>
-<th align="right">CYC_BOVIN</th>
-<th align="right">TRFE_BOVIN</th>
-<th align="right">KRT16_MOUSE</th>
-<th align="right">F8W0H2_HUMAN</th>
-<th align="right">H0Y7V7_HUMAN</th>
-<th align="right">H0YD14_HUMAN</th>
-<th align="right">H3BUF6_HUMAN</th>
-<th align="right">H7C1W4_HUMAN</th>
-<th align="right">H7C3M7_HUMAN</th>
-<th align="right">TCPR2_HUMAN</th>
-<th align="right">TLR3_HUMAN</th>
-<th align="right">LRIG2_HUMAN</th>
-<th align="right">RAB3D_HUMAN</th>
-<th align="right">ADH1_YEAST</th>
-<th align="right">LYSC_CHICK</th>
-<th align="right">BGAL_ECOLI</th>
-<th align="right">CYTA_HUMAN</th>
-<th align="right">KPCB_HUMAN</th>
-<th align="right">LIPL_HUMAN</th>
-<th align="right">PIP_HUMAN</th>
-<th align="right">CO6_HUMAN</th>
-<th align="right">BGAL_HUMAN</th>
-<th align="right">SYTC_HUMAN</th>
-<th align="right">CASPE_HUMAN</th>
-<th align="right">DCAF6_HUMAN</th>
-<th align="right">DALD3_HUMAN</th>
-<th align="right">HGNAT_HUMAN</th>
-<th align="right">RFFL_HUMAN</th>
-<th align="right">RN185_HUMAN</th>
-<th align="right">ZN462_HUMAN</th>
-<th align="right">ALKB7_HUMAN</th>
-<th align="right">POLK_HUMAN</th>
-<th align="right">ACAD8_HUMAN</th>
-<th align="right">A0A7I2PK40_HUMAN</th>
-<th align="right">NBDY_HUMAN</th>
-<th align="right">H0Y5R1_HUMAN</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">100pmol</td>
-<td align="left">1</td>
-<td align="right">10.59617</td>
-<td align="right">11.629505</td>
-<td align="right">11.461371</td>
-<td align="right">8.315348</td>
-<td align="right">8.952781</td>
-<td align="right">8.833937</td>
-<td align="right">7.736180</td>
-<td align="right">7.889538</td>
-<td align="right">16.76292</td>
-<td align="right">13.39043</td>
-<td align="right">13.88204</td>
-<td align="right">10.81329</td>
-<td align="right">9.299651</td>
-<td align="right">10.357346</td>
-<td align="right">10.321521</td>
-<td align="right">8.132535</td>
-<td align="right">8.226486</td>
-<td align="right">10.173123</td>
-<td align="right">14.006782</td>
-<td align="right">7.486384</td>
-<td align="right">9.011536</td>
-<td align="right">10.26981</td>
-<td align="right">14.75235</td>
-<td align="right">13.75223</td>
-<td align="right">14.54110</td>
-<td align="right">9.262305</td>
-<td align="right">9.952103</td>
-<td align="right">8.781496</td>
-<td align="right">7.047859</td>
-<td align="right">7.234610</td>
-<td align="right">11.80494</td>
-<td align="right">14.71384</td>
-<td align="right">6.775489</td>
-<td align="right">7.725502</td>
-<td align="right">10.335975</td>
-<td align="right">10.939236</td>
-<td align="right">7.568272</td>
-<td align="right">10.111329</td>
-<td align="right">9.938277</td>
-<td align="right">7.496910</td>
-<td align="right">7.637679</td>
-<td align="right">7.712738</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="even">
-<td align="left">100pmol</td>
-<td align="left">2</td>
-<td align="right">10.71487</td>
-<td align="right">12.159989</td>
-<td align="right">10.052500</td>
-<td align="right">8.659134</td>
-<td align="right">9.121174</td>
-<td align="right">8.968803</td>
-<td align="right">7.530568</td>
-<td align="right">8.294768</td>
-<td align="right">16.76875</td>
-<td align="right">13.37929</td>
-<td align="right">13.95131</td>
-<td align="right">NA</td>
-<td align="right">9.167541</td>
-<td align="right">10.121893</td>
-<td align="right">10.338709</td>
-<td align="right">8.086487</td>
-<td align="right">7.954448</td>
-<td align="right">10.011280</td>
-<td align="right">10.512493</td>
-<td align="right">7.735480</td>
-<td align="right">8.943620</td>
-<td align="right">10.21241</td>
-<td align="right">14.73246</td>
-<td align="right">13.76076</td>
-<td align="right">14.54854</td>
-<td align="right">9.322413</td>
-<td align="right">10.073449</td>
-<td align="right">8.509870</td>
-<td align="right">7.008875</td>
-<td align="right">7.002919</td>
-<td align="right">11.73674</td>
-<td align="right">14.70683</td>
-<td align="right">7.279609</td>
-<td align="right">8.445472</td>
-<td align="right">10.058467</td>
-<td align="right">10.559522</td>
-<td align="right">7.265925</td>
-<td align="right">10.348343</td>
-<td align="right">8.602358</td>
-<td align="right">6.939530</td>
-<td align="right">9.553050</td>
-<td align="right">7.950604</td>
-<td align="right">10.471813</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">100pmol</td>
-<td align="left">3</td>
-<td align="right">10.46639</td>
-<td align="right">12.190792</td>
-<td align="right">11.088689</td>
-<td align="right">8.103769</td>
-<td align="right">9.127531</td>
-<td align="right">NA</td>
-<td align="right">6.797573</td>
-<td align="right">8.969260</td>
-<td align="right">16.69347</td>
-<td align="right">13.38042</td>
-<td align="right">13.87481</td>
-<td align="right">NA</td>
-<td align="right">9.260677</td>
-<td align="right">10.257840</td>
-<td align="right">9.885818</td>
-<td align="right">8.275007</td>
-<td align="right">8.080432</td>
-<td align="right">10.820332</td>
-<td align="right">14.395759</td>
-<td align="right">7.649245</td>
-<td align="right">8.418693</td>
-<td align="right">10.26143</td>
-<td align="right">14.69847</td>
-<td align="right">13.74438</td>
-<td align="right">14.48667</td>
-<td align="right">9.107695</td>
-<td align="right">10.200628</td>
-<td align="right">8.317577</td>
-<td align="right">NA</td>
-<td align="right">6.888870</td>
-<td align="right">11.77277</td>
-<td align="right">14.67310</td>
-<td align="right">6.520759</td>
-<td align="right">8.318009</td>
-<td align="right">9.970591</td>
-<td align="right">10.390675</td>
-<td align="right">7.161124</td>
-<td align="right">10.401629</td>
-<td align="right">8.748640</td>
-<td align="right">7.176720</td>
-<td align="right">7.418964</td>
-<td align="right">7.793871</td>
-<td align="right">10.883458</td>
-<td align="right">9.706811</td>
-<td align="right">NA</td>
-</tr>
-<tr class="even">
-<td align="left">100pmol</td>
-<td align="left">4</td>
-<td align="right">10.66221</td>
-<td align="right">11.902450</td>
-<td align="right">11.010415</td>
-<td align="right">8.588923</td>
-<td align="right">9.124371</td>
-<td align="right">8.721258</td>
-<td align="right">6.397005</td>
-<td align="right">8.386462</td>
-<td align="right">16.67235</td>
-<td align="right">13.40449</td>
-<td align="right">13.88803</td>
-<td align="right">NA</td>
-<td align="right">9.792043</td>
-<td align="right">10.165829</td>
-<td align="right">10.092467</td>
-<td align="right">NA</td>
-<td align="right">7.841731</td>
-<td align="right">9.816296</td>
-<td align="right">14.485405</td>
-<td align="right">7.911680</td>
-<td align="right">8.707996</td>
-<td align="right">10.21790</td>
-<td align="right">14.67556</td>
-<td align="right">13.76742</td>
-<td align="right">14.44549</td>
-<td align="right">8.776573</td>
-<td align="right">10.183221</td>
-<td align="right">8.457541</td>
-<td align="right">NA</td>
-<td align="right">7.107332</td>
-<td align="right">11.76563</td>
-<td align="right">14.66124</td>
-<td align="right">6.463718</td>
-<td align="right">7.766514</td>
-<td align="right">8.936074</td>
-<td align="right">10.749752</td>
-<td align="right">6.643218</td>
-<td align="right">9.952253</td>
-<td align="right">8.620437</td>
-<td align="right">7.071718</td>
-<td align="right">7.181633</td>
-<td align="right">7.757381</td>
-<td align="right">10.653061</td>
-<td align="right">9.892252</td>
-<td align="right">9.835011</td>
-</tr>
-<tr class="odd">
-<td align="left">200pmol</td>
-<td align="left">1</td>
-<td align="right">10.56298</td>
-<td align="right">12.047141</td>
-<td align="right">10.969287</td>
-<td align="right">8.402065</td>
-<td align="right">7.288615</td>
-<td align="right">8.509940</td>
-<td align="right">7.197741</td>
-<td align="right">NA</td>
-<td align="right">16.73721</td>
-<td align="right">14.25302</td>
-<td align="right">14.39727</td>
-<td align="right">11.11126</td>
-<td align="right">8.941866</td>
-<td align="right">10.283605</td>
-<td align="right">10.077367</td>
-<td align="right">8.077610</td>
-<td align="right">7.977841</td>
-<td align="right">10.506136</td>
-<td align="right">14.365875</td>
-<td align="right">7.806321</td>
-<td align="right">8.293637</td>
-<td align="right">10.20088</td>
-<td align="right">15.57144</td>
-<td align="right">14.57129</td>
-<td align="right">15.33157</td>
-<td align="right">8.510688</td>
-<td align="right">10.232523</td>
-<td align="right">8.590645</td>
-<td align="right">6.031341</td>
-<td align="right">7.239260</td>
-<td align="right">11.79502</td>
-<td align="right">14.68066</td>
-<td align="right">6.343792</td>
-<td align="right">7.535170</td>
-<td align="right">9.876348</td>
-<td align="right">11.069962</td>
-<td align="right">7.034874</td>
-<td align="right">8.573870</td>
-<td align="right">8.746924</td>
-<td align="right">7.903880</td>
-<td align="right">7.180345</td>
-<td align="right">8.730611</td>
-<td align="right">11.190966</td>
-<td align="right">NA</td>
-<td align="right">9.710589</td>
-</tr>
-<tr class="even">
-<td align="left">200pmol</td>
-<td align="left">2</td>
-<td align="right">10.53186</td>
-<td align="right">11.771837</td>
-<td align="right">11.088757</td>
-<td align="right">NA</td>
-<td align="right">9.104358</td>
-<td align="right">NA</td>
-<td align="right">7.085164</td>
-<td align="right">8.208757</td>
-<td align="right">16.79052</td>
-<td align="right">14.29292</td>
-<td align="right">14.48740</td>
-<td align="right">NA</td>
-<td align="right">9.387564</td>
-<td align="right">10.060966</td>
-<td align="right">NA</td>
-<td align="right">8.157292</td>
-<td align="right">8.019591</td>
-<td align="right">10.035834</td>
-<td align="right">14.652848</td>
-<td align="right">7.572173</td>
-<td align="right">8.822824</td>
-<td align="right">10.25298</td>
-<td align="right">15.60578</td>
-<td align="right">14.59469</td>
-<td align="right">15.38867</td>
-<td align="right">9.307350</td>
-<td align="right">10.269781</td>
-<td align="right">8.693930</td>
-<td align="right">NA</td>
-<td align="right">7.085982</td>
-<td align="right">11.84818</td>
-<td align="right">14.75441</td>
-<td align="right">6.120292</td>
-<td align="right">7.968111</td>
-<td align="right">9.994960</td>
-<td align="right">9.503153</td>
-<td align="right">6.860543</td>
-<td align="right">9.776460</td>
-<td align="right">8.775531</td>
-<td align="right">7.059936</td>
-<td align="right">7.330260</td>
-<td align="right">7.277041</td>
-<td align="right">NA</td>
-<td align="right">10.041446</td>
-<td align="right">9.966576</td>
-</tr>
-<tr class="odd">
-<td align="left">200pmol</td>
-<td align="left">3</td>
-<td align="right">10.60347</td>
-<td align="right">8.477484</td>
-<td align="right">11.155251</td>
-<td align="right">8.568416</td>
-<td align="right">9.140283</td>
-<td align="right">8.954421</td>
-<td align="right">6.690756</td>
-<td align="right">8.888482</td>
-<td align="right">16.80274</td>
-<td align="right">14.34340</td>
-<td align="right">14.33875</td>
-<td align="right">10.50303</td>
-<td align="right">9.196543</td>
-<td align="right">10.428428</td>
-<td align="right">10.222608</td>
-<td align="right">8.188220</td>
-<td align="right">7.525047</td>
-<td align="right">10.134101</td>
-<td align="right">NA</td>
-<td align="right">7.447663</td>
-<td align="right">8.755449</td>
-<td align="right">10.24829</td>
-<td align="right">15.62983</td>
-<td align="right">14.59826</td>
-<td align="right">15.38886</td>
-<td align="right">8.802237</td>
-<td align="right">10.080459</td>
-<td align="right">8.482341</td>
-<td align="right">NA</td>
-<td align="right">7.011984</td>
-<td align="right">11.78574</td>
-<td align="right">14.72607</td>
-<td align="right">5.956155</td>
-<td align="right">7.094894</td>
-<td align="right">10.194229</td>
-<td align="right">10.710537</td>
-<td align="right">6.776144</td>
-<td align="right">9.874052</td>
-<td align="right">9.152012</td>
-<td align="right">8.302428</td>
-<td align="right">7.197231</td>
-<td align="right">7.632834</td>
-<td align="right">10.449137</td>
-<td align="right">9.709462</td>
-<td align="right">9.439995</td>
-</tr>
-<tr class="even">
-<td align="left">200pmol</td>
-<td align="left">4</td>
-<td align="right">10.57897</td>
-<td align="right">8.454127</td>
-<td align="right">11.118493</td>
-<td align="right">8.682375</td>
-<td align="right">8.194285</td>
-<td align="right">9.028272</td>
-<td align="right">6.572711</td>
-<td align="right">8.315126</td>
-<td align="right">16.82923</td>
-<td align="right">14.28224</td>
-<td align="right">14.43524</td>
-<td align="right">NA</td>
-<td align="right">9.074329</td>
-<td align="right">9.850693</td>
-<td align="right">10.123326</td>
-<td align="right">8.334982</td>
-<td align="right">6.609617</td>
-<td align="right">9.902441</td>
-<td align="right">NA</td>
-<td align="right">7.364369</td>
-<td align="right">NA</td>
-<td align="right">10.20847</td>
-<td align="right">15.71383</td>
-<td align="right">14.68721</td>
-<td align="right">15.40141</td>
-<td align="right">9.042105</td>
-<td align="right">10.131013</td>
-<td align="right">8.419983</td>
-<td align="right">NA</td>
-<td align="right">6.922516</td>
-<td align="right">11.87336</td>
-<td align="right">14.74952</td>
-<td align="right">6.137395</td>
-<td align="right">7.638402</td>
-<td align="right">9.960103</td>
-<td align="right">10.728447</td>
-<td align="right">6.969417</td>
-<td align="right">9.256541</td>
-<td align="right">8.984393</td>
-<td align="right">7.675486</td>
-<td align="right">7.339503</td>
-<td align="right">8.556645</td>
-<td align="right">9.807216</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">50pmol</td>
-<td align="left">1</td>
-<td align="right">10.53159</td>
-<td align="right">9.132855</td>
-<td align="right">7.569305</td>
-<td align="right">8.045720</td>
-<td align="right">8.271192</td>
-<td align="right">NA</td>
-<td align="right">9.228590</td>
-<td align="right">7.587860</td>
-<td align="right">16.84602</td>
-<td align="right">12.72244</td>
-<td align="right">13.57268</td>
-<td align="right">NA</td>
-<td align="right">9.216503</td>
-<td align="right">9.812981</td>
-<td align="right">10.183775</td>
-<td align="right">8.187071</td>
-<td align="right">7.461197</td>
-<td align="right">9.276601</td>
-<td align="right">13.784136</td>
-<td align="right">7.253131</td>
-<td align="right">8.191030</td>
-<td align="right">10.21255</td>
-<td align="right">14.00214</td>
-<td align="right">12.80775</td>
-<td align="right">13.84634</td>
-<td align="right">11.543379</td>
-<td align="right">10.008055</td>
-<td align="right">8.172313</td>
-<td align="right">9.799682</td>
-<td align="right">7.019571</td>
-<td align="right">11.79277</td>
-<td align="right">14.64773</td>
-<td align="right">9.726148</td>
-<td align="right">7.192825</td>
-<td align="right">NA</td>
-<td align="right">8.849818</td>
-<td align="right">6.440419</td>
-<td align="right">8.545470</td>
-<td align="right">5.642106</td>
-<td align="right">7.884416</td>
-<td align="right">4.387496</td>
-<td align="right">7.153265</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="even">
-<td align="left">50pmol</td>
-<td align="left">2</td>
-<td align="right">10.53736</td>
-<td align="right">NA</td>
-<td align="right">10.513980</td>
-<td align="right">8.347621</td>
-<td align="right">8.456285</td>
-<td align="right">NA</td>
-<td align="right">7.992943</td>
-<td align="right">8.269956</td>
-<td align="right">16.74828</td>
-<td align="right">12.71449</td>
-<td align="right">13.61215</td>
-<td align="right">NA</td>
-<td align="right">9.187083</td>
-<td align="right">9.054498</td>
-<td align="right">10.128672</td>
-<td align="right">8.165500</td>
-<td align="right">6.694638</td>
-<td align="right">9.730023</td>
-<td align="right">14.604574</td>
-<td align="right">7.135959</td>
-<td align="right">8.501088</td>
-<td align="right">10.29986</td>
-<td align="right">14.00533</td>
-<td align="right">12.92880</td>
-<td align="right">13.84713</td>
-<td align="right">9.743997</td>
-<td align="right">NA</td>
-<td align="right">8.497645</td>
-<td align="right">7.484646</td>
-<td align="right">7.382746</td>
-<td align="right">11.78545</td>
-<td align="right">14.68558</td>
-<td align="right">7.699266</td>
-<td align="right">7.371963</td>
-<td align="right">8.051031</td>
-<td align="right">10.210618</td>
-<td align="right">6.553276</td>
-<td align="right">9.585343</td>
-<td align="right">8.934897</td>
-<td align="right">7.199104</td>
-<td align="right">6.466231</td>
-<td align="right">6.666879</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">50pmol</td>
-<td align="left">3</td>
-<td align="right">10.52018</td>
-<td align="right">5.409885</td>
-<td align="right">10.414587</td>
-<td align="right">6.392210</td>
-<td align="right">8.211960</td>
-<td align="right">8.629371</td>
-<td align="right">8.010051</td>
-<td align="right">8.125402</td>
-<td align="right">16.68880</td>
-<td align="right">12.59173</td>
-<td align="right">13.54185</td>
-<td align="right">10.42381</td>
-<td align="right">9.154545</td>
-<td align="right">NA</td>
-<td align="right">10.059451</td>
-<td align="right">8.200124</td>
-<td align="right">6.467420</td>
-<td align="right">9.528985</td>
-<td align="right">9.380464</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">10.19961</td>
-<td align="right">14.02047</td>
-<td align="right">12.85969</td>
-<td align="right">13.78955</td>
-<td align="right">9.839974</td>
-<td align="right">9.954989</td>
-<td align="right">8.320282</td>
-<td align="right">7.007159</td>
-<td align="right">6.915251</td>
-<td align="right">11.75573</td>
-<td align="right">14.66720</td>
-<td align="right">7.669944</td>
-<td align="right">7.050670</td>
-<td align="right">8.187233</td>
-<td align="right">9.865682</td>
-<td align="right">6.547034</td>
-<td align="right">9.095644</td>
-<td align="right">8.043669</td>
-<td align="right">8.290176</td>
-<td align="right">6.805857</td>
-<td align="right">6.417115</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-<tr class="even">
-<td align="left">50pmol</td>
-<td align="left">4</td>
-<td align="right">10.54837</td>
-<td align="right">9.856548</td>
-<td align="right">10.487397</td>
-<td align="right">8.106476</td>
-<td align="right">7.921629</td>
-<td align="right">8.733797</td>
-<td align="right">7.627267</td>
-<td align="right">8.578971</td>
-<td align="right">16.75298</td>
-<td align="right">12.55756</td>
-<td align="right">13.55333</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">9.212217</td>
-<td align="right">10.346652</td>
-<td align="right">8.406582</td>
-<td align="right">4.913458</td>
-<td align="right">9.770142</td>
-<td align="right">13.939516</td>
-<td align="right">7.154078</td>
-<td align="right">8.187412</td>
-<td align="right">10.16831</td>
-<td align="right">13.99104</td>
-<td align="right">12.88104</td>
-<td align="right">13.84928</td>
-<td align="right">9.792434</td>
-<td align="right">10.153070</td>
-<td align="right">NA</td>
-<td align="right">7.253251</td>
-<td align="right">NA</td>
-<td align="right">11.80386</td>
-<td align="right">14.66456</td>
-<td align="right">7.573424</td>
-<td align="right">7.782606</td>
-<td align="right">9.402638</td>
-<td align="right">9.961304</td>
-<td align="right">4.980612</td>
-<td align="right">9.031966</td>
-<td align="right">8.814051</td>
-<td align="right">7.359200</td>
-<td align="right">7.169527</td>
-<td align="right">7.079907</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>Keep in mind that if you only type “CON”, many protein names have CON
-somewhere in a text string, and those will be selected too. This is why
-the contaminants database uses two underscores to set off the identifier
-tag (CON__), so you can distinguish between contaminants and proteins
-with names like “condensin” or “ubiquitin-conjugating” or
-“domain-containing”.</p>
+<!-- If you want to exclude two sets of proteins and no specific ones (e.g. -->
+<!-- contaminants and decoys, but not specifically albumin), you can drop the -->
+<!-- `listName` designator entirely, and set the `regexName` to include a combination, -->
+<!-- like this: -->
+<!-- ```{r eval=FALSE} -->
+<!-- filterOutIn(dataTran, regexName = c("DECOY", "CON__"), -->
+<!--             removeList = TRUE, saveRm = TRUE) -->
+<!-- ``` -->
+<!-- <div style="overflow-x: auto;"> -->
+<!-- ```{r echo=FALSE} -->
+<!-- knitr::kable( -->
+<!--   filterOutIn(dataTran, regexName = c("DECOY", "CON__"), -->
+<!--               removeList = TRUE, saveRm = TRUE)) -->
+<!-- ``` -->
+<!-- </div> -->
+<!-- Keep in mind that if you only type "CON", many protein names have CON somewhere -->
+<!-- in a text string, and those will be selected too.  This is why the contaminants -->
+<!-- database uses two underscores to set off the identifier tag (CON__), so you can -->
+<!-- distinguish between contaminants and proteins with names like "condensin" or -->
+<!-- "ubiquitin-conjugating" or "domain-containing". -->
 <p>If <code>saveRm = TRUE</code>, the filtered-out data (“ALBU_BOVIN” +
-“*HUMAN”) will be saved as a .csv file named
-<em>filtered_out_data.csv</em> in the current working directory, and you
-can inspect this list to see what was removed.</p>
+“*HUMAN”) will be saved as a .xlsx file named <em>filterOutIn.xlsx</em>
+in the current working directory, and you can inspect this list to see
+what was removed.</p>
 </div>
 <div class="section level3">
 <h3 id="case-2--keep-the-proteins-specified-by-the-user-in-this-step-and-remove-everything-else-">Case 2. Keep the proteins specified by the user in this step and
@@ -991,7 +306,7 @@ remove everything else.<a class="anchor" aria-label="anchor" href="#case-2--keep
 <p>If we set <code>removeList</code> to FALSE, running this code will
 remove everything you <em>didn’t</em> specify and keep only things that
 matched your search terms.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/filterOutIn.html">filterOutIn</a></span><span class="op">(</span><span class="va">dataTran</span>, listName <span class="op">=</span> <span class="st">"ALBU_BOVIN"</span>, regexName <span class="op">=</span> <span class="st">"HUMAN"</span>,</span>
 <span>            removeList <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div style="overflow-x: auto;">
@@ -999,20 +314,20 @@ matched your search terms.</p>
 <colgroup>
 <col width="2%">
 <col width="2%">
+<col width="3%">
+<col width="4%">
+<col width="4%">
+<col width="2%">
+<col width="2%">
 <col width="2%">
 <col width="3%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
 <col width="3%">
 <col width="2%">
 <col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
+<col width="3%">
 <col width="2%">
 <col width="2%">
 <col width="2%">
@@ -1035,27 +350,27 @@ matched your search terms.</p>
 <col width="2%">
 <col width="2%">
 <col width="2%">
+<col width="4%">
+<col width="2%">
 <col width="3%">
-<col width="2%">
-<col width="2%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">R.Condition</th>
 <th align="left">R.Replicate</th>
-<th align="right">NUD4B_HUMAN</th>
-<th align="right">A0A7P0T808_HUMAN</th>
-<th align="right">A0A8I5KU53_HUMAN</th>
+<th align="right">NUD4B_HUMAN (+1)</th>
+<th align="right">A0A7P0T808_HUMAN (+1)</th>
+<th align="right">A0A8I5KU53_HUMAN (+1)</th>
 <th align="right">ZN840_HUMAN</th>
 <th align="right">CC85C_HUMAN</th>
 <th align="right">TMC5B_HUMAN</th>
-<th align="right">C9JEV0_HUMAN</th>
+<th align="right">C9JEV0_HUMAN (+1)</th>
 <th align="right">C9JNU9_HUMAN</th>
 <th align="right">ALBU_BOVIN</th>
 <th align="right">F8W0H2_HUMAN</th>
-<th align="right">H0Y7V7_HUMAN</th>
+<th align="right">H0Y7V7_HUMAN (+1)</th>
 <th align="right">H0YD14_HUMAN</th>
 <th align="right">H3BUF6_HUMAN</th>
-<th align="right">H7C1W4_HUMAN</th>
+<th align="right">H7C1W4_HUMAN (+1)</th>
 <th align="right">H7C3M7_HUMAN</th>
 <th align="right">TCPR2_HUMAN</th>
 <th align="right">TLR3_HUMAN</th>
@@ -1078,9 +393,9 @@ matched your search terms.</p>
 <th align="right">ALKB7_HUMAN</th>
 <th align="right">POLK_HUMAN</th>
 <th align="right">ACAD8_HUMAN</th>
-<th align="right">A0A7I2PK40_HUMAN</th>
+<th align="right">A0A7I2PK40_HUMAN (+2)</th>
 <th align="right">NBDY_HUMAN</th>
-<th align="right">H0Y5R1_HUMAN</th>
+<th align="right">H0Y5R1_HUMAN (+1)</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -1606,27 +921,22 @@ matched your search terms.</p>
 <div class="section level3">
 <h3 id="extension">Extension<a class="anchor" aria-label="anchor" href="#extension"></a>
 </h3>
-<p>Besides protein names, the function <code><a href="../reference/filterProtein.html">filterProtein()</a></code>
-provides a similar function to filter proteins by additional protein
-information.</p>
+<p>Besides protein names, the function <code><a href="../reference/filterOutIn.html">filterOutIn()</a></code> can
+filter proteins using additional protein information.</p>
 <ul>
 <li><p>For <strong>Spectronaut</strong>: “PG.Genes”,
-“PG.ProteinAccessions”, “PG.ProteinDescriptions”, and
-“PG.ProteinNames”.</p></li>
+“PG.ProteinAccession”, “PG.ProteinDescriptions”, and
+“PG.ProteinName”.</p></li>
 <li><p>For <strong>Scaffold</strong>: “ProteinDescriptions”,
 “AccessionNumber”, and “AlternateID”.</p></li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/filterProtein.html">filterProtein</a></span><span class="op">(</span><span class="va">dataTran</span>, proteinInformation <span class="op">=</span> <span class="st">"preprocess_protein_information.csv"</span>,</span>
-<span>              text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Putative zinc finger protein 840"</span>, <span class="st">"Bovine serum albumin"</span><span class="op">)</span>,</span>
-<span>              by <span class="op">=</span> <span class="st">"PG.ProteinDescriptions"</span>,</span>
-<span>              removeList <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p>where <code>proteinInformation</code> is the file name for protein
-information, automatically generated by <code><a href="../reference/preprocessing.html">preprocessing()</a></code>. In
-this case, the proteins whose <code>"PG.ProteinDescriptions"</code>
-match with “Putative zinc finger protein 840” or “Bovine serum albumin”
-will be kept. Note that the search value <code>text</code> is used for
-exact equality search.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/filterOutIn.html">filterOutIn</a></span><span class="op">(</span><span class="va">dataTran</span>,</span>
+<span>            listName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Putative zinc finger protein 840"</span>, <span class="st">"Bovine serum albumin"</span><span class="op">)</span>,</span>
+<span>            by <span class="op">=</span> <span class="st">"PG.ProteinDescriptions"</span>, removeList <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>In this case, the proteins whose
+<code>"PG.ProteinDescriptions"</code> match with “Putative zinc finger
+protein 840” or “Bovine serum albumin” will be kept.</p>
 <div style="overflow-x: auto;">
 <table class="table">
 <thead><tr class="header">

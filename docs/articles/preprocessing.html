@@ -91,7 +91,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-06-11</h4>
+            <h4 data-toc-skip class="date">2025-10-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/preprocessing.Rmd" class="external-link"><code>vignettes/preprocessing.Rmd</code></a></small>
       <div class="d-none name"><code>preprocessing.Rmd</code></div>
@@ -136,30 +136,26 @@ transformation on your data. You still need to use the function
 <pre><code><span><span class="co">#&gt; Levels of Condition: 100pmol 200pmol 50pmol </span></span>
 <span><span class="co">#&gt; Levels of Replicate: 1 2 3 4</span></span></code></pre>
 <div style="overflow-x: auto;">
-<table class="table">
+<table style="width:100%;" class="table">
 <colgroup>
+<col width="1%">
+<col width="1%">
 <col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
+<col width="3%">
+<col width="3%">
 <col width="1%">
 <col width="1%">
 <col width="1%">
 <col width="2%">
 <col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
 <col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
 <col width="2%">
 <col width="2%">
 <col width="1%">
@@ -172,40 +168,44 @@ transformation on your data. You still need to use the function
 <col width="1%">
 <col width="1%">
 <col width="1%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
 <col width="1%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
 <col width="1%">
-<col width="2%">
-<col width="2%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="1%">
+<col width="3%">
 <col width="1%">
 <col width="2%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">R.Condition</th>
 <th align="left">R.Replicate</th>
-<th align="left">NUD4B_HUMAN</th>
-<th align="left">A0A7P0T808_HUMAN</th>
-<th align="left">A0A8I5KU53_HUMAN</th>
+<th align="left">NUD4B_HUMAN (+1)</th>
+<th align="left">A0A7P0T808_HUMAN (+1)</th>
+<th align="left">A0A8I5KU53_HUMAN (+1)</th>
 <th align="left">ZN840_HUMAN</th>
 <th align="left">CC85C_HUMAN</th>
 <th align="left">TMC5B_HUMAN</th>
-<th align="left">C9JEV0_HUMAN</th>
+<th align="left">C9JEV0_HUMAN (+1)</th>
 <th align="left">C9JNU9_HUMAN</th>
 <th align="left">ALBU_BOVIN</th>
 <th align="left">CYC_BOVIN</th>
 <th align="left">TRFE_BOVIN</th>
 <th align="left">KRT16_MOUSE</th>
 <th align="left">F8W0H2_HUMAN</th>
-<th align="left">H0Y7V7_HUMAN</th>
+<th align="left">H0Y7V7_HUMAN (+1)</th>
 <th align="left">H0YD14_HUMAN</th>
 <th align="left">H3BUF6_HUMAN</th>
-<th align="left">H7C1W4_HUMAN</th>
+<th align="left">H7C1W4_HUMAN (+1)</th>
 <th align="left">H7C3M7_HUMAN</th>
 <th align="left">TCPR2_HUMAN</th>
 <th align="left">TLR3_HUMAN</th>
@@ -231,9 +231,9 @@ transformation on your data. You still need to use the function
 <th align="left">ALKB7_HUMAN</th>
 <th align="left">POLK_HUMAN</th>
 <th align="left">ACAD8_HUMAN</th>
-<th align="left">A0A7I2PK40_HUMAN</th>
+<th align="left">A0A7I2PK40_HUMAN (+2)</th>
 <th align="left">NBDY_HUMAN</th>
-<th align="left">H0Y5R1_HUMAN</th>
+<th align="left">H0Y5R1_HUMAN (+1)</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -919,9 +919,9 @@ protein cluster IDs by likelihood of correctness).
 <p><strong>5.</strong> Saves a document to your working directory with
 all filtered out data, if desired</p>
 <p>If <code>saveRm = TRUE</code>, the data removed in step 2
-(<em>preprocess_Filtered_Out_NaN.csv</em>) and step 3
-(<em>preprocess_Filtered_Out_Unique.csv</em>) will be saved in the
-current working directory.</p>
+(<em>preprocess_filterNaN.csv</em>) and step 3
+(<em>preprocess_filterUnique.csv</em>) will be saved in the current
+working directory.</p>
 <p>As part of the <code><a href="../reference/preprocessing.html">preprocessing()</a></code>, a histogram of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">log_2</annotation></semantics></math>-transformed
 protein abundances is provided. This is a helpful way to confirm that

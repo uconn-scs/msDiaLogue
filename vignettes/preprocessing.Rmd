@@ -162,9 +162,9 @@ cluster IDs by likelihood of correctness). </div>
 if desired
 
 
-If `saveRm = TRUE`, the data removed in step 2 (*preprocess_Filtered_Out_NaN.csv*)
-and step 3 (*preprocess_Filtered_Out_Unique.csv*) will be saved in the current
-working directory.
+If `saveRm = TRUE`, the data removed in step 2 (*preprocess_filterNaN.csv*) and
+step 3 (*preprocess_filterUnique.csv*) will be saved in the current working
+directory.
 
 
 As part of the `preprocessing()`, a histogram of $log_2$-transformed protein

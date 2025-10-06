@@ -8,6 +8,7 @@ filterOutIn(
   dataSet,
   listName = c(),
   regexName = c(),
+  by = NULL,
   removeList = TRUE,
   saveRm = TRUE
 )
@@ -15,10 +16,20 @@ filterOutIn(
 \arguments{
 \item{dataSet}{The 2d data set of experimental values.}
 
-\item{listName}{A character vector of proteins to select or remove.}
+\item{listName}{A character vector of text strings used as keys for selecting or
+removing.}
 
 \item{regexName}{A character vector specifying proteins for regular expression pattern
 matching to select or remove.}
+
+\item{by}{A character string (default = "PG.ProteinName" for Spectronaut, default =
+"AccessionNumber" for Scaffold) specifying the information to which \code{listName}
+and/or \code{regexName} filter is applied. Allowable options include:
+\itemize{
+\item For Spectronaut: "PG.Genes", "PG.ProteinAccession", "PG.ProteinDescriptions", and
+"PG.ProteinName".
+\item For Scaffold: "ProteinDescriptions", "AccessionNumber", and "AlternateID".
+}}
 
 \item{removeList}{A boolean (default = TRUE) specifying whether the list of proteins
 should be removed or selected.
@@ -37,7 +48,7 @@ A filtered 2d dataframe.
 Apply a series of filtering steps to the data set.
 }
 \details{
-If both \code{listName} and \code{regexName} are provided, the protein names selected
-or removed will be the union of those specified in \code{listName} and those matching
+If both \code{listName} and \code{regexName} are provided, the proteins selected or
+removed will be the union of those specified in \code{listName} and those matching
 the regex pattern in \code{regexName}.
 }

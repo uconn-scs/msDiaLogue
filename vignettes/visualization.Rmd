@@ -251,13 +251,13 @@ elements that are shared between sets.
 ```{r}
 visualize.venn(dataSort, show_percentage = TRUE,
                fill_color = c("blue", "yellow", "green", "red"),
-               saveVenn = TRUE)
+               saveRes = TRUE)
 ```
 
 
-where `saveVenn = TRUE` refers to the data containing logical columns
+where `saveRes = TRUE` refers to the data containing logical columns
 representing sets in Venn plot information will be saved as a .csv file named
-*Venn_information.csv* in the current working directory.
+*venn_information.csv* in the current working directory.
 
 
 In the example above, 50pmol, 100pmol, and 200pmol groups share 42 proteins.

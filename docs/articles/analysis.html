@@ -91,7 +91,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-06-11</h4>
+            <h4 data-toc-skip class="date">2025-10-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/analysis.Rmd" class="external-link"><code>vignettes/analysis.Rmd</code></a></small>
       <div class="d-none name"><code>analysis.Rmd</code></div>
@@ -141,7 +141,8 @@ be three comparisons: “A-B”, “A-C”, and “B-C”.
 <h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">anlys_t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.t.html">analyze.t</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="st">"50pmol"</span>, adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">anlys_t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.t.html">analyze.t</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="st">"50pmol"</span>, adjust.method <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>                     saveRes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Data are essentially constant.</span></span>
 <span><span class="co">#&gt; Data are essentially constant.</span></span></code></pre></div>
 <div class="note">
@@ -155,21 +156,21 @@ In this case, the p-value of t-test returns NaN.
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="2%">
+<col width="3%">
+<col width="4%">
+<col width="4%">
+<col width="2%">
 <col width="2%">
 <col width="3%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
 <col width="3%">
 <col width="2%">
 <col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
+<col width="3%">
 <col width="2%">
 <col width="2%">
 <col width="2%">
@@ -196,21 +197,21 @@ In this case, the p-value of t-test returns NaN.
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="right">NUD4B_HUMAN</th>
-<th align="right">A0A7P0T808_HUMAN</th>
-<th align="right">A0A8I5KU53_HUMAN</th>
+<th align="right">NUD4B_HUMAN (+1)</th>
+<th align="right">A0A7P0T808_HUMAN (+1)</th>
+<th align="right">A0A8I5KU53_HUMAN (+1)</th>
 <th align="right">ZN840_HUMAN</th>
 <th align="right">CC85C_HUMAN</th>
-<th align="right">C9JEV0_HUMAN</th>
+<th align="right">C9JEV0_HUMAN (+1)</th>
 <th align="right">C9JNU9_HUMAN</th>
 <th align="right">ALBU_BOVIN</th>
 <th align="right">CYC_BOVIN</th>
 <th align="right">TRFE_BOVIN</th>
 <th align="right">F8W0H2_HUMAN</th>
-<th align="right">H0Y7V7_HUMAN</th>
+<th align="right">H0Y7V7_HUMAN (+1)</th>
 <th align="right">H0YD14_HUMAN</th>
 <th align="right">H3BUF6_HUMAN</th>
-<th align="right">H7C1W4_HUMAN</th>
+<th align="right">H7C1W4_HUMAN (+1)</th>
 <th align="right">H7C3M7_HUMAN</th>
 <th align="right">TLR3_HUMAN</th>
 <th align="right">LRIG2_HUMAN</th>
@@ -408,21 +409,21 @@ In this case, the p-value of t-test returns NaN.
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="2%">
+<col width="3%">
+<col width="4%">
+<col width="4%">
+<col width="2%">
 <col width="2%">
 <col width="3%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
 <col width="3%">
 <col width="2%">
 <col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
+<col width="3%">
 <col width="2%">
 <col width="2%">
 <col width="2%">
@@ -449,21 +450,21 @@ In this case, the p-value of t-test returns NaN.
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="right">NUD4B_HUMAN</th>
-<th align="right">A0A7P0T808_HUMAN</th>
-<th align="right">A0A8I5KU53_HUMAN</th>
+<th align="right">NUD4B_HUMAN (+1)</th>
+<th align="right">A0A7P0T808_HUMAN (+1)</th>
+<th align="right">A0A8I5KU53_HUMAN (+1)</th>
 <th align="right">ZN840_HUMAN</th>
 <th align="right">CC85C_HUMAN</th>
-<th align="right">C9JEV0_HUMAN</th>
+<th align="right">C9JEV0_HUMAN (+1)</th>
 <th align="right">C9JNU9_HUMAN</th>
 <th align="right">ALBU_BOVIN</th>
 <th align="right">CYC_BOVIN</th>
 <th align="right">TRFE_BOVIN</th>
 <th align="right">F8W0H2_HUMAN</th>
-<th align="right">H0Y7V7_HUMAN</th>
+<th align="right">H0Y7V7_HUMAN (+1)</th>
 <th align="right">H0YD14_HUMAN</th>
 <th align="right">H3BUF6_HUMAN</th>
-<th align="right">H7C1W4_HUMAN</th>
+<th align="right">H7C1W4_HUMAN (+1)</th>
 <th align="right">H7C3M7_HUMAN</th>
 <th align="right">TLR3_HUMAN</th>
 <th align="right">LRIG2_HUMAN</th>
@@ -656,382 +657,6 @@ In this case, the p-value of t-test returns NaN.
 </tbody>
 </table>
 </div>
-<pre><code><span><span class="co">#&gt; $total</span></span></code></pre>
-<div style="overflow-x: auto;">
-<table style="width:100%;" class="table">
-<colgroup>
-<col width="5%">
-<col width="2%">
-<col width="3%">
-<col width="3%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-</colgroup>
-<thead><tr class="header">
-<th align="left"></th>
-<th align="right">NUD4B_HUMAN</th>
-<th align="right">A0A7P0T808_HUMAN</th>
-<th align="right">A0A8I5KU53_HUMAN</th>
-<th align="right">ZN840_HUMAN</th>
-<th align="right">CC85C_HUMAN</th>
-<th align="right">C9JEV0_HUMAN</th>
-<th align="right">C9JNU9_HUMAN</th>
-<th align="right">ALBU_BOVIN</th>
-<th align="right">CYC_BOVIN</th>
-<th align="right">TRFE_BOVIN</th>
-<th align="right">F8W0H2_HUMAN</th>
-<th align="right">H0Y7V7_HUMAN</th>
-<th align="right">H0YD14_HUMAN</th>
-<th align="right">H3BUF6_HUMAN</th>
-<th align="right">H7C1W4_HUMAN</th>
-<th align="right">H7C3M7_HUMAN</th>
-<th align="right">TLR3_HUMAN</th>
-<th align="right">LRIG2_HUMAN</th>
-<th align="right">RAB3D_HUMAN</th>
-<th align="right">ADH1_YEAST</th>
-<th align="right">LYSC_CHICK</th>
-<th align="right">BGAL_ECOLI</th>
-<th align="right">CYTA_HUMAN</th>
-<th align="right">KPCB_HUMAN</th>
-<th align="right">LIPL_HUMAN</th>
-<th align="right">CO6_HUMAN</th>
-<th align="right">BGAL_HUMAN</th>
-<th align="right">SYTC_HUMAN</th>
-<th align="right">CASPE_HUMAN</th>
-<th align="right">DCAF6_HUMAN</th>
-<th align="right">DALD3_HUMAN</th>
-<th align="right">HGNAT_HUMAN</th>
-<th align="right">RFFL_HUMAN</th>
-<th align="right">RN185_HUMAN</th>
-<th align="right">ZN462_HUMAN</th>
-<th align="right">ALKB7_HUMAN</th>
-<th align="right">POLK_HUMAN</th>
-<th align="right">ACAD8_HUMAN</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">100pmol mean</td>
-<td align="right">10.6532858</td>
-<td align="right">12.0862074</td>
-<td align="right">10.6232407</td>
-<td align="right">8.2644365</td>
-<td align="right">8.8486965</td>
-<td align="right">6.8764321</td>
-<td align="right">8.1789684</td>
-<td align="right">16.75777</td>
-<td align="right">13.0941802</td>
-<td align="right">14.0233390</td>
-<td align="right">9.0659703</td>
-<td align="right">10.0672927</td>
-<td align="right">9.9408634</td>
-<td align="right">7.9781022</td>
-<td align="right">7.8297313</td>
-<td align="right">9.8230915</td>
-<td align="right">7.4096023</td>
-<td align="right">8.5986327</td>
-<td align="right">10.0905795</td>
-<td align="right">15.1604531</td>
-<td align="right">13.6952175</td>
-<td align="right">14.3757288</td>
-<td align="right">8.8924636</td>
-<td align="right">9.8735187</td>
-<td align="right">8.2974346</td>
-<td align="right">6.7681823</td>
-<td align="right">11.7142153</td>
-<td align="right">14.7560796</td>
-<td align="right">6.3848929</td>
-<td align="right">7.9228836</td>
-<td align="right">9.6214990</td>
-<td align="right">10.6043210</td>
-<td align="right">7.0043419</td>
-<td align="right">10.0418355</td>
-<td align="right">8.6778910</td>
-<td align="right">6.8092287</td>
-<td align="right">7.8188307</td>
-<td align="right">7.5025180</td>
-</tr>
-<tr class="even">
-<td align="left">200pmol mean</td>
-<td align="right">10.6488941</td>
-<td align="right">9.9995022</td>
-<td align="right">11.2485095</td>
-<td align="right">8.4505628</td>
-<td align="right">8.2445037</td>
-<td align="right">6.7465842</td>
-<td align="right">8.3091726</td>
-<td align="right">16.75777</td>
-<td align="right">13.2471248</td>
-<td align="right">13.7426617</td>
-<td align="right">9.2570565</td>
-<td align="right">10.1413903</td>
-<td align="right">9.9978891</td>
-<td align="right">8.0880583</td>
-<td align="right">7.5631150</td>
-<td align="right">10.0415877</td>
-<td align="right">7.5210813</td>
-<td align="right">8.4008606</td>
-<td align="right">10.2414149</td>
-<td align="right">15.1516556</td>
-<td align="right">14.1141044</td>
-<td align="right">14.7415973</td>
-<td align="right">8.8133014</td>
-<td align="right">10.1732192</td>
-<td align="right">8.4520910</td>
-<td align="right">7.0971425</td>
-<td align="right">12.1775775</td>
-<td align="right">14.4198014</td>
-<td align="right">6.1065048</td>
-<td align="right">7.4951113</td>
-<td align="right">9.9165721</td>
-<td align="right">10.5958169</td>
-<td align="right">6.7744045</td>
-<td align="right">9.4079382</td>
-<td align="right">8.8671576</td>
-<td align="right">7.5851679</td>
-<td align="right">7.2449244</td>
-<td align="right">8.1196440</td>
-</tr>
-<tr class="odd">
-<td align="left">50pmol mean</td>
-<td align="right">11.0652499</td>
-<td align="right">7.8125342</td>
-<td align="right">9.9553033</td>
-<td align="right">7.9185075</td>
-<td align="right">8.6105032</td>
-<td align="right">8.4512816</td>
-<td align="right">8.3913880</td>
-<td align="right">16.75777</td>
-<td align="right">12.6233713</td>
-<td align="right">13.9262822</td>
-<td align="right">9.6052951</td>
-<td align="right">9.6068208</td>
-<td align="right">10.3568778</td>
-<td align="right">8.5314736</td>
-<td align="right">6.9189678</td>
-<td align="right">9.8860972</td>
-<td align="right">7.1716461</td>
-<td align="right">8.6447744</td>
-<td align="right">10.4687736</td>
-<td align="right">14.6152277</td>
-<td align="right">13.4461368</td>
-<td align="right">14.2433512</td>
-<td align="right">10.2782600</td>
-<td align="right">10.2093348</td>
-<td align="right">8.6777501</td>
-<td align="right">7.2864883</td>
-<td align="right">11.7603897</td>
-<td align="right">15.1244369</td>
-<td align="right">8.3934284</td>
-<td align="right">7.6429483</td>
-<td align="right">8.6746639</td>
-<td align="right">9.8868633</td>
-<td align="right">6.7178161</td>
-<td align="right">9.3454998</td>
-<td align="right">8.2512331</td>
-<td align="right">7.9571364</td>
-<td align="right">6.6190600</td>
-<td align="right">6.8997407</td>
-</tr>
-<tr class="even">
-<td align="left">100pmol-50pmol: difference</td>
-<td align="right">-0.4119641</td>
-<td align="right">4.2736732</td>
-<td align="right">0.6679373</td>
-<td align="right">0.3459290</td>
-<td align="right">0.2381933</td>
-<td align="right">-1.5748494</td>
-<td align="right">-0.2124196</td>
-<td align="right">0.00000</td>
-<td align="right">0.4708090</td>
-<td align="right">0.0970569</td>
-<td align="right">-0.5393248</td>
-<td align="right">0.4604719</td>
-<td align="right">-0.4160144</td>
-<td align="right">-0.5533715</td>
-<td align="right">0.9107635</td>
-<td align="right">-0.0630057</td>
-<td align="right">0.2379563</td>
-<td align="right">-0.0461417</td>
-<td align="right">-0.3781941</td>
-<td align="right">0.5452255</td>
-<td align="right">0.2490808</td>
-<td align="right">0.1323776</td>
-<td align="right">-1.3857964</td>
-<td align="right">-0.3358160</td>
-<td align="right">-0.3803155</td>
-<td align="right">-0.5183059</td>
-<td align="right">-0.0461744</td>
-<td align="right">-0.3683573</td>
-<td align="right">-2.0085355</td>
-<td align="right">0.2799353</td>
-<td align="right">0.9468351</td>
-<td align="right">0.7174576</td>
-<td align="right">0.2865258</td>
-<td align="right">0.6963357</td>
-<td align="right">0.4266578</td>
-<td align="right">-1.1479077</td>
-<td align="right">1.1997707</td>
-<td align="right">0.6027773</td>
-</tr>
-<tr class="odd">
-<td align="left">100pmol-50pmol: p-value</td>
-<td align="right">0.2425281</td>
-<td align="right">0.0223332</td>
-<td align="right">0.4450987</td>
-<td align="right">0.5455559</td>
-<td align="right">0.1909446</td>
-<td align="right">0.0348158</td>
-<td align="right">0.3685157</td>
-<td align="right">NaN</td>
-<td align="right">0.1922051</td>
-<td align="right">0.3275609</td>
-<td align="right">0.0005957</td>
-<td align="right">0.0767642</td>
-<td align="right">0.0683551</td>
-<td align="right">0.0041165</td>
-<td align="right">0.0651420</td>
-<td align="right">0.8119403</td>
-<td align="right">0.2805476</td>
-<td align="right">0.8086313</td>
-<td align="right">0.0024306</td>
-<td align="right">0.0076435</td>
-<td align="right">0.2145975</td>
-<td align="right">0.2343297</td>
-<td align="right">0.0096920</td>
-<td align="right">0.0658082</td>
-<td align="right">0.1068935</td>
-<td align="right">0.0481610</td>
-<td align="right">0.8918516</td>
-<td align="right">0.0000000</td>
-<td align="right">0.0232926</td>
-<td align="right">0.3007562</td>
-<td align="right">0.0633640</td>
-<td align="right">0.0942018</td>
-<td align="right">0.1959323</td>
-<td align="right">0.0503672</td>
-<td align="right">0.5680738</td>
-<td align="right">0.0436514</td>
-<td align="right">0.1120976</td>
-<td align="right">0.0022576</td>
-</tr>
-<tr class="even">
-<td align="left">200pmol-50pmol: difference</td>
-<td align="right">-0.4163558</td>
-<td align="right">2.1869680</td>
-<td align="right">1.2932062</td>
-<td align="right">0.5320553</td>
-<td align="right">-0.3659995</td>
-<td align="right">-1.7046973</td>
-<td align="right">-0.0822154</td>
-<td align="right">0.00000</td>
-<td align="right">0.6237535</td>
-<td align="right">-0.1836205</td>
-<td align="right">-0.3482386</td>
-<td align="right">0.5345694</td>
-<td align="right">-0.3589887</td>
-<td align="right">-0.4434153</td>
-<td align="right">0.6441472</td>
-<td align="right">0.1554905</td>
-<td align="right">0.3494352</td>
-<td align="right">-0.2439139</td>
-<td align="right">-0.2273586</td>
-<td align="right">0.5364280</td>
-<td align="right">0.6679676</td>
-<td align="right">0.4982461</td>
-<td align="right">-1.4649585</td>
-<td align="right">-0.0361156</td>
-<td align="right">-0.2256591</td>
-<td align="right">-0.1893458</td>
-<td align="right">0.4171878</td>
-<td align="right">-0.7046356</td>
-<td align="right">-2.2869237</td>
-<td align="right">-0.1478371</td>
-<td align="right">1.2419082</td>
-<td align="right">0.7089535</td>
-<td align="right">0.0565885</td>
-<td align="right">0.0624383</td>
-<td align="right">0.6159244</td>
-<td align="right">-0.3719685</td>
-<td align="right">0.6258644</td>
-<td align="right">1.2199033</td>
-</tr>
-<tr class="odd">
-<td align="left">200pmol-50pmol: p-value</td>
-<td align="right">0.1446884</td>
-<td align="right">0.1826838</td>
-<td align="right">0.1875421</td>
-<td align="right">0.3662078</td>
-<td align="right">0.3927857</td>
-<td align="right">0.0181442</td>
-<td align="right">0.6911235</td>
-<td align="right">NaN</td>
-<td align="right">0.1771520</td>
-<td align="right">0.2818360</td>
-<td align="right">0.0319217</td>
-<td align="right">0.0503531</td>
-<td align="right">0.0448461</td>
-<td align="right">0.0166531</td>
-<td align="right">0.1885601</td>
-<td align="right">0.0812056</td>
-<td align="right">0.0303572</td>
-<td align="right">0.2404181</td>
-<td align="right">0.1646796</td>
-<td align="right">0.0073303</td>
-<td align="right">0.0124946</td>
-<td align="right">0.0064381</td>
-<td align="right">0.0058656</td>
-<td align="right">0.7824826</td>
-<td align="right">0.3171743</td>
-<td align="right">0.3158950</td>
-<td align="right">0.3983925</td>
-<td align="right">0.0000458</td>
-<td align="right">0.0205236</td>
-<td align="right">0.5114326</td>
-<td align="right">0.0210858</td>
-<td align="right">0.2748735</td>
-<td align="right">0.8040085</td>
-<td align="right">0.8612941</td>
-<td align="right">0.4109857</td>
-<td align="right">0.4319860</td>
-<td align="right">0.1765836</td>
-<td align="right">0.0465999</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 <div class="section level3">
 <h3 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a>
@@ -1083,8 +708,9 @@ correction is applied.</p>
 <div class="section level3">
 <h3 id="example-1">Example<a class="anchor" aria-label="anchor" href="#example-1"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">anlys_modt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.mod_t.html">analyze.mod_t</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="st">"50pmol"</span>, adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">anlys_modt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.mod_t.html">analyze.mod_t</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="st">"50pmol"</span>, adjust.method <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>                            saveRes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Zero sample variances detected, have been offset away from zero</span></span></code></pre></div>
 <div class="note">
 <strong>Note:</strong> In the moderated t-test, a warning message might
@@ -1104,21 +730,21 @@ serves to alert users to its occurrence.
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="2%">
+<col width="3%">
+<col width="4%">
+<col width="4%">
+<col width="2%">
 <col width="2%">
 <col width="3%">
+<col width="2%">
+<col width="2%">
+<col width="1%">
+<col width="2%">
+<col width="2%">
 <col width="3%">
 <col width="2%">
 <col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
+<col width="3%">
 <col width="2%">
 <col width="2%">
 <col width="2%">
@@ -1145,21 +771,21 @@ serves to alert users to its occurrence.
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="right">NUD4B_HUMAN</th>
-<th align="right">A0A7P0T808_HUMAN</th>
-<th align="right">A0A8I5KU53_HUMAN</th>
+<th align="right">NUD4B_HUMAN (+1)</th>
+<th align="right">A0A7P0T808_HUMAN (+1)</th>
+<th align="right">A0A8I5KU53_HUMAN (+1)</th>
 <th align="right">ZN840_HUMAN</th>
 <th align="right">CC85C_HUMAN</th>
-<th align="right">C9JEV0_HUMAN</th>
+<th align="right">C9JEV0_HUMAN (+1)</th>
 <th align="right">C9JNU9_HUMAN</th>
 <th align="right">ALBU_BOVIN</th>
 <th align="right">CYC_BOVIN</th>
 <th align="right">TRFE_BOVIN</th>
 <th align="right">F8W0H2_HUMAN</th>
-<th align="right">H0Y7V7_HUMAN</th>
+<th align="right">H0Y7V7_HUMAN (+1)</th>
 <th align="right">H0YD14_HUMAN</th>
 <th align="right">H3BUF6_HUMAN</th>
-<th align="right">H7C1W4_HUMAN</th>
+<th align="right">H7C1W4_HUMAN (+1)</th>
 <th align="right">H7C3M7_HUMAN</th>
 <th align="right">TLR3_HUMAN</th>
 <th align="right">LRIG2_HUMAN</th>
@@ -1357,21 +983,21 @@ serves to alert users to its occurrence.
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="2%">
+<col width="3%">
+<col width="4%">
+<col width="4%">
+<col width="2%">
 <col width="2%">
 <col width="3%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
 <col width="3%">
 <col width="2%">
 <col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
+<col width="3%">
 <col width="2%">
 <col width="2%">
 <col width="2%">
@@ -1398,21 +1024,21 @@ serves to alert users to its occurrence.
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="right">NUD4B_HUMAN</th>
-<th align="right">A0A7P0T808_HUMAN</th>
-<th align="right">A0A8I5KU53_HUMAN</th>
+<th align="right">NUD4B_HUMAN (+1)</th>
+<th align="right">A0A7P0T808_HUMAN (+1)</th>
+<th align="right">A0A8I5KU53_HUMAN (+1)</th>
 <th align="right">ZN840_HUMAN</th>
 <th align="right">CC85C_HUMAN</th>
-<th align="right">C9JEV0_HUMAN</th>
+<th align="right">C9JEV0_HUMAN (+1)</th>
 <th align="right">C9JNU9_HUMAN</th>
 <th align="right">ALBU_BOVIN</th>
 <th align="right">CYC_BOVIN</th>
 <th align="right">TRFE_BOVIN</th>
 <th align="right">F8W0H2_HUMAN</th>
-<th align="right">H0Y7V7_HUMAN</th>
+<th align="right">H0Y7V7_HUMAN (+1)</th>
 <th align="right">H0YD14_HUMAN</th>
 <th align="right">H3BUF6_HUMAN</th>
-<th align="right">H7C1W4_HUMAN</th>
+<th align="right">H7C1W4_HUMAN (+1)</th>
 <th align="right">H7C3M7_HUMAN</th>
 <th align="right">TLR3_HUMAN</th>
 <th align="right">LRIG2_HUMAN</th>
@@ -1605,382 +1231,6 @@ serves to alert users to its occurrence.
 </tbody>
 </table>
 </div>
-<pre><code><span><span class="co">#&gt; $total</span></span></code></pre>
-<div style="overflow-x: auto;">
-<table style="width:100%;" class="table">
-<colgroup>
-<col width="5%">
-<col width="2%">
-<col width="3%">
-<col width="3%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-</colgroup>
-<thead><tr class="header">
-<th align="left"></th>
-<th align="right">NUD4B_HUMAN</th>
-<th align="right">A0A7P0T808_HUMAN</th>
-<th align="right">A0A8I5KU53_HUMAN</th>
-<th align="right">ZN840_HUMAN</th>
-<th align="right">CC85C_HUMAN</th>
-<th align="right">C9JEV0_HUMAN</th>
-<th align="right">C9JNU9_HUMAN</th>
-<th align="right">ALBU_BOVIN</th>
-<th align="right">CYC_BOVIN</th>
-<th align="right">TRFE_BOVIN</th>
-<th align="right">F8W0H2_HUMAN</th>
-<th align="right">H0Y7V7_HUMAN</th>
-<th align="right">H0YD14_HUMAN</th>
-<th align="right">H3BUF6_HUMAN</th>
-<th align="right">H7C1W4_HUMAN</th>
-<th align="right">H7C3M7_HUMAN</th>
-<th align="right">TLR3_HUMAN</th>
-<th align="right">LRIG2_HUMAN</th>
-<th align="right">RAB3D_HUMAN</th>
-<th align="right">ADH1_YEAST</th>
-<th align="right">LYSC_CHICK</th>
-<th align="right">BGAL_ECOLI</th>
-<th align="right">CYTA_HUMAN</th>
-<th align="right">KPCB_HUMAN</th>
-<th align="right">LIPL_HUMAN</th>
-<th align="right">CO6_HUMAN</th>
-<th align="right">BGAL_HUMAN</th>
-<th align="right">SYTC_HUMAN</th>
-<th align="right">CASPE_HUMAN</th>
-<th align="right">DCAF6_HUMAN</th>
-<th align="right">DALD3_HUMAN</th>
-<th align="right">HGNAT_HUMAN</th>
-<th align="right">RFFL_HUMAN</th>
-<th align="right">RN185_HUMAN</th>
-<th align="right">ZN462_HUMAN</th>
-<th align="right">ALKB7_HUMAN</th>
-<th align="right">POLK_HUMAN</th>
-<th align="right">ACAD8_HUMAN</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">100pmol mean</td>
-<td align="right">10.6532858</td>
-<td align="right">12.0862074</td>
-<td align="right">10.6232407</td>
-<td align="right">8.2644365</td>
-<td align="right">8.8486965</td>
-<td align="right">6.8764321</td>
-<td align="right">8.1789684</td>
-<td align="right">16.75777</td>
-<td align="right">13.0941802</td>
-<td align="right">14.0233390</td>
-<td align="right">9.0659703</td>
-<td align="right">10.0672927</td>
-<td align="right">9.9408634</td>
-<td align="right">7.9781022</td>
-<td align="right">7.8297313</td>
-<td align="right">9.8230915</td>
-<td align="right">7.4096023</td>
-<td align="right">8.5986327</td>
-<td align="right">10.0905795</td>
-<td align="right">15.1604531</td>
-<td align="right">13.6952175</td>
-<td align="right">14.3757288</td>
-<td align="right">8.8924636</td>
-<td align="right">9.8735187</td>
-<td align="right">8.2974346</td>
-<td align="right">6.7681823</td>
-<td align="right">11.7142153</td>
-<td align="right">14.7560796</td>
-<td align="right">6.3848929</td>
-<td align="right">7.9228836</td>
-<td align="right">9.6214990</td>
-<td align="right">10.6043210</td>
-<td align="right">7.0043419</td>
-<td align="right">10.0418355</td>
-<td align="right">8.6778910</td>
-<td align="right">6.8092287</td>
-<td align="right">7.8188307</td>
-<td align="right">7.5025180</td>
-</tr>
-<tr class="even">
-<td align="left">200pmol mean</td>
-<td align="right">10.6488941</td>
-<td align="right">9.9995022</td>
-<td align="right">11.2485095</td>
-<td align="right">8.4505628</td>
-<td align="right">8.2445037</td>
-<td align="right">6.7465842</td>
-<td align="right">8.3091726</td>
-<td align="right">16.75777</td>
-<td align="right">13.2471248</td>
-<td align="right">13.7426617</td>
-<td align="right">9.2570565</td>
-<td align="right">10.1413903</td>
-<td align="right">9.9978891</td>
-<td align="right">8.0880583</td>
-<td align="right">7.5631150</td>
-<td align="right">10.0415877</td>
-<td align="right">7.5210813</td>
-<td align="right">8.4008606</td>
-<td align="right">10.2414149</td>
-<td align="right">15.1516556</td>
-<td align="right">14.1141044</td>
-<td align="right">14.7415973</td>
-<td align="right">8.8133014</td>
-<td align="right">10.1732192</td>
-<td align="right">8.4520910</td>
-<td align="right">7.0971425</td>
-<td align="right">12.1775775</td>
-<td align="right">14.4198014</td>
-<td align="right">6.1065048</td>
-<td align="right">7.4951113</td>
-<td align="right">9.9165721</td>
-<td align="right">10.5958169</td>
-<td align="right">6.7744045</td>
-<td align="right">9.4079382</td>
-<td align="right">8.8671576</td>
-<td align="right">7.5851679</td>
-<td align="right">7.2449244</td>
-<td align="right">8.1196440</td>
-</tr>
-<tr class="odd">
-<td align="left">50pmol mean</td>
-<td align="right">11.0652499</td>
-<td align="right">7.8125342</td>
-<td align="right">9.9553033</td>
-<td align="right">7.9185075</td>
-<td align="right">8.6105032</td>
-<td align="right">8.4512816</td>
-<td align="right">8.3913880</td>
-<td align="right">16.75777</td>
-<td align="right">12.6233713</td>
-<td align="right">13.9262822</td>
-<td align="right">9.6052951</td>
-<td align="right">9.6068208</td>
-<td align="right">10.3568778</td>
-<td align="right">8.5314736</td>
-<td align="right">6.9189678</td>
-<td align="right">9.8860972</td>
-<td align="right">7.1716461</td>
-<td align="right">8.6447744</td>
-<td align="right">10.4687736</td>
-<td align="right">14.6152277</td>
-<td align="right">13.4461368</td>
-<td align="right">14.2433512</td>
-<td align="right">10.2782600</td>
-<td align="right">10.2093348</td>
-<td align="right">8.6777501</td>
-<td align="right">7.2864883</td>
-<td align="right">11.7603897</td>
-<td align="right">15.1244369</td>
-<td align="right">8.3934284</td>
-<td align="right">7.6429483</td>
-<td align="right">8.6746639</td>
-<td align="right">9.8868633</td>
-<td align="right">6.7178161</td>
-<td align="right">9.3454998</td>
-<td align="right">8.2512331</td>
-<td align="right">7.9571364</td>
-<td align="right">6.6190600</td>
-<td align="right">6.8997407</td>
-</tr>
-<tr class="even">
-<td align="left">100pmol-50pmol: difference</td>
-<td align="right">-0.4119641</td>
-<td align="right">4.2736732</td>
-<td align="right">0.6679373</td>
-<td align="right">0.3459290</td>
-<td align="right">0.2381933</td>
-<td align="right">-1.5748494</td>
-<td align="right">-0.2124196</td>
-<td align="right">0.00000</td>
-<td align="right">0.4708090</td>
-<td align="right">0.0970569</td>
-<td align="right">-0.5393248</td>
-<td align="right">0.4604719</td>
-<td align="right">-0.4160144</td>
-<td align="right">-0.5533715</td>
-<td align="right">0.9107635</td>
-<td align="right">-0.0630057</td>
-<td align="right">0.2379563</td>
-<td align="right">-0.0461417</td>
-<td align="right">-0.3781941</td>
-<td align="right">0.5452255</td>
-<td align="right">0.2490808</td>
-<td align="right">0.1323776</td>
-<td align="right">-1.3857964</td>
-<td align="right">-0.3358160</td>
-<td align="right">-0.3803155</td>
-<td align="right">-0.5183059</td>
-<td align="right">-0.0461744</td>
-<td align="right">-0.3683573</td>
-<td align="right">-2.0085355</td>
-<td align="right">0.2799353</td>
-<td align="right">0.9468351</td>
-<td align="right">0.7174576</td>
-<td align="right">0.2865258</td>
-<td align="right">0.6963357</td>
-<td align="right">0.4266578</td>
-<td align="right">-1.1479077</td>
-<td align="right">1.1997707</td>
-<td align="right">0.6027773</td>
-</tr>
-<tr class="odd">
-<td align="left">100pmol-50pmol: p-value</td>
-<td align="right">0.1692657</td>
-<td align="right">0.0041928</td>
-<td align="right">0.3594271</td>
-<td align="right">0.4188776</td>
-<td align="right">0.4476151</td>
-<td align="right">0.0077729</td>
-<td align="right">0.3082409</td>
-<td align="right">1.00000</td>
-<td align="right">0.2051100</td>
-<td align="right">0.4719321</td>
-<td align="right">0.0003809</td>
-<td align="right">0.0210540</td>
-<td align="right">0.0273503</td>
-<td align="right">0.0007011</td>
-<td align="right">0.0290176</td>
-<td align="right">0.7547940</td>
-<td align="right">0.1763304</td>
-<td align="right">0.7787863</td>
-<td align="right">0.0090768</td>
-<td align="right">0.0000260</td>
-<td align="right">0.1367383</td>
-<td align="right">0.1511826</td>
-<td align="right">0.0002994</td>
-<td align="right">0.0325244</td>
-<td align="right">0.0523968</td>
-<td align="right">0.0126619</td>
-<td align="right">0.9082025</td>
-<td align="right">0.0000018</td>
-<td align="right">0.0015443</td>
-<td align="right">0.2394099</td>
-<td align="right">0.0184304</td>
-<td align="right">0.1590979</td>
-<td align="right">0.1596566</td>
-<td align="right">0.0381075</td>
-<td align="right">0.4486484</td>
-<td align="right">0.0171955</td>
-<td align="right">0.0365710</td>
-<td align="right">0.0782396</td>
-</tr>
-<tr class="even">
-<td align="left">200pmol-50pmol: difference</td>
-<td align="right">-0.4163558</td>
-<td align="right">2.1869680</td>
-<td align="right">1.2932062</td>
-<td align="right">0.5320553</td>
-<td align="right">-0.3659995</td>
-<td align="right">-1.7046973</td>
-<td align="right">-0.0822154</td>
-<td align="right">0.00000</td>
-<td align="right">0.6237535</td>
-<td align="right">-0.1836205</td>
-<td align="right">-0.3482386</td>
-<td align="right">0.5345694</td>
-<td align="right">-0.3589887</td>
-<td align="right">-0.4434153</td>
-<td align="right">0.6441472</td>
-<td align="right">0.1554905</td>
-<td align="right">0.3494352</td>
-<td align="right">-0.2439139</td>
-<td align="right">-0.2273586</td>
-<td align="right">0.5364280</td>
-<td align="right">0.6679676</td>
-<td align="right">0.4982461</td>
-<td align="right">-1.4649585</td>
-<td align="right">-0.0361156</td>
-<td align="right">-0.2256591</td>
-<td align="right">-0.1893458</td>
-<td align="right">0.4171878</td>
-<td align="right">-0.7046356</td>
-<td align="right">-2.2869237</td>
-<td align="right">-0.1478371</td>
-<td align="right">1.2419082</td>
-<td align="right">0.7089535</td>
-<td align="right">0.0565885</td>
-<td align="right">0.0624383</td>
-<td align="right">0.6159244</td>
-<td align="right">-0.3719685</td>
-<td align="right">0.6258644</td>
-<td align="right">1.2199033</td>
-</tr>
-<tr class="odd">
-<td align="left">200pmol-50pmol: p-value</td>
-<td align="right">0.1651853</td>
-<td align="right">0.0881485</td>
-<td align="right">0.0926706</td>
-<td align="right">0.2239144</td>
-<td align="right">0.2525044</td>
-<td align="right">0.0049216</td>
-<td align="right">0.6864892</td>
-<td align="right">1.00000</td>
-<td align="right">0.1028334</td>
-<td align="right">0.1877393</td>
-<td align="right">0.0069376</td>
-<td align="right">0.0099405</td>
-<td align="right">0.0500060</td>
-<td align="right">0.0031304</td>
-<td align="right">0.1016953</td>
-<td align="right">0.4466320</td>
-<td align="right">0.0584428</td>
-<td align="right">0.1582493</td>
-<td align="right">0.0809141</td>
-<td align="right">0.0000298</td>
-<td align="right">0.0014873</td>
-<td align="right">0.0001655</td>
-<td align="right">0.0001950</td>
-<td align="right">0.7948930</td>
-<td align="right">0.2207008</td>
-<td align="right">0.2936324</td>
-<td align="right">0.3105040</td>
-<td align="right">0.0000000</td>
-<td align="right">0.0006214</td>
-<td align="right">0.5236720</td>
-<td align="right">0.0042098</td>
-<td align="right">0.1636145</td>
-<td align="right">0.7701943</td>
-<td align="right">0.8346277</td>
-<td align="right">0.2815464</td>
-<td align="right">0.3767021</td>
-<td align="right">0.2366530</td>
-<td align="right">0.0026681</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 <div class="section level3">
 <h3 id="details-1">Details<a class="anchor" aria-label="anchor" href="#details-1"></a>
@@ -2000,8 +1250,9 @@ protein in the current dataset to calculate variance.</p>
 <div class="section level3">
 <h3 id="example-2">Example<a class="anchor" aria-label="anchor" href="#example-2"></a>
 </h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">anlys_wilcox</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.wilcox.html">analyze.wilcox</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="st">"50pmol"</span>, adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">anlys_wilcox</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.wilcox.html">analyze.wilcox</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="st">"50pmol"</span>, adjust.method <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>                               saveRes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="note">
 <strong>Note:</strong> In the Wilcoxon test, the warning message
 “<strong>cannot compute exact p-value with ties.</strong>” may be
@@ -2016,21 +1267,21 @@ returns NaN.
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="2%">
+<col width="3%">
+<col width="4%">
+<col width="4%">
+<col width="2%">
 <col width="2%">
 <col width="3%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
 <col width="3%">
 <col width="2%">
 <col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
+<col width="3%">
 <col width="2%">
 <col width="2%">
 <col width="2%">
@@ -2057,21 +1308,21 @@ returns NaN.
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="right">NUD4B_HUMAN</th>
-<th align="right">A0A7P0T808_HUMAN</th>
-<th align="right">A0A8I5KU53_HUMAN</th>
+<th align="right">NUD4B_HUMAN (+1)</th>
+<th align="right">A0A7P0T808_HUMAN (+1)</th>
+<th align="right">A0A8I5KU53_HUMAN (+1)</th>
 <th align="right">ZN840_HUMAN</th>
 <th align="right">CC85C_HUMAN</th>
-<th align="right">C9JEV0_HUMAN</th>
+<th align="right">C9JEV0_HUMAN (+1)</th>
 <th align="right">C9JNU9_HUMAN</th>
 <th align="right">ALBU_BOVIN</th>
 <th align="right">CYC_BOVIN</th>
 <th align="right">TRFE_BOVIN</th>
 <th align="right">F8W0H2_HUMAN</th>
-<th align="right">H0Y7V7_HUMAN</th>
+<th align="right">H0Y7V7_HUMAN (+1)</th>
 <th align="right">H0YD14_HUMAN</th>
 <th align="right">H3BUF6_HUMAN</th>
-<th align="right">H7C1W4_HUMAN</th>
+<th align="right">H7C1W4_HUMAN (+1)</th>
 <th align="right">H7C3M7_HUMAN</th>
 <th align="right">TLR3_HUMAN</th>
 <th align="right">LRIG2_HUMAN</th>
@@ -2269,21 +1520,21 @@ returns NaN.
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="2%">
+<col width="3%">
+<col width="4%">
+<col width="4%">
+<col width="2%">
 <col width="2%">
 <col width="3%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
 <col width="3%">
 <col width="2%">
 <col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
+<col width="3%">
 <col width="2%">
 <col width="2%">
 <col width="2%">
@@ -2310,21 +1561,21 @@ returns NaN.
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="right">NUD4B_HUMAN</th>
-<th align="right">A0A7P0T808_HUMAN</th>
-<th align="right">A0A8I5KU53_HUMAN</th>
+<th align="right">NUD4B_HUMAN (+1)</th>
+<th align="right">A0A7P0T808_HUMAN (+1)</th>
+<th align="right">A0A8I5KU53_HUMAN (+1)</th>
 <th align="right">ZN840_HUMAN</th>
 <th align="right">CC85C_HUMAN</th>
-<th align="right">C9JEV0_HUMAN</th>
+<th align="right">C9JEV0_HUMAN (+1)</th>
 <th align="right">C9JNU9_HUMAN</th>
 <th align="right">ALBU_BOVIN</th>
 <th align="right">CYC_BOVIN</th>
 <th align="right">TRFE_BOVIN</th>
 <th align="right">F8W0H2_HUMAN</th>
-<th align="right">H0Y7V7_HUMAN</th>
+<th align="right">H0Y7V7_HUMAN (+1)</th>
 <th align="right">H0YD14_HUMAN</th>
 <th align="right">H3BUF6_HUMAN</th>
-<th align="right">H7C1W4_HUMAN</th>
+<th align="right">H7C1W4_HUMAN (+1)</th>
 <th align="right">H7C3M7_HUMAN</th>
 <th align="right">TLR3_HUMAN</th>
 <th align="right">LRIG2_HUMAN</th>
@@ -2517,382 +1768,6 @@ returns NaN.
 </tbody>
 </table>
 </div>
-<pre><code><span><span class="co">#&gt; $total</span></span></code></pre>
-<div style="overflow-x: auto;">
-<table style="width:100%;" class="table">
-<colgroup>
-<col width="5%">
-<col width="2%">
-<col width="3%">
-<col width="3%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-</colgroup>
-<thead><tr class="header">
-<th align="left"></th>
-<th align="right">NUD4B_HUMAN</th>
-<th align="right">A0A7P0T808_HUMAN</th>
-<th align="right">A0A8I5KU53_HUMAN</th>
-<th align="right">ZN840_HUMAN</th>
-<th align="right">CC85C_HUMAN</th>
-<th align="right">C9JEV0_HUMAN</th>
-<th align="right">C9JNU9_HUMAN</th>
-<th align="right">ALBU_BOVIN</th>
-<th align="right">CYC_BOVIN</th>
-<th align="right">TRFE_BOVIN</th>
-<th align="right">F8W0H2_HUMAN</th>
-<th align="right">H0Y7V7_HUMAN</th>
-<th align="right">H0YD14_HUMAN</th>
-<th align="right">H3BUF6_HUMAN</th>
-<th align="right">H7C1W4_HUMAN</th>
-<th align="right">H7C3M7_HUMAN</th>
-<th align="right">TLR3_HUMAN</th>
-<th align="right">LRIG2_HUMAN</th>
-<th align="right">RAB3D_HUMAN</th>
-<th align="right">ADH1_YEAST</th>
-<th align="right">LYSC_CHICK</th>
-<th align="right">BGAL_ECOLI</th>
-<th align="right">CYTA_HUMAN</th>
-<th align="right">KPCB_HUMAN</th>
-<th align="right">LIPL_HUMAN</th>
-<th align="right">CO6_HUMAN</th>
-<th align="right">BGAL_HUMAN</th>
-<th align="right">SYTC_HUMAN</th>
-<th align="right">CASPE_HUMAN</th>
-<th align="right">DCAF6_HUMAN</th>
-<th align="right">DALD3_HUMAN</th>
-<th align="right">HGNAT_HUMAN</th>
-<th align="right">RFFL_HUMAN</th>
-<th align="right">RN185_HUMAN</th>
-<th align="right">ZN462_HUMAN</th>
-<th align="right">ALKB7_HUMAN</th>
-<th align="right">POLK_HUMAN</th>
-<th align="right">ACAD8_HUMAN</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td align="left">100pmol mean</td>
-<td align="right">10.6532858</td>
-<td align="right">12.0862074</td>
-<td align="right">10.6232407</td>
-<td align="right">8.2644365</td>
-<td align="right">8.8486965</td>
-<td align="right">6.8764321</td>
-<td align="right">8.1789684</td>
-<td align="right">16.75777</td>
-<td align="right">13.0941802</td>
-<td align="right">14.0233390</td>
-<td align="right">9.0659703</td>
-<td align="right">10.0672927</td>
-<td align="right">9.9408634</td>
-<td align="right">7.9781022</td>
-<td align="right">7.8297313</td>
-<td align="right">9.8230915</td>
-<td align="right">7.4096023</td>
-<td align="right">8.5986327</td>
-<td align="right">10.0905795</td>
-<td align="right">15.1604531</td>
-<td align="right">13.6952175</td>
-<td align="right">14.3757288</td>
-<td align="right">8.8924636</td>
-<td align="right">9.8735187</td>
-<td align="right">8.2974346</td>
-<td align="right">6.7681823</td>
-<td align="right">11.7142153</td>
-<td align="right">14.7560796</td>
-<td align="right">6.3848929</td>
-<td align="right">7.9228836</td>
-<td align="right">9.6214990</td>
-<td align="right">10.6043210</td>
-<td align="right">7.0043419</td>
-<td align="right">10.0418355</td>
-<td align="right">8.6778910</td>
-<td align="right">6.8092287</td>
-<td align="right">7.8188307</td>
-<td align="right">7.5025180</td>
-</tr>
-<tr class="even">
-<td align="left">200pmol mean</td>
-<td align="right">10.6488941</td>
-<td align="right">9.9995022</td>
-<td align="right">11.2485095</td>
-<td align="right">8.4505628</td>
-<td align="right">8.2445037</td>
-<td align="right">6.7465842</td>
-<td align="right">8.3091726</td>
-<td align="right">16.75777</td>
-<td align="right">13.2471248</td>
-<td align="right">13.7426617</td>
-<td align="right">9.2570565</td>
-<td align="right">10.1413903</td>
-<td align="right">9.9978891</td>
-<td align="right">8.0880583</td>
-<td align="right">7.5631150</td>
-<td align="right">10.0415877</td>
-<td align="right">7.5210813</td>
-<td align="right">8.4008606</td>
-<td align="right">10.2414149</td>
-<td align="right">15.1516556</td>
-<td align="right">14.1141044</td>
-<td align="right">14.7415973</td>
-<td align="right">8.8133014</td>
-<td align="right">10.1732192</td>
-<td align="right">8.4520910</td>
-<td align="right">7.0971425</td>
-<td align="right">12.1775775</td>
-<td align="right">14.4198014</td>
-<td align="right">6.1065048</td>
-<td align="right">7.4951113</td>
-<td align="right">9.9165721</td>
-<td align="right">10.5958169</td>
-<td align="right">6.7744045</td>
-<td align="right">9.4079382</td>
-<td align="right">8.8671576</td>
-<td align="right">7.5851679</td>
-<td align="right">7.2449244</td>
-<td align="right">8.1196440</td>
-</tr>
-<tr class="odd">
-<td align="left">50pmol mean</td>
-<td align="right">11.0652499</td>
-<td align="right">7.8125342</td>
-<td align="right">9.9553033</td>
-<td align="right">7.9185075</td>
-<td align="right">8.6105032</td>
-<td align="right">8.4512816</td>
-<td align="right">8.3913880</td>
-<td align="right">16.75777</td>
-<td align="right">12.6233713</td>
-<td align="right">13.9262822</td>
-<td align="right">9.6052951</td>
-<td align="right">9.6068208</td>
-<td align="right">10.3568778</td>
-<td align="right">8.5314736</td>
-<td align="right">6.9189678</td>
-<td align="right">9.8860972</td>
-<td align="right">7.1716461</td>
-<td align="right">8.6447744</td>
-<td align="right">10.4687736</td>
-<td align="right">14.6152277</td>
-<td align="right">13.4461368</td>
-<td align="right">14.2433512</td>
-<td align="right">10.2782600</td>
-<td align="right">10.2093348</td>
-<td align="right">8.6777501</td>
-<td align="right">7.2864883</td>
-<td align="right">11.7603897</td>
-<td align="right">15.1244369</td>
-<td align="right">8.3934284</td>
-<td align="right">7.6429483</td>
-<td align="right">8.6746639</td>
-<td align="right">9.8868633</td>
-<td align="right">6.7178161</td>
-<td align="right">9.3454998</td>
-<td align="right">8.2512331</td>
-<td align="right">7.9571364</td>
-<td align="right">6.6190600</td>
-<td align="right">6.8997407</td>
-</tr>
-<tr class="even">
-<td align="left">100pmol-50pmol: difference</td>
-<td align="right">-0.4119641</td>
-<td align="right">4.2736732</td>
-<td align="right">0.6679373</td>
-<td align="right">0.3459290</td>
-<td align="right">0.2381933</td>
-<td align="right">-1.5748494</td>
-<td align="right">-0.2124196</td>
-<td align="right">0.00000</td>
-<td align="right">0.4708090</td>
-<td align="right">0.0970569</td>
-<td align="right">-0.5393248</td>
-<td align="right">0.4604719</td>
-<td align="right">-0.4160144</td>
-<td align="right">-0.5533715</td>
-<td align="right">0.9107635</td>
-<td align="right">-0.0630057</td>
-<td align="right">0.2379563</td>
-<td align="right">-0.0461417</td>
-<td align="right">-0.3781941</td>
-<td align="right">0.5452255</td>
-<td align="right">0.2490808</td>
-<td align="right">0.1323776</td>
-<td align="right">-1.3857964</td>
-<td align="right">-0.3358160</td>
-<td align="right">-0.3803155</td>
-<td align="right">-0.5183059</td>
-<td align="right">-0.0461744</td>
-<td align="right">-0.3683573</td>
-<td align="right">-2.0085355</td>
-<td align="right">0.2799353</td>
-<td align="right">0.9468351</td>
-<td align="right">0.7174576</td>
-<td align="right">0.2865258</td>
-<td align="right">0.6963357</td>
-<td align="right">0.4266578</td>
-<td align="right">-1.1479077</td>
-<td align="right">1.1997707</td>
-<td align="right">0.6027773</td>
-</tr>
-<tr class="odd">
-<td align="left">100pmol-50pmol: p-value</td>
-<td align="right">0.1912670</td>
-<td align="right">0.0294010</td>
-<td align="right">0.1885823</td>
-<td align="right">0.8857143</td>
-<td align="right">0.1912670</td>
-<td align="right">0.0571429</td>
-<td align="right">0.6572552</td>
-<td align="right">NaN</td>
-<td align="right">0.1885823</td>
-<td align="right">0.1885823</td>
-<td align="right">0.0284295</td>
-<td align="right">0.1885823</td>
-<td align="right">0.0590719</td>
-<td align="right">0.0294010</td>
-<td align="right">0.0294010</td>
-<td align="right">0.6857143</td>
-<td align="right">0.6631172</td>
-<td align="right">0.8845494</td>
-<td align="right">0.0294010</td>
-<td align="right">0.0255801</td>
-<td align="right">0.1885823</td>
-<td align="right">0.1059111</td>
-<td align="right">0.0285714</td>
-<td align="right">0.0284295</td>
-<td align="right">0.1102102</td>
-<td align="right">0.1102102</td>
-<td align="right">0.6611967</td>
-<td align="right">0.0246533</td>
-<td align="right">0.0294010</td>
-<td align="right">0.3428571</td>
-<td align="right">0.0590719</td>
-<td align="right">0.1102102</td>
-<td align="right">0.3094241</td>
-<td align="right">0.1142857</td>
-<td align="right">0.6631172</td>
-<td align="right">0.0285714</td>
-<td align="right">0.1102102</td>
-<td align="right">0.0284295</td>
-</tr>
-<tr class="even">
-<td align="left">200pmol-50pmol: difference</td>
-<td align="right">-0.4163558</td>
-<td align="right">2.1869680</td>
-<td align="right">1.2932062</td>
-<td align="right">0.5320553</td>
-<td align="right">-0.3659995</td>
-<td align="right">-1.7046973</td>
-<td align="right">-0.0822154</td>
-<td align="right">0.00000</td>
-<td align="right">0.6237535</td>
-<td align="right">-0.1836205</td>
-<td align="right">-0.3482386</td>
-<td align="right">0.5345694</td>
-<td align="right">-0.3589887</td>
-<td align="right">-0.4434153</td>
-<td align="right">0.6441472</td>
-<td align="right">0.1554905</td>
-<td align="right">0.3494352</td>
-<td align="right">-0.2439139</td>
-<td align="right">-0.2273586</td>
-<td align="right">0.5364280</td>
-<td align="right">0.6679676</td>
-<td align="right">0.4982461</td>
-<td align="right">-1.4649585</td>
-<td align="right">-0.0361156</td>
-<td align="right">-0.2256591</td>
-<td align="right">-0.1893458</td>
-<td align="right">0.4171878</td>
-<td align="right">-0.7046356</td>
-<td align="right">-2.2869237</td>
-<td align="right">-0.1478371</td>
-<td align="right">1.2419082</td>
-<td align="right">0.7089535</td>
-<td align="right">0.0565885</td>
-<td align="right">0.0624383</td>
-<td align="right">0.6159244</td>
-<td align="right">-0.3719685</td>
-<td align="right">0.6258644</td>
-<td align="right">1.2199033</td>
-</tr>
-<tr class="odd">
-<td align="left">200pmol-50pmol: p-value</td>
-<td align="right">0.2425256</td>
-<td align="right">0.3094241</td>
-<td align="right">0.2425256</td>
-<td align="right">0.1831502</td>
-<td align="right">0.6572552</td>
-<td align="right">0.0285714</td>
-<td align="right">0.8845494</td>
-<td align="right">NaN</td>
-<td align="right">0.1858767</td>
-<td align="right">0.5589857</td>
-<td align="right">0.0530079</td>
-<td align="right">0.1440506</td>
-<td align="right">0.0575470</td>
-<td align="right">0.0285714</td>
-<td align="right">0.3428571</td>
-<td align="right">0.0814291</td>
-<td align="right">0.0795941</td>
-<td align="right">0.3778216</td>
-<td align="right">0.1831502</td>
-<td align="right">0.0274686</td>
-<td align="right">0.0396087</td>
-<td align="right">0.0265187</td>
-<td align="right">0.0294010</td>
-<td align="right">1.0000000</td>
-<td align="right">0.2817179</td>
-<td align="right">0.4595974</td>
-<td align="right">0.3035251</td>
-<td align="right">0.0265187</td>
-<td align="right">0.0265187</td>
-<td align="right">0.7715034</td>
-<td align="right">0.0294010</td>
-<td align="right">0.2000000</td>
-<td align="right">1.0000000</td>
-<td align="right">1.0000000</td>
-<td align="right">0.6631172</td>
-<td align="right">0.6857143</td>
-<td align="right">0.2425256</td>
-<td align="right">0.0294010</td>
-</tr>
-</tbody>
-</table>
-</div>
 </div>
 <div class="section level3">
 <h3 id="details-2">Details<a class="anchor" aria-label="anchor" href="#details-2"></a>
@@ -2913,28 +1788,28 @@ same.</p>
 <div class="section level3">
 <h3 id="example-3">Example<a class="anchor" aria-label="anchor" href="#example-3"></a>
 </h3>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">anlys_ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.ma.html">analyze.ma</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="st">"50pmol"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">anlys_ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.ma.html">analyze.ma</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="st">"50pmol"</span>, saveRes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; $`100pmol-50pmol`</span></span></code></pre>
 <div style="overflow-x: auto;">
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="2%">
+<col width="3%">
+<col width="4%">
+<col width="4%">
+<col width="2%">
 <col width="2%">
 <col width="3%">
+<col width="2%">
+<col width="2%">
+<col width="1%">
+<col width="2%">
+<col width="2%">
 <col width="3%">
 <col width="2%">
 <col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
+<col width="3%">
 <col width="2%">
 <col width="2%">
 <col width="2%">
@@ -2961,21 +1836,21 @@ same.</p>
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="right">NUD4B_HUMAN</th>
-<th align="right">A0A7P0T808_HUMAN</th>
-<th align="right">A0A8I5KU53_HUMAN</th>
+<th align="right">NUD4B_HUMAN (+1)</th>
+<th align="right">A0A7P0T808_HUMAN (+1)</th>
+<th align="right">A0A8I5KU53_HUMAN (+1)</th>
 <th align="right">ZN840_HUMAN</th>
 <th align="right">CC85C_HUMAN</th>
-<th align="right">C9JEV0_HUMAN</th>
+<th align="right">C9JEV0_HUMAN (+1)</th>
 <th align="right">C9JNU9_HUMAN</th>
 <th align="right">ALBU_BOVIN</th>
 <th align="right">CYC_BOVIN</th>
 <th align="right">TRFE_BOVIN</th>
 <th align="right">F8W0H2_HUMAN</th>
-<th align="right">H0Y7V7_HUMAN</th>
+<th align="right">H0Y7V7_HUMAN (+1)</th>
 <th align="right">H0YD14_HUMAN</th>
 <th align="right">H3BUF6_HUMAN</th>
-<th align="right">H7C1W4_HUMAN</th>
+<th align="right">H7C1W4_HUMAN (+1)</th>
 <th align="right">H7C3M7_HUMAN</th>
 <th align="right">TLR3_HUMAN</th>
 <th align="right">LRIG2_HUMAN</th>
@@ -3173,21 +2048,21 @@ same.</p>
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="2%">
+<col width="3%">
+<col width="4%">
+<col width="4%">
+<col width="2%">
 <col width="2%">
 <col width="3%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
+<col width="2%">
 <col width="3%">
 <col width="2%">
 <col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
-<col width="2%">
+<col width="3%">
 <col width="2%">
 <col width="2%">
 <col width="2%">
@@ -3214,21 +2089,21 @@ same.</p>
 </colgroup>
 <thead><tr class="header">
 <th align="left"></th>
-<th align="right">NUD4B_HUMAN</th>
-<th align="right">A0A7P0T808_HUMAN</th>
-<th align="right">A0A8I5KU53_HUMAN</th>
+<th align="right">NUD4B_HUMAN (+1)</th>
+<th align="right">A0A7P0T808_HUMAN (+1)</th>
+<th align="right">A0A8I5KU53_HUMAN (+1)</th>
 <th align="right">ZN840_HUMAN</th>
 <th align="right">CC85C_HUMAN</th>
-<th align="right">C9JEV0_HUMAN</th>
+<th align="right">C9JEV0_HUMAN (+1)</th>
 <th align="right">C9JNU9_HUMAN</th>
 <th align="right">ALBU_BOVIN</th>
 <th align="right">CYC_BOVIN</th>
 <th align="right">TRFE_BOVIN</th>
 <th align="right">F8W0H2_HUMAN</th>
-<th align="right">H0Y7V7_HUMAN</th>
+<th align="right">H0Y7V7_HUMAN (+1)</th>
 <th align="right">H0YD14_HUMAN</th>
 <th align="right">H3BUF6_HUMAN</th>
-<th align="right">H7C1W4_HUMAN</th>
+<th align="right">H7C1W4_HUMAN (+1)</th>
 <th align="right">H7C3M7_HUMAN</th>
 <th align="right">TLR3_HUMAN</th>
 <th align="right">LRIG2_HUMAN</th>
@@ -3444,15 +2319,15 @@ robust measurement and less susceptible to noise interference).</p>
 “ALBU_BOVIN”, has constant values, leading to the error message. We
 choose to remove this protein in the principal component analysis
 (PCA).</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">dataImput</span>, <span class="kw">function</span><span class="op">(</span><span class="va">col</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">col</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1] "ALBU_BOVIN"</span></span>
 <span><span class="va">dataPCA</span> <span class="op">&lt;-</span> <span class="va">dataImput</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">dataImput</span><span class="op">)</span> <span class="op">!=</span> <span class="st">"ALBU_BOVIN"</span><span class="op">]</span></span>
 <span><span class="va">anlys_pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.pca.html">analyze.pca</a></span><span class="op">(</span><span class="va">dataPCA</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div style="overflow-x: auto;">
-<table class="table">
+<table style="width:100%;" class="table">
 <colgroup>
-<col width="11%">
+<col width="14%">
 <col width="7%">
 <col width="7%">
 <col width="7%">
@@ -3483,7 +2358,7 @@ choose to remove this protein in the principal component analysis
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">NUD4B_HUMAN</td>
+<td align="left">NUD4B_HUMAN (+1)</td>
 <td align="right">0.1188769</td>
 <td align="right">-0.1772058</td>
 <td align="right">0.3013469</td>
@@ -3498,7 +2373,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.0443054</td>
 </tr>
 <tr class="even">
-<td align="left">A0A7P0T808_HUMAN</td>
+<td align="left">A0A7P0T808_HUMAN (+1)</td>
 <td align="right">-0.1923637</td>
 <td align="right">0.2673578</td>
 <td align="right">-0.0130253</td>
@@ -3513,7 +2388,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.1197070</td>
 </tr>
 <tr class="odd">
-<td align="left">A0A8I5KU53_HUMAN</td>
+<td align="left">A0A8I5KU53_HUMAN (+1)</td>
 <td align="right">-0.1289231</td>
 <td align="right">-0.2613306</td>
 <td align="right">0.0670152</td>
@@ -3558,7 +2433,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.1428931</td>
 </tr>
 <tr class="even">
-<td align="left">C9JEV0_HUMAN</td>
+<td align="left">C9JEV0_HUMAN (+1)</td>
 <td align="right">0.2195074</td>
 <td align="right">0.0888077</td>
 <td align="right">-0.0259365</td>
@@ -3633,7 +2508,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.2234328</td>
 </tr>
 <tr class="odd">
-<td align="left">H0Y7V7_HUMAN</td>
+<td align="left">H0Y7V7_HUMAN (+1)</td>
 <td align="right">-0.1988603</td>
 <td align="right">0.0693049</td>
 <td align="right">-0.1140835</td>
@@ -3678,7 +2553,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.2428304</td>
 </tr>
 <tr class="even">
-<td align="left">H7C1W4_HUMAN</td>
+<td align="left">H7C1W4_HUMAN (+1)</td>
 <td align="right">-0.1571658</td>
 <td align="right">0.1583107</td>
 <td align="right">-0.0869895</td>
@@ -4073,13 +2948,13 @@ the other is to set <code>scale = FALSE</code>.
 <div class="section level3">
 <h3 id="example-5">Example<a class="anchor" aria-label="anchor" href="#example-5"></a>
 </h3>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">anlys_plsda</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.plsda.html">analyze.plsda</a></span><span class="op">(</span><span class="va">dataImput</span>, method <span class="op">=</span> <span class="st">"kernelpls"</span>,</span>
 <span>                             center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div style="overflow-x: auto;">
-<table class="table">
+<table style="width:100%;" class="table">
 <colgroup>
-<col width="12%">
+<col width="15%">
 <col width="7%">
 <col width="7%">
 <col width="7%">
@@ -4108,7 +2983,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">NUD4B_HUMAN</td>
+<td align="left">NUD4B_HUMAN (+1)</td>
 <td align="right">-0.0721647</td>
 <td align="right">-0.0120098</td>
 <td align="right">0.1953417</td>
@@ -4122,7 +2997,7 @@ the other is to set <code>scale = FALSE</code>.
 <td align="right">0.0636382</td>
 </tr>
 <tr class="even">
-<td align="left">A0A7P0T808_HUMAN</td>
+<td align="left">A0A7P0T808_HUMAN (+1)</td>
 <td align="right">0.7186598</td>
 <td align="right">0.6655256</td>
 <td align="right">-0.3729955</td>
@@ -4136,7 +3011,7 @@ the other is to set <code>scale = FALSE</code>.
 <td align="right">0.0196661</td>
 </tr>
 <tr class="odd">
-<td align="left">A0A8I5KU53_HUMAN</td>
+<td align="left">A0A8I5KU53_HUMAN (+1)</td>
 <td align="right">0.1319886</td>
 <td align="right">-0.5206130</td>
 <td align="right">0.3662075</td>
@@ -4178,7 +3053,7 @@ the other is to set <code>scale = FALSE</code>.
 <td align="right">-0.0442734</td>
 </tr>
 <tr class="even">
-<td align="left">C9JEV0_HUMAN</td>
+<td align="left">C9JEV0_HUMAN (+1)</td>
 <td align="right">-0.2703730</td>
 <td align="right">0.2837151</td>
 <td align="right">-0.1926834</td>
@@ -4262,7 +3137,7 @@ the other is to set <code>scale = FALSE</code>.
 <td align="right">0.0601126</td>
 </tr>
 <tr class="even">
-<td align="left">H0Y7V7_HUMAN</td>
+<td align="left">H0Y7V7_HUMAN (+1)</td>
 <td align="right">0.0661155</td>
 <td align="right">-0.0130440</td>
 <td align="right">-0.1035646</td>
@@ -4304,7 +3179,7 @@ the other is to set <code>scale = FALSE</code>.
 <td align="right">-0.0939223</td>
 </tr>
 <tr class="odd">
-<td align="left">H7C1W4_HUMAN</td>
+<td align="left">H7C1W4_HUMAN (+1)</td>
 <td align="right">0.1101453</td>
 <td align="right">0.0652563</td>
 <td align="right">-0.1173529</td>
@@ -4680,7 +3555,7 @@ centered to zero mean and scaled to unit variance, respectively.</p>
 <div class="nav-button right-button">
 <p><a href="visualization.html">Next →</a></p>
 </div>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-benjamini1995controlling" class="csl-entry">
 Benjamini, Yoav, and Yosef Hochberg. 1995. <span>“Controlling the False
 Discovery Rate: <span>A</span> Practical and Powerful Approach to
@@ -4725,7 +3600,7 @@ Alternative Approach to Partial Least Squares Regression.”</span>
 </div>
 <div id="ref-martens1989multivariate" class="csl-entry">
 Martens, Harald, and Tormod Næs. 1989. <em>Multivariate
-Calibration</em>. Wiley, New York, USA: Chichester.
+Calibration</em>. Chichester.
 </div>
 <div id="ref-rannar1994pls" class="csl-entry">
 Rännar, Stefan, Fredrik Lindgren, Paul Geladi, and Svante Wold. 1994.

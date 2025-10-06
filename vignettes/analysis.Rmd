@@ -67,7 +67,8 @@ If you specify `ref = "A"`, then the result includes two comparisons: "B-A" and
 
 
 ```{r}
-anlys_t <- analyze.t(dataImput, ref = "50pmol", adjust.method = "none")
+anlys_t <- analyze.t(dataImput, ref = "50pmol", adjust.method = "none",
+                     saveRes = TRUE)
 ```
 
 
@@ -94,16 +95,6 @@ cat("$`200pmol-50pmol`\n")
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
 knitr::kable(anlys_t$`200pmol-50pmol`)
-```
-</div>
-
-
-```{r echo=FALSE}
-cat("$total\n")
-```
-<div style="overflow-x: auto;">
-```{r echo=FALSE}
-knitr::kable(anlys_t$total)
 ```
 </div>
 
@@ -168,7 +159,8 @@ The default value `"none"` indicates that no correction is applied.
 
 
 ```{r}
-anlys_modt <- analyze.mod_t(dataImput, ref = "50pmol", adjust.method = "none")
+anlys_modt <- analyze.mod_t(dataImput, ref = "50pmol", adjust.method = "none",
+                            saveRes = TRUE)
 ```
 
 
@@ -207,16 +199,6 @@ knitr::kable(anlys_modt$`200pmol-50pmol`)
 </div>
 
 
-```{r echo=FALSE}
-cat("$total\n")
-```
-<div style="overflow-x: auto;">
-```{r echo=FALSE}
-knitr::kable(anlys_modt$total)
-```
-</div>
-
-
 ### Details
 
 
@@ -235,7 +217,8 @@ in the current dataset to calculate variance.
 
 
 ```{r warning=FALSE}
-anlys_wilcox <- analyze.wilcox(dataImput, ref = "50pmol", adjust.method = "none")
+anlys_wilcox <- analyze.wilcox(dataImput, ref = "50pmol", adjust.method = "none",
+                               saveRes = TRUE)
 ```
 
 
@@ -268,16 +251,6 @@ knitr::kable(anlys_wilcox$`200pmol-50pmol`)
 </div>
 
 
-```{r echo=FALSE}
-cat("$total\n")
-```
-<div style="overflow-x: auto;">
-```{r echo=FALSE}
-knitr::kable(anlys_wilcox$total)
-```
-</div>
-
-
 ### Details
 
 
@@ -297,7 +270,7 @@ the same.
 
 
 ```{r}
-anlys_ma <- analyze.ma(dataImput, ref = "50pmol")
+anlys_ma <- analyze.ma(dataImput, ref = "50pmol", saveRes = TRUE)
 ```
 
 

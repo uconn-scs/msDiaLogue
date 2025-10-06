@@ -8,6 +8,7 @@ visualize.rank(
   dataSet,
   listName = NULL,
   regexName = NULL,
+  by = NULL,
   facet = c("Condition", "Replicate"),
   color = "red"
 )
@@ -19,6 +20,15 @@ visualize.rank(
 
 \item{regexName}{A character vector specifying proteins for regular expression pattern
 matching to highlight.}
+
+\item{by}{A character string (default = "PG.ProteinName" for Spectronaut, default =
+"AccessionNumber" for Scaffold) specifying the information to which \code{listName}
+and/or \code{regexName} filter is applied. Allowable options include:
+\itemize{
+\item For Spectronaut: "PG.Genes", "PG.ProteinAccession", "PG.ProteinDescriptions", and
+"PG.ProteinName".
+\item For Scaffold: "ProteinDescriptions", "AccessionNumber", and "AlternateID".
+}}
 
 \item{facet}{A character string (default = c("Replicate", "Condition")) specifying
 grouping variables for faceting. Allowed values are "Condition", "Replicate",

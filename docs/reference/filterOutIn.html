@@ -61,6 +61,7 @@
 <span>  <span class="va">dataSet</span>,</span>
 <span>  listName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  regexName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  by <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  removeList <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  saveRm <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -75,12 +76,22 @@
 
 
 <dt id="arg-listname">listName<a class="anchor" aria-label="anchor" href="#arg-listname"></a></dt>
-<dd><p>A character vector of proteins to select or remove.</p></dd>
+<dd><p>A character vector of text strings used as keys for selecting or
+removing.</p></dd>
 
 
 <dt id="arg-regexname">regexName<a class="anchor" aria-label="anchor" href="#arg-regexname"></a></dt>
 <dd><p>A character vector specifying proteins for regular expression pattern
 matching to select or remove.</p></dd>
+
+
+<dt id="arg-by">by<a class="anchor" aria-label="anchor" href="#arg-by"></a></dt>
+<dd><p>A character string (default = "PG.ProteinName" for Spectronaut, default =
+"AccessionNumber" for Scaffold) specifying the information to which <code>listName</code>
+and/or <code>regexName</code> filter is applied. Allowable options include:</p><ul><li><p>For Spectronaut: "PG.Genes", "PG.ProteinAccession", "PG.ProteinDescriptions", and
+"PG.ProteinName".</p></li>
+<li><p>For Scaffold: "ProteinDescriptions", "AccessionNumber", and "AlternateID".</p></li>
+</ul></dd>
 
 
 <dt id="arg-removelist">removeList<a class="anchor" aria-label="anchor" href="#arg-removelist"></a></dt>
@@ -101,8 +112,8 @@ current working directory. This option only works when <code>removeList = TRUE</
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>If both <code>listName</code> and <code>regexName</code> are provided, the protein names selected
-or removed will be the union of those specified in <code>listName</code> and those matching
+    <p>If both <code>listName</code> and <code>regexName</code> are provided, the proteins selected or
+removed will be the union of those specified in <code>listName</code> and those matching
 the regex pattern in <code>regexName</code>.</p>
     </div>
 

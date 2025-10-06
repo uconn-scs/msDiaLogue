@@ -4,13 +4,16 @@
 \alias{analyze.ma}
 \title{MA: fold change versus average abundance}
 \usage{
-analyze.ma(dataSet, ref = NULL)
+analyze.ma(dataSet, ref = NULL, saveRes = TRUE)
 }
 \arguments{
 \item{dataSet}{The 2d data set of data.}
 
 \item{ref}{A string (default = NULL) specifying the reference condition for comparison.
 If NULL, all pairwise comparisons are performed.}
+
+\item{saveRes}{A boolean (default = TRUE) specifying whether to save the analysis
+results to the current working directory.}
 }
 \value{
 A list comprising data frames for each comparison, with each data frame containing

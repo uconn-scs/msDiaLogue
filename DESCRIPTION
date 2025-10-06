@@ -29,6 +29,7 @@ Imports:
     limma,
     mice,
     multiUS,
+    openxlsx,
     pcaMethods,
     pheatmap,
     pls,

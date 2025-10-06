@@ -4,7 +4,7 @@
 \alias{analyze.mod_t}
 \title{Empirical Bayes moderated t-test}
 \usage{
-analyze.mod_t(dataSet, ref = NULL, adjust.method = "none")
+analyze.mod_t(dataSet, ref = NULL, adjust.method = "none", saveRes = TRUE)
 }
 \arguments{
 \item{dataSet}{The 2d data set of data.}
@@ -23,12 +23,14 @@ p-value adjustment: \itemize{
 \item "none": None
 }
 See \code{\link[stats]{p.adjust}} for more details.}
+
+\item{saveRes}{A boolean (default = TRUE) specifying whether to save the analysis
+results to the current working directory.}
 }
 \value{
 A list comprising data frames for each comparison, with each data frame containing
 the means of the two compared conditions for each protein, the difference in means,
-and the p-values. Additionally, a separate data frame called "total" summarizes
-the results of multiple comparisons.
+and the p-values.
 }
 \description{
 Perform empirical Bayes moderated t-tests \insertCite{smyth2004linear}{msDiaLogue}

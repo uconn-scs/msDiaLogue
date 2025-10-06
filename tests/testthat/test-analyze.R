@@ -6,7 +6,7 @@ test_that("analyze.t", {
   
   ## execute current function 'analyze' on data file
   invisible(capture.output(
-    data <- analyze.t(filterNA_Toy, ref = "50pmol", adjust.method = "none")
+    data <- analyze.t(filterNA_Toy, ref = "50pmol", adjust.method = "none", saveRes = FALSE)
   ))
   
   ## load stored correct data
@@ -25,7 +25,7 @@ test_that("analyze.mod_t", {
   
   ## execute current function 'analyze' on data file
   invisible(capture.output(
-    data <- analyze.mod_t(filterNA_Toy, ref = "50pmol", adjust.method = "none")
+    data <- analyze.mod_t(filterNA_Toy, ref = "50pmol", adjust.method = "none", saveRes = FALSE)
   ))
   
   ## load stored correct data
@@ -44,7 +44,7 @@ test_that("analyze.wilcox", {
   
   ## execute current function 'analyze' on data file
   invisible(capture.output(
-    data <- analyze.wilcox(filterNA_Toy, ref = "50pmol", adjust.method = "none")
+    data <- analyze.wilcox(filterNA_Toy, ref = "50pmol", adjust.method = "none", saveRes = FALSE)
   ))
   
   ## load stored correct data
@@ -63,7 +63,7 @@ test_that("analyze.ma", {
   
   ## execute current function 'analyze' on data file
   invisible(capture.output(
-    data <- analyze.ma(filterNA_Toy, ref = "50pmol")
+    data <- analyze.ma(filterNA_Toy, ref = "50pmol", saveRes = FALSE)
   ))
   
   ## load stored correct data
