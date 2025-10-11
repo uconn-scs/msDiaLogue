@@ -148,9 +148,6 @@ names, follow these steps:
 ```{r message=FALSE}
 ma <- visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
 
-## read a csv file containing full protein information, including gene/protein names
-protNames <- read.csv("full_protein_information.csv")
-
 ## change labels of proteins
 library(dplyr)
 ma[["data"]] <- ma[["data"]] %>%

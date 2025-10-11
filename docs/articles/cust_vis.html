@@ -91,7 +91,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-10-06</h4>
+            <h4 data-toc-skip class="date">2025-10-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/cust_vis.Rmd" class="external-link"><code>vignettes/cust_vis.Rmd</code></a></small>
       <div class="d-none name"><code>cust_vis.Rmd</code></div>
@@ -215,9 +215,6 @@ background, gridlines, and text.</p>
 protein names, follow these steps:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_ma</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, M.thres <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">## read a csv file containing full protein information, including gene/protein names</span></span>
-<span><span class="va">protNames</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"full_protein_information.csv"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## change labels of proteins</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>

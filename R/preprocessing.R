@@ -212,8 +212,8 @@ preprocessing <- function(fileName,
   result <- as.data.frame(reformatedData)
   
   ## print levels of condition and replicate
-  cat("Levels of Condition:", levels(result$R.Condition), "\n")
-  cat("Levels of Replicate:", levels(result$R.Replicate), "\n")
+  cat("Levels of Condition:", paste(levels(result$R.Condition), collapse = ", "), "\n")
+  cat("Levels of Replicate:", paste(levels(result$R.Replicate), collapse = ", "), "\n")
   cat("\n")
   
   ## return pre-processed data
