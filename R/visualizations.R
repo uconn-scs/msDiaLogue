@@ -41,7 +41,7 @@ visualize.boxplot <- function(dataSet) {
                        fill = if (length(unique(R.Replicate)) == 1) R.Condition else R.Replicate)) +
     geom_boxplot(varwidth = TRUE) +
     guides(fill = guide_legend(
-      title = ifelse(length(unique(plotData$R.Replicate)) == 1, "Condition", "Repilcate"))) +
+      title = ifelse(length(unique(plotData$R.Replicate)) == 1, "Condition", "Replicate"))) +
     xlab("Condition") +
     ylab("Signal value") +
     scale_fill_brewer(palette = "RdYlBu") +
