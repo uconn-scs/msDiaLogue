@@ -16,18 +16,21 @@
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ##
 
-#' Creating a keyed list of conditions to the list of proteins that are present
+#' Create a condition-by-protein presence matrix
 #' 
 #' @description
-#' Create a keyed dictionary, where every unique experimental condition is the label for
-#' a list of every protein that has a value for that condition.
+#' Create a dictionary in which each unique experimental condition serves as
+#' a key, mapped to the set of proteins that contain at least one observed
+#' (non-NA) value under that condition.
 #' 
 #' @param dataSet The 2d data set of experimental values.
 #' 
 #' @return
-#' A list of lists.
+#' A data frame with one row per protein and one column per experimental
+#' condition. Each entry is `1` if that protein has at least one non-missing
+#' value under the given condition and `0` otherwise.
 #' 
-#' @export
+#' @noRd
 
 sortcondition <- function(dataSet) {
   
@@ -39,14 +42,12 @@ sortcondition <- function(dataSet) {
     group_by(R.Condition) %>%
     ## apply to every numeric function a summation of the non-NA values
     summarise(across(where(is.numeric), ~sum(!is.na(.x)))) %>%
-    column_to_rownames("R.Condition")
+    column_to_rownames("R.Condition") %>%
+    ## binarize the count results
+    mutate(across(everything(), ~ifelse(.x > 0, 1, .x))) %>%
+    t() %>%
+    as.data.frame()
   
-  ## create the keyed dictionary
-  conditionProteinDict <- setNames(apply(dataCounts, 1, function(row) {
-    names(row[row > 0])
-  }, simplify = FALSE), rownames(dataCounts))
-  
-  ## return the keyed dictionary
-  return(conditionProteinDict)
+  return(dataCounts)
 }
 
