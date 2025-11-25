@@ -27,8 +27,8 @@
 #' 
 #' @return
 #' A data frame with one row per protein and one column per experimental
-#' condition. Each entry is `1` if that protein has at least one non-missing
-#' value under the given condition and `0` otherwise.
+#' condition. Each entry is `TRUE` if that protein has at least one non-missing
+#' value under the given condition and `FALSE` otherwise.
 #' 
 #' @noRd
 
@@ -44,7 +44,7 @@ sortcondition <- function(dataSet) {
     summarise(across(where(is.numeric), ~sum(!is.na(.x)))) %>%
     column_to_rownames("R.Condition") %>%
     ## binarize the count results
-    mutate(across(everything(), ~ifelse(.x > 0, 1, .x))) %>%
+    mutate(across(everything(), ~ifelse(.x > 0, TRUE, FALSE))) %>%
     t() %>%
     as.data.frame()
   
