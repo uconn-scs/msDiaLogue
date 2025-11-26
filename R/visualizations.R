@@ -364,16 +364,19 @@ visualize.test <- function(dataSet) {
 #' 
 #' @param dataSet The 2d data set of data.
 #' 
-#' @importFrom UpSetR fromList upset
-#' 
 #' @return
 #' An object of class \code{ggplot}.
+#' 
+#' @importFrom UpSetR upset
 #' 
 #' @export
 
 visualize.upset <- function(dataSet) {
   
-  upset(data = fromList(dataSet), nsets = length(dataSet), nintersects = NA, order.by = "freq")
+  data <- sortcondition(dataSet)
+  suppressWarnings(
+    upset(data = data + 0, nsets = ncol(data), nintersects = NA, order.by = "freq")
+  )
   
 } 
 
