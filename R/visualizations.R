@@ -410,7 +410,9 @@ visualize.venn <- function(dataSet, show_percentage = TRUE,
                            fill_color = c("blue", "yellow", "green", "red"),
                            saveRes = TRUE) {
   
-  if (length(dataSet) > 4) {
+  data <- sortcondition(dataSet)
+  
+  if (length(data) > 4) {
     message("More than 4 sets in a Venn diagram
              may result in crowded visualization and information overload.")
   }
@@ -421,17 +423,14 @@ visualize.venn <- function(dataSet, show_percentage = TRUE,
     scaffoldCheck <- any(colnames(information) == "Visible?")
     IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
     
-    df <- tibble(!!IDcol := unique(unlist(dataSet)))
-    for (name in names(dataSet)) {
-      df[,name] <- df[[IDcol]] %in% dataSet[[name]]
-    }
-    
-    df <- left_join(df, information, by = IDcol)
+    df <- data %>%
+      rownames_to_column(IDcol) %>%
+      left_join(information, by = IDcol)
       
     write.csv(df, file = "venn_information.csv", row.names = FALSE)
   }
   
-  ggvenn::ggvenn(dataSet, show_percentage = show_percentage, fill_color = fill_color)
+  ggvenn::ggvenn(data, show_percentage = show_percentage, fill_color = fill_color)
   
 }
 
