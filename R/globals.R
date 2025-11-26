@@ -28,6 +28,11 @@ utils::globalVariables(c(
   "value", # <preprocessing_scaffold>
   "Mean", # <meanVarPlot>
   "Variance", # <meanVarPlot>
+  "R.Condition", # <visualize.dist>
+  "R.Replicate", # <visualize.dist>
+  "name", # <visualize.dist>
+  "value", # <visualize.dist>
+  "Group", # <visualize.dist>
   "R.Condition", # <visualize.heatmap>
   "R.Replicate", # <visualize.heatmap>
   "R.ConRep", # <visualize.heatmap>

@@ -127,6 +127,8 @@ devtools::install_github("uconn-scs/msDiaLogue@v0.0.6")
   : Biplot of score (individuals) and loading (variables)
 - [`visualize.boxplot()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.boxplot.md)
   : Boxplot
+- [`visualize.dist()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.dist.md)
+  : Average abundance distributions: Density and ECDF
 - [`visualize.heatmap()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.heatmap.md)
   : Heatmap
 - [`visualize.loading()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.loading.md)

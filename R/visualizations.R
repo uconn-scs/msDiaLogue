@@ -53,6 +53,73 @@ visualize.boxplot <- function(dataSet) {
 
 
 ##----------------------------------------------------------------------------------------
+#'
+#' Average abundance distributions: Density and ECDF
+#'
+#' @description
+#' Generate distribution plots of proteins' average abundance across conditions  
+#' and replicates, including both a kernel density estimate and an empirical  
+#' cumulative distribution function (ECDF).
+#' 
+#' @param dataSet The 2d data set of data.
+#' 
+#' @return
+#' An object of class \code{ggplot}.
+#' 
+#' @autoglobal
+#' 
+#' @export
+
+visualize.dist <- function(dataSet) {
+  
+  plotData <- dataSet %>%
+    pivot_longer(-c(R.Condition, R.Replicate)) %>%
+    group_by(name) %>%
+    summarise(mean  = mean(value, na.rm = TRUE),
+              Group = if_else(any(is.na(value)), "Missing", "Valid"),
+              .groups = "drop")
+  
+  if(n_distinct(plotData$Group) > 1) {
+    
+    ggplot() +
+      stat_density(
+        data = plotData %>%
+          mutate(Panel = factor("Probability Density",
+                                levels = c("Probability Density", "Cumulative Probability"))),
+        aes(x = mean, color = Group), na.rm = TRUE, geom = "line") +
+      stat_ecdf(
+        data = plotData %>%
+          mutate(Panel = factor("Cumulative Probability",
+                                levels = c("Probability Density", "Cumulative Probability"))),
+        aes(x = mean, col = Group), na.rm = TRUE, geom = "line", pad = FALSE) +
+      facet_wrap(~ Panel, scales = "free_y") +
+      labs(x = "Average Abundance", y = NULL) +
+      theme_bw() +
+      theme(legend.position = "bottom")
+    
+  } else {
+    
+    ggplot() +
+      stat_density(
+        data = plotData %>%
+          mutate(Panel = factor("Probability Density",
+                                levels = c("Probability Density", "Cumulative Probability"))),
+        aes(x = mean), na.rm = TRUE, geom = "line") +
+      stat_ecdf(
+        data = plotData %>%
+          mutate(Panel = factor("Cumulative Probability",
+                                levels = c("Probability Density", "Cumulative Probability"))),
+        aes(x = mean), na.rm = TRUE, geom = "line", pad = FALSE) +
+      facet_wrap(~ Panel, scales = "free_y") +
+      labs(x = "Average Abundance", y = NULL) +
+      theme_bw()
+    
+  }
+  
+}
+
+
+##----------------------------------------------------------------------------------------
 #' 
 #' Heatmap
 #' 

@@ -55,6 +55,31 @@ visualize.boxplot(dataNorm)
 
 ![](visualization_files/figure-html/unnamed-chunk-3-1.png)
 
+## Distributions plot
+
+To examine whether missing values are biased towards lower-abundance
+proteins, the distribution plot helps clearly distinguish proteins with
+and without missing values.
+
+``` r
+
+visualize.dist(dataTran)
+```
+
+![](visualization_files/figure-html/unnamed-chunk-4-1.png)
+
+In the left panel, the Missing group is concentrated in the
+low-abundance range, showing a sharper peak than the Valid group, whose
+distribution is flatter and more diffuse. This indicates that proteins
+with missing values generally have lower abundance—a typical pattern in
+proteomics and metabolomics, where low-abundance signals are more prone
+to missingness (MNAR).
+
+In the right panel, the ECDF reveals the same pattern: the Missing group
+rises more quickly and reaches high cumulative probability at lower
+abundance levels, confirming that its average-abundance distribution is
+left-shifted relative to the Valid group.
+
 ## Heatmap
 
 The package offers two options for plotting the heatmap.
@@ -70,7 +95,7 @@ visualize.heatmap(dataImput, pkg = "pheatmap",
                   show_colnames = TRUE, show_rownames = TRUE)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-4-1.png)
+![](visualization_files/figure-html/unnamed-chunk-5-1.png)
 
 When protein names are excessively long, it is recommended to set
 `show_rownames = FALSE` to view the full heatmap.
@@ -85,7 +110,7 @@ visualize.heatmap(dataSet, pkg = "pheatmap",
                   show_colnames = TRUE, show_rownames = TRUE)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-5-1.png)
+![](visualization_files/figure-html/unnamed-chunk-6-1.png)
 
 - Option 2 use the source package `ggplot2` to generate a ggplot object
   but does not include the dendrogram.
@@ -95,7 +120,7 @@ visualize.heatmap(dataSet, pkg = "pheatmap",
 visualize.heatmap(dataImput, pkg = "ggplot2")
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-6-1.png)
+![](visualization_files/figure-html/unnamed-chunk-7-1.png)
 
 In a heatmap, similar colors within a row indicate relatively consistent
 values, suggesting similar protein expression levels across different
@@ -106,7 +131,7 @@ samples.
 visualize.heatmap(dataSet, pkg = "ggplot2")
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-7-1.png)
+![](visualization_files/figure-html/unnamed-chunk-8-1.png)
 
 ## MA plot
 
@@ -119,7 +144,7 @@ visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 1)
 #> (`geom_text_repel()`).
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-8-1.png)
+![](visualization_files/figure-html/unnamed-chunk-9-1.png)
 
 where `M.thres = 1` means the M thresholds are set to -1 and 1. The
 scatters are split into three parts: up regulation (M \> 1), no
@@ -137,7 +162,7 @@ visualize.ma(anlys_ma, M.thres = 1)
 #> (`geom_text_repel()`).
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-9-1.png)
+![](visualization_files/figure-html/unnamed-chunk-10-1.png)
 
 ### Details
 
@@ -184,7 +209,7 @@ visualize.rank(dataImput, listName = "POLK_HUMAN",
                facet = c("Replicate", "Condition"))
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-10-1.png)
+![](visualization_files/figure-html/unnamed-chunk-11-1.png)
 
 ## Histogram of fold changes and p-values for test
 
@@ -195,7 +220,7 @@ visualize.rank(dataImput, listName = "POLK_HUMAN",
 visualize.test(anlys_modt$`100pmol-50pmol`)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-11-1.png)
+![](visualization_files/figure-html/unnamed-chunk-12-1.png)
 
 If the input `dataSet` is the whole list `anlys_modt`, **msDiaLogue**
 will produce individual subplots corresponding to each comparison.
@@ -205,7 +230,7 @@ will produce individual subplots corresponding to each comparison.
 visualize.test(anlys_modt)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-12-1.png)
+![](visualization_files/figure-html/unnamed-chunk-13-1.png)
 
 ### Details
 
@@ -230,7 +255,7 @@ combinations of sets.
 visualize.upset(dataSet)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-13-1.png)
+![](visualization_files/figure-html/unnamed-chunk-14-1.png)
 
 This plot reveals that 42 proteins are shared by 50pmol, 100pmol, and
 200pmol, while only 3 proteins are shared by 100 pmol and 200pmol, but
@@ -249,7 +274,7 @@ visualize.venn(dataSet, show_percentage = TRUE,
                saveRes = TRUE)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-14-1.png)
+![](visualization_files/figure-html/unnamed-chunk-15-1.png)
 
 where `saveRes = TRUE` refers to the data containing logical columns
 representing sets in Venn plot information will be saved as a .csv file
@@ -270,7 +295,7 @@ visualize.volcano(anlys_modt$`100pmol-50pmol`, P.thres = 0.05, F.thres = 1)
 #> (`geom_text_repel()`).
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-15-1.png)
+![](visualization_files/figure-html/unnamed-chunk-16-1.png)
 
 If the input `dataSet` is the whole list `anlys_modt`, **msDiaLogue**
 will produce individual subplots corresponding to each comparison.
@@ -282,7 +307,7 @@ visualize.volcano(anlys_modt, P.thres = 0.05, F.thres = 1)
 #> (`geom_text_repel()`).
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-16-1.png)
+![](visualization_files/figure-html/unnamed-chunk-17-1.png)
 
 ### Details
 
@@ -310,7 +335,7 @@ visualize.scree(anlys_pca, type = c("bar", "line"),
                 label = TRUE, ncp = 10)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-17-1.png)
+![](visualization_files/figure-html/unnamed-chunk-18-1.png)
 
 where `label = TRUE` adds information labels at the top of bars/points,
 and `ncp = 10` sets the number of dimension to be displayed.
@@ -324,7 +349,7 @@ and `ncp = 10` sets the number of dimension to be displayed.
 visualize.score(anlys_pca, ellipse = TRUE, ellipse.level = 0.95, label = TRUE)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-18-1.png)
+![](visualization_files/figure-html/unnamed-chunk-19-1.png)
 
 ### Details
 
@@ -348,7 +373,7 @@ provided), for each groups (condition) provided.
 visualize.loading(anlys_pca, label = TRUE)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-19-1.png)
+![](visualization_files/figure-html/unnamed-chunk-20-1.png)
 
 ### Details
 
@@ -372,7 +397,7 @@ number of proteins, this plot can be unwieldy.
 visualize.biplot(anlys_pca, ellipse = TRUE, ellipse.level = 0.95, label = "all")
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-20-1.png)
+![](visualization_files/figure-html/unnamed-chunk-21-1.png)
 
 ## VIP score plot
 
@@ -389,7 +414,7 @@ each condition.
 visualize.vip(anlys_plsda, comp = 1, num = 10, thres = 1)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-21-1.png)
+![](visualization_files/figure-html/unnamed-chunk-22-1.png)
 
 [←
 Previous](https://uconn-scs.github.io/msDiaLogue/articles/analysis.md)

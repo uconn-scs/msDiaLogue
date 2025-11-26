@@ -79,6 +79,32 @@ visualize.boxplot(dataNorm)
 ```
 
 
+## Distributions plot
+
+
+To examine whether missing values are biased towards lower-abundance proteins,
+the distribution plot helps clearly distinguish proteins with and without
+missing values.
+
+
+```{r}
+visualize.dist(dataTran)
+```
+
+
+In the left panel, the Missing group is concentrated in the low-abundance range,
+showing a sharper peak than the Valid group, whose distribution is flatter and
+more diffuse. This indicates that proteins with missing values generally have
+lower abundance---a typical pattern in proteomics and metabolomics,
+where low-abundance signals are more prone to missingness (MNAR).
+
+
+In the right panel, the ECDF reveals the same pattern: the Missing group rises
+more quickly and reaches high cumulative probability at lower abundance levels,
+confirming that its average-abundance distribution is left-shifted relative to
+the Valid group.
+
+
 ## Heatmap
 
 
