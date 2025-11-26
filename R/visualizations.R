@@ -95,9 +95,18 @@ visualize.heatmap <- function(dataSet, pkg = "pheatmap",
     plotData <- t(select(dataSet, -c(R.Condition, R.Replicate)))
     colnames(plotData) <- paste0(dataSet$R.Condition, "_", dataSet$R.Replicate)
     
-    pheatmap(mat = plotData,
-             cluster_cols = cluster_cols, cluster_rows = cluster_rows,
-             show_colnames = show_colnames, show_rownames = show_rownames)
+    if (anyNA(plotData)) {
+      plotData <- ifelse(is.na(plotData), 0, 1)
+      pheatmap(mat = plotData,
+               color = c("white", "black"), legend_breaks = c(0, 1),
+               legend_labels = c("Missing value", "Valid value"),
+               cluster_cols = cluster_cols, cluster_rows = cluster_rows,
+               show_colnames = show_colnames, show_rownames = show_rownames)
+    } else {
+      pheatmap(mat = plotData,
+               cluster_cols = cluster_cols, cluster_rows = cluster_rows,
+               show_colnames = show_colnames, show_rownames = show_rownames)
+    }
     
   } else if (pkg == "ggplot2") {
     
@@ -107,15 +116,27 @@ visualize.heatmap <- function(dataSet, pkg = "pheatmap",
       select(-c(R.Condition, R.Replicate)) %>%
       pivot_longer(-R.ConRep)
     
-    ggplot(plotData, aes(x = R.ConRep, y = name, fill = value)) +
-      geom_tile() +
-      guides(fill = guide_colourbar(title = NULL)) +
-      scale_y_discrete(limits = rev) +
-      scale_fill_distiller(palette = "RdYlBu") +
-      theme(axis.text.x = element_text(angle = -90, vjust = .5)) +
-      xlab(NULL) +
-      ylab(NULL)
-    
+    if (anyNA(plotData$value)) {
+      ggplot(plotData, aes(x = R.ConRep, y = name, fill = factor(!is.na(value)))) +
+        geom_tile(color = "grey60") +
+        guides(fill = guide_legend(title = NULL)) +
+        scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"),
+                          labels = c("FALSE" = "Missing value", "TRUE" = "Valid value"),
+                          drop = FALSE) +
+        scale_y_discrete(limits = rev) +
+        theme(axis.text.x = element_text(angle = -90, vjust = .5)) +
+        xlab(NULL) +
+        ylab(NULL)
+    } else {
+      ggplot(plotData, aes(x = R.ConRep, y = name, fill = value)) +
+        geom_tile(color = "grey60") +
+        guides(fill = guide_colourbar(title = NULL)) +
+        scale_y_discrete(limits = rev) +
+        scale_fill_distiller(palette = "RdYlBu") +
+        theme(axis.text.x = element_text(angle = -90, vjust = .5)) +
+        xlab(NULL) +
+        ylab(NULL)
+    }
   }
 }
 

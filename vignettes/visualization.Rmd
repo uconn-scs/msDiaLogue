@@ -100,6 +100,17 @@ When protein names are excessively long, it is recommended to set
 `show_rownames = FALSE` to view the full heatmap.
 
 
+If the input data contains an NA value, the heatmap will be binary for missing
+data patterns, i.e., whether values are present or absent.
+
+
+```{r fig.height=6}
+visualize.heatmap(dataSet, pkg = "pheatmap",
+                  cluster_cols = TRUE, cluster_rows = TRUE,
+                  show_colnames = TRUE, show_rownames = TRUE)
+```
+
+
 + Option 2 use the source package `ggplot2` to generate a ggplot object but does
 not include the dendrogram.
 
@@ -111,6 +122,11 @@ visualize.heatmap(dataImput, pkg = "ggplot2")
 
 In a heatmap, similar colors within a row indicate relatively consistent values,
 suggesting similar protein expression levels across different samples.
+
+
+```{r fig.height=6}
+visualize.heatmap(dataSet, pkg = "ggplot2")
+```
 
 
 ## MA plot
