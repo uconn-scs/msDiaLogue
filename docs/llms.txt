@@ -1,0 +1,180 @@
+# msDiaLogue ![](man/figure/logo.png)
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15706003.svg)](https://doi.org/10.5281/zenodo.15706003)
+[![GitHub R package
+version](https://img.shields.io/github/r-package/v/uconn-scs/msDiaLogue?label=R%20in%20dev&color=green)](https://github.com/uconn-scs/msDiaLogue/blob/main/DESCRIPTION)
+[![GitHub last
+commit](https://img.shields.io/github/last-commit/uconn-scs/msDiaLogue)](https://github.com/uconn-scs/msDiaLogue/commits/main)
+[![R-CMD-check](https://github.com/uconn-scs/msDiaLogue/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/uconn-scs/msDiaLogue/actions/workflows/R-CMD-check.yaml)
+[![GitHub
+License](https://img.shields.io/github/license/uconn-scs/msDiaLogue?color=blue)](https://github.com/uconn-scs/msDiaLogue/blob/main/LICENSE)
+
+**msDiaLogue** is a customized, modular, and flexible workflow developed
+jointly by [UConn](https://uconn.edu/)’s
+[PMF](https://proteomics.uconn.edu/) and
+[SCS](https://statsconsulting.uconn.edu/) for data-independent
+acquisition (DIA) mass spectrometry (MS)-based proteomics data.
+
+## Installation
+
+You can install **msDiaLogue** directly from
+[GitHub](https://github.com/).
+
+- Development (latest) version:
+
+``` r
+
+# install.packages("devtools")
+devtools::install_github("uconn-scs/msDiaLogue")
+```
+
+- Specific released version (e.g. v0.0.6):
+
+``` r
+
+# install.packages("devtools")
+devtools::install_github("uconn-scs/msDiaLogue@v0.0.6")
+```
+
+## Modular Structure
+
+![](https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figure/workflow.png)
+
+- Preprocessing: Getting data from Spectronaut.
+- Transformation: Options for transforming abundance data.
+- Normalization: Normalization procedures.
+- Imputation: Missing data procedures.
+- Summarization: Calculating and presenting numerical summaries in
+  tabular form.
+- Analysis: Statistical tools for DIA data analysis.
+- Filtering: Providing options to filter out data based on preset
+  levels.
+- Visualization: Providing clean visuals to aid in data analysis
+  decisions.
+
+# Package index
+
+## Preprocessing
+
+- [`preprocessing()`](https://uconn-scs.github.io/msDiaLogue/reference/preprocessing.md)
+  : Loading, filtering and reformatting of MS DIA data from Spectronaut
+- [`preprocessing_scaffold()`](https://uconn-scs.github.io/msDiaLogue/reference/preprocessing_scaffold.md)
+  : Loading and reformatting of MS data from Scaffold
+
+## Transformation
+
+- [`transform()`](https://uconn-scs.github.io/msDiaLogue/reference/transform.md)
+  : Transformation
+
+## Filtering
+
+- [`filterNA()`](https://uconn-scs.github.io/msDiaLogue/reference/filterNA.md)
+  : Filtering NA's post-imputation
+- [`filterOutIn()`](https://uconn-scs.github.io/msDiaLogue/reference/filterOutIn.md)
+  : Filtering proteins or contaminants
+
+## Normalization
+
+- [`normalize()`](https://uconn-scs.github.io/msDiaLogue/reference/normalize.md)
+  : Normalization of preprocessed data
+
+## Imputation
+
+- [`impute.knn()`](https://uconn-scs.github.io/msDiaLogue/reference/impute.knn.md)
+  : Imputation by the k-nearest neighbors algorithm
+- [`impute.knn_seq()`](https://uconn-scs.github.io/msDiaLogue/reference/impute.knn_seq.md)
+  : Imputation by the k-nearest neighbors algorithm
+- [`impute.knn_trunc()`](https://uconn-scs.github.io/msDiaLogue/reference/impute.knn_trunc.md)
+  : Imputation by the truncated k-nearest neighbors algorithm
+- [`impute.mice_cart()`](https://uconn-scs.github.io/msDiaLogue/reference/impute.mice_cart.md)
+  : Imputation by classification and regression trees
+- [`impute.mice_norm()`](https://uconn-scs.github.io/msDiaLogue/reference/impute.mice_norm.md)
+  : Imputation by Bayesian linear regression
+- [`impute.min_global()`](https://uconn-scs.github.io/msDiaLogue/reference/impute.min_global.md)
+  : Imputation by the global minimum
+- [`impute.min_local()`](https://uconn-scs.github.io/msDiaLogue/reference/impute.min_local.md)
+  : Imputation by the local minimum
+- [`impute.nuc_norm()`](https://uconn-scs.github.io/msDiaLogue/reference/impute.nuc_norm.md)
+  : Imputation by the nuclear-norm regularization
+- [`impute.pca_bayes()`](https://uconn-scs.github.io/msDiaLogue/reference/impute.pca_bayes.md)
+  : Imputation by Bayesian principal components analysis
+- [`impute.pca_prob()`](https://uconn-scs.github.io/msDiaLogue/reference/impute.pca_prob.md)
+  : Imputation by probabilistic principal components analysis
+
+## Summarization
+
+- [`summarize()`](https://uconn-scs.github.io/msDiaLogue/reference/summarize.md)
+  : Summarize protein intensities across conditions
+
+## Analysis
+
+- [`analyze.ma()`](https://uconn-scs.github.io/msDiaLogue/reference/analyze.ma.md)
+  : MA: fold change versus average abundance
+- [`analyze.mod_t()`](https://uconn-scs.github.io/msDiaLogue/reference/analyze.mod_t.md)
+  : Empirical Bayes moderated t-test
+- [`analyze.pca()`](https://uconn-scs.github.io/msDiaLogue/reference/analyze.pca.md)
+  : PCA: principal component analysis
+- [`analyze.plsda()`](https://uconn-scs.github.io/msDiaLogue/reference/analyze.plsda.md)
+  : PLS-DA: partial least squares discriminant analysis
+- [`analyze.t()`](https://uconn-scs.github.io/msDiaLogue/reference/analyze.t.md)
+  : Student's t-test
+- [`analyze.wilcox()`](https://uconn-scs.github.io/msDiaLogue/reference/analyze.wilcox.md)
+  : Wilcoxon test
+
+## Visualization
+
+- [`visualize.biplot()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.biplot.md)
+  : Biplot of score (individuals) and loading (variables)
+- [`visualize.boxplot()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.boxplot.md)
+  : Boxplot
+- [`visualize.heatmap()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.heatmap.md)
+  : Heatmap
+- [`visualize.loading()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.loading.md)
+  : Loading plot / graph of variables
+- [`visualize.ma()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.ma.md)
+  : MA plot: plots fold change versus average abundance
+- [`visualize.rank()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.rank.md)
+  : Rank abundance distribution plot (Whittaker plot)
+- [`visualize.score()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.score.md)
+  : Score plot / graph of individuals
+- [`visualize.scree()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.scree.md)
+  : Scree plot
+- [`visualize.test()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.test.md)
+  : Histograms of fold changes and p-values from test results
+- [`visualize.upset()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.upset.md)
+  : UpSet plot
+- [`visualize.venn()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.venn.md)
+  : Venn diagram
+- [`visualize.vip()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.vip.md)
+  : VIP scores plot
+- [`visualize.volcano()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.volcano.md)
+  : Volcano plot
+
+## Other useful
+
+- [`dataMissing()`](https://uconn-scs.github.io/msDiaLogue/reference/dataMissing.md)
+  : Counting missing data
+- [`pullProteinPath()`](https://uconn-scs.github.io/msDiaLogue/reference/pullProteinPath.md)
+  : Compiling data on a single protein from each step in the process
+- [`trimFASTA()`](https://uconn-scs.github.io/msDiaLogue/reference/trimFASTA.md)
+  : Trimming down a protein FASTA file to certain proteins
+
+# Articles
+
+### All vignettes
+
+- [Analysis](https://uconn-scs.github.io/msDiaLogue/articles/analysis.md):
+- [Customizing msDiaLogue
+  Visualizations](https://uconn-scs.github.io/msDiaLogue/articles/cust_vis.md):
+- [FAQ](https://uconn-scs.github.io/msDiaLogue/articles/faq.md):
+- [Filtering](https://uconn-scs.github.io/msDiaLogue/articles/filtering.md):
+- [Imputation](https://uconn-scs.github.io/msDiaLogue/articles/imputation.md):
+- [Normalization](https://uconn-scs.github.io/msDiaLogue/articles/normalization.md):
+- [Other
+  Useful](https://uconn-scs.github.io/msDiaLogue/articles/other.md):
+- [Preprocessing](https://uconn-scs.github.io/msDiaLogue/articles/preprocessing.md):
+- [Instructions for Exporting Data from Scaffold for Use in msDiaLogue
+  Analysis](https://uconn-scs.github.io/msDiaLogue/articles/scaffold.md):
+- [Summarization](https://uconn-scs.github.io/msDiaLogue/articles/summarization.md):
+- [Transformation](https://uconn-scs.github.io/msDiaLogue/articles/transformation.md):
+- [Visualization](https://uconn-scs.github.io/msDiaLogue/articles/visualization.md):

@@ -29,7 +29,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center")
 ## load R package
 library(msDiaLogue)
 ## preprocessing
-fileName <- "../tests/testData/Toy_Spectronaut_Data.csv"
+fileName <- "../inst/extdata/Toy_Spectronaut_Data.csv"
 dataSet <- preprocessing(fileName,
                          filterNaN = TRUE, filterUnique = 2,
                          replaceBlank = TRUE, saveRm = TRUE)
@@ -131,14 +131,6 @@ Check <- pullProteinPath(
 knitr::kable(Check)
 ```
 </div>
-
-
-## sortcondition
-
-
-```{r}
-dataSort <- sortcondition(dataSet)
-```
 
 
 ## trimFASTA

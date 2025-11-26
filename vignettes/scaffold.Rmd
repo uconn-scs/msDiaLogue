@@ -172,11 +172,11 @@ Scaffold data is called `preprocessing_scaffold()`, given in the code box below.
 
 
 + If the raw data is in a .xls file
-[Toy_Scaffold_Data.xls](https://github.com/uconn-scs/msDiaLogue/blob/main/tests/testData/Toy_Scaffold_Data.xls),
+[Toy_Scaffold_Data.xls](https://github.com/uconn-scs/msDiaLogue/blob/main/data/Toy_Scaffold_Data.xls),
 specify the `fileName` to read the raw data file into **R**.
 
 + If the raw data is stored as an .RData file
-[Toy_Scaffold_Data.RData](https://github.com/uconn-scs/msDiaLogue/blob/main/tests/testData/Toy_Scaffold_Data.RData),
+[Toy_Scaffold_Data.RData](https://github.com/uconn-scs/msDiaLogue/blob/main/data/Toy_Scaffold_Data.RData),
 first load the data file directly, then specify the `dataSet` in the function.
 
 
@@ -195,14 +195,14 @@ library(msDiaLogue)
 
 ```{r eval=FALSE}
 ## if the raw data is in a .xls file
-dataSet <- preprocessing_scaffold(fileName = "../tests/testData/Toy_Scaffold_Data.xls",
+dataSet <- preprocessing_scaffold(fileName = "../inst/extdata/Toy_Scaffold_Data.xls",
                                   zeroNA = TRUE, oneNA = TRUE)
 ```
 
 
 ```{r}
 ## if the raw data is in an .Rdata file
-load("../tests/testData/Toy_Scaffold_Data.RData")
+load("../inst/extdata/Toy_Scaffold_Data.RData")
 dataSet <- preprocessing_scaffold(dataSet = Toy_Scaffold_Data,
                                   zeroNA = TRUE, oneNA = TRUE)
 ```

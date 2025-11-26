@@ -91,7 +91,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-10-06</h4>
+            <h4 data-toc-skip class="date">2025-11-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/preprocessing.Rmd" class="external-link"><code>vignettes/preprocessing.Rmd</code></a></small>
       <div class="d-none name"><code>preprocessing.Rmd</code></div>
@@ -111,7 +111,7 @@ Consulting Services, UConn</p>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## if the raw data is in a .csv file</span></span>
-<span><span class="va">fileName</span> <span class="op">&lt;-</span> <span class="st">"../tests/testData/Toy_Spectronaut_Data.csv"</span></span>
+<span><span class="va">fileName</span> <span class="op">&lt;-</span> <span class="st">"../inst/extdata/Toy_Spectronaut_Data.csv"</span></span>
 <span><span class="va">dataSet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocessing.html">preprocessing</a></span><span class="op">(</span><span class="va">fileName</span>,</span>
 <span>                         filterNaN <span class="op">=</span> <span class="cn">TRUE</span>, filterUnique <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>                         replaceBlank <span class="op">=</span> <span class="cn">TRUE</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
@@ -122,17 +122,17 @@ transformation on your data. You still need to use the function
 </div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## if the raw data is in an .Rdata file</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="st">"../tests/testData/Toy_Spectronaut_Data.RData"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="st">"../inst/extdata/Toy_Spectronaut_Data.RData"</span><span class="op">)</span></span>
 <span><span class="va">dataSet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocessing.html">preprocessing</a></span><span class="op">(</span>dataSet <span class="op">=</span> <span class="va">Toy_Spectronaut_Data</span>,</span>
 <span>                         filterNaN <span class="op">=</span> <span class="cn">TRUE</span>, filterUnique <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>                         replaceBlank <span class="op">=</span> <span class="cn">TRUE</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 62 rows containing non-finite outside the scale range</span></span>
 <span><span class="co">#&gt; (`stat_bin()`).</span></span></code></pre></div>
-<p><img src="preprocessing_files/figure-html/unnamed-chunk-4-1.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="preprocessing_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
 <pre><code><span><span class="co">#&gt; Summary of Full Data Signals (Raw):</span></span>
 <span><span class="co">#&gt;      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span></span>
 <span><span class="co">#&gt;     20.93    263.87    669.79   6897.92   1963.53 117803.49</span></span></code></pre>
-<p><img src="preprocessing_files/figure-html/unnamed-chunk-4-2.png" width="700" style="display: block; margin: auto;"></p>
+<p><img src="preprocessing_files/figure-html/unnamed-chunk-4-2.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
 <pre><code><span><span class="co">#&gt; Levels of Condition: 100pmol, 200pmol, 50pmol </span></span>
 <span><span class="co">#&gt; Levels of Replicate: 1, 2, 3, 4</span></span></code></pre>
 <div style="overflow-x: auto;">
@@ -844,10 +844,10 @@ unique peptides). The steps below describe the functions that happen in
 the Preprocessing code.</p>
 <p><strong>1.</strong> Loads the raw data</p>
 <ul>
-<li><p>If the raw data is in a .csv file <a href="https://github.com/uconn-scs/msDiaLogue/blob/main/tests/testData/Toy_Spectronaut_Data.csv" class="external-link">Toy_Spectronaut_Data.csv</a>,
+<li><p>If the raw data is in a .csv file <a href="https://github.com/uconn-scs/msDiaLogue/blob/main/inst/extdata/Toy_Spectronaut_Data.csv" class="external-link">Toy_Spectronaut_Data.csv</a>,
 specify the <code>fileName</code> to read the raw data file into
 <strong>R</strong>.</p></li>
-<li><p>If the raw data is stored as an .RData file <a href="https://github.com/uconn-scs/msDiaLogue/blob/main/tests/testData/Toy_Spectronaut_Data.RData" class="external-link">Toy_Spectronaut_Data.RData</a>,
+<li><p>If the raw data is stored as an .RData file <a href="https://github.com/uconn-scs/msDiaLogue/blob/main/inst/extdata/Toy_Spectronaut_Data.RData" class="external-link">Toy_Spectronaut_Data.RData</a>,
 first load the data file directly, then specify the <code>dataSet</code>
 in the function.</p></li>
 </ul>
@@ -944,7 +944,7 @@ smaller or larger values.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

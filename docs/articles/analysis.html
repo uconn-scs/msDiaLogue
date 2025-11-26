@@ -91,7 +91,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-10-06</h4>
+            <h4 data-toc-skip class="date">2025-11-25</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/analysis.Rmd" class="external-link"><code>vignettes/analysis.Rmd</code></a></small>
       <div class="d-none name"><code>analysis.Rmd</code></div>
@@ -106,7 +106,7 @@ Consulting Services, UConn</p>
 <code class="sourceCode R"><span><span class="co">## load R package</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/uconn-scs/msDiaLogue" class="external-link">msDiaLogue</a></span><span class="op">)</span></span>
 <span><span class="co">## preprocessing</span></span>
-<span><span class="va">fileName</span> <span class="op">&lt;-</span> <span class="st">"../tests/testData/Toy_Spectronaut_Data.csv"</span></span>
+<span><span class="va">fileName</span> <span class="op">&lt;-</span> <span class="st">"../inst/extdata/Toy_Spectronaut_Data.csv"</span></span>
 <span><span class="va">dataSet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocessing.html">preprocessing</a></span><span class="op">(</span><span class="va">fileName</span>,</span>
 <span>                         filterNaN <span class="op">=</span> <span class="cn">TRUE</span>, filterUnique <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>                         replaceBlank <span class="op">=</span> <span class="cn">TRUE</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -2370,7 +2370,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.2575418</td>
 <td align="right">-0.0874986</td>
 <td align="right">0.2653179</td>
-<td align="right">-0.0443054</td>
+<td align="right">-0.0436462</td>
 </tr>
 <tr class="even">
 <td align="left">A0A7P0T808_HUMAN (+1)</td>
@@ -2385,7 +2385,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.0110135</td>
 <td align="right">-0.1744425</td>
 <td align="right">0.0072387</td>
-<td align="right">-0.1197070</td>
+<td align="right">-0.1108218</td>
 </tr>
 <tr class="odd">
 <td align="left">A0A8I5KU53_HUMAN (+1)</td>
@@ -2400,7 +2400,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.0814145</td>
 <td align="right">-0.0598182</td>
 <td align="right">-0.2562817</td>
-<td align="right">0.1123945</td>
+<td align="right">0.1237258</td>
 </tr>
 <tr class="even">
 <td align="left">ZN840_HUMAN</td>
@@ -2415,7 +2415,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.0575034</td>
 <td align="right">0.2849940</td>
 <td align="right">0.1804638</td>
-<td align="right">0.1344338</td>
+<td align="right">0.1344257</td>
 </tr>
 <tr class="odd">
 <td align="left">CC85C_HUMAN</td>
@@ -2430,7 +2430,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.0636165</td>
 <td align="right">0.0124279</td>
 <td align="right">-0.0867440</td>
-<td align="right">0.1428931</td>
+<td align="right">0.1462641</td>
 </tr>
 <tr class="even">
 <td align="left">C9JEV0_HUMAN (+1)</td>
@@ -2445,7 +2445,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.1698661</td>
 <td align="right">-0.0474144</td>
 <td align="right">0.0727410</td>
-<td align="right">0.1134314</td>
+<td align="right">0.1179648</td>
 </tr>
 <tr class="odd">
 <td align="left">C9JNU9_HUMAN</td>
@@ -2460,7 +2460,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.1766131</td>
 <td align="right">-0.1663948</td>
 <td align="right">0.3947327</td>
-<td align="right">-0.2030588</td>
+<td align="right">-0.2042108</td>
 </tr>
 <tr class="even">
 <td align="left">CYC_BOVIN</td>
@@ -2475,7 +2475,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.0361334</td>
 <td align="right">-0.0545473</td>
 <td align="right">0.1969247</td>
-<td align="right">0.0133054</td>
+<td align="right">0.0158768</td>
 </tr>
 <tr class="odd">
 <td align="left">TRFE_BOVIN</td>
@@ -2490,7 +2490,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.1781309</td>
 <td align="right">0.0867631</td>
 <td align="right">0.1887143</td>
-<td align="right">0.1707446</td>
+<td align="right">0.1757929</td>
 </tr>
 <tr class="even">
 <td align="left">F8W0H2_HUMAN</td>
@@ -2505,7 +2505,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.1060480</td>
 <td align="right">0.1500850</td>
 <td align="right">0.0055537</td>
-<td align="right">-0.2234328</td>
+<td align="right">-0.2247142</td>
 </tr>
 <tr class="odd">
 <td align="left">H0Y7V7_HUMAN (+1)</td>
@@ -2520,7 +2520,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.0798505</td>
 <td align="right">-0.0086801</td>
 <td align="right">0.0640366</td>
-<td align="right">0.1886111</td>
+<td align="right">0.1895774</td>
 </tr>
 <tr class="even">
 <td align="left">H0YD14_HUMAN</td>
@@ -2535,7 +2535,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.0081617</td>
 <td align="right">-0.1506331</td>
 <td align="right">-0.0924136</td>
-<td align="right">-0.3311737</td>
+<td align="right">-0.3292634</td>
 </tr>
 <tr class="odd">
 <td align="left">H3BUF6_HUMAN</td>
@@ -2550,7 +2550,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.0829339</td>
 <td align="right">0.0852264</td>
 <td align="right">-0.2389092</td>
-<td align="right">-0.2428304</td>
+<td align="right">-0.2402723</td>
 </tr>
 <tr class="even">
 <td align="left">H7C1W4_HUMAN (+1)</td>
@@ -2565,7 +2565,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.2157584</td>
 <td align="right">-0.0357477</td>
 <td align="right">-0.0274390</td>
-<td align="right">-0.1202732</td>
+<td align="right">-0.1216397</td>
 </tr>
 <tr class="odd">
 <td align="left">H7C3M7_HUMAN</td>
@@ -2580,7 +2580,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.0435478</td>
 <td align="right">0.3395591</td>
 <td align="right">0.3337349</td>
-<td align="right">0.0890861</td>
+<td align="right">0.0926687</td>
 </tr>
 <tr class="even">
 <td align="left">TLR3_HUMAN</td>
@@ -2595,7 +2595,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.0887085</td>
 <td align="right">0.0761335</td>
 <td align="right">0.1526797</td>
-<td align="right">-0.2647170</td>
+<td align="right">-0.2641330</td>
 </tr>
 <tr class="odd">
 <td align="left">LRIG2_HUMAN</td>
@@ -2610,7 +2610,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.2643580</td>
 <td align="right">0.1422136</td>
 <td align="right">0.0010136</td>
-<td align="right">-0.1246348</td>
+<td align="right">-0.1224080</td>
 </tr>
 <tr class="even">
 <td align="left">RAB3D_HUMAN</td>
@@ -2625,7 +2625,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.0559570</td>
 <td align="right">0.3159153</td>
 <td align="right">-0.1320459</td>
-<td align="right">0.1398686</td>
+<td align="right">0.1405790</td>
 </tr>
 <tr class="odd">
 <td align="left">ADH1_YEAST</td>
@@ -2640,7 +2640,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.0507490</td>
 <td align="right">-0.0663319</td>
 <td align="right">-0.1758915</td>
-<td align="right">0.2232915</td>
+<td align="right">0.2215150</td>
 </tr>
 <tr class="even">
 <td align="left">LYSC_CHICK</td>
@@ -2655,7 +2655,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.2384278</td>
 <td align="right">-0.0317316</td>
 <td align="right">0.1313226</td>
-<td align="right">0.0503470</td>
+<td align="right">0.0502501</td>
 </tr>
 <tr class="odd">
 <td align="left">BGAL_ECOLI</td>
@@ -2670,7 +2670,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.2250153</td>
 <td align="right">0.0457059</td>
 <td align="right">0.1041234</td>
-<td align="right">-0.0946921</td>
+<td align="right">-0.0940112</td>
 </tr>
 <tr class="even">
 <td align="left">CYTA_HUMAN</td>
@@ -2685,7 +2685,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.0276568</td>
 <td align="right">0.1505360</td>
 <td align="right">0.0409124</td>
-<td align="right">0.0175259</td>
+<td align="right">0.0190272</td>
 </tr>
 <tr class="odd">
 <td align="left">KPCB_HUMAN</td>
@@ -2700,7 +2700,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.2303199</td>
 <td align="right">0.2291294</td>
 <td align="right">-0.0922683</td>
-<td align="right">0.3101692</td>
+<td align="right">0.3117143</td>
 </tr>
 <tr class="even">
 <td align="left">LIPL_HUMAN</td>
@@ -2715,7 +2715,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.4209711</td>
 <td align="right">0.0006371</td>
 <td align="right">0.0513403</td>
-<td align="right">0.1113975</td>
+<td align="right">0.1098499</td>
 </tr>
 <tr class="odd">
 <td align="left">CO6_HUMAN</td>
@@ -2730,7 +2730,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.1237697</td>
 <td align="right">-0.0386718</td>
 <td align="right">-0.0644920</td>
-<td align="right">-0.0086929</td>
+<td align="right">-0.0066024</td>
 </tr>
 <tr class="even">
 <td align="left">BGAL_HUMAN</td>
@@ -2745,7 +2745,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.0402230</td>
 <td align="right">-0.0405328</td>
 <td align="right">-0.0633152</td>
-<td align="right">0.0726581</td>
+<td align="right">0.0703951</td>
 </tr>
 <tr class="odd">
 <td align="left">SYTC_HUMAN</td>
@@ -2760,7 +2760,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.1463871</td>
 <td align="right">-0.1240736</td>
 <td align="right">0.0653873</td>
-<td align="right">0.4425293</td>
+<td align="right">0.4380428</td>
 </tr>
 <tr class="even">
 <td align="left">CASPE_HUMAN</td>
@@ -2775,7 +2775,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.0373315</td>
 <td align="right">-0.0237263</td>
 <td align="right">0.2765286</td>
-<td align="right">0.0461540</td>
+<td align="right">0.0499946</td>
 </tr>
 <tr class="odd">
 <td align="left">DCAF6_HUMAN</td>
@@ -2790,7 +2790,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.1486062</td>
 <td align="right">0.1974166</td>
 <td align="right">0.0071470</td>
-<td align="right">0.0559504</td>
+<td align="right">0.0550033</td>
 </tr>
 <tr class="even">
 <td align="left">DALD3_HUMAN</td>
@@ -2805,7 +2805,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.0760953</td>
 <td align="right">-0.0233357</td>
 <td align="right">-0.1372768</td>
-<td align="right">0.0977357</td>
+<td align="right">0.0979793</td>
 </tr>
 <tr class="odd">
 <td align="left">HGNAT_HUMAN</td>
@@ -2820,7 +2820,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.2087894</td>
 <td align="right">0.0202744</td>
 <td align="right">0.1469799</td>
-<td align="right">-0.0225062</td>
+<td align="right">-0.0242630</td>
 </tr>
 <tr class="even">
 <td align="left">RFFL_HUMAN</td>
@@ -2835,7 +2835,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.1577143</td>
 <td align="right">0.3487386</td>
 <td align="right">-0.3588672</td>
-<td align="right">-0.1740691</td>
+<td align="right">-0.1752334</td>
 </tr>
 <tr class="odd">
 <td align="left">RN185_HUMAN</td>
@@ -2850,7 +2850,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.0092404</td>
 <td align="right">0.4236179</td>
 <td align="right">0.0600972</td>
-<td align="right">-0.1655283</td>
+<td align="right">-0.1661696</td>
 </tr>
 <tr class="even">
 <td align="left">ZN462_HUMAN</td>
@@ -2865,7 +2865,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.1494307</td>
 <td align="right">-0.0475510</td>
 <td align="right">-0.0870126</td>
-<td align="right">0.1314355</td>
+<td align="right">0.1308837</td>
 </tr>
 <tr class="odd">
 <td align="left">ALKB7_HUMAN</td>
@@ -2880,7 +2880,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.2482360</td>
 <td align="right">-0.1677388</td>
 <td align="right">-0.0951268</td>
-<td align="right">0.0521427</td>
+<td align="right">0.0522006</td>
 </tr>
 <tr class="even">
 <td align="left">POLK_HUMAN</td>
@@ -2895,7 +2895,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">0.3273576</td>
 <td align="right">-0.0500830</td>
 <td align="right">0.0379469</td>
-<td align="right">-0.0507182</td>
+<td align="right">-0.0510030</td>
 </tr>
 <tr class="odd">
 <td align="left">ACAD8_HUMAN</td>
@@ -2910,7 +2910,7 @@ choose to remove this protein in the principal component analysis
 <td align="right">-0.0648194</td>
 <td align="right">0.2567213</td>
 <td align="right">0.1180605</td>
-<td align="right">0.0196439</td>
+<td align="right">0.0198723</td>
 </tr>
 </tbody>
 </table>
@@ -2984,7 +2984,7 @@ the other is to set <code>scale = FALSE</code>.
 <tbody>
 <tr class="odd">
 <td align="left">NUD4B_HUMAN (+1)</td>
-<td align="right">-0.0721647</td>
+<td align="right">0.0721647</td>
 <td align="right">-0.0120098</td>
 <td align="right">0.1953417</td>
 <td align="right">-0.1265834</td>
@@ -2998,7 +2998,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">A0A7P0T808_HUMAN (+1)</td>
-<td align="right">0.7186598</td>
+<td align="right">-0.7186598</td>
 <td align="right">0.6655256</td>
 <td align="right">-0.3729955</td>
 <td align="right">-0.0614608</td>
@@ -3012,7 +3012,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">A0A8I5KU53_HUMAN (+1)</td>
-<td align="right">0.1319886</td>
+<td align="right">-0.1319886</td>
 <td align="right">-0.5206130</td>
 <td align="right">0.3662075</td>
 <td align="right">-0.1771716</td>
@@ -3026,7 +3026,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">ZN840_HUMAN</td>
-<td align="right">0.0759383</td>
+<td align="right">-0.0759383</td>
 <td align="right">0.0051305</td>
 <td align="right">-0.1438278</td>
 <td align="right">-0.1839000</td>
@@ -3040,7 +3040,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">CC85C_HUMAN</td>
-<td align="right">-0.0193422</td>
+<td align="right">0.0193422</td>
 <td align="right">0.0726843</td>
 <td align="right">0.2930632</td>
 <td align="right">0.2616026</td>
@@ -3054,7 +3054,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">C9JEV0_HUMAN (+1)</td>
-<td align="right">-0.2703730</td>
+<td align="right">0.2703730</td>
 <td align="right">0.2837151</td>
 <td align="right">-0.1926834</td>
 <td align="right">0.0625934</td>
@@ -3068,7 +3068,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">C9JNU9_HUMAN</td>
-<td align="right">-0.0210992</td>
+<td align="right">0.0210992</td>
 <td align="right">-0.0655873</td>
 <td align="right">0.0920396</td>
 <td align="right">-0.1411416</td>
@@ -3096,7 +3096,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">CYC_BOVIN</td>
-<td align="right">0.0630095</td>
+<td align="right">-0.0630095</td>
 <td align="right">-0.1487569</td>
 <td align="right">0.0827505</td>
 <td align="right">0.2645965</td>
@@ -3110,7 +3110,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">TRFE_BOVIN</td>
-<td align="right">0.0003603</td>
+<td align="right">-0.0003603</td>
 <td align="right">0.0327004</td>
 <td align="right">0.0563023</td>
 <td align="right">0.0921118</td>
@@ -3124,7 +3124,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">F8W0H2_HUMAN</td>
-<td align="right">-0.0836310</td>
+<td align="right">0.0836310</td>
 <td align="right">-0.0409287</td>
 <td align="right">-0.0097821</td>
 <td align="right">-0.0467141</td>
@@ -3138,7 +3138,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">H0Y7V7_HUMAN (+1)</td>
-<td align="right">0.0661155</td>
+<td align="right">-0.0661155</td>
 <td align="right">-0.0130440</td>
 <td align="right">-0.1035646</td>
 <td align="right">0.2440707</td>
@@ -3152,7 +3152,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">H0YD14_HUMAN</td>
-<td align="right">-0.0643955</td>
+<td align="right">0.0643955</td>
 <td align="right">0.0066205</td>
 <td align="right">0.0315022</td>
 <td align="right">-0.1133884</td>
@@ -3166,7 +3166,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">H3BUF6_HUMAN</td>
-<td align="right">-0.0817169</td>
+<td align="right">0.0817169</td>
 <td align="right">0.0172734</td>
 <td align="right">-0.0456413</td>
 <td align="right">-0.1147691</td>
@@ -3180,7 +3180,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">H7C1W4_HUMAN (+1)</td>
-<td align="right">0.1101453</td>
+<td align="right">-0.1101453</td>
 <td align="right">0.0652563</td>
 <td align="right">-0.1173529</td>
 <td align="right">0.5945244</td>
@@ -3194,7 +3194,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">H7C3M7_HUMAN</td>
-<td align="right">-0.0034187</td>
+<td align="right">0.0034187</td>
 <td align="right">-0.0629444</td>
 <td align="right">-0.0597674</td>
 <td align="right">0.0426410</td>
@@ -3208,7 +3208,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">TLR3_HUMAN</td>
-<td align="right">0.0441759</td>
+<td align="right">-0.0441759</td>
 <td align="right">0.0098471</td>
 <td align="right">-0.1081594</td>
 <td align="right">0.0667498</td>
@@ -3222,7 +3222,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">LRIG2_HUMAN</td>
-<td align="right">-0.0260332</td>
+<td align="right">0.0260332</td>
 <td align="right">0.0370571</td>
 <td align="right">0.0887307</td>
 <td align="right">0.0548165</td>
@@ -3236,7 +3236,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">RAB3D_HUMAN</td>
-<td align="right">-0.0636594</td>
+<td align="right">0.0636594</td>
 <td align="right">-0.0205192</td>
 <td align="right">0.0081626</td>
 <td align="right">-0.0408032</td>
@@ -3250,7 +3250,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">ADH1_YEAST</td>
-<td align="right">0.0886732</td>
+<td align="right">-0.0886732</td>
 <td align="right">-0.0249521</td>
 <td align="right">-0.0403430</td>
 <td align="right">0.0903633</td>
@@ -3264,7 +3264,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">LYSC_CHICK</td>
-<td align="right">0.0559316</td>
+<td align="right">-0.0559316</td>
 <td align="right">-0.1146442</td>
 <td align="right">-0.0857625</td>
 <td align="right">0.0670823</td>
@@ -3278,7 +3278,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">BGAL_ECOLI</td>
-<td align="right">0.0354376</td>
+<td align="right">-0.0354376</td>
 <td align="right">-0.0711086</td>
 <td align="right">-0.1189625</td>
 <td align="right">0.0522730</td>
@@ -3292,7 +3292,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">CYTA_HUMAN</td>
-<td align="right">-0.2408724</td>
+<td align="right">0.2408724</td>
 <td align="right">0.1808954</td>
 <td align="right">-0.0650776</td>
 <td align="right">-0.0752154</td>
@@ -3306,7 +3306,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">KPCB_HUMAN</td>
-<td align="right">-0.0378512</td>
+<td align="right">0.0378512</td>
 <td align="right">-0.0135789</td>
 <td align="right">-0.0613165</td>
 <td align="right">-0.1643575</td>
@@ -3320,7 +3320,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">LIPL_HUMAN</td>
-<td align="right">-0.0574665</td>
+<td align="right">0.0574665</td>
 <td align="right">-0.0353568</td>
 <td align="right">-0.0050660</td>
 <td align="right">0.0030499</td>
@@ -3334,7 +3334,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">CO6_HUMAN</td>
-<td align="right">-0.0732950</td>
+<td align="right">0.0732950</td>
 <td align="right">-0.0688572</td>
 <td align="right">-0.0320353</td>
 <td align="right">-0.0213450</td>
@@ -3348,7 +3348,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">BGAL_HUMAN</td>
-<td align="right">-0.0143422</td>
+<td align="right">0.0143422</td>
 <td align="right">-0.2101695</td>
 <td align="right">0.0838454</td>
 <td align="right">0.1545052</td>
@@ -3362,7 +3362,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">SYTC_HUMAN</td>
-<td align="right">-0.0756364</td>
+<td align="right">0.0756364</td>
 <td align="right">0.0885254</td>
 <td align="right">0.0966614</td>
 <td align="right">-0.0037612</td>
@@ -3376,7 +3376,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">CASPE_HUMAN</td>
-<td align="right">-0.3483297</td>
+<td align="right">0.3483297</td>
 <td align="right">0.3750765</td>
 <td align="right">-0.1535783</td>
 <td align="right">0.0477597</td>
@@ -3390,7 +3390,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">DCAF6_HUMAN</td>
-<td align="right">0.0418068</td>
+<td align="right">-0.0418068</td>
 <td align="right">0.0849396</td>
 <td align="right">0.1310571</td>
 <td align="right">-0.1964884</td>
@@ -3404,7 +3404,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">DALD3_HUMAN</td>
-<td align="right">0.1896420</td>
+<td align="right">-0.1896420</td>
 <td align="right">-0.1432009</td>
 <td align="right">-0.0340628</td>
 <td align="right">-0.2470246</td>
@@ -3418,7 +3418,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">HGNAT_HUMAN</td>
-<td align="right">0.1046402</td>
+<td align="right">-0.1046402</td>
 <td align="right">-0.2416903</td>
 <td align="right">0.2325612</td>
 <td align="right">0.1301691</td>
@@ -3432,7 +3432,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">RFFL_HUMAN</td>
-<td align="right">0.0181685</td>
+<td align="right">-0.0181685</td>
 <td align="right">-0.0152259</td>
 <td align="right">0.0389704</td>
 <td align="right">0.2295137</td>
@@ -3446,7 +3446,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">RN185_HUMAN</td>
-<td align="right">0.0585569</td>
+<td align="right">-0.0585569</td>
 <td align="right">-0.0112455</td>
 <td align="right">0.3784554</td>
 <td align="right">0.1343171</td>
@@ -3460,7 +3460,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">ZN462_HUMAN</td>
-<td align="right">0.0964568</td>
+<td align="right">-0.0964568</td>
 <td align="right">-0.2647605</td>
 <td align="right">0.2505166</td>
 <td align="right">-0.3012533</td>
@@ -3474,7 +3474,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">ALKB7_HUMAN</td>
-<td align="right">-0.1715043</td>
+<td align="right">0.1715043</td>
 <td align="right">-0.1780380</td>
 <td align="right">-0.2018088</td>
 <td align="right">0.2414476</td>
@@ -3488,7 +3488,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="odd">
 <td align="left">POLK_HUMAN</td>
-<td align="right">0.1889136</td>
+<td align="right">-0.1889136</td>
 <td align="right">0.0622625</td>
 <td align="right">0.2948281</td>
 <td align="right">-0.2461720</td>
@@ -3502,7 +3502,7 @@ the other is to set <code>scale = FALSE</code>.
 </tr>
 <tr class="even">
 <td align="left">ACAD8_HUMAN</td>
-<td align="right">0.1306602</td>
+<td align="right">-0.1306602</td>
 <td align="right">-0.1492646</td>
 <td align="right">-0.3520092</td>
 <td align="right">0.1200877</td>
@@ -3627,7 +3627,7 @@ for Assessing Differential Expression in Microarray Experiments.”</span>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

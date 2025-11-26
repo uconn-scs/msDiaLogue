@@ -44,7 +44,7 @@ for more details of individual plot types.
 ## load R package
 library(msDiaLogue)
 ## preprocessing
-fileName <- "../tests/testData/Toy_Spectronaut_Data.csv"
+fileName <- "../inst/extdata/Toy_Spectronaut_Data.csv"
 dataSet <- preprocessing(fileName,
                          filterNaN = TRUE, filterUnique = 2,
                          replaceBlank = TRUE, saveRm = TRUE)
@@ -68,8 +68,6 @@ anlys_pca <- analyze.pca(dataPCA, center = TRUE, scale = TRUE)
 ## analysis: PLS-DA
 anlys_plsda <- analyze.plsda(dataImput, method = "kernelpls",
                              center = TRUE, scale = FALSE)
-## other useful: Sort conditions
-dataSort <- sortcondition(dataSet)
 ```
 
 
@@ -232,7 +230,7 @@ illustrating the presence or absence of elements in combinations of sets.
 
 
 ```{r}
-visualize.upset(dataSort)
+visualize.upset(dataSet)
 ```
 
 
@@ -249,7 +247,7 @@ elements that are shared between sets.
 
 
 ```{r}
-visualize.venn(dataSort, show_percentage = TRUE,
+visualize.venn(dataSet, show_percentage = TRUE,
                fill_color = c("blue", "yellow", "green", "red"),
                saveRes = TRUE)
 ```
