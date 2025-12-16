@@ -91,7 +91,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-11-26</h4>
+            <h4 data-toc-skip class="date">2025-12-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/visualization.Rmd" class="external-link"><code>vignettes/visualization.Rmd</code></a></small>
       <div class="d-none name"><code>visualization.Rmd</code></div>
@@ -174,7 +174,8 @@ distribution is left-shifted relative to the Valid group.</p>
 <div class="section level2">
 <h2 id="heatmap">Heatmap<a class="anchor" aria-label="anchor" href="#heatmap"></a>
 </h2>
-<p>The package offers two options for plotting the heatmap.</p>
+<p>The package offers two options for plotting the heatmap, regardless
+of whether missing values exist.</p>
 <ul>
 <li>Option 1 utilizes the source package <code>pheatmap</code>, capable
 of plotting the dendrogram simultaneously. It is the default choice for
@@ -192,8 +193,10 @@ for missing data patterns, i.e., whether values are present or
 absent.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.heatmap.html">visualize.heatmap</a></span><span class="op">(</span><span class="va">dataSet</span>, pkg <span class="op">=</span> <span class="st">"pheatmap"</span>,</span>
-<span>                  cluster_cols <span class="op">=</span> <span class="cn">TRUE</span>, cluster_rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                  show_colnames <span class="op">=</span> <span class="cn">TRUE</span>, show_rownames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span>                  cluster_cols <span class="op">=</span> <span class="cn">FALSE</span>, cluster_rows <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                  show_colnames <span class="op">=</span> <span class="cn">TRUE</span>, show_rownames <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                  show_pct_cols <span class="op">=</span> <span class="cn">FALSE</span>, show_pct_rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                  show_pct_legend <span class="op">=</span> <span class="cn">TRUE</span>, saveRes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="visualization_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
 <ul>
 <li>Option 2 use the source package <code>ggplot2</code> to generate a
@@ -206,7 +209,9 @@ ggplot object but does not include the dendrogram.</li>
 consistent values, suggesting similar protein expression levels across
 different samples.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.heatmap.html">visualize.heatmap</a></span><span class="op">(</span><span class="va">dataSet</span>, pkg <span class="op">=</span> <span class="st">"ggplot2"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.heatmap.html">visualize.heatmap</a></span><span class="op">(</span><span class="va">dataSet</span>, pkg <span class="op">=</span> <span class="st">"ggplot2"</span>,</span>
+<span>                  show_pct_cols <span class="op">=</span> <span class="cn">FALSE</span>, show_pct_rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                  show_pct_legend <span class="op">=</span> <span class="cn">TRUE</span>, saveRes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="visualization_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">

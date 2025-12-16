@@ -63,7 +63,11 @@
 <span>  cluster_cols <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  cluster_rows <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  show_colnames <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  show_rownames <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  show_rownames <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show_pct_cols <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show_pct_rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show_pct_legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  saveRes <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -99,11 +103,41 @@ This argument only works when <code>pkg = "pheatmap"</code>.</p></dd>
 <dd><p>A boolean (default = TRUE) specifying if row names are be shown.
 This argument only works when <code>pkg = "pheatmap"</code>.</p></dd>
 
+
+<dt id="arg-show-pct-cols">show_pct_cols<a class="anchor" aria-label="anchor" href="#arg-show-pct-cols"></a></dt>
+<dd><p>A boolean (default = FALSE) specifying whether to append the
+percentage of missing values to the column names. Only applied when <code>dataSet</code>
+contains missing values.</p></dd>
+
+
+<dt id="arg-show-pct-rows">show_pct_rows<a class="anchor" aria-label="anchor" href="#arg-show-pct-rows"></a></dt>
+<dd><p>A boolean (default = TRUE) specifying whether to append the
+percentage of missing values to the row names. Only applied when <code>dataSet</code>
+contains missing values.</p></dd>
+
+
+<dt id="arg-show-pct-legend">show_pct_legend<a class="anchor" aria-label="anchor" href="#arg-show-pct-legend"></a></dt>
+<dd><p>A boolean (default = TRUE) specifying whether the percentages of
+missing and present values in the entire dataset are shown in the legend. Only applied
+when <code>dataSet</code> contains missing values.</p></dd>
+
+
+<dt id="arg-saveres">saveRes<a class="anchor" aria-label="anchor" href="#arg-saveres"></a></dt>
+<dd><p>A boolean (default = TRUE) specifying whether to save a summary of
+missingness information. Only applied when <code>dataSet</code> contains missing values.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An object of class <code>ggplot</code>.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>A summary of missingness information including:</p><ul><li><p>"count_missing_protein": The count of missing values for each protein.</p></li>
+<li><p>"pct_missing_protein": The percentage of missing values for each protein.</p></li>
+<li><p>"pct_missing_total": The percentage of missing values for each protein relative
+to the total missing values in the entire dataset.</p></li>
+</ul></div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

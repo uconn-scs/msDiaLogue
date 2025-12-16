@@ -86,8 +86,8 @@
 
 - Other:
 
-  - [`dataMissing()`](https://uconn-scs.github.io/msDiaLogue/reference/dataMissing.md):
-    Add arguments `sort_miss`, `show_pct_legend`, and `show_pct_col`.
+  - `dataMissing()`: Add arguments `sort_miss`, `show_pct_legend`, and
+    `show_pct_col`.
   - [`pullProteinPath()`](https://uconn-scs.github.io/msDiaLogue/reference/pullProteinPath.md):
     Add arguments `listName`, `regexName`, and `by`.  
       
@@ -145,8 +145,7 @@
 
 - Add moderated t-test in `analyze()`.
 
-- [`dataMissing()`](https://uconn-scs.github.io/msDiaLogue/reference/dataMissing.md):
-  Calculate the count of missing data.
+- `dataMissing()`: Calculate the count of missing data.
 
 - Revise
   [`normalize()`](https://uconn-scs.github.io/msDiaLogue/reference/normalize.md)

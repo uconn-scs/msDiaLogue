@@ -154,8 +154,6 @@ devtools::install_github("uconn-scs/msDiaLogue@v0.0.6")
 
 ## Other useful
 
-- [`dataMissing()`](https://uconn-scs.github.io/msDiaLogue/reference/dataMissing.md)
-  : Counting missing data
 - [`pullProteinPath()`](https://uconn-scs.github.io/msDiaLogue/reference/pullProteinPath.md)
   : Compiling data on a single protein from each step in the process
 - [`trimFASTA()`](https://uconn-scs.github.io/msDiaLogue/reference/trimFASTA.md)

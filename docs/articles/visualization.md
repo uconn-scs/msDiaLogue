@@ -82,7 +82,8 @@ left-shifted relative to the Valid group.
 
 ## Heatmap
 
-The package offers two options for plotting the heatmap.
+The package offers two options for plotting the heatmap, regardless of
+whether missing values exist.
 
 - Option 1 utilizes the source package `pheatmap`, capable of plotting
   the dendrogram simultaneously. It is the default choice for heatmaps
@@ -106,8 +107,10 @@ missing data patterns, i.e., whether values are present or absent.
 ``` r
 
 visualize.heatmap(dataSet, pkg = "pheatmap",
-                  cluster_cols = TRUE, cluster_rows = TRUE,
-                  show_colnames = TRUE, show_rownames = TRUE)
+                  cluster_cols = FALSE, cluster_rows = FALSE,
+                  show_colnames = TRUE, show_rownames = TRUE,
+                  show_pct_cols = FALSE, show_pct_rows = TRUE,
+                  show_pct_legend = TRUE, saveRes = TRUE)
 ```
 
 ![](visualization_files/figure-html/unnamed-chunk-6-1.png)
@@ -128,7 +131,9 @@ samples.
 
 ``` r
 
-visualize.heatmap(dataSet, pkg = "ggplot2")
+visualize.heatmap(dataSet, pkg = "ggplot2",
+                  show_pct_cols = FALSE, show_pct_rows = TRUE,
+                  show_pct_legend = TRUE, saveRes = TRUE)
 ```
 
 ![](visualization_files/figure-html/unnamed-chunk-8-1.png)

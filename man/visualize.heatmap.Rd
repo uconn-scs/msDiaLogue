@@ -10,7 +10,11 @@ visualize.heatmap(
   cluster_cols = TRUE,
   cluster_rows = FALSE,
   show_colnames = TRUE,
-  show_rownames = TRUE
+  show_rownames = TRUE,
+  show_pct_cols = FALSE,
+  show_pct_rows = TRUE,
+  show_pct_legend = TRUE,
+  saveRes = TRUE
 )
 }
 \arguments{
@@ -30,10 +34,33 @@ This argument only works when \code{pkg = "pheatmap"}.}
 
 \item{show_rownames}{A boolean (default = TRUE) specifying if row names are be shown.
 This argument only works when \code{pkg = "pheatmap"}.}
+
+\item{show_pct_cols}{A boolean (default = FALSE) specifying whether to append the
+percentage of missing values to the column names. Only applied when \code{dataSet}
+contains missing values.}
+
+\item{show_pct_rows}{A boolean (default = TRUE) specifying whether to append the
+percentage of missing values to the row names. Only applied when \code{dataSet}
+contains missing values.}
+
+\item{show_pct_legend}{A boolean (default = TRUE) specifying whether the percentages of
+missing and present values in the entire dataset are shown in the legend. Only applied
+when \code{dataSet} contains missing values.}
+
+\item{saveRes}{A boolean (default = TRUE) specifying whether to save a summary of
+missingness information. Only applied when \code{dataSet} contains missing values.}
 }
 \value{
 An object of class \code{ggplot}.
 }
 \description{
 Generate a heatmap for the data.
+}
+\details{
+A summary of missingness information including: \itemize{
+\item "count_missing_protein": The count of missing values for each protein.
+\item "pct_missing_protein": The percentage of missing values for each protein.
+\item "pct_missing_total": The percentage of missing values for each protein relative
+to the total missing values in the entire dataset.
+}
 }

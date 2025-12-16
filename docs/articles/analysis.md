@@ -426,7 +426,7 @@ Economiche e Commerciali Di Firenze* 8: 3–62.
 
 Dayal, Bhupinder S., and John F. MacGregor. 1997. “Improved PLS
 Algorithms.” *Journal of Chemometrics* 11 (1): 73–85.
-[https://doi.org/10.1002/(SICI)1099-128X(199701)11:1\<73::AID-CEM435\>3.0.CO;2-\\23](https://doi.org/10.1002/(SICI)1099-128X(199701)11:1%3C73::AID-CEM435%3E3.0.CO;2-%5C%23).
+[https://doi.org/10.1002/(SICI)1099-128X(199701)11:1\<73::AID-CEM435\>3.0.CO;2-\\23](https://doi.org/10.1002/(SICI)1099-128X(199701)11:1%3C73::AID-CEM435%3E3.0.CO;2-\%23).
 
 Hochberg, Yosef. 1988. “A Sharper Bonferroni Procedure for Multiple
 Tests of Significance.” *Biometrika* 75 (4): 800–802.

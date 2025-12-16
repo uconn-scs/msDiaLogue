@@ -76,7 +76,6 @@ reference:
   - visualize.volcano
 - title: Other useful
   contents:
-  - dataMissing
   - pullProteinPath
   - trimFASTA
 

@@ -143,10 +143,33 @@ visualize.dist <- function(dataSet) {
 #' @param show_rownames A boolean (default = TRUE) specifying if row names are be shown.
 #' This argument only works when \code{pkg = "pheatmap"}.
 #' 
+#' @param show_pct_cols A boolean (default = FALSE) specifying whether to append the
+#' percentage of missing values to the column names. Only applied when \code{dataSet}
+#' contains missing values.
+#' 
+#' @param show_pct_rows A boolean (default = TRUE) specifying whether to append the
+#' percentage of missing values to the row names. Only applied when \code{dataSet}
+#' contains missing values.
+#' 
+#' @param show_pct_legend A boolean (default = TRUE) specifying whether the percentages of
+#' missing and present values in the entire dataset are shown in the legend. Only applied
+#' when \code{dataSet} contains missing values.
+#' 
+#' @param saveRes A boolean (default = TRUE) specifying whether to save a summary of
+#' missingness information. Only applied when \code{dataSet} contains missing values.
+#' 
 #' @import pheatmap
 #' 
 #' @return
 #' An object of class \code{ggplot}.
+#' 
+#' @details
+#' A summary of missingness information including: \itemize{
+#' \item "count_missing_protein": The count of missing values for each protein.
+#' \item "pct_missing_protein": The percentage of missing values for each protein.
+#' \item "pct_missing_total": The percentage of missing values for each protein relative
+#' to the total missing values in the entire dataset.
+#' }
 #' 
 #' @autoglobal
 #' 
@@ -154,55 +177,116 @@ visualize.dist <- function(dataSet) {
 
 visualize.heatmap <- function(dataSet, pkg = "pheatmap",
                               cluster_cols = TRUE, cluster_rows = FALSE,
-                              show_colnames = TRUE, show_rownames = TRUE) {
+                              show_colnames = TRUE, show_rownames = TRUE,
+                              show_pct_cols = FALSE, show_pct_rows = TRUE,
+                              show_pct_legend = TRUE, saveRes = TRUE) {
   
-  if(pkg == "pheatmap") {
+  plotData <- select(dataSet, -c(R.Condition, R.Replicate))
+  rownames(plotData) <- paste0(dataSet$R.Condition, "_", dataSet$R.Replicate)
+  
+  if (anyNA(dataSet)) {
     
-    ## organize the data for pheatmap plotting
-    plotData <- t(select(dataSet, -c(R.Condition, R.Replicate)))
-    colnames(plotData) <- paste0(dataSet$R.Condition, "_", dataSet$R.Replicate)
+    dataMissing <- is.na(plotData)
+    count_missing_protein <- colSums(dataMissing)
+    pct_missing_conrep <- rowMeans(dataMissing) * 100
+    pct_missing_protein <- colMeans(dataMissing) * 100
+    pct_missing_total <- count_missing_protein / sum(count_missing_protein) * 100
+    pct_missing <- mean(dataMissing) * 100
     
-    if (anyNA(plotData)) {
-      plotData <- ifelse(is.na(plotData), 0, 1)
-      pheatmap(mat = plotData,
-               color = c("white", "black"), legend_breaks = c(0, 1),
-               legend_labels = c("Missing value", "Valid value"),
-               cluster_cols = cluster_cols, cluster_rows = cluster_rows,
-               show_colnames = show_colnames, show_rownames = show_rownames)
+    if (show_pct_legend) {
+      if (pct_missing < 1) {
+        lab_missing <- "Missing (< 1%)"
+        lab_present <- "Present (> 99%)"
+      } else {
+        lab_missing <- sprintf("Missing (%.1f%%)", pct_missing)
+        lab_present <- sprintf("Present (%.1f%%)", 100 - pct_missing)
+      }
     } else {
-      pheatmap(mat = plotData,
-               cluster_cols = cluster_cols, cluster_rows = cluster_rows,
-               show_colnames = show_colnames, show_rownames = show_rownames)
+      lab_missing <- "Missing"
+      lab_present <- "Present"
     }
     
-  } else if (pkg == "ggplot2") {
+    ## protein
+    if (show_pct_rows) {
+      pct_rows <- ifelse(pct_missing_protein == 0, "", sprintf(" (%.1f%%)", pct_missing_protein))
+      colnames(plotData) <- paste0(colnames(plotData), pct_rows)
+    }
     
-    ## performing wide-to-long data reshaping for ggplot2 plotting
-    plotData <- dataSet %>%
-      mutate(R.ConRep = paste0(R.Condition, "_", R.Replicate)) %>%
-      select(-c(R.Condition, R.Replicate)) %>%
-      pivot_longer(-R.ConRep)
+    ## condition-replicate
+    if (show_pct_cols) {
+      pct_cols <- ifelse(pct_missing_conrep == 0, "", sprintf(" (%.1f%%)", pct_missing_conrep))
+      rownames(plotData) <- paste0(rownames(plotData), pct_cols)
+    }
     
-    if (anyNA(plotData$value)) {
-      ggplot(plotData, aes(x = R.ConRep, y = name, fill = factor(!is.na(value)))) +
+    if (saveRes) {
+      
+      information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
+      scaffoldCheck <- any(colnames(information) == "Visible?")
+      IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+      
+      df <- data.frame(count_missing_protein,
+                       pct_missing_protein,
+                       pct_missing_total) %>%
+        rownames_to_column(IDcol) %>%
+        left_join(information, by = IDcol)
+      
+      write.csv(df, file = "missing_information.csv", row.names = FALSE)
+    }
+    
+    if(pkg == "pheatmap") {
+      
+      pheatmap(mat = t(ifelse(is.na(plotData), 0, 1)),
+               color = c("grey20", "grey80"), legend_breaks = c(0, 1),
+               legend_labels = c(lab_missing, lab_present),
+               cluster_cols = cluster_cols, cluster_rows = cluster_rows,
+               show_colnames = show_colnames, show_rownames = show_rownames)
+      
+    } else if (pkg == "ggplot2") {
+      
+      ## performing wide-to-long data reshaping for ggplot2 plotting
+      plotData <- as.data.frame(plotData) %>%
+        rownames_to_column("R.ConRep") %>%
+        pivot_longer(-R.ConRep)
+      
+      ggplot(plotData, aes(x = R.ConRep, y = name, fill = factor(is.na(value)))) +
         geom_tile(color = "grey60") +
         guides(fill = guide_legend(title = NULL)) +
-        scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"),
-                          labels = c("FALSE" = "Missing value", "TRUE" = "Valid value"),
+        labs(x = NULL, y = NULL) +
+        scale_fill_manual(values = c("TRUE" = "grey20", "FALSE" = "grey80"),
+                          labels = c("TRUE" = lab_missing, "FALSE" = lab_present),
                           drop = FALSE) +
         scale_y_discrete(limits = rev) +
-        theme(axis.text.x = element_text(angle = -90, vjust = .5)) +
-        xlab(NULL) +
-        ylab(NULL)
-    } else {
+        theme(axis.text.x = element_text(angle = -90, vjust = .5),
+              axis.ticks = element_blank(),
+              panel.background = element_blank())
+      
+    }
+    
+  } else {
+    
+    if (pkg == "pheatmap") {
+      
+      pheatmap(mat = t(plotData),
+               cluster_cols = cluster_cols, cluster_rows = cluster_rows,
+               show_colnames = show_colnames, show_rownames = show_rownames)
+      
+    } else if (pkg == "ggplot2") {
+      
+      ## performing wide-to-long data reshaping for ggplot2 plotting
+      plotData <- as.data.frame(plotData) %>%
+        rownames_to_column("R.ConRep") %>%
+        pivot_longer(-R.ConRep)
+      
       ggplot(plotData, aes(x = R.ConRep, y = name, fill = value)) +
         geom_tile(color = "grey60") +
         guides(fill = guide_colourbar(title = NULL)) +
+        labs(x = NULL, y = NULL) +
         scale_y_discrete(limits = rev) +
         scale_fill_distiller(palette = "RdYlBu") +
-        theme(axis.text.x = element_text(angle = -90, vjust = .5)) +
-        xlab(NULL) +
-        ylab(NULL)
+        theme(axis.text.x = element_text(angle = -90, vjust = .5),
+              axis.ticks = element_blank(),
+              panel.background = element_blank())
+      
     }
   }
 }
@@ -622,6 +706,8 @@ visualize.volcano <- function(dataSet, P.thres = 0.05, F.thres = 1) {
 #' 
 #' @return
 #' An object of class \code{ggplot}.
+#' 
+#' @autoglobal
 #' 
 #' @export
 

@@ -13,6 +13,7 @@ vignettes/analyze_t.csv
 vignettes/analyze_wilcox.csv
 vignettes/filterNA.xlsx
 vignettes/filterOutIn.xlsx
+vignettes/missing_information.csv
 vignettes/preprocess_filterNaN.csv
 vignettes/preprocess_filterUnique.csv
 vignettes/preprocess_protein_information.csv
