@@ -37,18 +37,32 @@ visualize.boxplot <- function(dataSet) {
   plotData <- dataSet %>%
     pivot_longer(-c(R.Condition, R.Replicate))
   
-  ggplot(plotData, aes(x = R.Condition, y = value,
-                       fill = if (length(unique(R.Replicate)) == 1) R.Condition else R.Replicate)) +
+  if (length(unique(dataSet$R.Replicate)) == 1) {
+    fill_var <- "R.Condition"
+    nfill <- length(unique(dataSet$R.Condition))
+  } else {
+    fill_var <- "R.Replicate"
+    nfill <- length(unique(dataSet$R.Replicate))
+  }
+  
+  if (nfill <= 11) {
+    fill_scale <- scale_fill_brewer(palette = "RdYlBu")
+  } else {
+    cols <- colorRampPalette(brewer.pal(11, "RdYlBu"))(nfill)
+    fill_scale <- scale_fill_manual(values = cols)
+  }
+  
+  ggplot(plotData, aes(x = R.Condition, y = value, fill = .data[[fill_var]])) +
     geom_boxplot(varwidth = TRUE) +
     guides(fill = guide_legend(
-      title = ifelse(length(unique(plotData$R.Replicate)) == 1, "Condition", "Replicate"))) +
+      title = ifelse(fill_var == "R.Condition", "Condition", "Replicate"))) +
     xlab("Condition") +
     ylab("Signal value") +
-    scale_fill_brewer(palette = "RdYlBu") +
+    fill_scale +
     theme_bw() +
-    theme(legend.position = ifelse(length(unique(plotData$R.Replicate)) == 1, "none", "bottom"),
+    theme(legend.position = ifelse(fill_var == "R.Condition", "none", "bottom"),
           plot.title = element_text(hjust = .5))
-  
+
 }
 
 
