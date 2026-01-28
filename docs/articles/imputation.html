@@ -91,7 +91,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-11-25</h4>
+            <h4 data-toc-skip class="date">2026-01-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/imputation.Rmd" class="external-link"><code>vignettes/imputation.Rmd</code></a></small>
       <div class="d-none name"><code>imputation.Rmd</code></div>
@@ -837,7 +837,7 @@ and 0 indicates otherwise.</p>
 present threshold will still have NA values and will need to be filtered
 out.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dataImput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filterNA.html">filterNA</a></span><span class="op">(</span><span class="va">dataImput</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dataImput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filterNA.html">filterNA</a></span><span class="op">(</span><span class="va">dataImput</span>, minProp <span class="op">=</span> <span class="fl">1</span>, by <span class="op">=</span> <span class="st">"all"</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>where <code>saveRm = TRUE</code> indicates that the filtered data
 will be saved as a .csv file named <em>filtered_NA_data.csv</em> in the
 current working directory.</p>

@@ -91,7 +91,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2025-12-16</h4>
+            <h4 data-toc-skip class="date">2026-01-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/visualization.Rmd" class="external-link"><code>vignettes/visualization.Rmd</code></a></small>
       <div class="d-none name"><code>visualization.Rmd</code></div>
@@ -129,7 +129,7 @@ individual plot types.</p>
 <span><span class="va">dataImput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/impute.min_local.html">impute.min_local</a></span><span class="op">(</span><span class="va">dataNorm</span>, reportImputing <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>                              reqPercentPresent <span class="op">=</span> <span class="fl">0.51</span><span class="op">)</span></span>
 <span><span class="co">## filtering</span></span>
-<span><span class="va">dataImput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filterNA.html">filterNA</a></span><span class="op">(</span><span class="va">dataImput</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">dataImput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filterNA.html">filterNA</a></span><span class="op">(</span><span class="va">dataImput</span>, minProp <span class="op">=</span> <span class="fl">1</span>, by <span class="op">=</span> <span class="st">"all"</span>, saveRm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">## analysis: MA</span></span>
 <span><span class="va">anlys_ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.ma.html">analyze.ma</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="st">"50pmol"</span><span class="op">)</span></span>
 <span><span class="co">## analysis: Empirical Bayes moderated t-test</span></span>
@@ -149,7 +149,7 @@ individual plot types.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.boxplot.html">visualize.boxplot</a></span><span class="op">(</span><span class="va">dataNorm</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 55 rows containing non-finite outside the scale range</span></span>
 <span><span class="co">#&gt; (`stat_boxplot()`).</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-3-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="distributions-plot">Distributions plot<a class="anchor" aria-label="anchor" href="#distributions-plot"></a>
@@ -159,7 +159,7 @@ proteins, the distribution plot helps clearly distinguish proteins with
 and without missing values.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.dist.html">visualize.dist</a></span><span class="op">(</span><span class="va">dataTran</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 <p>In the left panel, the Missing group is concentrated in the
 low-abundance range, showing a sharper peak than the Valid group, whose
 distribution is flatter and more diffuse. This indicates that proteins
@@ -185,7 +185,7 @@ heatmaps in this package.</li>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.heatmap.html">visualize.heatmap</a></span><span class="op">(</span><span class="va">dataImput</span>, pkg <span class="op">=</span> <span class="st">"pheatmap"</span>,</span>
 <span>                  cluster_cols <span class="op">=</span> <span class="cn">TRUE</span>, cluster_rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                  show_colnames <span class="op">=</span> <span class="cn">TRUE</span>, show_rownames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 <p>When protein names are excessively long, it is recommended to set
 <code>show_rownames = FALSE</code> to view the full heatmap.</p>
 <p>If the input data contains an NA value, the heatmap will be binary
@@ -197,14 +197,14 @@ absent.</p>
 <span>                  show_colnames <span class="op">=</span> <span class="cn">TRUE</span>, show_rownames <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                  show_pct_cols <span class="op">=</span> <span class="cn">FALSE</span>, show_pct_rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                  show_pct_legend <span class="op">=</span> <span class="cn">TRUE</span>, saveRes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 <ul>
 <li>Option 2 use the source package <code>ggplot2</code> to generate a
 ggplot object but does not include the dendrogram.</li>
 </ul>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.heatmap.html">visualize.heatmap</a></span><span class="op">(</span><span class="va">dataImput</span>, pkg <span class="op">=</span> <span class="st">"ggplot2"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 <p>In a heatmap, similar colors within a row indicate relatively
 consistent values, suggesting similar protein expression levels across
 different samples.</p>
@@ -212,7 +212,7 @@ different samples.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.heatmap.html">visualize.heatmap</a></span><span class="op">(</span><span class="va">dataSet</span>, pkg <span class="op">=</span> <span class="st">"ggplot2"</span>,</span>
 <span>                  show_pct_cols <span class="op">=</span> <span class="cn">FALSE</span>, show_pct_rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                  show_pct_legend <span class="op">=</span> <span class="cn">TRUE</span>, saveRes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-8-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="ma-plot">MA plot<a class="anchor" aria-label="anchor" href="#ma-plot"></a>
@@ -224,7 +224,7 @@ different samples.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_ma</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, M.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 32 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 <p>where <code>M.thres = 1</code> means the M thresholds are set to -1
 and 1. The scatters are split into three parts: up regulation (M &gt;
 1), no regulation (-1
@@ -241,7 +241,7 @@ individual subplots corresponding to each comparison.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_ma</span>, M.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 63 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a>
@@ -287,7 +287,7 @@ conditions or replicates.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.rank.html">visualize.rank</a></span><span class="op">(</span><span class="va">dataImput</span>, listName <span class="op">=</span> <span class="st">"POLK_HUMAN"</span>,</span>
 <span>               facet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Replicate"</span>, <span class="st">"Condition"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="histogram-of-fold-changes-and-p-values-for-test">Histogram of fold changes and p-values for test<a class="anchor" aria-label="anchor" href="#histogram-of-fold-changes-and-p-values-for-test"></a>
@@ -297,13 +297,13 @@ conditions or replicates.</p>
 </h3>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.test.html">visualize.test</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 <p>If the input <code>dataSet</code> is the whole list
 <code>anlys_modt</code>, <strong>msDiaLogue</strong> will produce
 individual subplots corresponding to each comparison.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.test.html">visualize.test</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="details-1">Details<a class="anchor" aria-label="anchor" href="#details-1"></a>
@@ -327,7 +327,7 @@ particularly useful for illustrating the presence or absence of elements
 in combinations of sets.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.upset.html">visualize.upset</a></span><span class="op">(</span><span class="va">dataSet</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-14-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 <p>This plot reveals that 42 proteins are shared by 50pmol, 100pmol, and
 200pmol, while only 3 proteins are shared by 100 pmol and 200pmol, but
 not with 50pmol.</p>
@@ -342,7 +342,7 @@ overlapping regions show the elements that are shared between sets.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.venn.html">visualize.venn</a></span><span class="op">(</span><span class="va">dataSet</span>, show_percentage <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>               fill_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>, <span class="st">"red"</span><span class="op">)</span>,</span>
 <span>               saveRes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-15-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 <p>where <code>saveRes = TRUE</code> refers to the data containing
 logical columns representing sets in Venn plot information will be saved
 as a .csv file named <em>venn_information.csv</em> in the current
@@ -361,7 +361,7 @@ proteins. Notably, 3 proteins are exclusively found in the 100pmol and
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.volcano.html">visualize.volcano</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, P.thres <span class="op">=</span> <span class="fl">0.05</span>, F.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 32 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 <p>If the input <code>dataSet</code> is the whole list
 <code>anlys_modt</code>, <strong>msDiaLogue</strong> will produce
 individual subplots corresponding to each comparison.</p>
@@ -369,7 +369,7 @@ individual subplots corresponding to each comparison.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.volcano.html">visualize.volcano</a></span><span class="op">(</span><span class="va">anlys_modt</span>, P.thres <span class="op">=</span> <span class="fl">0.05</span>, F.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 65 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-17-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-17-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="details-2">Details<a class="anchor" aria-label="anchor" href="#details-2"></a>
@@ -396,7 +396,7 @@ PC.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.scree.html">visualize.scree</a></span><span class="op">(</span><span class="va">anlys_pca</span>, type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bar"</span>, <span class="st">"line"</span><span class="op">)</span>,</span>
 <span>                bar.color <span class="op">=</span> <span class="st">"gray"</span>, bar.fill <span class="op">=</span> <span class="st">"gray"</span>, line.color <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>                label <span class="op">=</span> <span class="cn">TRUE</span>, ncp <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-18-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-18-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 <p>where <code>label = TRUE</code> adds information labels at the top of
 bars/points, and <code>ncp = 10</code> sets the number of dimension to
 be displayed.</p>
@@ -409,7 +409,7 @@ be displayed.</p>
 </h3>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.score.html">visualize.score</a></span><span class="op">(</span><span class="va">anlys_pca</span>, ellipse <span class="op">=</span> <span class="cn">TRUE</span>, ellipse.level <span class="op">=</span> <span class="fl">0.95</span>, label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-19-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-19-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="details-3">Details<a class="anchor" aria-label="anchor" href="#details-3"></a>
@@ -434,7 +434,7 @@ provided), for each groups (condition) provided.</p>
 </h3>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.loading.html">visualize.loading</a></span><span class="op">(</span><span class="va">anlys_pca</span>, label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-20-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-20-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="details-4">Details<a class="anchor" aria-label="anchor" href="#details-4"></a>
@@ -458,7 +458,7 @@ appropriate number of PCs to investigate.
 large number of proteins, this plot can be unwieldy.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.biplot.html">visualize.biplot</a></span><span class="op">(</span><span class="va">anlys_pca</span>, ellipse <span class="op">=</span> <span class="cn">TRUE</span>, ellipse.level <span class="op">=</span> <span class="fl">0.95</span>, label <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-21-1.png" class="r-plt" width="700" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-21-1.png" class="r-plt" alt="" width="700" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="vip-score-plot">VIP score plot<a class="anchor" aria-label="anchor" href="#vip-score-plot"></a>
@@ -472,7 +472,7 @@ which variables matter most for class separation and how they behave in
 each condition.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.vip.html">visualize.vip</a></span><span class="op">(</span><span class="va">anlys_plsda</span>, comp <span class="op">=</span> <span class="fl">1</span>, num <span class="op">=</span> <span class="fl">10</span>, thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/unnamed-chunk-22-1.png" class="r-plt" width="864" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/unnamed-chunk-22-1.png" class="r-plt" alt="" width="864" style="display: block; margin: auto;"></p>
 <div class="nav-button left-button">
 <p><a href="analysis.html">← Previous</a></p>
 </div>

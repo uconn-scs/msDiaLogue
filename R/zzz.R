@@ -3,6 +3,7 @@
 #' @import ggrepel
 #' @import tibble
 #' @import tidyr
+#' @importFrom grDevices colorRampPalette
 #' @importFrom openxlsx write.xlsx
 #' @importFrom RColorBrewer brewer.pal
 #' @importFrom Rdpack reprompt

@@ -19,7 +19,7 @@ dataNorm <- normalize(dataTran, normalizeType = "quant")
 dataImput <- impute.min_local(dataNorm, reportImputing = FALSE,
                               reqPercentPresent = 0.51)
 ## filtering
-dataImput <- filterNA(dataImput, saveRm = TRUE)
+dataImput <- filterNA(dataImput, minProp = 1, by = "all", saveRm = TRUE)
 ```
 
 ## pullProteinPath

@@ -16,14 +16,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/uconn-scs/msDiaLogue/blob/HEAD/DESCRIPTION)
 
-Xiao S, Moore T, Watt C (2025). *msDiaLogue: Analysis and Visuals for
+Xiao S, Moore T, Watt C (2026). *msDiaLogue: Analysis and Visuals for
 Data-Independent Aquisition Mass Spectrometry Data*. R package version
 0.0.7, <https://github.com/uconn-scs/msDiaLogue>.
 
     @Manual{,
       title = {msDiaLogue: Analysis and Visuals for Data-Independent Aquisition Mass Spectrometry Data},
       author = {Shiying Xiao and Timothy Moore and Charles Watt},
-      year = {2025},
+      year = {2026},
       note = {R package version 0.0.7},
       url = {https://github.com/uconn-scs/msDiaLogue},
     }

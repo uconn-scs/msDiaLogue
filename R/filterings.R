@@ -226,6 +226,18 @@ filterOutIn <- function(dataSet,
 #' 
 #' @param dataSet The 2d data set of experimental values.
 #' 
+#' @param minProp A scalar (default = 0.51) specifying the minimum non-missing
+#' proportion required for a protein to be retained.
+#' 
+#' @param by A string (default = "cond") specifying how coverage is evaluated.
+#' \itemize{
+#' \item \code{"cond"}: The non-missing proportion for a protein must be at
+#' least \code{minProp} within each condition. Proteins failing in any condition
+#' are filtered out. 
+#' \item \code{"all"}: The overall non-missing proportion across all samples
+#' must be at least \code{minProp}.
+#' }
+#' 
 #' @param saveRm A boolean (default = TRUE) specifying whether to save removed data to
 #' current working directory.
 #' 
@@ -238,16 +250,37 @@ filterOutIn <- function(dataSet,
 #' 
 #' @export
 
-filterNA <- function(dataSet, saveRm = TRUE) {
+filterNA <- function(dataSet, minProp = 0.51, by = "cond", saveRm = TRUE) {
   
-  information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
+  ## 0/1 non-missing indicator: 1 present, 0 missing
+  prot_cols <- setdiff(names(dataSet), c("R.Condition", "R.Replicate"))
+  nonmissing01 <- dataSet[, prot_cols, drop = FALSE] %>%
+    as.matrix() %>%
+    is.na() %>%
+    (\(x) !x)() * 1
+  cond <- dataSet$R.Condition
+  
+  if (by == "cond") {
+    ## non-missing counts per condition x protein
+    nonmissing_n <- rowsum(nonmissing01, group = cond, reorder = FALSE)
+    ## samples per condition
+    n_per_cond <- as.integer(table(cond))
+    ## non-missing proportion per condition x protein
+    prop_nonmissing <- sweep(nonmissing_n, 1, n_per_cond, "/")
+    keep <- colSums(prop_nonmissing < minProp) == 0
+  } else {
+    keep <- (colMeans(nonmissing01) >= minProp)
+  }
+  
+  keep_proteins <- prot_cols[keep]
+  filteredData <- dataSet[, c("R.Condition", "R.Replicate", keep_proteins), drop = FALSE]
   
   if (saveRm) {
     
-    ## create a dataframe of the removed data
-    removedData <- bind_cols(select(dataSet, c(R.Condition, R.Replicate)),
-                             select_if(dataSet, ~any(is.na(.))))
+    drop_proteins <- prot_cols[!keep]
+    removedData <- dataSet[, c("R.Condition", "R.Replicate", drop_proteins), drop = FALSE]
     
+    information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
     scaffoldCheck <- any(colnames(information) == "Visible?")
     IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
     
@@ -259,9 +292,6 @@ filterNA <- function(dataSet, saveRm = TRUE) {
     write.xlsx(list(removedData, removedData_long), file = "filterNA.xlsx")
     
   }
-  
-  ## remove all of the contaminants if they are present
-  filteredData <- dataSet %>% select_if(~!any(is.na(.)))
   
   ## return the filtered data
   return(filteredData)

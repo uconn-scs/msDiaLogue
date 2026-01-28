@@ -66,7 +66,7 @@ out.
 
 ``` r
 
-dataImput <- filterNA(dataImput, saveRm = TRUE)
+dataImput <- filterNA(dataImput, minProp = 1, by = "all", saveRm = TRUE)
 ```
 
 where `saveRm = TRUE` indicates that the filtered data will be saved as

@@ -82,7 +82,7 @@ threshold will still have NA values and will need to be filtered out.
 
 
 ```{r}
-dataImput <- filterNA(dataImput, saveRm = TRUE)
+dataImput <- filterNA(dataImput, minProp = 1, by = "all", saveRm = TRUE)
 ```
 
 
