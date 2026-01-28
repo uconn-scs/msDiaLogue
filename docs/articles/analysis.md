@@ -15,11 +15,10 @@ dataSet <- preprocessing(fileName,
 dataTran <- transform(dataSet, logFold = 2)
 ## normalization
 dataNorm <- normalize(dataTran, normalizeType = "quant")
-## imputation
-dataImput <- impute.min_local(dataNorm, reportImputing = FALSE,
-                              reqPercentPresent = 0.51)
 ## filtering
-dataImput <- filterNA(dataImput, saveRm = TRUE)
+dataImput_pre <- filterNA(dataNorm, minProp = 0.51, by = "cond", saveRm = TRUE)
+## imputation
+dataImput <- impute.min_local(dataImput_pre, reportImputing = FALSE)
 ```
 
 The functions in the analysis module calculate the results that can be

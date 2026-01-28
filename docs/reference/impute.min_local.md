@@ -6,7 +6,7 @@ protein in that condition.
 ## Usage
 
 ``` r
-impute.min_local(dataSet, reportImputing = FALSE, reqPercentPresent = 0.51)
+impute.min_local(dataSet, reportImputing = FALSE)
 ```
 
 ## Arguments
@@ -21,12 +21,6 @@ impute.min_local(dataSet, reportImputing = FALSE, reqPercentPresent = 0.51)
   data frame with imputed data labels, where 1 indicates the
   corresponding entries have been imputed, and 0 indicates otherwise.
   Alters the return structure.
-
-- reqPercentPresent:
-
-  A scalar (default = 0.51) specifying the required percent of values
-  that must be present in a given protein by condition combination for
-  values to be imputed.
 
 ## Value
 

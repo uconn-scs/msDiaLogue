@@ -60,8 +60,18 @@ values will remain NA, and will be filtered out in a subsequent step.  </div>
 
 
 ```{r}
-dataImput <- impute.min_local(dataNorm, reportImputing = FALSE,
-                              reqPercentPresent = 0.51)
+dataImput_pre <- filterNA(dataNorm, minProp = 0.51, by = "cond", saveRm = TRUE)
+```
+
+
+After the above filtering, any entries that did not pass the percent present
+threshold will still have NA values and will need to be filtered out. And
+`saveRm = TRUE` indicates that the filtered data will be saved as a .csv file
+named *filtered_NA_data.csv* in the current working directory.
+
+
+```{r}
+dataImput <- impute.min_local(dataImput_pre, reportImputing = FALSE)
 ```
 
 
@@ -75,29 +85,6 @@ knitr::kable(dataImput)
 If `reportImputing = TRUE`, the returned result structure will be altered to a
 list, adding a shadow data frame with imputed data labels, where 1 indicates the
 corresponding entries have been imputed, and 0 indicates otherwise.
-
-
-After the above imputation, any entries that did not pass the percent present
-threshold will still have NA values and will need to be filtered out.
-
-
-```{r}
-dataImput <- filterNA(dataImput, minProp = 1, by = "all", saveRm = TRUE)
-```
-
-
-where `saveRm = TRUE` indicates that the filtered data will be saved as a .csv
-file named *filtered_NA_data.csv* in the current working directory.
-
-
-The `dataImput` is as follows:
-
-
-<div style="overflow-x: auto;">
-```{r echo=FALSE}
-knitr::kable(dataImput)
-```
-</div>
 
 
 ## Details

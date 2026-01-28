@@ -74,10 +74,6 @@ impute.min_global <- function(dataSet, reportImputing = FALSE) {
 #' 
 #' @param dataSet The 2d dataset of experimental values.
 #' 
-#' @param reqPercentPresent A scalar (default = 0.51) specifying the required percent of
-#' values that must be present in a given protein by condition combination for values to
-#' be imputed.
-#' 
 #' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
 #' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 #' have been imputed, and 0 indicates otherwise. Alters the return structure.
@@ -91,8 +87,7 @@ impute.min_global <- function(dataSet, reportImputing = FALSE) {
 #' 
 #' @export
 
-impute.min_local <- function(dataSet, reportImputing = FALSE,
-                             reqPercentPresent = 0.51) {
+impute.min_local <- function(dataSet, reportImputing = FALSE) {
   
   ## select the numerical data
   dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
@@ -124,21 +119,13 @@ impute.min_local <- function(dataSet, reportImputing = FALSE,
       ## select and isolate the data from each protein by condition combination
       localData <- dataPoints[conditionIndex, j]
       
-      ## calculate the percent of samples that are present in that protein by
-      ## condition combination
-      percentPresent <- sum(!is.na(localData)) / numReplicates[i]
+      ## identify missing values
+      missingValues <- is.na(localData)
       
-      ## impute missing values if the threshold is met
-      if (percentPresent >= reqPercentPresent) {
-        
-        ## identify missing values
-        missingValues <- is.na(localData)
-        
-        ## replace missing values with the minimum (non-NA) value of the protein by
-        ## condition combination
-        dataPoints[conditionIndex, j] <- replace(localData, missingValues,
-                                                 min(localData, na.rm = TRUE))
-      }
+      ## replace missing values with the minimum (non-NA) value of the protein by
+      ## condition combination
+      dataPoints[conditionIndex, j] <- replace(localData, missingValues,
+                                               min(localData, na.rm = TRUE))
     }
   }
   

@@ -4,7 +4,7 @@
 \alias{impute.min_local}
 \title{Imputation by the local minimum}
 \usage{
-impute.min_local(dataSet, reportImputing = FALSE, reqPercentPresent = 0.51)
+impute.min_local(dataSet, reportImputing = FALSE)
 }
 \arguments{
 \item{dataSet}{The 2d dataset of experimental values.}
@@ -12,10 +12,6 @@ impute.min_local(dataSet, reportImputing = FALSE, reqPercentPresent = 0.51)
 \item{reportImputing}{A boolean (default = FALSE) specifying whether to provide a
 shadow data frame with imputed data labels, where 1 indicates the corresponding entries
 have been imputed, and 0 indicates otherwise. Alters the return structure.}
-
-\item{reqPercentPresent}{A scalar (default = 0.51) specifying the required percent of
-values that must be present in a given protein by condition combination for values to
-be imputed.}
 }
 \value{
 \itemize{
