@@ -156,7 +156,7 @@ visualize.dist <- function(dataSet) {
     
     ggplot(plotData, aes(value, color = Condition)) +
       stat_density(geom = "line", na.rm = TRUE) +
-      facet_wrap(~ Panel, scales = "free_y") +
+      facet_wrap(~ Panel) +
       labs(x = "Abundance", y = "Density") +
       theme_bw() +
       theme(legend.position = "bottom")
