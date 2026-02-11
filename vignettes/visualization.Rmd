@@ -104,6 +104,16 @@ confirming that its average-abundance distribution is left-shifted relative to
 the Valid group.
 
 
+If the input is a list of data frames (e.g., before and after imputation),
+density plots are arranged side by side to enable direct comparison of
+distributional changes.
+
+
+```{r}
+visualize.dist(list("Pre-Imputation" = dataNorm, "Post-Imputation" = dataImput))
+```
+
+
 ## Heatmap
 
 

@@ -74,7 +74,7 @@
 - [`visualize.boxplot()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.boxplot.md)
   : Boxplot
 - [`visualize.dist()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.dist.md)
-  : Average abundance distributions: Density and ECDF
+  : Abundance distributions
 - [`visualize.heatmap()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.heatmap.md)
   : Heatmap
 - [`visualize.loading()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.loading.md)

@@ -68,14 +68,20 @@ visualize.boxplot <- function(dataSet) {
 
 ##----------------------------------------------------------------------------------------
 #'
-#' Average abundance distributions: Density and ECDF
+#' Abundance distributions
 #'
 #' @description
-#' Generate distribution plots of proteins' average abundance across conditions  
+#' Generate distribution plots for protein abundance values.
+#' If \code{dataSet} is a single data frame, the function summarizes
+#' the distribution of proteins' average abundance across conditions  
 #' and replicates, including both a kernel density estimate and an empirical  
 #' cumulative distribution function (ECDF).
 #' 
-#' @param dataSet The 2d data set of data.
+#' If \code{dataSet} is a list of data frames, the function produces comparative
+#' density plots across datasets (e.g., before vs after imputation), stratified
+#' by \code{R.Condition}.
+#' 
+#' @param dataSet The 2d data set of data, or a list of data frames.
 #' 
 #' @return
 #' An object of class \code{ggplot}.
@@ -86,47 +92,74 @@ visualize.boxplot <- function(dataSet) {
 
 visualize.dist <- function(dataSet) {
   
-  plotData <- dataSet %>%
-    pivot_longer(-c(R.Condition, R.Replicate)) %>%
-    group_by(name) %>%
-    summarise(mean  = mean(value, na.rm = TRUE),
-              Group = if_else(any(is.na(value)), "Missing", "Valid"),
-              .groups = "drop")
-  
-  if(n_distinct(plotData$Group) > 1) {
+  if (is.data.frame(dataSet)) {
     
-    ggplot() +
-      stat_density(
-        data = plotData %>%
-          mutate(Panel = factor("Probability Density",
-                                levels = c("Probability Density", "Cumulative Probability"))),
-        aes(x = mean, color = Group), na.rm = TRUE, geom = "line") +
-      stat_ecdf(
-        data = plotData %>%
-          mutate(Panel = factor("Cumulative Probability",
-                                levels = c("Probability Density", "Cumulative Probability"))),
-        aes(x = mean, col = Group), na.rm = TRUE, geom = "line", pad = FALSE) +
+    plotData <- dataSet %>%
+      pivot_longer(-c(R.Condition, R.Replicate)) %>%
+      group_by(name) %>%
+      summarise(mean  = mean(value, na.rm = TRUE),
+                Group = if_else(any(is.na(value)), "Missing", "Valid"),
+                .groups = "drop")
+    
+    if(n_distinct(plotData$Group) > 1) {
+      
+      ggplot() +
+        stat_density(
+          data = plotData %>%
+            mutate(Panel = factor("Probability Density",
+                                  levels = c("Probability Density", "Cumulative Probability"))),
+          aes(x = mean, color = Group), na.rm = TRUE, geom = "line") +
+        stat_ecdf(
+          data = plotData %>%
+            mutate(Panel = factor("Cumulative Probability",
+                                  levels = c("Probability Density", "Cumulative Probability"))),
+          aes(x = mean, col = Group), na.rm = TRUE, geom = "line", pad = FALSE) +
+        facet_wrap(~ Panel, scales = "free_y") +
+        labs(x = "Average Abundance", y = NULL) +
+        theme_bw() +
+        theme(legend.position = "bottom")
+      
+    } else {
+      
+      ggplot() +
+        stat_density(
+          data = plotData %>%
+            mutate(Panel = factor("Probability Density",
+                                  levels = c("Probability Density", "Cumulative Probability"))),
+          aes(x = mean), na.rm = TRUE, geom = "line") +
+        stat_ecdf(
+          data = plotData %>%
+            mutate(Panel = factor("Cumulative Probability",
+                                  levels = c("Probability Density", "Cumulative Probability"))),
+          aes(x = mean), na.rm = TRUE, geom = "line", pad = FALSE) +
+        facet_wrap(~ Panel, scales = "free_y") +
+        labs(x = "Average Abundance", y = NULL) +
+        theme_bw()
+      
+    }
+  } else if (is.list(dataSet)) {
+    
+    nm <- names(dataSet)
+    if (is.null(nm) || any(nm == "")) {
+      nm <- paste("Data", seq_along(dataSet))
+    }
+    
+    plotData <- lapply(seq_along(dataSet), function(k) {
+      dataSet[[k]] %>%
+        pivot_longer(cols = -c(R.Condition, R.Replicate),
+                     names_to = "name", values_to = "value") %>%
+        mutate(Panel = nm[k], .before = 1)
+    }) %>%
+      bind_rows() %>%
+      rename(Condition = R.Condition) %>%
+      mutate(Panel = factor(Panel, levels = nm))
+    
+    ggplot(plotData, aes(value, color = Condition)) +
+      stat_density(geom = "line", na.rm = TRUE) +
       facet_wrap(~ Panel, scales = "free_y") +
-      labs(x = "Average Abundance", y = NULL) +
+      labs(x = "Abundance", y = "Density") +
       theme_bw() +
       theme(legend.position = "bottom")
-    
-  } else {
-    
-    ggplot() +
-      stat_density(
-        data = plotData %>%
-          mutate(Panel = factor("Probability Density",
-                                levels = c("Probability Density", "Cumulative Probability"))),
-        aes(x = mean), na.rm = TRUE, geom = "line") +
-      stat_ecdf(
-        data = plotData %>%
-          mutate(Panel = factor("Cumulative Probability",
-                                levels = c("Probability Density", "Cumulative Probability"))),
-        aes(x = mean), na.rm = TRUE, geom = "line", pad = FALSE) +
-      facet_wrap(~ Panel, scales = "free_y") +
-      labs(x = "Average Abundance", y = NULL) +
-      theme_bw()
     
   }
   

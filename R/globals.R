@@ -29,6 +29,8 @@ utils::globalVariables(c(
   "name", # <visualize.dist>
   "value", # <visualize.dist>
   "Group", # <visualize.dist>
+  "Panel", # <visualize.dist>
+  "Condition", # <visualize.dist>
   "R.Condition", # <visualize.heatmap>
   "R.Replicate", # <visualize.heatmap>
   "R.ConRep", # <visualize.heatmap>
