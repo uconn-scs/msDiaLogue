@@ -28,39 +28,27 @@
 #' 
 #' @param dataSet The 2d dataset of experimental values.
 #' 
-#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
-#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
-#' have been imputed, and 0 indicates otherwise. Alters the return structure.
-#' 
 #' @return
-#' \itemize{
-#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
-#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
-#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
-#' }
+#' An imputed 2d dataframe.
 #' 
 #' @export
 
-impute.min_global <- function(dataSet, reportImputing = FALSE) {
+impute.min_global <- function(dataSet) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
+  dataPoints <- select(dataSet, -c(R.Condition, R.Replicate))
+  
+  ## global minimum
+  gmin <- min(dataPoints, na.rm = TRUE)
   
   ## replace all NAs with the global smallest value in the data set
-  dataPoints <- replace(dataPoints, is.na(dataPoints), min(dataPoints, na.rm = TRUE))
+  dataPoints <- dataPoints %>%
+    mutate(across(everything(), ~ replace(.x, is.na(.x), gmin)))
   
   ## recombine the labels and imputed data
   imputedData <- cbind(dataSet[,c("R.Condition", "R.Replicate")], dataPoints)
   
-  if (reportImputing) {
-    shadowMatrix[!is.na(shadowMatrix)] <- 0
-    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
-    ## return the imputed data and the shadow matrix
-    return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
-  } else {
-    return(imputedData)
-  }
+  return(imputedData)
 }
 
 
@@ -74,73 +62,19 @@ impute.min_global <- function(dataSet, reportImputing = FALSE) {
 #' 
 #' @param dataSet The 2d dataset of experimental values.
 #' 
-#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
-#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
-#' have been imputed, and 0 indicates otherwise. Alters the return structure.
-#' 
 #' @return
-#' \itemize{
-#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
-#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
-#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
-#' }
+#' An imputed 2d dataframe.
 #' 
 #' @export
 
-impute.min_local <- function(dataSet, reportImputing = FALSE) {
+impute.min_local <- function(dataSet) {
   
-  ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
+  imputedData <- dataSet %>%
+    group_by(R.Condition) %>%
+    mutate(across(-R.Replicate, ~ ifelse(is.na(.x), min(.x, na.rm = TRUE), .x))) %>%
+    ungroup()
   
-  ## number of proteins in the data set
-  numProteins <- ncol(dataPoints)
-  
-  ## create a frequency table for conditions
-  frq <- table(dataSet$R.Condition)
-  
-  ## list of conditions in the data set
-  conditionsList <- names(frq)
-  
-  ## number of conditions in the data set
-  numConditions <- length(conditionsList)
-  
-  ## number of replicates for each condition in the data set
-  numReplicates <- as.vector(frq)
-  
-  ## loop over proteins
-  for (j in 1:numProteins) {
-    
-    ## loop over conditions
-    for (i in 1:numConditions) {
-      
-      ## condition for subsetting the data
-      conditionIndex <- dataSet$R.Condition == conditionsList[i]
-      
-      ## select and isolate the data from each protein by condition combination
-      localData <- dataPoints[conditionIndex, j]
-      
-      ## identify missing values
-      missingValues <- is.na(localData)
-      
-      ## replace missing values with the minimum (non-NA) value of the protein by
-      ## condition combination
-      dataPoints[conditionIndex, j] <- replace(localData, missingValues,
-                                               min(localData, na.rm = TRUE))
-    }
-  }
-  
-  ## recombine the labels and imputed data
-  imputedData <- cbind(dataSet[,c("R.Condition", "R.Replicate")], dataPoints)
-  
-  if (reportImputing) {
-    shadowMatrix[!is.na(shadowMatrix)] <- 0
-    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
-    ## return the imputed data and the shadow matrix
-    return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
-  } else {
-    return(imputedData)
-  }
+  return(imputedData)
 }
 
 
@@ -172,29 +106,21 @@ impute.min_local <- function(dataSet, reportImputing = FALSE) {
 #' @param seed An integer (default = 362436069) specifying the seed used for the
 #' random number generator for reproducibility.
 #' 
-#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
-#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
-#' have been imputed, and 0 indicates otherwise. Alters the return structure.
-#' 
 #' @importFrom impute impute.knn
 #' 
 #' @return
-#' \itemize{
-#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
-#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
-#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
-#' }
+#' An imputed 2d dataframe.
 #' 
 #' @references
 #' \insertAllCited{}
 #' 
 #' @export
 
-impute.knn <- function(dataSet, reportImputing = FALSE,
-                       k = 10, rowmax = 0.5, colmax = 0.8, maxp = 1500, seed = 362436069) {
+impute.knn <- function(dataSet, k = 10, rowmax = 0.5, colmax = 0.8, maxp = 1500,
+                       seed = 362436069) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
+  dataPoints <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace NAs using knn algorithm
   dataPoints <- t(impute::impute.knn(t(dataPoints), k = k,
@@ -204,15 +130,7 @@ impute.knn <- function(dataSet, reportImputing = FALSE,
   ## recombine the labels and imputed data
   imputedData <- cbind(dataSet[,c("R.Condition", "R.Replicate")], dataPoints)
   
-  if (reportImputing) {
-    shadowMatrix[!is.na(shadowMatrix)] <- 0
-    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
-    ## return the imputed data and the shadow matrix
-    return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
-  } else {
-    return(imputedData)
-  }
+  return(imputedData)
 }
 
 
@@ -229,29 +147,20 @@ impute.knn <- function(dataSet, reportImputing = FALSE,
 #' @param k An integer (default = 10) indicating the number of neighbors to be used in the
 #' imputation.
 #' 
-#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
-#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
-#' have been imputed, and 0 indicates otherwise. Alters the return structure.
-#' 
 #' @importFrom multiUS seqKNNimp
 #' 
 #' @return
-#' \itemize{
-#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
-#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
-#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
-#' }
+#' An imputed 2d dataframe.
 #' 
 #' @references
 #' \insertAllCited{}
 #' 
 #' @export
 
-impute.knn_seq <- function(dataSet, reportImputing = FALSE,
-                           k = 10) {
+impute.knn_seq <- function(dataSet, k = 10) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
+  dataPoints <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace NAs using sequential knn algorithm
   dataPoints <- t(multiUS::seqKNNimp(t(dataPoints), k = k))
@@ -259,15 +168,7 @@ impute.knn_seq <- function(dataSet, reportImputing = FALSE,
   ## recombine the labels and imputed data
   imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
-  if (reportImputing) {
-    shadowMatrix[!is.na(shadowMatrix)] <- 0
-    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
-    ## return the imputed data and the shadow matrix
-    return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
-  } else {
-    return(imputedData)
-  }
+  return(imputedData)
 }
 
 
@@ -284,27 +185,18 @@ impute.knn_seq <- function(dataSet, reportImputing = FALSE,
 #' @param k An integer (default = 10) indicating the number of neighbors to be used in the
 #' imputation.
 #' 
-#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
-#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
-#' have been imputed, and 0 indicates otherwise. Alters the return structure.
-#' 
 #' @return
-#' \itemize{
-#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
-#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
-#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
-#' }
+#' An imputed 2d dataframe.
 #' 
 #' @references
 #' \insertAllCited{}
 #' 
 #' @export
 
-impute.knn_trunc <- function(dataSet, reportImputing = FALSE,
-                             k = 10) {
+impute.knn_trunc <- function(dataSet, k = 10) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
+  dataPoints <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace NAs using truncated knn algorithm
   ## source: trunc-knn.R
@@ -314,15 +206,7 @@ impute.knn_trunc <- function(dataSet, reportImputing = FALSE,
   ## recombine the labels and imputed data
   imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
-  if (reportImputing) {
-    shadowMatrix[!is.na(shadowMatrix)] <- 0
-    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
-    ## return the imputed data and the shadow matrix
-    return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
-  } else {
-    return(imputedData)
-  }
+  return(imputedData)
 }
 
 
@@ -357,30 +241,22 @@ impute.knn_trunc <- function(dataSet, reportImputing = FALSE,
 #' @param seed An integer (default = 362436069) specifying the seed used for the
 #' random number generator for reproducibility.
 #' 
-#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
-#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
-#' have been imputed, and 0 indicates otherwise. Alters the return structure.
-#' 
 #' @importFrom softImpute complete softImpute
 #' 
 #' @return
-#' \itemize{
-#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
-#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
-#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
-#' }
+#' An imputed 2d dataframe.
 #' 
 #' @references
 #' \insertAllCited{}
 #' 
 #' @export
 
-impute.nuc_norm <- function(dataSet, reportImputing = FALSE,
-                            rank.max = NULL, lambda = NULL, thresh = 1e-05, maxit = 100,
+impute.nuc_norm <- function(dataSet, rank.max = NULL, lambda = NULL,
+                            thresh = 1e-05, maxit = 100,
                             final.svd = TRUE, seed = 362436069) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
+  dataPoints <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace NAs using nuclear-norm regularization
   if(is.null(rank.max)) {
@@ -402,15 +278,7 @@ impute.nuc_norm <- function(dataSet, reportImputing = FALSE,
   ## recombine the labels and imputed data
   imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
-  if (reportImputing) {
-    shadowMatrix[!is.na(shadowMatrix)] <- 0
-    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
-    ## return the imputed data and the shadow matrix
-    return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
-  } else {
-    return(imputedData)
-  }
+  return(imputedData)
 }
 
 
@@ -429,29 +297,20 @@ impute.nuc_norm <- function(dataSet, reportImputing = FALSE,
 #' @param seed An integer (default = 362436069) specifying the seed used for the random
 #' number generator for reproducibility.
 #' 
-#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
-#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
-#' have been imputed, and 0 indicates otherwise. Alters the return structure.
-#' 
 #' @importFrom mice complete mice
 #' 
 #' @return
-#' \itemize{
-#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
-#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
-#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
-#' }
+#' An imputed 2d dataframe.
 #' 
 #' @references
 #' \insertAllCited{}
 #' 
 #' @export
 
-impute.mice_norm <- function(dataSet, reportImputing = FALSE,
-                             m = 5, seed = 362436069) {
+impute.mice_norm <- function(dataSet, m = 5, seed = 362436069) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
+  dataPoints <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace NAs using Bayesian linear regression
   dataPoints <- mice(dataPoints, m = m, seed = seed, method = "norm", printFlag = FALSE)
@@ -460,15 +319,7 @@ impute.mice_norm <- function(dataSet, reportImputing = FALSE,
   ## recombine the labels and imputed data
   imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
-  if (reportImputing) {
-    shadowMatrix[!is.na(shadowMatrix)] <- 0
-    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
-    ## return the imputed data and the shadow matrix
-    return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
-  } else {
-    return(imputedData)
-  }
+  return(imputedData)
 }
 
 
@@ -487,29 +338,20 @@ impute.mice_norm <- function(dataSet, reportImputing = FALSE,
 #' @param seed An integer (default = 362436069) specifying the seed used for the random
 #' number generator for reproducibility.
 #' 
-#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
-#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
-#' have been imputed, and 0 indicates otherwise. Alters the return structure.
-#' 
 #' @importFrom mice complete mice
 #' 
 #' @return
-#' \itemize{
-#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
-#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
-#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
-#' }
+#' An imputed 2d dataframe.
 #' 
 #' @references
 #' \insertAllCited{}
 #' 
 #' @export
 
-impute.mice_cart <- function(dataSet, reportImputing = FALSE,
-                             m = 5, seed = 362436069) {
+impute.mice_cart <- function(dataSet, m = 5, seed = 362436069) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
+  dataPoints <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace NAs using classification and regression trees
   dataPoints <- mice(dataPoints, m = m, seed = seed, method = "cart", printFlag = FALSE)
@@ -518,15 +360,7 @@ impute.mice_cart <- function(dataSet, reportImputing = FALSE,
   ## recombine the labels and imputed data
   imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
-  if (reportImputing) {
-    shadowMatrix[!is.na(shadowMatrix)] <- 0
-    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
-    ## return the imputed data and the shadow matrix
-    return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
-  } else {
-    return(imputedData)
-  }
+  return(imputedData)
 }
 
 
@@ -546,29 +380,20 @@ impute.mice_cart <- function(dataSet, reportImputing = FALSE,
 #' @param maxSteps An integer (default = 100) specifying the maximum number of estimation
 #' steps.
 #' 
-#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
-#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
-#' have been imputed, and 0 indicates otherwise. Alters the return structure.
-#' 
 #' @importFrom pcaMethods completeObs pca
 #' 
 #' @return
-#' \itemize{
-#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
-#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
-#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
-#' }
+#' An imputed 2d dataframe.
 #' 
 #' @references
 #' \insertAllCited{}
 #' 
 #' @export
 
-impute.pca_bayes <- function(dataSet, reportImputing = FALSE,
-                             nPcs = NULL, maxSteps = 100) {
+impute.pca_bayes <- function(dataSet, nPcs = NULL, maxSteps = 100) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
+  dataPoints <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace NAs using Bayesian principal components analysis
   dataPoints <- pcaMethods::pca(dataPoints, method = "bpca", verbose = FALSE,
@@ -579,15 +404,7 @@ impute.pca_bayes <- function(dataSet, reportImputing = FALSE,
   ## recombine the labels and imputed data
   imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
-  if (reportImputing) {
-    shadowMatrix[!is.na(shadowMatrix)] <- 0
-    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
-    ## return the imputed data and the shadow matrix
-    return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
-  } else {
-    return(imputedData)
-  }
+  return(imputedData)
 }
 
 
@@ -610,29 +427,21 @@ impute.pca_bayes <- function(dataSet, reportImputing = FALSE,
 #' @param seed An integer (default = 362436069) specifying the seed used for the random
 #' number generator for reproducibility.
 #' 
-#' @param reportImputing A boolean (default = FALSE) specifying whether to provide a
-#' shadow data frame with imputed data labels, where 1 indicates the corresponding entries
-#' have been imputed, and 0 indicates otherwise. Alters the return structure.
-#' 
 #' @importFrom pcaMethods completeObs pca
 #' 
 #' @return
-#' \itemize{
-#' \item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
-#' \item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
-#' dataframe and a shadow matrix showing which proteins by replicate were imputed.
-#' }
+#' An imputed 2d dataframe.
 #' 
 #' @references
 #' \insertAllCited{}
 #' 
 #' @export
 
-impute.pca_prob <- function(dataSet, reportImputing = FALSE,
-                            nPcs = NULL, maxIterations = 1000, seed = 362436069) {
+impute.pca_prob <- function(dataSet, nPcs = NULL, maxIterations = 1000,
+                            seed = 362436069) {
   
   ## select the numerical data
-  dataPoints <- shadowMatrix <- select(dataSet, -c(R.Condition, R.Replicate))
+  dataPoints <- select(dataSet, -c(R.Condition, R.Replicate))
   
   ## replace NAs using Bayesian principal components analysis
   dataPoints <- pcaMethods::pca(dataPoints, method = "ppca", verbose = FALSE,
@@ -643,14 +452,6 @@ impute.pca_prob <- function(dataSet, reportImputing = FALSE,
   ## recombine the labels and imputed data
   imputedData <- cbind(dataSet[, c("R.Condition", "R.Replicate")], dataPoints)
   
-  if (reportImputing) {
-    shadowMatrix[!is.na(shadowMatrix)] <- 0
-    shadowMatrix[is.na(shadowMatrix) & !is.na(dataPoints)] <- 1
-    ## return the imputed data and the shadow matrix
-    return(list(imputedData = imputedData,
-                shadowMatrix = cbind(dataSet[,c("R.Condition", "R.Replicate")], shadowMatrix)))
-  } else {
-    return(imputedData)
-  }
+  return(imputedData)
 }
 

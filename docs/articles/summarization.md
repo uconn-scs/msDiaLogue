@@ -18,7 +18,7 @@ dataNorm <- normalize(dataTran, normalizeType = "quant")
 ## filtering
 dataImput_pre <- filterNA(dataNorm, minProp = 0.51, by = "cond", saveRm = TRUE)
 ## imputation
-dataImput <- impute.min_local(dataImput_pre, reportImputing = FALSE)
+dataImput <- impute.min_local(dataImput_pre)
 ```
 
 ## Example

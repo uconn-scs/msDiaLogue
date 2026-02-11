@@ -65,7 +65,6 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">impute.knn</span><span class="op">(</span></span>
 <span>  <span class="va">dataSet</span>,</span>
-<span>  reportImputing <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  k <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  rowmax <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  colmax <span class="op">=</span> <span class="fl">0.8</span>,</span>
@@ -80,12 +79,6 @@
 
 <dl><dt id="arg-dataset">dataSet<a class="anchor" aria-label="anchor" href="#arg-dataset"></a></dt>
 <dd><p>The 2d dataset of experimental values.</p></dd>
-
-
-<dt id="arg-reportimputing">reportImputing<a class="anchor" aria-label="anchor" href="#arg-reportimputing"></a></dt>
-<dd><p>A boolean (default = FALSE) specifying whether to provide a
-shadow data frame with imputed data labels, where 1 indicates the corresponding entries
-have been imputed, and 0 indicates otherwise. Alters the return structure.</p></dd>
 
 
 <dt id="arg-k">k<a class="anchor" aria-label="anchor" href="#arg-k"></a></dt>
@@ -118,11 +111,8 @@ random number generator for reproducibility.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-
-<ul><li><p>If <code>reportImputing = FALSE</code>, the function returns the imputed 2d dataframe.</p></li>
-<li><p>If <code>reportImputing = TRUE</code>, the function returns a list of the imputed 2d
-dataframe and a shadow matrix showing which proteins by replicate were imputed.</p></li>
-</ul></div>
+    <p>An imputed 2d dataframe.</p>
+    </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Troyanskaya O, Cantor M, Sherlock G, Brown P, Hastie T, Tibshirani R, Botstein D, Altman RB (2001).

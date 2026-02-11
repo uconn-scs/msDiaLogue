@@ -132,7 +132,7 @@ either an exact match identifier (the `listName =` argument), or
 text-containing identifiers (the `regexName =` argument).
 
 **Note:** If both `listName` and `regexName` are defined, the proteins
-to be selected or removed is the union of the two terms.  
+to be selected or removed is the union of the two terms.\
 **Keep in mind:** Removal of any proteins, including common
 contaminants, will affect any global calculations performed after this
 step (such as normalization). This should not be done without a clear

@@ -65,13 +65,13 @@ Many normalization methods have been developed for large datasets, each
 with its own strengths and weaknesses. The following factors should be
 considered when choosing a normalization method:
 
-1.  Experiment-Specific Normalization:  
+1.  Experiment-Specific Normalization:\
     Most experiments run with [UConn PMF](https://proteomics.uconn.edu)
     are normalized by injection amount at the time of analysis to
     facilitate comparison. “Amount” is measured by UV absorbance at 280
     nm, a standard method for generic protein quantification.
 
-2.  Assumption of Non-Changing Species:  
+2.  Assumption of Non-Changing Species:\
     Most biological experiments implicitly assume that the majority of
     measured species in an experiment will not change across conditions.
     This assumption is more robust the more measurements your experiment

@@ -42,8 +42,8 @@
   - Make it compatible with the scaffold files containing GO
     information.
   - Add arguments `zeroNA` and `oneNA` to replace 0s and 1s with NAs.
-  - Make it compatible with data without AlternateID.  
-      
+  - Make it compatible with data without AlternateID.\
+    \
 
 - [`transform()`](https://uconn-scs.github.io/msDiaLogue/reference/transform.md):
   Add root transformation.
@@ -51,16 +51,16 @@
 - [`normalize()`](https://uconn-scs.github.io/msDiaLogue/reference/normalize.md):
 
   - Add argument `plot`.
-  - Add scaling and centering.  
-      
+  - Add scaling and centering.\
+    \
 
 - `impute.*()`:
 
   - Add the “R.Condition” and “R.Replicate” columns to the shadow
     matrix.
   - Use NA to represent missing values in both the pre- and
-    post-imputation data.  
-      
+    post-imputation data.\
+    \
 
 - `analyze()`:
 
@@ -68,8 +68,8 @@
     the result structure.
   - Add Wilcoxon test (`method = "wilcox-test"`).
   - Add PCA (`method = "PCA"`; seperate PCA into analyze and visualize).
-  - Add argument `adjust.method`.  
-      
+  - Add argument `adjust.method`.\
+    \
 
 - `visualize()`:
 
@@ -81,16 +81,16 @@
   - Venn: Add the argument `saveVenn` to save the data in the Venn plot.
   - volcano: Make it compatible with the whole result list.
   - PCA_ind and PCA_biplot: Remove the ‘a’ marker from the scatter in
-    the legend.  
-      
+    the legend.\
+    \
 
 - Other:
 
   - `dataMissing()`: Add arguments `sort_miss`, `show_pct_legend`, and
     `show_pct_col`.
   - [`pullProteinPath()`](https://uconn-scs.github.io/msDiaLogue/reference/pullProteinPath.md):
-    Add arguments `listName`, `regexName`, and `by`.  
-      
+    Add arguments `listName`, `regexName`, and `by`.\
+    \
 
 - vignette:
 

@@ -6,7 +6,6 @@
 \usage{
 impute.nuc_norm(
   dataSet,
-  reportImputing = FALSE,
   rank.max = NULL,
   lambda = NULL,
   thresh = 1e-05,
@@ -17,10 +16,6 @@ impute.nuc_norm(
 }
 \arguments{
 \item{dataSet}{The 2d dataset of experimental values.}
-
-\item{reportImputing}{A boolean (default = FALSE) specifying whether to provide a
-shadow data frame with imputed data labels, where 1 indicates the corresponding entries
-have been imputed, and 0 indicates otherwise. Alters the return structure.}
 
 \item{rank.max}{An integer specifying the restriction on the rank of the solution. The
 default is set to one less than the minimum dimension of the dataset.}
@@ -44,11 +39,7 @@ singular values, resulting in hard zeros.}
 random number generator for reproducibility.}
 }
 \value{
-\itemize{
-\item If \code{reportImputing = FALSE}, the function returns the imputed 2d dataframe.
-\item If \code{reportImputing = TRUE}, the function returns a list of the imputed 2d
-dataframe and a shadow matrix showing which proteins by replicate were imputed.
-}
+An imputed 2d dataframe.
 }
 \description{
 Apply imputation to the dataset by the nuclear-norm regularization

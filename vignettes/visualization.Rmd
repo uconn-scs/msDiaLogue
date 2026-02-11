@@ -55,7 +55,7 @@ dataNorm <- normalize(dataTran, normalizeType = "quant")
 ## filtering
 dataImput_pre <- filterNA(dataNorm, minProp = 0.51, by = "cond", saveRm = TRUE)
 ## imputation
-dataImput <- impute.min_local(dataImput_pre, reportImputing = FALSE)
+dataImput <- impute.min_local(dataImput_pre)
 ## analysis: MA
 anlys_ma <- analyze.ma(dataImput, ref = "50pmol")
 ## analysis: Empirical Bayes moderated t-test

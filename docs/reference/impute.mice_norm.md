@@ -6,7 +6,7 @@ Apply imputation to the dataset by Bayesian linear regression (Rubin
 ## Usage
 
 ``` r
-impute.mice_norm(dataSet, reportImputing = FALSE, m = 5, seed = 362436069)
+impute.mice_norm(dataSet, m = 5, seed = 362436069)
 ```
 
 ## Arguments
@@ -14,13 +14,6 @@ impute.mice_norm(dataSet, reportImputing = FALSE, m = 5, seed = 362436069)
 - dataSet:
 
   The 2d dataset of experimental values.
-
-- reportImputing:
-
-  A boolean (default = FALSE) specifying whether to provide a shadow
-  data frame with imputed data labels, where 1 indicates the
-  corresponding entries have been imputed, and 0 indicates otherwise.
-  Alters the return structure.
 
 - m:
 
@@ -34,21 +27,16 @@ impute.mice_norm(dataSet, reportImputing = FALSE, m = 5, seed = 362436069)
 
 ## Value
 
-- If `reportImputing = FALSE`, the function returns the imputed 2d
-  dataframe.
-
-- If `reportImputing = TRUE`, the function returns a list of the imputed
-  2d dataframe and a shadow matrix showing which proteins by replicate
-  were imputed.
+An imputed 2d dataframe.
 
 ## References
 
 Rubin DB (1987). *Multiple Imputation for Nonresponse in Surveys*. John
-Wiley \\ Sons, New York, NY, USA. ISBN 9780471087052.  
-  
+Wiley \\ Sons, New York, NY, USA. ISBN 9780471087052.\
+\
 Schafer JL (1997). *Analysis of Incomplete Multivariate Data*. Chapman
-\\ Hall/CRC, New York, NY, USA. ISBN 9780412040610.  
-  
+\\ Hall/CRC, New York, NY, USA. ISBN 9780412040610.\
+\
 van Buuren S, Groothuis-Oudshoorn K (2011). “mice: Multivariate
 Imputation by Chained Equations in R.” *Journal of Statistical
 Software*, **45**(3), 1–67.

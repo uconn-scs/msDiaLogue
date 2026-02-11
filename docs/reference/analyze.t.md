@@ -76,26 +76,26 @@ Practical and Powerful Approach to Multiple Testing.” *Journal of the
 Royal Statistical Society: Series B (Methodological)*, **57**(1),
 289–300.
 [doi:10.1111/j.2517-6161.1995.tb02031.x](https://doi.org/10.1111/j.2517-6161.1995.tb02031.x)
-.  
-  
+.\
+\
 Benjamini Y, Yekutieli D (2001). “The Control of the False Discovery
 Rate in Multiple Testing under Dependency.” *The Annals of Statistics*,
 **29**(4), 1165–1188.
-[doi:10.1214/aos/1013699998](https://doi.org/10.1214/aos/1013699998) .  
-  
+[doi:10.1214/aos/1013699998](https://doi.org/10.1214/aos/1013699998) .\
+\
 Bonferroni CE (1936). “Teoria Statistica Delle Classi e Calcolo Delle
 Probabilità.” *Pubblicazioni del R Istituto Superiore di Scienze
-Economiche e Commerciali di Firenze*, **8**, 3–62.  
-  
+Economiche e Commerciali di Firenze*, **8**, 3–62.\
+\
 Hochberg Y (1988). “A Sharper Bonferroni Procedure for Multiple Tests of
 Significance.” *Biometrika*, **75**(4), 800–802.
 [doi:10.1093/biomet/75.4.800](https://doi.org/10.1093/biomet/75.4.800)
-.  
-  
+.\
+\
 Holm S (1979). “A Simple Sequentially Rejective Multiple Test
 Procedure.” *Scandinavian Journal of Statistics*, **6**(2), 65–70.
-<https://www.jstor.org/stable/4615733>.  
-  
+<https://www.jstor.org/stable/4615733>.\
+\
 Hommel G (1988). “A Stagewise Rejective Multiple Test Procedure Based on
 a Modified Bonferroni Test.” *Biometrika*, **75**(2), 383–386.
 [doi:10.1093/biomet/75.2.383](https://doi.org/10.1093/biomet/75.2.383) .

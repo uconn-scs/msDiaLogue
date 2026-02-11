@@ -29,7 +29,7 @@ dataNorm <- normalize(dataTran, normalizeType = "quant")
 ## filtering
 dataImput_pre <- filterNA(dataNorm, minProp = 0.51, by = "cond", saveRm = TRUE)
 ## imputation
-dataImput <- impute.min_local(dataImput_pre, reportImputing = FALSE)
+dataImput <- impute.min_local(dataImput_pre)
 ## analysis: MA
 anlys_ma <- analyze.ma(dataImput, ref = "50pmol")
 ## analysis: Empirical Bayes moderated t-test
@@ -93,6 +93,7 @@ whether missing values exist.
 visualize.heatmap(dataImput, pkg = "pheatmap",
                   cluster_cols = TRUE, cluster_rows = TRUE,
                   show_colnames = TRUE, show_rownames = TRUE)
+#> Warning: Setting row names on a tibble is deprecated.
 ```
 
 ![](visualization_files/figure-html/unnamed-chunk-5-1.png)
@@ -120,6 +121,7 @@ visualize.heatmap(dataSet, pkg = "pheatmap",
 ``` r
 
 visualize.heatmap(dataImput, pkg = "ggplot2")
+#> Warning: Setting row names on a tibble is deprecated.
 ```
 
 ![](visualization_files/figure-html/unnamed-chunk-7-1.png)

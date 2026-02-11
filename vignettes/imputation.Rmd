@@ -71,7 +71,7 @@ named *filtered_NA_data.csv* in the current working directory.
 
 
 ```{r}
-dataImput <- impute.min_local(dataImput_pre, reportImputing = FALSE)
+dataImput <- impute.min_local(dataImput_pre)
 ```
 
 
@@ -80,11 +80,6 @@ dataImput <- impute.min_local(dataImput_pre, reportImputing = FALSE)
 knitr::kable(dataImput)
 ```
 </div>
-
-
-If `reportImputing = TRUE`, the returned result structure will be altered to a
-list, adding a shadow data frame with imputed data labels, where 1 indicates the
-corresponding entries have been imputed, and 0 indicates otherwise.
 
 
 ## Details

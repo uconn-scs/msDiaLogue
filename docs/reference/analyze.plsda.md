@@ -109,17 +109,17 @@ A list containing the following components:
 Dayal BS, MacGregor JF (1997). “Improved PLS Algorithms.” *Journal of
 Chemometrics*, **11**(1), 73–85.
 [doi:10.1002/(SICI)1099-128X(199701)11:1\<73::AID-CEM435\>3.0.CO;2-\\23](https://doi.org/10.1002/%28SICI%291099-128X%28199701%2911%3A1%3C73%3A%3AAID-CEM435%3E3.0.CO%3B2-%5C%2523)
-.  
-  
+.\
+\
 de Jong S (1993). “SIMPLS: An Alternative Approach to Partial Least
 Squares Regression.” *Chemometrics and Intelligent Laboratory Systems*,
 **18**(3), 251–263.
 [doi:10.1016/0169-7439(93)85002-X](https://doi.org/10.1016/0169-7439%2893%2985002-X)
-.  
-  
+.\
+\
 Martens H, Næs T (1989). *Multivariate Calibration*. Chichester, Wiley,
-New York, USA. ISBN 0471909793.  
-  
+New York, USA. ISBN 0471909793.\
+\
 Rännar S, Lindgren F, Geladi P, Wold S (1994). “A PLS Kernel Algorithm
 for Data Sets with Many Variables and Fewer Objects. Part 1: Theory and
 Algorithm.” *Journal of Chemometrics*, **8**(2), 111–125.

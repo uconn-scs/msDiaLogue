@@ -91,7 +91,7 @@ of Statistics, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Mat
 and Metabolomics Facility, UConn<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi></mi><mn>3</mn></msup><annotation encoding="application/x-tex">^3</annotation></semantics></math>Statistical
 Consulting Services, UConn</p>
             
-            <h4 data-toc-skip class="date">2026-01-27</h4>
+            <h4 data-toc-skip class="date">2026-02-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/uconn-scs/msDiaLogue/blob/HEAD/vignettes/imputation.Rmd" class="external-link"><code>vignettes/imputation.Rmd</code></a></small>
       <div class="d-none name"><code>imputation.Rmd</code></div>
@@ -142,7 +142,7 @@ out. And <code>saveRm = TRUE</code> indicates that the filtered data
 will be saved as a .csv file named <em>filtered_NA_data.csv</em> in the
 current working directory.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dataImput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/impute.min_local.html">impute.min_local</a></span><span class="op">(</span><span class="va">dataImput_pre</span>, reportImputing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dataImput</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/impute.min_local.html">impute.min_local</a></span><span class="op">(</span><span class="va">dataImput_pre</span><span class="op">)</span></span></code></pre></div>
 <div style="overflow-x: auto;">
 <table style="width:100%;" class="table">
 <colgroup>
@@ -737,10 +737,6 @@ current working directory.</p>
 </tbody>
 </table>
 </div>
-<p>If <code>reportImputing = TRUE</code>, the returned result structure
-will be altered to a list, adding a shadow data frame with imputed data
-labels, where 1 indicates the corresponding entries have been imputed,
-and 0 indicates otherwise.</p>
 </div>
 <div class="section level2">
 <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a>

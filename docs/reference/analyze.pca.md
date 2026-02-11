@@ -53,8 +53,8 @@ A list containing the following components:
 
 Hotelling H (1933). “Analysis of a Complex of Statistical Variables into
 Principal Components.” *Journal of Educational Psychology*, **24**(6),
-417–441. [doi:10.1037/h0071325](https://doi.org/10.1037/h0071325) .  
-  
+417–441. [doi:10.1037/h0071325](https://doi.org/10.1037/h0071325) .\
+\
 Pearson K (1901). “On Lines and Planes of Closest Fit to Systems of
 Points in Space.” *The London, Edinburgh, and Dublin Philosophical
 Magazine and Journal of Science*, **2**(11), 559–572.

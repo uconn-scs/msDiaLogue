@@ -63,7 +63,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">impute.knn_trunc</span><span class="op">(</span><span class="va">dataSet</span>, reportImputing <span class="op">=</span> <span class="cn">FALSE</span>, k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">impute.knn_trunc</span><span class="op">(</span><span class="va">dataSet</span>, k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -74,12 +74,6 @@
 <dd><p>The 2d dataset of experimental values.</p></dd>
 
 
-<dt id="arg-reportimputing">reportImputing<a class="anchor" aria-label="anchor" href="#arg-reportimputing"></a></dt>
-<dd><p>A boolean (default = FALSE) specifying whether to provide a
-shadow data frame with imputed data labels, where 1 indicates the corresponding entries
-have been imputed, and 0 indicates otherwise. Alters the return structure.</p></dd>
-
-
 <dt id="arg-k">k<a class="anchor" aria-label="anchor" href="#arg-k"></a></dt>
 <dd><p>An integer (default = 10) indicating the number of neighbors to be used in the
 imputation.</p></dd>
@@ -87,11 +81,8 @@ imputation.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-
-<ul><li><p>If <code>reportImputing = FALSE</code>, the function returns the imputed 2d dataframe.</p></li>
-<li><p>If <code>reportImputing = TRUE</code>, the function returns a list of the imputed 2d
-dataframe and a shadow matrix showing which proteins by replicate were imputed.</p></li>
-</ul></div>
+    <p>An imputed 2d dataframe.</p>
+    </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Shah JS, Rai SN, DeFilippis AP, Hill BG, Bhatnagar A, Brock GN (2017).
