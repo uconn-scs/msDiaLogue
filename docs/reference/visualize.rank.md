@@ -12,7 +12,8 @@ visualize.rank(
   regexName = NULL,
   by = NULL,
   facet = c("Condition", "Replicate"),
-  color = "red"
+  color = "red",
+  ...
 )
 ```
 
@@ -55,6 +56,11 @@ visualize.rank(
 
   A string (default = red") specifying the color used to highlight
   proteins.
+
+- ...:
+
+  Optional arguments passed to
+  [`geom_text_repel`](https://ggrepel.slowkow.com/reference/geom_text_repel.html).
 
 ## Value
 

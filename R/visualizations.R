@@ -429,6 +429,8 @@ visualize.ma <- function(dataSet, M.thres = 1) {
 #' 
 #' @param color A string (default = red") specifying the color used to highlight proteins.
 #' 
+#' @param ... Optional arguments passed to \code{\link[ggrepel]{geom_text_repel}}.
+#' 
 #' @return
 #' An object of class \code{ggplot}.
 #' 
@@ -437,7 +439,8 @@ visualize.ma <- function(dataSet, M.thres = 1) {
 #' @export
 
 visualize.rank <- function(dataSet, listName = NULL, regexName = NULL, by = NULL,
-                           facet = c("Condition", "Replicate"), color = "red") {
+                           facet = c("Condition", "Replicate"), color = "red",
+                           ...) {
   
   information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
   scaffoldCheck <- any(colnames(information) == "Visible?")
@@ -514,7 +517,8 @@ visualize.rank <- function(dataSet, listName = NULL, regexName = NULL, by = NULL
   }
   
   if (length(unionName) > 1) {
-    plot <- plot + geom_text_repel(data = plotData, aes(label = Label), size = 2.5, show.legend = FALSE)
+    plot <- plot + geom_text_repel(data = plotData, aes(label = Label),
+                                   size = 2.5, show.legend = FALSE, ...)
   }
   
   return(plot)

@@ -63,7 +63,8 @@
 <span>  regexName <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  by <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  facet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Condition"</span>, <span class="st">"Replicate"</span><span class="op">)</span>,</span>
-<span>  color <span class="op">=</span> <span class="st">"red"</span></span>
+<span>  color <span class="op">=</span> <span class="st">"red"</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -101,6 +102,10 @@ c("Condition", "Replicate"), c("Replicate", "Condition"), or "none" for no group
 
 <dt id="arg-color">color<a class="anchor" aria-label="anchor" href="#arg-color"></a></dt>
 <dd><p>A string (default = red") specifying the color used to highlight proteins.</p></dd>
+
+
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Optional arguments passed to <code><a href="https://ggrepel.slowkow.com/reference/geom_text_repel.html" class="external-link">geom_text_repel</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

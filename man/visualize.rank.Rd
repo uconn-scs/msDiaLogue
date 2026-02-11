@@ -10,7 +10,8 @@ visualize.rank(
   regexName = NULL,
   by = NULL,
   facet = c("Condition", "Replicate"),
-  color = "red"
+  color = "red",
+  ...
 )
 }
 \arguments{
@@ -35,6 +36,8 @@ grouping variables for faceting. Allowed values are "Condition", "Replicate",
 c("Condition", "Replicate"), c("Replicate", "Condition"), or "none" for no grouping.}
 
 \item{color}{A string (default = red") specifying the color used to highlight proteins.}
+
+\item{...}{Optional arguments passed to \code{\link[ggrepel]{geom_text_repel}}.}
 }
 \value{
 An object of class \code{ggplot}.
