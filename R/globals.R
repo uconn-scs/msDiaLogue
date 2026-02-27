@@ -5,6 +5,8 @@ utils::globalVariables(c(
   "PG.NrOfStrippedSequencesIdentified", # <preProcessFiltering>
   "PG.ProteinName", # <preProcessFiltering>
   "PG.ProteinAccession", # <preProcessFiltering>
+  "Mean", # <meanVarPlot>
+  "Variance", # <meanVarPlot>
   "PG.ProteinNames", # <preprocessing>
   "PG.ProteinAccessions", # <preprocessing>
   "value", # <preprocessing>
@@ -22,8 +24,6 @@ utils::globalVariables(c(
   "R.Replicate", # <preprocessing_scaffold>
   "Quantity", # <preprocessing_scaffold>
   "value", # <preprocessing_scaffold>
-  "Mean", # <meanVarPlot>
-  "Variance", # <meanVarPlot>
   "R.Condition", # <visualize.dist>
   "R.Replicate", # <visualize.dist>
   "name", # <visualize.dist>

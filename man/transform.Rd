@@ -9,19 +9,19 @@ transform(dataSet, method = "log", logFold = 2, root = 2)
 \arguments{
 \item{dataSet}{A data frame containing the data signals.}
 
-\item{method}{A string (default = "log") specifying the method to be used for the
-transformation:
+\item{method}{A character string (default = "log") specifying the method
+to be used for the transformation:
 \enumerate{
 \item "log": Logarithm transformation.
 \item "root": Root transformation.
 }}
 
-\item{logFold}{An integer (default = 2) specifying the base for the log transformation
-when \code{method = "log"}.}
+\item{logFold}{An integer (default = 2) specifying the base for
+the log transformation when \code{method = "log"}.}
 
-\item{root}{An integer (default = 2) specifying the degree of the root for the root
-transformation when \code{method = "root"}. For example, set it to 2 for square root or
-3 for cube root.}
+\item{root}{An integer (default = 2) specifying the degree of the root for
+the root transformation when \code{method = "root"}.
+For example, set it to 2 for square root or 3 for cube root.}
 }
 \value{
 The transformed data.
