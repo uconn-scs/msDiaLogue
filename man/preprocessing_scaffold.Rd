@@ -21,10 +21,10 @@ should be converted to NA's.}
 \value{
 \itemize{
 \item If the data contains columns for Gene Ontology (GO) annotation terms,
-the function returns a list containing both the preprocessed 2d dataframe and
-a list of GO terms.
+the function returns a list containing both the preprocessed 2d data frame
+and a list of GO terms.
 \item If no GO annotation columns are present, the function returns only the
-preprocessed 2d dataframe.
+preprocessed 2d data frame.
 }
 }
 \description{

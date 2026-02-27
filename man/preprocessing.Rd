@@ -32,7 +32,7 @@ proteins without names should be be named by their accession numbers.}
 removed data to current working directory.}
 }
 \value{
-A 2d dataframe.
+A 2d data frame.
 }
 \description{
 Read a data file from Spectronaut, apply filtering conditions, select columns
