@@ -1,97 +1,46 @@
-##
-## msDiaLogue: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
-## Copyright (C) 2025  Shiying Xiao, Timothy Moore and Charles Watt
-## Shiying Xiao <shiying.xiao@uconn.edu>
-##
-## This file is part of the R package msDiaLogue.
-##
-## The R package msDiaLogue is free software: You can redistribute it and/or
-## modify it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or any later
-## version (at your option). See the GNU General Public License at
-## <https://www.gnu.org/licenses/> for details.
-##
-## The R package msDiaLogue is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-##
-
-######################################
-#### Code for data pre-processing ####
-######################################
-#'
-#' Extract the first name from a semicolon-separated names
-#'
-#' @description
-#' Take a character vector. If an element contains multiple names separated by semicolons
-#' (e.g., "A;B;C"), only the first name is kept and annotated with the number of
-#' additional names (e.g., "A (+2)"). Single names (e.g., "A") are returned unchanged.
-#'
-#' @param vecName A character vector, with elements possibly containing multiple names
-#' separated by semicolons.
-#'
-#' @return A character vector of the same length as \code{vecName}, with either the
-#' original name (if only one) or the first name followed by the count of additional names.
-#'
-#' @noRd
-
-firstName <- function(vecName) {
-  sapply(vecName, function(element) {
-    parts <- unlist(strsplit(element, ";", fixed = TRUE))
-    if (length(parts) > 1) {
-      paste0(parts[1], " (+", length(parts)-1, ")")
-    } else {
-      element
-    }
-  })
-}
-
-
-##----------------------------------------------------------------------------------------
+########################
+#### Pre-processing ####
+########################
 #'
 #' Loading, filtering and reformatting of MS DIA data from Spectronaut
 #' 
 #' @description
-#' Read a data file from Spectronaut, apply filtering conditions, select columns necessary
-#' for analysis, and return the reformatted data.
+#' Read a data file from Spectronaut, apply filtering conditions, select columns
+#' necessary for analysis, and return the reformatted data.
 #' 
-#' @param fileName The name of the .csv file containing MS data (including the path to the
-#' file, if needed).
+#' @param fileName The name of the .csv file containing MS data
+#' (including the path to the file, if needed).
 #' 
 #' @param dataSet The raw data set, if already loaded in R.
 #' 
-#' @param filterNaN A boolean (default = TRUE) specifying whether observations including
-#' NaN should be omitted.
+#' @param filterNaN A logical value (default = TRUE) specifying whether
+#' observations including NaN should be omitted.
 #' 
-#' @param filterUnique An integer (default = 2) specifying how many number of unique
-#' peptides are required to include a protein.
+#' @param filterUnique An integer (default = 2) specifying how many number of
+#' unique peptides are required to include a protein.
 #' 
-#' @param replaceBlank A boolean (default = TRUE) specifying whether proteins without names
-#' should be be named by their accession numbers.
+#' @param replaceBlank A logical value (default = TRUE) specifying whether
+#' proteins without names should be be named by their accession numbers.
 #' 
-#' @param saveRm A boolean (default = TRUE) specifying whether to save removed data to
-#' current working directory.
+#' @param saveRm A logical value (default = TRUE) specifying whether to save
+#' removed data to current working directory.
+#' 
+#' @return
+#' A 2d dataframe.
 #' 
 #' @details
 #' The function executes the following:
 #' \enumerate{
 #' \item Reads the file.
 #' \item Applies applicable filters, if necessary.
-#' \item Provides summary statistics and a histogram of all values reported in the data set.
+#' \item Provides summary statistics and a histogram of all values reported
+#' in the data set.
 #' \item Selects columns that contain necessary information for the analysis.
-#' \item Re-formats the data to present individual proteins as columns and group replicates
-#' under each protein.
-#' \item Stores the data as a \code{data.frame} and prints the levels of condition and
-#' replicate to the user.
+#' \item Re-formats the data to present individual proteins as columns and
+#' group replicates under each protein.
+#' \item Stores the data as a \code{data.frame} and prints the levels of
+#' condition and replicate to the user.
 #' }
-#' 
-#' @import dplyr
-#' @import ggplot2
-#' @import tidyr
-#' @importFrom utils read.csv write.csv
-#' 
-#' @return
-#' A 2d dataframe.
 #' 
 #' @autoglobal
 #' 
@@ -137,15 +86,18 @@ preprocessing <- function(fileName,
   filteredData <- preProcessFiltering(dataSet, filterNaN, filterUnique, replaceBlank, saveRm)
   
   proteinInformation <- filteredData %>%
-    select(PG.Genes, PG.ProteinAccession, PG.ProteinAccessions, PG.ProteinDescriptions, PG.ProteinName, PG.ProteinNames) %>%
+    select(PG.Genes, PG.ProteinAccession, PG.ProteinAccessions,
+           PG.ProteinDescriptions, PG.ProteinName, PG.ProteinNames) %>%
     distinct()
   
   write.csv(proteinInformation, file = "preprocess_protein_information.csv", row.names = FALSE)
   
   ## select columns necessary for analysis
   selectedData <- filteredData %>%
-    mutate(R.Condition = factor(as.character(R.Condition), levels = unique(as.character(R.Condition))),
-           R.Replicate = factor(as.character(R.Replicate), levels = unique(as.character(R.Replicate)))) %>%
+    mutate(R.Condition = factor(as.character(R.Condition),
+                                levels = unique(as.character(R.Condition))),
+           R.Replicate = factor(as.character(R.Replicate),
+                                levels = unique(as.character(R.Replicate)))) %>%
     select(R.Condition, R.Replicate, PG.Quantity, PG.ProteinName, PG.ProteinAccession)
   
   ## print summary statistics for full raw data set
@@ -220,55 +172,56 @@ preprocessing <- function(fileName,
   return(result)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #' 
 #' Loading and reformatting of MS data from Scaffold
 #' 
 #' @description
-#' Read a data file from Scaffold, select columns necessary for analysis, and return the
-#' reformatted data.
+#' Read a data file from Scaffold, select columns necessary for analysis, and
+#' return the reformatted data.
 #' 
-#' @param fileName The name of the .xls file containing MS data (including the path to the
-#' file, if needed).
+#' @param fileName The name of the .xls file containing MS data
+#' (including the path to the file, if needed).
 #' 
 #' @param dataSet The raw data set, if already loaded in R.
 #' 
-#' @param zeroNA A boolean (default = TRUE) specifying whether 0's should be converted to
-#' NA's.
+#' @param zeroNA A logical value (default = TRUE) specifying whether 0's
+#' should be converted to NA's.
 #' 
-#' @param oneNA A boolean (default = TRUE) specifying whether 1's should be converted to
-#' NA's.
+#' @param oneNA A logical value (default = TRUE) specifying whether 1's
+#' should be converted to NA's.
+#' 
+#' @return
+#' \itemize{
+#' \item If the data contains columns for Gene Ontology (GO) annotation terms,
+#' the function returns a list containing both the preprocessed 2d dataframe and
+#' a list of GO terms.
+#' \item If no GO annotation columns are present, the function returns only the
+#' preprocessed 2d dataframe.
+#' }
 #' 
 #' @details
 #' The function executes the following:
 #' \enumerate{
 #' \item Reads the file.
-#' \item Provides summary statistics and a histogram of all values reported in the data set.
+#' \item Provides summary statistics and a histogram of all values reported
+#' in the data set.
 #' \item Selects columns that contain necessary information for the analysis.
-#' \item Re-formats the data to present individual proteins as columns and group replicates
-#' under each protein.
-#' \item Stores the data as a \code{data.frame} and prints the levels of condition and
-#' replicate to the user.
+#' \item Re-formats the data to present individual proteins as columns and
+#' group replicates under each protein.
+#' \item Stores the data as a \code{data.frame} and prints the levels of
+#' condition and replicate to the user.
 #' }
 #' 
 #' @importFrom readxl read_excel
 #' @importFrom purrr discard map
 #' 
-#' @return
-#' \itemize{
-#' \item If the data contains columns for Gene Ontology (GO) annotation terms,
-#' the function returns a list containing both the preprocessed 2d dataframe and a list of
-#' GO terms.
-#' \item If no GO annotation columns are present, the function returns only the
-#' preprocessed 2d dataframe.
-#' }
-#' 
 #' @autoglobal
 #' 
 #' @export
 
-preprocessing_scaffold <- function(fileName, dataSet = NULL, zeroNA = TRUE, oneNA = TRUE) {
+preprocessing_scaffold <- function(fileName, dataSet = NULL,
+                                   zeroNA = TRUE, oneNA = TRUE) {
   
   if (missing(fileName)) {
     if (is.null(dataSet)) {

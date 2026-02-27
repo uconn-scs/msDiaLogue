@@ -7,39 +7,40 @@
 preprocessing_scaffold(fileName, dataSet = NULL, zeroNA = TRUE, oneNA = TRUE)
 }
 \arguments{
-\item{fileName}{The name of the .xls file containing MS data (including the path to the
-file, if needed).}
+\item{fileName}{The name of the .xls file containing MS data
+(including the path to the file, if needed).}
 
 \item{dataSet}{The raw data set, if already loaded in R.}
 
-\item{zeroNA}{A boolean (default = TRUE) specifying whether 0's should be converted to
-NA's.}
+\item{zeroNA}{A logical value (default = TRUE) specifying whether 0's
+should be converted to NA's.}
 
-\item{oneNA}{A boolean (default = TRUE) specifying whether 1's should be converted to
-NA's.}
+\item{oneNA}{A logical value (default = TRUE) specifying whether 1's
+should be converted to NA's.}
 }
 \value{
 \itemize{
 \item If the data contains columns for Gene Ontology (GO) annotation terms,
-the function returns a list containing both the preprocessed 2d dataframe and a list of
-GO terms.
+the function returns a list containing both the preprocessed 2d dataframe and
+a list of GO terms.
 \item If no GO annotation columns are present, the function returns only the
 preprocessed 2d dataframe.
 }
 }
 \description{
-Read a data file from Scaffold, select columns necessary for analysis, and return the
-reformatted data.
+Read a data file from Scaffold, select columns necessary for analysis, and
+return the reformatted data.
 }
 \details{
 The function executes the following:
 \enumerate{
 \item Reads the file.
-\item Provides summary statistics and a histogram of all values reported in the data set.
+\item Provides summary statistics and a histogram of all values reported
+in the data set.
 \item Selects columns that contain necessary information for the analysis.
-\item Re-formats the data to present individual proteins as columns and group replicates
-under each protein.
-\item Stores the data as a \code{data.frame} and prints the levels of condition and
-replicate to the user.
+\item Re-formats the data to present individual proteins as columns and
+group replicates under each protein.
+\item Stores the data as a \code{data.frame} and prints the levels of
+condition and replicate to the user.
 }
 }
