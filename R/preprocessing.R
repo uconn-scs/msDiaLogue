@@ -22,11 +22,11 @@
 #' @param replaceBlank A logical value (default = TRUE) specifying whether
 #' proteins without names should be be named by their accession numbers.
 #' 
-#' @param saveRm A logical value (default = TRUE) specifying whether to save
-#' removed data to current working directory.
+#' @param saveRm A logical value (default = TRUE) specifying whether
+#' to save removed data to current working directory.
 #' 
 #' @return
-#' A 2d data frame.
+#' A preprocessed 2d data frame.
 #' 
 #' @details
 #' The function executes the following:

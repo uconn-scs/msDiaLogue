@@ -28,11 +28,11 @@ unique peptides are required to include a protein.}
 \item{replaceBlank}{A logical value (default = TRUE) specifying whether
 proteins without names should be be named by their accession numbers.}
 
-\item{saveRm}{A logical value (default = TRUE) specifying whether to save
-removed data to current working directory.}
+\item{saveRm}{A logical value (default = TRUE) specifying whether
+to save removed data to current working directory.}
 }
 \value{
-A 2d data frame.
+A preprocessed 2d data frame.
 }
 \description{
 Read a data file from Spectronaut, apply filtering conditions, select columns
