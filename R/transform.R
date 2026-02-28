@@ -24,7 +24,7 @@
 #' For example, set it to 2 for square root or 3 for cube root.
 #' 
 #' @return
-#' The transformed data.
+#' A transformed data frame.
 #' 
 #' @details
 #' The function executes the following:

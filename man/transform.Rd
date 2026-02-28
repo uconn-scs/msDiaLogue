@@ -24,7 +24,7 @@ the root transformation when \code{method = "root"}.
 For example, set it to 2 for square root or 3 for cube root.}
 }
 \value{
-The transformed data.
+A transformed data frame.
 }
 \description{
 Apply a transformation to the data to stabilize the variance.
