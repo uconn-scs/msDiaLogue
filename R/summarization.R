@@ -1,38 +1,23 @@
-##
-## msDiaLogue: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
-## Copyright (C) 2025  Shiying Xiao, Timothy Moore and Charles Watt
-## Shiying Xiao <shiying.xiao@uconn.edu>
-##
-## This file is part of the R package msDiaLogue.
-##
-## The R package msDiaLogue is free software: You can redistribute it and/or
-## modify it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or any later
-## version (at your option). See the GNU General Public License at
-## <https://www.gnu.org/licenses/> for details.
-##
-## The R package msDiaLogue is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-##
-
-###############################
-#### Code for data summary ####
-###############################
+#######################
+#### Summarization ####
+#######################
 #' 
 #' Summarize protein intensities across conditions 
 #' 
 #' @description
-#' Calculate the mean, standard deviation, and replicate count for protein across every
-#' condition.
+#' Report basic summary statistics for protein across every condition.
 #' 
-#' @param dataSet A data frame containing the data signals and labels.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param saveSumm A boolean (default = TRUE) specifying whether to save the summary
-#' statistics to current working directory.
+#' @param saveSumm A logical value (default = TRUE) specifying whether
+#' to save the summary statistics to current working directory.
+#' 
+#' @return
+#' A summarized data frame.
 #' 
 #' @details
-#' The column 'Stat' in the generated data.frame includes the following statistics:
+#' The column "Stat" in the generated data frame includes the following
+#' statistics:
 #' \itemize{
 #' \item n: Number.
 #' \item mean: Mean.
@@ -49,9 +34,6 @@
 #' }
 #' 
 #' @importFrom psych describeBy
-#' 
-#' @return
-#' A 2d summarized data frame.
 #' 
 #' @export
 
