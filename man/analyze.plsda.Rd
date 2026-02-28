@@ -25,8 +25,8 @@ the multivariate regression method to be used:
 \insertCite{martens1989multivariate}{msDiaLogue}.
 }}
 
-\item{ncomp}{An integer specifying the number of components to include
-in the model. Defaults to min(n-1, p).}
+\item{ncomp}{An integer specifying
+the number of components to include in the model. Defaults to min(n-1, p).}
 
 \item{center}{A logical value (default = TRUE) indicating whether
 the variables should be shifted to be zero centered.}

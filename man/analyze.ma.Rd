@@ -9,8 +9,9 @@ analyze.ma(dataSet, ref = NULL, saveRes = TRUE)
 \arguments{
 \item{dataSet}{A data frame containing the data signals.}
 
-\item{ref}{A character string (default = NULL) specifying the reference
-condition for comparison. If NULL, all pairwise comparisons are performed.}
+\item{ref}{A character string (default = NULL) specifying
+the reference condition for comparison.
+If NULL, all pairwise comparisons are performed.}
 
 \item{saveRes}{A logical value (default = TRUE) specifying whether
 to save the analysis results to the current working directory.}

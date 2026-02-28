@@ -9,8 +9,9 @@ analyze.mod_t(dataSet, ref = NULL, adjust.method = "none", saveRes = TRUE)
 \arguments{
 \item{dataSet}{A data frame containing the data signals.}
 
-\item{ref}{A character string (default = NULL) specifying the reference
-condition for comparison. If NULL, all pairwise comparisons are performed.}
+\item{ref}{A character string (default = NULL) specifying
+the reference condition for comparison.
+If NULL, all pairwise comparisons are performed.}
 
 \item{adjust.method}{A character string (default = "none") specifying
 the correction method for p-value adjustment:

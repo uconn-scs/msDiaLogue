@@ -9,8 +9,9 @@
 #' 
 #' @param dataSet A data frame containing the data signals.
 #' 
-#' @param ref A character string (default = NULL) specifying the reference
-#' condition for comparison. If NULL, all pairwise comparisons are performed.
+#' @param ref A character string (default = NULL) specifying
+#' the reference condition for comparison.
+#' If NULL, all pairwise comparisons are performed.
 #' 
 #' @param adjust.method A character string (default = "none") specifying
 #' the correction method for p-value adjustment:
@@ -143,8 +144,9 @@ analyze.t <- function(dataSet, ref = NULL, adjust.method = "none",
 #' 
 #' @param dataSet A data frame containing the data signals.
 #' 
-#' @param ref A character string (default = NULL) specifying the reference
-#' condition for comparison. If NULL, all pairwise comparisons are performed.
+#' @param ref A character string (default = NULL) specifying
+#' the reference condition for comparison.
+#' If NULL, all pairwise comparisons are performed.
 #' 
 #' @param adjust.method A character string (default = "none") specifying
 #' the correction method for p-value adjustment:
@@ -175,8 +177,7 @@ analyze.t <- function(dataSet, ref = NULL, adjust.method = "none",
 #' 
 #' @export
 
-analyze.mod_t <- function(dataSet, ref = NULL, adjust.method = "none",
-                          saveRes = TRUE) {
+analyze.mod_t <- function(dataSet, ref = NULL, adjust.method = "none", saveRes = TRUE) {
   
   if (is.factor(dataSet$R.Condition)) {
     conds <- levels(dataSet$R.Condition)
@@ -268,8 +269,9 @@ analyze.mod_t <- function(dataSet, ref = NULL, adjust.method = "none",
 #' 
 #' @param dataSet A data frame containing the data signals.
 #' 
-#' @param ref A character string (default = NULL) specifying the reference
-#' condition for comparison. If NULL, all pairwise comparisons are performed.
+#' @param ref A character string (default = NULL) specifying
+#' the reference condition for comparison.
+#' If NULL, all pairwise comparisons are performed.
 #' 
 #' @param adjust.method A character string (default = "none") specifying
 #' the correction method for p-value adjustment:
@@ -388,8 +390,9 @@ analyze.wilcox <- function(dataSet, ref = NULL, adjust.method = "none",
 #' 
 #' @param dataSet A data frame containing the data signals.
 #' 
-#' @param ref A character string (default = NULL) specifying the reference
-#' condition for comparison. If NULL, all pairwise comparisons are performed.
+#' @param ref A character string (default = NULL) specifying
+#' the reference condition for comparison.
+#' If NULL, all pairwise comparisons are performed.
 #' 
 #' @param saveRes A logical value (default = TRUE) specifying whether
 #' to save the analysis results to the current working directory.
@@ -525,8 +528,8 @@ analyze.pca <- function(dataSet, center = TRUE, scale = TRUE) {
 #' \insertCite{martens1989multivariate}{msDiaLogue}.
 #' }
 #' 
-#' @param ncomp An integer specifying the number of components to include
-#' in the model. Defaults to min(n-1, p).
+#' @param ncomp An integer specifying
+#' the number of components to include in the model. Defaults to min(n-1, p).
 #' 
 #' @param center A logical value (default = TRUE) indicating whether
 #' the variables should be shifted to be zero centered.
