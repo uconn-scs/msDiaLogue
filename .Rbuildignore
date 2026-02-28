@@ -2,8 +2,7 @@
 ^\.Rproj\.user$
 ^\.github$
 ^_pkgdown\.yml$
-^docs$
-^misc$
 ^pkgdown$
 ^tests/.+$
 ^Makefile$
+^LICENSE\.md$
