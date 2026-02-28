@@ -66,3 +66,40 @@ meanVarPlot <- function(datMV, title = "") {
     theme(plot.title = element_text(hjust = 0.5))
 }
 
+##------------------------------------------------------------------------------
+#' 
+#' Create a condition-by-protein presence matrix
+#' 
+#' @description
+#' Create a dictionary in which each unique experimental condition serves as
+#' a key, mapped to the set of proteins that contain at least one observed
+#' (non-NA) value under that condition.
+#' 
+#' @param dataSet The 2d data set of experimental values.
+#' 
+#' @return
+#' A data frame with one row per protein and one column per experimental
+#' condition. Each entry is `TRUE` if that protein has at least one non-missing
+#' value under the given condition and `FALSE` otherwise.
+#' 
+#' @noRd
+
+sortcondition <- function(dataSet) {
+  
+  ## calculate how many values are present from each condition by protein
+  dataCounts <- dataSet %>%
+    ## do not include columns that are strings
+    select(!R.Replicate) %>%
+    ## group by experimental condition
+    group_by(R.Condition) %>%
+    ## apply to every numeric function a summation of the non-NA values
+    summarise(across(where(is.numeric), ~sum(!is.na(.x)))) %>%
+    column_to_rownames("R.Condition") %>%
+    ## binarize the count results
+    mutate(across(everything(), ~ifelse(.x > 0, TRUE, FALSE))) %>%
+    t() %>%
+    as.data.frame()
+  
+  return(dataCounts)
+}
+

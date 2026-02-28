@@ -1,50 +1,35 @@
-##
-## msDiaLogue: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
-## Copyright (C) 2025  Shiying Xiao, Timothy Moore and Charles Watt
-## Shiying Xiao <shiying.xiao@uconn.edu>
-##
-## This file is part of the R package msDiaLogue.
-##
-## The R package msDiaLogue is free software: You can redistribute it and/or
-## modify it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or any later
-## version (at your option). See the GNU General Public License at
-## <https://www.gnu.org/licenses/> for details.
-##
-## The R package msDiaLogue is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-##
-
+#' 
 #' Trimming down a protein FASTA file to certain proteins
 #' 
 #' @description 
-#' Trim down a FASTA file to only contain proteins present in an associated Spectronaut
-#' report file.
+#' Trim down a FASTA file to only contain proteins present in an associated
+#' Spectronaut report file.
 #' 
-#' @param FASTAFileName A character string specifying the name of the input FASTA .txt
-#' file.
+#' @param FASTAFileName A character string specifying the name of
+#' the input FASTA .txt file.
 #' 
-#' @param reportFileName A character string specifying the name of the Spectronaut report
-#' .csv file.
+#' @param reportFileName A character string specifying the name of
+#' the Spectronaut report .csv file.
 #' 
-#' @param by A character string (default = "PG.ProteinNames") specifying the identifier
-#' (column name) used for selection in the report file.
+#' @param by A character string (default = "PG.ProteinNames") specifying
+#' the identifier (column name) used for selection in the report file.
 #' 
-#' @param outputFileName A character string (default = "trimFASTA_output.txt") specifying
-#' the name of the output file.
+#' @param outputFileName A character string (default = "trimFASTA_output.txt")
+#' specifying the name of the output file.
 #' 
-#' @param selectString A character string specifying the regular expression to search for.
-#' 
-#' @details
-#' Depending on the size of the FASTA file, this function may run slowly and take several
-#' minutes. The FASTA file must be in .txt format; other formats will not work.
-#' 
-#' @importFrom data.table fread
-#' @importFrom seqinr getName read.fasta write.fasta
+#' @param selectString A character string specifying
+#' the regular expression to search for.
 #' 
 #' @return
 #' A FASTA file with only the specified proteins present.
+#' 
+#' @details
+#' Depending on the size of the FASTA file, this function may run slowly and
+#' take several minutes. The FASTA file must be in .txt format; other formats
+#' will not work.
+#' 
+#' @importFrom data.table fread
+#' @importFrom seqinr getName read.fasta write.fasta
 #' 
 #' @export
 

@@ -1,21 +1,4 @@
-##
-## msDiaLogue: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
-## Copyright (C) 2025  Shiying Xiao, Timothy Moore and Charles Watt
-## Shiying Xiao <shiying.xiao@uconn.edu>
-##
-## This file is part of the R package msDiaLogue.
-##
-## The R package msDiaLogue is free software: You can redistribute it and/or
-## modify it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or any later
-## version (at your option). See the GNU General Public License at
-## <https://www.gnu.org/licenses/> for details.
-##
-## The R package msDiaLogue is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-##
-
+#' 
 #' Compiling data on a single protein from each step in the process
 #' 
 #' @description
@@ -23,22 +6,26 @@
 #' 
 #' @param listName A character vector identifying the proteins of interest.
 #' 
-#' @param regexName A character vector specifying the proteins for regular expression
-#' pattern matching.
+#' @param regexName A character vector specifying the proteins for regular
+#' expression pattern matching.
 #' 
-#' @param by A character string (default = "PG.ProteinName" for Spectronaut, default =
-#' "AccessionNumber" for Scaffold) specifying the information to which \code{listName}
-#' and/or \code{regexName} are applied. Allowable options include:
+#' @param by A character string (default = "PG.ProteinName" for Spectronaut,
+#' default = "AccessionNumber" for Scaffold) specifying the information to
+#' which \code{listName} and/or \code{regexName} are applied.
+#' Allowable options include:
 #' \itemize{
-#' \item For Spectronaut: "PG.Genes", "PG.ProteinAccession", "PG.ProteinDescriptions", and
-#' "PG.ProteinName".
-#' \item For Scaffold: "ProteinDescriptions", "AccessionNumber", and "AlternateID".
+#' \item For Spectronaut: "PG.Genes", "PG.ProteinAccession",
+#' "PG.ProteinDescriptions", and "PG.ProteinName".
+#' \item For Scaffold: "ProteinDescriptions", "AccessionNumber", and
+#' "AlternateID".
 #' }
 #' 
-#' @param dataSetList A list of data frames, the order dictates the order of presentation.
+#' @param dataSetList A list of data frames, the order dictates the order of
+#' presentation.
 #' 
 #' @return
-#' A 2d dataframe, with the protein data at each step present in the \code{dataSetList}.
+#' A data frame, with the protein data at each step present
+#' in the \code{dataSetList}.
 #' 
 #' @export
 

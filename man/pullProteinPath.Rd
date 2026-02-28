@@ -9,22 +9,26 @@ pullProteinPath(listName = NULL, regexName = NULL, dataSetList, by = NULL)
 \arguments{
 \item{listName}{A character vector identifying the proteins of interest.}
 
-\item{regexName}{A character vector specifying the proteins for regular expression
-pattern matching.}
+\item{regexName}{A character vector specifying the proteins for regular
+expression pattern matching.}
 
-\item{dataSetList}{A list of data frames, the order dictates the order of presentation.}
+\item{dataSetList}{A list of data frames, the order dictates the order of
+presentation.}
 
-\item{by}{A character string (default = "PG.ProteinName" for Spectronaut, default =
-"AccessionNumber" for Scaffold) specifying the information to which \code{listName}
-and/or \code{regexName} are applied. Allowable options include:
+\item{by}{A character string (default = "PG.ProteinName" for Spectronaut,
+default = "AccessionNumber" for Scaffold) specifying the information to
+which \code{listName} and/or \code{regexName} are applied.
+Allowable options include:
 \itemize{
-\item For Spectronaut: "PG.Genes", "PG.ProteinAccession", "PG.ProteinDescriptions", and
-"PG.ProteinName".
-\item For Scaffold: "ProteinDescriptions", "AccessionNumber", and "AlternateID".
+\item For Spectronaut: "PG.Genes", "PG.ProteinAccession",
+"PG.ProteinDescriptions", and "PG.ProteinName".
+\item For Scaffold: "ProteinDescriptions", "AccessionNumber", and
+"AlternateID".
 }}
 }
 \value{
-A 2d dataframe, with the protein data at each step present in the \code{dataSetList}.
+A data frame, with the protein data at each step present
+in the \code{dataSetList}.
 }
 \description{
 Summarize the steps performed on the data for one protein.
