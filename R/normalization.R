@@ -1,37 +1,23 @@
-##
-## msDiaLogue: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
-## Copyright (C) 2025  Shiying Xiao, Timothy Moore and Charles Watt
-## Shiying Xiao <shiying.xiao@uconn.edu>
-##
-## This file is part of the R package msDiaLogue.
-##
-## The R package msDiaLogue is free software: You can redistribute it and/or
-## modify it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or any later
-## version (at your option). See the GNU General Public License at
-## <https://www.gnu.org/licenses/> for details.
-##
-## The R package msDiaLogue is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-##
-
-###################################
-#### Code for data normalizing ####
-###################################
+#######################
+#### Normalization ####
+#######################
 #' 
-#' Normalization of preprocessed data
+#' Normalization
 #' 
 #' @description 
 #' Apply a specified type of normalization to a data set.
 #' 
-#' @param dataSet The 2d data set of experimental values.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param applyto A string (default = "sample") specifying the target of normalization.
-#' Options are "sample" or "row" (across rows), and "protein" or "column" (across columns).
+#' @param applyto A character string (default = "sample") specifying
+#' the target of normalization. Available options are:
+#' \enumerate{
+#' \item "sample" or "row": Row-wise normalization.
+#' \item "protein" or "column": Column-wise normalization.
+#' }
 #' 
-#' @param normalizeType A string (default = "quant") specifying which type of
-#' normalization to apply:
+#' @param normalizeType A character string (default = "median") specifying
+#' the normalization type to apply:
 #' \itemize{
 #' \item "auto": Auto scaling \insertCite{jackson1991user}{msDiaLogue}.
 #' \item "level": Level scaling.
@@ -44,26 +30,21 @@
 #' \item "none": None.
 #' }
 #' 
-#' @param plot A boolean (default = TRUE) specifying whether to plot the boxplot
-#' for before and after normalization.
-#' 
-#' @details
-#' Quantile normalization is generally recommended. Mean and median normalization are
-#' going to be included as popular previous methods. No normalization is not recommended.
-#' Boxplots are also generated for before and after the normalization to give a visual
-#' indicator of the changes.
-#' 
-#' @importFrom limma normalizeQuantiles
+#' @param plot A logical value (default = TRUE) specifying whether
+#' to plot the boxplot for before and after normalization.
 #' 
 #' @return
-#' A normalized 2d dataframe.
+#' A normalized data frame.
 #' 
 #' @references
 #' \insertAllCited{}
 #' 
+#' @importFrom limma normalizeQuantiles
+#' 
 #' @export
 
-normalize <- function(dataSet, applyto = "sample", normalizeType = "quant", plot = TRUE) {
+normalize <- function(dataSet, applyto = "sample",
+                      normalizeType = "median", plot = TRUE) {
   
   ## create a boxplot for pre-normalization
   if (plot) {
