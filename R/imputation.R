@@ -1,35 +1,17 @@
-##
-## msDiaLogue: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
-## Copyright (C) 2025  Shiying Xiao, Timothy Moore and Charles Watt
-## Shiying Xiao <shiying.xiao@uconn.edu>
-##
-## This file is part of the R package msDiaLogue.
-##
-## The R package msDiaLogue is free software: You can redistribute it and/or
-## modify it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or any later
-## version (at your option). See the GNU General Public License at
-## <https://www.gnu.org/licenses/> for details.
-##
-## The R package msDiaLogue is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-##
-
-##################################
-#### Code for data imputation ####
-##################################
+####################
+#### Imputation ####
+####################
 #' 
 #' Imputation by the global minimum
 #' 
 #' @description
-#' Apply imputation to the dataset by the minimum measured value from any protein found
-#' within the entire dataset.
+#' Apply imputation to the data set by the minimum measured value from
+#' any protein found within the entire data set.
 #' 
-#' @param dataSet The 2d dataset of experimental values.
+#' @param dataSet A data frame containing the data signals.
 #' 
 #' @return
-#' An imputed 2d dataframe.
+#' An imputed data frame.
 #' 
 #' @export
 
@@ -51,19 +33,18 @@ impute.min_global <- function(dataSet) {
   return(imputedData)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #'
 #' Imputation by the local minimum
 #' 
 #' @description
-#' Apply imputation to the dataset by the minimum measured value for that protein in that
-#' condition.
+#' Apply imputation to the data set by the minimum measured value for
+#' that protein in that condition.
 #' 
-#' @param dataSet The 2d dataset of experimental values.
+#' @param dataSet A data frame containing the data signals.
 #' 
 #' @return
-#' An imputed 2d dataframe.
+#' An imputed data frame.
 #' 
 #' @export
 
@@ -77,42 +58,41 @@ impute.min_local <- function(dataSet) {
   return(imputedData)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #'
 #' Imputation by the k-nearest neighbors algorithm
 #' 
 #' @description
-#' Apply imputation to the dataset by the k-nearest neighbors algorithm
+#' Apply imputation to the data set by the k-nearest neighbors algorithm
 #' \insertCite{troyanskaya2001missing}{msDiaLogue}.
 #' 
-#' @param dataSet The 2d dataset of experimental values.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param k An integer (default = 10) indicating the number of neighbors to be used in the
-#' imputation.
+#' @param k An integer (default = 10) indicating the number of neighbors
+#' to be used in the imputation.
 #' 
-#' @param rowmax A scalar (default = 0.5) specifying the maximum percent missing data
-#' allowed in any row. For any rows with more than \code{rowmax}*100% missing are imputed
-#' using the overall mean per sample.
+#' @param rowmax A numeric value (default = 0.5) specifying the maximum percent
+#' missing data allowed in any row. For any rows with more than
+#' \code{rowmax}*100% missing are imputed using the overall mean per sample.
 #' 
-#' @param colmax A scalar (default = 0.8) specifying the maximum percent missing data
-#' allowed in any column. If any column has more than \code{colmax}*100% missing data, the
-#' program halts and reports an error.
+#' @param colmax A numeric value (default = 0.8) specifying the maximum percent
+#' missing data allowed in any column. If any column has more than
+#' \code{colmax}*100% missing data, the program halts and reports an error.
 #' 
-#' @param maxp An integer (default = 1500) indicating the largest block of proteins
-#' imputed using the k-nearest neighbors algorithm. Larger blocks are divided by two-means
-#' clustering (recursively) prior to imputation.
+#' @param maxp An integer (default = 1500) indicating the largest block of
+#' proteins imputed using the k-nearest neighbors algorithm. Larger blocks are
+#' divided by two-means clustering (recursively) prior to imputation.
 #' 
 #' @param seed An integer (default = 362436069) specifying the seed used for the
 #' random number generator for reproducibility.
 #' 
-#' @importFrom impute impute.knn
-#' 
 #' @return
-#' An imputed 2d dataframe.
+#' An imputed data frame.
 #' 
 #' @references
 #' \insertAllCited{}
+#' 
+#' @importFrom impute impute.knn
 #' 
 #' @export
 
@@ -133,27 +113,26 @@ impute.knn <- function(dataSet, k = 10, rowmax = 0.5, colmax = 0.8, maxp = 1500,
   return(imputedData)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #'
 #' Imputation by the k-nearest neighbors algorithm
 #' 
 #' @description
-#' Apply imputation to the dataset by the sequential k-nearest neighbors algorithm
-#' \insertCite{kim2004reuse}{msDiaLogue}.
+#' Apply imputation to the data set by the sequential k-nearest neighbors
+#' algorithm \insertCite{kim2004reuse}{msDiaLogue}.
 #' 
-#' @param dataSet The 2d dataset of experimental values.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param k An integer (default = 10) indicating the number of neighbors to be used in the
-#' imputation.
-#' 
-#' @importFrom multiUS seqKNNimp
+#' @param k An integer (default = 10) indicating the number of neighbors
+#' to be used in the imputation.
 #' 
 #' @return
-#' An imputed 2d dataframe.
+#' An imputed data frame.
 #' 
 #' @references
 #' \insertAllCited{}
+#' 
+#' @importFrom multiUS seqKNNimp
 #' 
 #' @export
 
@@ -171,22 +150,21 @@ impute.knn_seq <- function(dataSet, k = 10) {
   return(imputedData)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #'
 #' Imputation by the truncated k-nearest neighbors algorithm
 #' 
 #' @description
-#' Apply imputation to the dataset by the truncated k-nearest neighbors algorithm
-#' \insertCite{shah2017distribution}{msDiaLogue}.
+#' Apply imputation to the data set by the truncated k-nearest neighbors
+#' algorithm \insertCite{shah2017distribution}{msDiaLogue}.
 #' 
-#' @param dataSet The 2d dataset of experimental values.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param k An integer (default = 10) indicating the number of neighbors to be used in the
-#' imputation.
+#' @param k An integer (default = 10) indicating the number of neighbors
+#' to be used in the imputation.
 #' 
 #' @return
-#' An imputed 2d dataframe.
+#' An imputed data frame.
 #' 
 #' @references
 #' \insertAllCited{}
@@ -209,45 +187,46 @@ impute.knn_trunc <- function(dataSet, k = 10) {
   return(imputedData)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #'
 #' Imputation by the nuclear-norm regularization
 #' 
 #' @description
-#' Apply imputation to the dataset by the nuclear-norm regularization
+#' Apply imputation to the data set by the nuclear-norm regularization
 #' \insertCite{hastie2015matrix}{msDiaLogue}.
 #' 
-#' @param dataSet The 2d dataset of experimental values.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param rank.max An integer specifying the restriction on the rank of the solution. The
-#' default is set to one less than the minimum dimension of the dataset.
+#' @param rank.max An integer specifying the restriction on the rank of
+#' the solution. The default is set to one less than the minimum dimension of
+#' the data set.
 #' 
-#' @param lambda A scalar specifying the nuclear-norm regularization parameter. If
-#' \code{lambda = 0}, the algorithm convergence is typically slower. The default is set to
-#' the maximum singular value obtained from the singular value decomposition (SVD) of the
-#' dataset.
+#' @param lambda A numeric value specifying the nuclear-norm regularization
+#' parameter. If \code{lambda = 0}, the algorithm convergence is typically
+#' slower. The default is set to the maximum singular value obtained from
+#' the singular value decomposition (SVD) of the data set.
 #' 
-#' @param thresh A scalar (default = 1e-5) specifying the convergence threshold, measured
-#' as the relative change in the Frobenius norm between two successive estimates.
+#' @param thresh A numeric value (default = 1e-5) specifying the convergence
+#' threshold, measured as the relative change in the Frobenius norm between
+#' two successive estimates.
 #' 
-#' @param maxit An integer (default = 100) specifying the maximum number of iterations
-#' before the convergence is reached.
+#' @param maxit An integer (default = 100) specifying the maximum number of
+#' iterations before the convergence is reached.
 #' 
-#' @param final.svd A boolean (default = TRUE) specifying whether to perform a one-step
-#' unregularized iteration at the final iteration, followed by soft-thresholding of the
-#' singular values, resulting in hard zeros.
+#' @param final.svd A logical value (default = TRUE) specifying whether
+#' to perform a one-step unregularized iteration at the final iteration,
+#' followed by soft-thresholding of the singular values, resulting in hard zeros.
 #' 
-#' @param seed An integer (default = 362436069) specifying the seed used for the
-#' random number generator for reproducibility.
-#' 
-#' @importFrom softImpute complete softImpute
+#' @param seed An integer (default = 362436069) specifying the seed used for
+#' the random number generator for reproducibility.
 #' 
 #' @return
-#' An imputed 2d dataframe.
+#' An imputed data frame.
 #' 
 #' @references
 #' \insertAllCited{}
+#' 
+#' @importFrom softImpute complete softImpute
 #' 
 #' @export
 
@@ -281,29 +260,29 @@ impute.nuc_norm <- function(dataSet, rank.max = NULL, lambda = NULL,
   return(imputedData)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #'
 #' Imputation by Bayesian linear regression
 #' 
 #' @description
-#' Apply imputation to the dataset by Bayesian linear regression
+#' Apply imputation to the data set by Bayesian linear regression
 #' \insertCite{rubin1987multiple,schafer1997analysis,van2011mice}{msDiaLogue}.
 #' 
-#' @param dataSet The 2d dataset of experimental values.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param m An integer (default = 5) specifying the number of multiple imputations.
+#' @param m An integer (default = 5) specifying the number of multiple
+#' imputations.
 #' 
-#' @param seed An integer (default = 362436069) specifying the seed used for the random
-#' number generator for reproducibility.
-#' 
-#' @importFrom mice complete mice
+#' @param seed An integer (default = 362436069) specifying the seed used for
+#' the random number generator for reproducibility.
 #' 
 #' @return
-#' An imputed 2d dataframe.
+#' An imputed data frame.
 #' 
 #' @references
 #' \insertAllCited{}
+#' 
+#' @importFrom mice complete mice
 #' 
 #' @export
 
@@ -322,29 +301,29 @@ impute.mice_norm <- function(dataSet, m = 5, seed = 362436069) {
   return(imputedData)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #'
 #' Imputation by classification and regression trees
 #' 
 #' @description
-#' Apply imputation to the dataset by classification and regression trees
+#' Apply imputation to the data set by classification and regression trees
 #' \insertCite{breiman1984classification,doove2014recursive,van2018flexible}{msDiaLogue}.
 #' 
-#' @param dataSet The 2d dataset of experimental values.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param m An integer (default = 5) specifying the number of multiple imputations.
+#' @param m An integer (default = 5) specifying the number of multiple
+#' imputations.
 #' 
-#' @param seed An integer (default = 362436069) specifying the seed used for the random
-#' number generator for reproducibility.
-#' 
-#' @importFrom mice complete mice
+#' @param seed An integer (default = 362436069) specifying the seed used for
+#' the random number generator for reproducibility.
 #' 
 #' @return
-#' An imputed 2d dataframe.
+#' An imputed data frame.
 #' 
 #' @references
 #' \insertAllCited{}
+#' 
+#' @importFrom mice complete mice
 #' 
 #' @export
 
@@ -363,30 +342,30 @@ impute.mice_cart <- function(dataSet, m = 5, seed = 362436069) {
   return(imputedData)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #'
 #' Imputation by Bayesian principal components analysis
 #' 
 #' @description
-#' Apply imputation to the dataset by Bayesian principal components analysis
+#' Apply imputation to the data set by Bayesian principal components analysis
 #' \insertCite{oba2003bayesian}{msDiaLogue}.
 #' 
-#' @param dataSet The 2d dataset of experimental values.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param nPcs An integer specifying the number of principal components to calculate. The
-#' default is set to the minimum between the number of samples and the number of proteins.
+#' @param nPcs An integer specifying the number of principal components to
+#' calculate. The default is set to the minimum between the number of samples
+#' and the number of proteins.
 #' 
-#' @param maxSteps An integer (default = 100) specifying the maximum number of estimation
-#' steps.
-#' 
-#' @importFrom pcaMethods completeObs pca
+#' @param maxSteps An integer (default = 100) specifying the maximum number of
+#' estimation steps.
 #' 
 #' @return
-#' An imputed 2d dataframe.
+#' An imputed data frame.
 #' 
 #' @references
 #' \insertAllCited{}
+#' 
+#' @importFrom pcaMethods completeObs pca
 #' 
 #' @export
 
@@ -407,33 +386,33 @@ impute.pca_bayes <- function(dataSet, nPcs = NULL, maxSteps = 100) {
   return(imputedData)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #'
 #' Imputation by probabilistic principal components analysis
 #' 
 #' @description
-#' Apply imputation to the dataset by probabilistic principal components analysis
-#' \insertCite{stacklies2007pcamethods}{msDiaLogue}.
+#' Apply imputation to the data set by probabilistic principal components
+#' analysis \insertCite{stacklies2007pcamethods}{msDiaLogue}.
 #' 
-#' @param dataSet The 2d dataset of experimental values.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param nPcs An integer specifying the number of principal components to calculate. The
-#' default is set to the minimum between the number of samples and the number of proteins.
+#' @param nPcs An integer specifying the number of principal components to
+#' calculate. The default is set to the minimum between the number of samples
+#' and the number of proteins.
 #' 
-#' @param maxIterations An integer (default = 1000) specifying the maximum number of
-#' allowed iterations.
+#' @param maxIterations An integer (default = 1000) specifying the maximum
+#' number of allowed iterations.
 #' 
-#' @param seed An integer (default = 362436069) specifying the seed used for the random
-#' number generator for reproducibility.
-#' 
-#' @importFrom pcaMethods completeObs pca
+#' @param seed An integer (default = 362436069) specifying the seed used for
+#' the random number generator for reproducibility.
 #' 
 #' @return
-#' An imputed 2d dataframe.
+#' An imputed data frame.
 #' 
 #' @references
 #' \insertAllCited{}
+#' 
+#' @importFrom pcaMethods completeObs pca
 #' 
 #' @export
 
