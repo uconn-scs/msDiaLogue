@@ -1,4 +1,4 @@
-# msDiaLogue <img src="man/figure/logo.png" align="right" alt="" width="150">
+# msDiaLogue <img src="man/figures/logo.png" align="right" alt="" width="150">
 
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15706003.svg)](https://doi.org/10.5281/zenodo.15706003)
@@ -14,10 +14,27 @@ by [UConn](https://uconn.edu/)'s [PMF](https://proteomics.uconn.edu/) and
 mass spectrometry (MS)-based proteomics data.
 
 
+## Modular Structure
+
+
+![](https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figures/workflow.png)
+
+
+* Preprocessing: Getting data from Spectronaut.
+* Transformation: Options for transforming abundance data.
+* Filtering: Providing options to filter out data based on preset levels.
+* Normalization: Normalization procedures.
+* Imputation: Missing data procedures.
+* Summarization: Calculating and presenting numerical summaries in tabular form.
+* Analysis: Statistical tools for DIA data analysis.
+* Visualization: Providing clean visuals to aid in data analysis decisions.
+
+
 ## Installation
 
 
-You can install **msDiaLogue** directly from [GitHub](https://github.com/).
+You can install **msDiaLogue** directly from
+[GitHub](https://github.com/uconn-scs/msDiaLogue).
 
 
 + Development (latest) version:
@@ -36,20 +53,4 @@ devtools::install_github("uconn-scs/msDiaLogue")
 # install.packages("devtools")
 devtools::install_github("uconn-scs/msDiaLogue@v0.0.6")
 ```
-
-
-## Modular Structure
-
-
-![](https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figure/workflow.png)
-
-
-* Preprocessing: Getting data from Spectronaut.
-* Transformation: Options for transforming abundance data.
-* Normalization: Normalization procedures.
-* Imputation: Missing data procedures.
-* Summarization: Calculating and presenting numerical summaries in tabular form.
-* Analysis: Statistical tools for DIA data analysis.
-* Filtering: Providing options to filter out data based on preset levels.
-* Visualization: Providing clean visuals to aid in data analysis decisions.
 
