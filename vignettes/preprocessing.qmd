@@ -1,25 +1,16 @@
 ---
 title: "Preprocessing"
-output: rmarkdown::html_vignette
-author: 
-  - |
-    Shiying Xiao$^1$, Charles Watt$^1$, Jennifer C. Liddle$^2$, Jeremy L. Balsbaugh$^2$, Timothy E. Moore$^3$
-  - |
-    $^1$Department of Statistics, UConn \
-    $^2$Proteomics and Metabolomics Facility, UConn \
-    $^3$Statistical Consulting Services, UConn
-date: "`r format(file.info('preprocessing.Rmd')$mtime, '%Y-%m-%d')`"
-bibliography:
-  - ../inst/REFERENCES.bib
+bibliography: ../inst/REFERENCES.bib
 vignette: >
   %\VignetteIndexEntry{preprocessing}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk: 
+    collapse: true
+    comment: '#>'
+    fig.align: "center"
 ---
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center")
-```
 
 
 ## Preliminary
@@ -44,8 +35,8 @@ dataSet <- preprocessing(fileName,
 
 
 <div class="note">
-**Note:** `preprocessing()` does not perform a transformation on your data. You
-still need to use the function `transform()`. </div>
+**Note:** `preprocessing()` does not perform a transformation on your data.
+You still need to use the function `transform()`. </div>
 
 
 ```{r}
@@ -68,38 +59,37 @@ knitr::kable(dataSet, align = "l")
 
 
 The function `preprocessing()` takes a `.csv` file of summarized protein
-abundances, exported from **Spectronaut**. The most important columns that need
-to be included in this file are: `R.Condition`, `R.Replicate`,
+abundances, exported from Spectronaut. The most important columns that need to
+be included in this file are: `R.Condition`, `R.Replicate`,
 `PG.ProteinAccessions`, `PG.ProteinNames`, `PG.NrOfStrippedSequencesIdentified`,
 and `PG.Quantity`. This function will reformat the data and provide
 functionality for some initial filtering (based on the number of unique peptides).
-The steps below describe the functions that happen in the Preprocessing code.
-
+The steps below describe the operations performed during preprocessing.
 
 **1\.** Loads the raw data
 
 
-+ If the raw data is in a .csv file
++ If the raw data is in a `.csv` file
 [Toy_Spectronaut_Data.csv](https://github.com/uconn-scs/msDiaLogue/blob/main/inst/extdata/Toy_Spectronaut_Data.csv),
-specify the `fileName` to read the raw data file into **R**.
+specify the `fileName` to read the raw data file into R.
 
 
-+ If the raw data is stored as an .RData file
++ If the raw data is stored as an `.RData` file
 [Toy_Spectronaut_Data.RData](https://github.com/uconn-scs/msDiaLogue/blob/main/inst/extdata/Toy_Spectronaut_Data.RData),
 first load the data file directly, then specify the `dataSet` in the function.
 
 
-**2\.** Filters out identified proteins that exhibit "NaN" quantitative values
+**2\.** Filters out identified proteins that exhibit `NaN` quantitative values
 
 
-NaN, which stands for 'Not a Number,' can be found in the PG.Quantity column for
-proteins that were identified by MS and MS/MS evidence in the raw data, but all
-peptides from that protein lack an associated integrated peak area or intensity.
-This usually occurs in low abundance peptides that exhibit intensities close to
-the limit of detection resulting in poor signal-to-noise (S/N) and/or when there
-is interference from other co-eluting peptide ions with very similar or
-identical m/z values that lead to difficulty in parsing out individual intensity
-profiles.
+`NaN`, which stands for "Not a Number," can be found in the `PG.Quantity` column
+for proteins that were identified by MS and MS/MS evidence in the raw data, but
+all peptides from that protein lack an associated integrated peak area or
+intensity. This usually occurs in low abundance peptides that exhibit
+intensities close to the limit of detection resulting in poor signal-to-noise
+(S/N) and/or when there is interference from other co-eluting peptide ions with
+very similar or identical m/z values that lead to difficulty in parsing out
+individual intensity profiles.
 
 
 **3\.** Applies a unique peptides per protein filter
@@ -112,7 +102,8 @@ was incorrectly identified and that protein ID is incorrect than that, for
 example, 5 peptides from the same protein were all incorrectly identified and
 that protein ID is incorrect. We recommend focusing on proteins with 2 or more
 peptide identifications, as these will be higher confidence. If you have a
-protein of interest with only 1 peptide identified, contact [PMF faculty](https://proteomics.uconn.edu/about-us/)
+protein of interest with only 1 peptide identified, contact
+[PMF faculty](https://proteomics.uconn.edu/about-us/)
 and we can help you evaluate the evidence from the raw data to determine
 believability.
 
@@ -120,7 +111,7 @@ believability.
 **4\.** Adds accession numbers to identified proteins without informative names
 
 
-**Spectronaut** reports contain 4 different columns of identifying information:
+Spectronaut reports contain 4 different columns of identifying information:
 
 
 + `PG.Genes`, which is the gene name (e.g. CDK1).
@@ -132,38 +123,39 @@ entry in the online database (e.g. P06493).
 (e.g. CDK1_HUMAN).
 
 
-Every entry in UniProt will have an accession number, but may not have all of
-the other identifiers, due to incomplete annotation.  Because Uniprot includes
-entries for fragments of proteins and some proteins entries are redundant, a
-peptide can match to multiple entries for the same protein, which generates
-multiple possible identifiers in **Spectronaut**. Further, the `ProteinNames`
-entry in **Spectronaut** can switch formats: the preference is accession number
-and species, but can also be gene name and species instead.
+Every entry in [UniProt](https://www.uniprot.org/) will have an accession number,
+but may not have all of the other identifiers, due to incomplete annotation.
+Because [UniProt](https://www.uniprot.org/) includes entries for fragments of
+proteins and some proteins entries are redundant, a peptide can match to
+multiple entries for the same protein, which generates multiple possible
+identifiers in Spectronaut. Further, the `ProteinNames` entry in Spectronaut can
+switch formats: the preference is accession number and species, but can also be
+gene name and species instead.
 
 
-This option tells **msDiaLogue** to substitute the accession number for an
+This option tells msDiaLogue to substitute the accession number for an
 identifier if it tries to pull an identifier from a column with no information.
 
 
 <div class="note">
-**Note:** Not all proteins can be identified unambiguously. In many cases, the
-identified peptides can be found in multiple protein sequences, which yields a
-protein group or protein cluster rather than a single protein identification.
+**Note:** Not all proteins can be identified unambiguously. In many cases,
+the identified peptides can be found in multiple protein sequences, which yields
+a protein group or protein cluster rather than a single protein identification.
 When this happens, the accession numbers for all potential matches are
 concatenated into one string, separated by periods. When you see long strings of
-multiple identifiers later in your data processing, this is why. **Spectronaut**
+multiple identifiers later in your data processing, this is why. Spectronaut
 sorts these alphanumerically, so you should not assume that the first protein in
 the list is most likely to be correct (other search algorithms such as MaxQuant,
-which is used in PMF for most Scaffold-based results, do rank protein
-cluster IDs by likelihood of correctness). </div>
+which is used in [PMF](https://proteomics.uconn.edu/) for most Scaffold-based
+results, do rank protein cluster IDs by likelihood of correctness). </div>
 
 
 **5\.** Saves a document to your working directory with all filtered out data,
 if desired
 
 
-If `saveRm = TRUE`, the data removed in step 2 (*preprocess_filterNaN.csv*) and
-step 3 (*preprocess_filterUnique.csv*) will be saved in the current working
+If `saveRm = TRUE`, the data removed in step 2 (`preprocess_filterNaN.csv`) and
+step 3 (`preprocess_filterUnique.csv`) will be saved in the current working
 directory.
 
 
