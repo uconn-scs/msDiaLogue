@@ -1,31 +1,13 @@
-##
-## msDiaLogue: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
-## Copyright (C) 2025  Shiying Xiao, Timothy Moore and Charles Watt
-## Shiying Xiao <shiying.xiao@uconn.edu>
-##
-## This file is part of the R package msDiaLogue.
-##
-## The R package msDiaLogue is free software: You can redistribute it and/or
-## modify it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or any later
-## version (at your option). See the GNU General Public License at
-## <https://www.gnu.org/licenses/> for details.
-##
-## The R package msDiaLogue is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-##
-
-#################################
-#### Code for visualizations ####
-#################################
+#######################
+#### Visualization ####
+#######################
 #' 
 #' Boxplot
 #' 
 #' @description
 #' Generate a boxplot for the data.
 #' 
-#' @param dataSet The 2d data set of data.
+#' @param dataSet A data frame containing the data signals.
 #' 
 #' @return
 #' An object of class \code{ggplot}.
@@ -65,26 +47,28 @@ visualize.boxplot <- function(dataSet) {
 
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #'
 #' Abundance distributions
 #'
 #' @description
 #' Generate distribution plots for protein abundance values.
+#' 
+#' @param dataSet A data frame containing the data signals, or a list of data
+#' frames.
+#' 
+#' @return
+#' An object of class \code{ggplot}.
+#' 
+#' @details
 #' If \code{dataSet} is a single data frame, the function summarizes
 #' the distribution of proteins' average abundance across conditions  
 #' and replicates, including both a kernel density estimate and an empirical  
 #' cumulative distribution function (ECDF).
 #' 
 #' If \code{dataSet} is a list of data frames, the function produces comparative
-#' density plots across datasets (e.g., before vs after imputation), stratified
-#' by \code{R.Condition}.
-#' 
-#' @param dataSet The 2d data set of data, or a list of data frames.
-#' 
-#' @return
-#' An object of class \code{ggplot}.
+#' density plots across data sets (e.g., before vs after imputation), stratified
+#' by "R.Condition".
 #' 
 #' @autoglobal
 #' 
@@ -107,12 +91,14 @@ visualize.dist <- function(dataSet) {
         stat_density(
           data = plotData %>%
             mutate(Panel = factor("Probability Density",
-                                  levels = c("Probability Density", "Cumulative Probability"))),
+                                  levels = c("Probability Density",
+                                             "Cumulative Probability"))),
           aes(x = mean, color = Group), na.rm = TRUE, geom = "line") +
         stat_ecdf(
           data = plotData %>%
             mutate(Panel = factor("Cumulative Probability",
-                                  levels = c("Probability Density", "Cumulative Probability"))),
+                                  levels = c("Probability Density",
+                                             "Cumulative Probability"))),
           aes(x = mean, col = Group), na.rm = TRUE, geom = "line", pad = FALSE) +
         facet_wrap(~ Panel, scales = "free_y") +
         labs(x = "Average Abundance", y = NULL) +
@@ -125,12 +111,14 @@ visualize.dist <- function(dataSet) {
         stat_density(
           data = plotData %>%
             mutate(Panel = factor("Probability Density",
-                                  levels = c("Probability Density", "Cumulative Probability"))),
+                                  levels = c("Probability Density",
+                                             "Cumulative Probability"))),
           aes(x = mean), na.rm = TRUE, geom = "line") +
         stat_ecdf(
           data = plotData %>%
             mutate(Panel = factor("Cumulative Probability",
-                                  levels = c("Probability Density", "Cumulative Probability"))),
+                                  levels = c("Probability Density",
+                                             "Cumulative Probability"))),
           aes(x = mean), na.rm = TRUE, geom = "line", pad = FALSE) +
         facet_wrap(~ Panel, scales = "free_y") +
         labs(x = "Average Abundance", y = NULL) +
@@ -165,45 +153,51 @@ visualize.dist <- function(dataSet) {
   
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #' 
 #' Heatmap
 #' 
 #' @description
 #' Generate a heatmap for the data.
 #' 
-#' @param dataSet The 2d data set of data.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param pkg A string (default = "pheatmap") specifying the source package used to plot
-#' the heatmap. Two options: \code{"pheatmap"} and \code{"ggplot2"}.
+#' @param pkg A character string (default = "pheatmap") specifying
+#' the source package used to plot the heatmap.
+#' Two options: \code{"pheatmap"} and \code{"ggplot2"}.
 #' 
-#' @param cluster_cols A boolean (default = TRUE) determining if rows should be clustered
-#' or \code{hclust} object. This argument only works when \code{pkg = "pheatmap"}.
-#' 
-#' @param cluster_rows A boolean (default = FALSE) determining if columns should be
-#' clustered or \code{hclust} object. This argument only works when \code{pkg = "pheatmap"}.
-#' 
-#' @param show_colnames A boolean (default = TRUE) specifying if column names are be shown.
+#' @param cluster_cols A logical value (default = TRUE) determining
+#' if rows should be clustered or \code{hclust} object.
 #' This argument only works when \code{pkg = "pheatmap"}.
 #' 
-#' @param show_rownames A boolean (default = TRUE) specifying if row names are be shown.
+#' @param cluster_rows A logical value (default = FALSE) determining
+#' if columns should be clustered or \code{hclust} object.
 #' This argument only works when \code{pkg = "pheatmap"}.
 #' 
-#' @param show_pct_cols A boolean (default = FALSE) specifying whether to append the
-#' percentage of missing values to the column names. Only applied when \code{dataSet}
-#' contains missing values.
+#' @param show_colnames A logical value (default = TRUE) specifying
+#' if column names are be shown.
+#' This argument only works when \code{pkg = "pheatmap"}.
 #' 
-#' @param show_pct_rows A boolean (default = TRUE) specifying whether to append the
-#' percentage of missing values to the row names. Only applied when \code{dataSet}
-#' contains missing values.
+#' @param show_rownames A logical value (default = TRUE) specifying
+#' if row names are be shown.
+#' This argument only works when \code{pkg = "pheatmap"}.
 #' 
-#' @param show_pct_legend A boolean (default = TRUE) specifying whether the percentages of
-#' missing and present values in the entire dataset are shown in the legend. Only applied
-#' when \code{dataSet} contains missing values.
+#' @param show_pct_cols A logical value (default = FALSE) specifying whether
+#' to append the percentage of missing values to the column names.
+#' Only applied when \code{dataSet} contains missing values.
 #' 
-#' @param saveRes A boolean (default = TRUE) specifying whether to save a summary of
-#' missingness information. Only applied when \code{dataSet} contains missing values.
+#' @param show_pct_rows A logical value (default = TRUE) specifying whether
+#' to append the percentage of missing values to the row names.
+#' Only applied when \code{dataSet} contains missing values.
+#' 
+#' @param show_pct_legend A logical value (default = TRUE) specifying whether
+#' the percentages of missing and present values in the entire data set
+#' are shown in the legend.
+#' Only applied when \code{dataSet} contains missing values.
+#' 
+#' @param saveRes A logical value (default = TRUE) specifying whether
+#' to save a summary of missingness information.
+#' Only applied when \code{dataSet} contains missing values.
 #' 
 #' @import pheatmap
 #' 
@@ -211,11 +205,12 @@ visualize.dist <- function(dataSet) {
 #' An object of class \code{ggplot}.
 #' 
 #' @details
-#' A summary of missingness information including: \itemize{
+#' A summary of missingness information including:
+#' \itemize{
 #' \item "count_missing_protein": The count of missing values for each protein.
 #' \item "pct_missing_protein": The percentage of missing values for each protein.
-#' \item "pct_missing_total": The percentage of missing values for each protein relative
-#' to the total missing values in the entire dataset.
+#' \item "pct_missing_total": The percentage of missing values for each protein
+#' relative to the total missing values in the entire data set.
 #' }
 #' 
 #' @autoglobal
@@ -255,13 +250,15 @@ visualize.heatmap <- function(dataSet, pkg = "pheatmap",
     
     ## protein
     if (show_pct_rows) {
-      pct_rows <- ifelse(pct_missing_protein == 0, "", sprintf(" (%.1f%%)", pct_missing_protein))
+      pct_rows <- ifelse(pct_missing_protein == 0, "",
+                         sprintf(" (%.1f%%)", pct_missing_protein))
       colnames(plotData) <- paste0(colnames(plotData), pct_rows)
     }
     
     ## condition-replicate
     if (show_pct_cols) {
-      pct_cols <- ifelse(pct_missing_conrep == 0, "", sprintf(" (%.1f%%)", pct_missing_conrep))
+      pct_cols <- ifelse(pct_missing_conrep == 0, "",
+                         sprintf(" (%.1f%%)", pct_missing_conrep))
       rownames(plotData) <- paste0(rownames(plotData), pct_cols)
     }
     
@@ -338,8 +335,7 @@ visualize.heatmap <- function(dataSet, pkg = "pheatmap",
   }
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #' 
 #' MA plot: plots fold change versus average abundance
 #' 
@@ -349,8 +345,8 @@ visualize.heatmap <- function(dataSet, pkg = "pheatmap",
 #' @param dataSet The data set corresponds to the output from the function
 #' \code{\link[msDiaLogue]{analyze.ma}}.
 #' 
-#' @param M.thres The absolute threshold value of M (fold-change) (default = 1) used to
-#' plot the two vertical lines (-M.thres and M.thres) on the MA plot.
+#' @param M.thres The absolute threshold value of M (fold-change) (default = 1)
+#' used to plot the two vertical lines (-M.thres and M.thres) on the MA plot.
 #' 
 #' @return
 #' An object of class \code{ggplot}.
@@ -399,35 +395,45 @@ visualize.ma <- function(dataSet, M.thres = 1) {
   
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #' 
 #' Rank abundance distribution plot (Whittaker plot)
 #' 
 #' @description
-#' Generate a rank abundance distribution plot, also known as Whittaker plot, for the data.
+#' Generate a rank abundance distribution plot, also known as Whittaker plot,
+#' for the data.
 #' 
-#' @param dataSet The 2d data set of data.
+#' @param dataSet A data frame containing the data signals.
 #' 
 #' @param listName A character vector of proteins to highlight.
 #' 
-#' @param regexName A character vector specifying proteins for regular expression pattern
-#' matching to highlight.
+#' @param regexName A character vector specifying
+#' proteins for regular expression pattern matching to highlight.
 #' 
-#' @param by A character string (default = "PG.ProteinName" for Spectronaut, default =
-#' "AccessionNumber" for Scaffold) specifying the information to which \code{listName}
-#' and/or \code{regexName} filter is applied. Allowable options include:
+#' @param by A character string (default = "PG.ProteinName" for Spectronaut,
+#' default = "AccessionNumber" for Scaffold) specifying
+#' the information to which \code{listName} and/or \code{regexName} filter
+#' is applied.
+#' Allowable options include:
 #' \itemize{
-#' \item For Spectronaut: "PG.Genes", "PG.ProteinAccession", "PG.ProteinDescriptions", and
-#' "PG.ProteinName".
-#' \item For Scaffold: "ProteinDescriptions", "AccessionNumber", and "AlternateID".
+#' \item For Spectronaut: "PG.Genes", "PG.ProteinAccession",
+#' "PG.ProteinDescriptions", and "PG.ProteinName".
+#' \item For Scaffold: "ProteinDescriptions", "AccessionNumber", and
+#' "AlternateID".
 #' }
 #' 
-#' @param facet A character string (default = c("Replicate", "Condition")) specifying
-#' grouping variables for faceting. Allowed values are "Condition", "Replicate",
-#' c("Condition", "Replicate"), c("Replicate", "Condition"), or "none" for no grouping.
+#' @param facet A character string (default = c("Replicate", "Condition"))
+#' specifying grouping variables for faceting. Allowed values are:
+#' \itemize{
+#' \item "Condition"
+#' \item "Replicate"
+#' \item c("Condition", "Replicate")
+#' \item c("Replicate", "Condition")
+#' \item "none" for no faceting
+#' }
 #' 
-#' @param color A string (default = red") specifying the color used to highlight proteins.
+#' @param color A character string (default = red") specifying
+#' the color used to highlight proteins.
 #' 
 #' @param ... Optional arguments passed to \code{\link[ggrepel]{geom_text_repel}}.
 #' 
@@ -500,7 +506,7 @@ visualize.rank <- function(dataSet, listName = NULL, regexName = NULL, by = NULL
   
   plot <- ggplot(plotData, aes(x = Rank, y = Abundance, shape = Type, color = Type)) +
     geom_point() +
-    scale_color_manual(values = c("Highlight" = color, "Other" = "black"),
+    scale_color_manual(values = c("Highlight" = color, "Other" = "gray"),
                        labels = c("Highlight" = highlight_label, "Other" = "Other")) +
     scale_shape_manual(values = c("Highlight" = 17, "Other" = 16),
                        labels = c("Highlight" = highlight_label, "Other" = "Other")) +
@@ -524,8 +530,7 @@ visualize.rank <- function(dataSet, listName = NULL, regexName = NULL, by = NULL
   return(plot)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #' 
 #' Histograms of fold changes and p-values from test results
 #' 
@@ -533,8 +538,8 @@ visualize.rank <- function(dataSet, listName = NULL, regexName = NULL, by = NULL
 #' Generate histograms of fold changes and p-values for the data.
 #' 
 #' @param dataSet The data set corresponds to the output from the function
-#' \code{\link[msDiaLogue]{analyze.mod_t}}, \code{\link[msDiaLogue]{analyze.t}}, or
-#' \code{\link[msDiaLogue]{analyze.wilcox}}.
+#' \code{\link[msDiaLogue]{analyze.mod_t}}, \code{\link[msDiaLogue]{analyze.t}},
+#' or \code{\link[msDiaLogue]{analyze.wilcox}}.
 #' 
 #' @return
 #' An object of class \code{ggplot}.
@@ -573,19 +578,22 @@ visualize.test <- function(dataSet) {
   }), init = ggplot()) +
     ylab("Frequency") +
     theme_bw() +
-    if (is.data.frame(dataSet)) {facet_wrap(.~name, scales = "free")} else {facet_wrap(.~Comparison + name, scales = "free")}
+    if (is.data.frame(dataSet)) {
+      facet_wrap(.~name, scales = "free")
+    } else {
+      facet_wrap(.~Comparison + name, scales = "free")
+    }
   
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #' 
 #' UpSet plot
 #' 
 #' @description
 #' Generate an UpSet plot for the data.
 #' 
-#' @param dataSet The 2d data set of data.
+#' @param dataSet A data frame containing the data signals.
 #' 
 #' @return
 #' An object of class \code{ggplot}.
@@ -603,24 +611,25 @@ visualize.upset <- function(dataSet) {
   
 } 
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #' 
 #' Venn diagram
 #' 
 #' @description
 #' Generate a Venn diagram for the data.
 #' 
-#' @param dataSet The 2d data set of data.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param show_percentage A boolean (default = TRUE) specifying whether to show the
-#' percentage for each set.
+#' @param show_percentage A logical value (default = TRUE) specifying whether
+#' to show the percentage for each set.
 #' 
-#' @param fill_color A text (default = c("blue", "yellow", "green", "red")) specifying the
-#' colors to fill in circles.
+#' @param fill_color A character vector
+#' (default = c("blue", "yellow", "green", "red")) specifying
+#' the colors to fill in circles.
 #' 
-#' @param saveRes A boolean (default = TRUE) specifying whether to save the data, with
-#' logical columns representing sets, to current working directory.
+#' @param saveRes A logical value (default = TRUE) specifying whether
+#' to save the data, with logical columns representing sets, to current working
+#' directory.
 #' 
 #' @import ggvenn
 #' 
@@ -657,8 +666,7 @@ visualize.venn <- function(dataSet, show_percentage = TRUE,
   
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #' 
 #' Volcano plot
 #' 
@@ -666,14 +674,16 @@ visualize.venn <- function(dataSet, show_percentage = TRUE,
 #' Generate a volcano plot for the data.
 #' 
 #' @param dataSet The data set corresponds to the output from the function
-#' \code{\link[msDiaLogue]{analyze.mod_t}}, \code{\link[msDiaLogue]{analyze.t}}, or
-#' \code{\link[msDiaLogue]{analyze.wilcox}}.
+#' \code{\link[msDiaLogue]{analyze.mod_t}}, \code{\link[msDiaLogue]{analyze.t}},
+#' or \code{\link[msDiaLogue]{analyze.wilcox}}.
 #' 
-#' @param P.thres THe threshold value of p-value (default = 0.05) used to plot the
-#' horizontal line (-log10(P.thres)) on the volcano plot.
+#' @param P.thres A numeric value (default = 0.05) specifying
+#' the p-value threshold used to draw the horizontal line at -log10(\code{P.thres})
+#' on the volcano plot.
 #' 
-#' @param F.thres The absolute threshold value of fold change (default = 1) used to plot
-#' the two vertical lines (-F.thres and F.thres) on the volcano plot.
+#' @param F.thres threshold (default = 1) specifying
+#' the absolute fold change threshold used to draw the vertical lines
+#' at \code{-F.thres} and \code{F.thres} on the volcano plot.
 #' 
 #' @import ggrepel
 #' 
@@ -728,8 +738,7 @@ visualize.volcano <- function(dataSet, P.thres = 0.05, F.thres = 1) {
   
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #' 
 #' Scree plot
 #' 
@@ -739,21 +748,29 @@ visualize.volcano <- function(dataSet, P.thres = 0.05, F.thres = 1) {
 #' @param dataSet The data set corresponds to the output from the function
 #' \code{\link[msDiaLogue]{analyze.pca}}.
 #' 
-#' @param type A string (default = c("bar", "line"))specifying the plot type. Allowed
-#' values are "bar" for a barplot, "line" for a line plot, or c("bar", "line") to use both
-#' types.
+#' @param type A character vector (default = c("bar", "line")) specifying
+#' the plot type. Allowed values are:
+#' \itemize{
+#' \item "bar": Bar plot.
+#' \item "line": Line plot.
+#' \item c("bar", "line"): Display both bar and line plots.
+#' }
 #' 
-#' @param bar.color Color of the bar outline in the bar plot. Defaults to "gray".
+#' @param bar.color Color of the bar outline in the bar plot.
+#' Defaults to "gray".
 #' 
-#' @param bar.fill Fill color of the bars in the bar plot. Defaults to "gray".
+#' @param bar.fill Fill color of the bars in the bar plot.
+#' Defaults to "gray".
 #' 
-#' @param line.color Color of the line and point in the line plot. Defaults to "black".
+#' @param line.color Color of the line and point in the line plot.
+#' Defaults to "black".
 #' 
-#' @param label A boolean (default = TRUE) specifying whether labels are added at the top
-#' of bars or points to show the information retained by each dimension.
+#' @param label A logical value (default = TRUE) specifying whether
+#' labels are added at the top of bars or points to show the information
+#' retained by each dimension.
 #' 
-#' @param ncp	A numeric value (default = 10) specifying the number of dimensions to be
-#' shown.
+#' @param ncp	A numeric value (default = 10) specifying
+#' the number of dimensions to be shown.
 #' 
 #' @return
 #' An object of class \code{ggplot}.
@@ -763,8 +780,8 @@ visualize.volcano <- function(dataSet, P.thres = 0.05, F.thres = 1) {
 #' @export
 
 visualize.scree <- function(dataSet, type = c("bar", "line"),
-                            bar.color = "gray", bar.fill = "gray", line.color = "black",
-                            label = TRUE, ncp = 10) {
+                            bar.color = "gray", bar.fill = "gray",
+                            line.color = "black", label = TRUE, ncp = 10) {
   
   variance <- (dataSet$sdev)^2
   df <- data.frame(dim = factor(1:length(variance)), percent = 100*variance/sum(variance))
@@ -790,8 +807,7 @@ visualize.scree <- function(dataSet, type = c("bar", "line"),
   
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #' 
 #' Score plot / graph of individuals
 #' 
@@ -801,14 +817,14 @@ visualize.scree <- function(dataSet, type = c("bar", "line"),
 #' @param dataSet The data set corresponds to the output from the function
 #' \code{\link[msDiaLogue]{analyze.pca}} or \code{\link[msDiaLogue]{analyze.plsda}}.
 #' 
-#' @param ellipse A boolean (default = TRUE) specifying whether to draw ellipses around
-#' the individuals.
+#' @param ellipse A logical value (default = TRUE) specifying whether
+#' to draw ellipses around the individuals.
 #' 
-#' @param ellipse.level A numeric value (default = 0.95) specifying the size of the
-#' concentration ellipse in normal probability.
+#' @param ellipse.level A numeric value (default = 0.95) specifying
+#' the size of the concentration ellipse in normal probability.
 #' 
-#' @param label A boolean (default = TRUE) specifying whether the active individuals to be
-#' labeled.
+#' @param label A logical value (default = TRUE) specifying whether
+#' the active individuals to be labeled.
 #' 
 #' @return
 #' An object of class \code{ggplot}.
@@ -852,8 +868,7 @@ visualize.score <- function(dataSet, ellipse = TRUE, ellipse.level = 0.95, label
   
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #' 
 #' Loading plot / graph of variables
 #' 
@@ -863,8 +878,8 @@ visualize.score <- function(dataSet, ellipse = TRUE, ellipse.level = 0.95, label
 #' @param dataSet The data set corresponds to the output from the function
 #' \code{\link[msDiaLogue]{analyze.pca}} or \code{\link[msDiaLogue]{analyze.plsda}}.
 #' 
-#' @param label A boolean (default = TRUE) specifying whether the active variables to be
-#' labeled.
+#' @param label A logical value (default = TRUE) specifying whether
+#' the active variables to be labeled.
 #' 
 #' @return
 #' An object of class \code{ggplot}.
@@ -916,8 +931,7 @@ visualize.loading <- function(dataSet, label = TRUE) {
   return(plot)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #' 
 #' Biplot of score (individuals) and loading (variables)
 #' 
@@ -927,14 +941,14 @@ visualize.loading <- function(dataSet, label = TRUE) {
 #' @param dataSet The data set corresponds to the output from the function
 #' \code{\link[msDiaLogue]{analyze.pca}} or \code{\link[msDiaLogue]{analyze.plsda}}.
 #' 
-#' @param ellipse A boolean (default = TRUE) specifying whether to draw ellipses around
-#' the individuals.
+#' @param ellipse A logical value (default = TRUE) specifying whether
+#' to draw ellipses around the individuals.
 #' 
-#' @param ellipse.level A numeric value (default = 0.95) specifying the size of the
-#' concentration ellipse in normal probability.
+#' @param ellipse.level A numeric value (default = 0.95) specifying the size of
+#' the concentration ellipse in normal probability.
 #' 
-#' @param label A text (default = "all") specifying the elements to be labelled.
-#' Allowed values:
+#' @param label A character string (default = "all") specifying the elements
+#' to be labelled. Allowed values:
 #' \itemize{
 #' \item "all": Label both active individuals and active variables.
 #' \item "ind": Label only active individuals.
@@ -1003,8 +1017,7 @@ visualize.biplot <- function(dataSet, ellipse = TRUE, ellipse.level = 0.95, labe
   
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #' 
 #' VIP scores plot
 #' 
@@ -1014,18 +1027,18 @@ visualize.biplot <- function(dataSet, ellipse = TRUE, ellipse.level = 0.95, labe
 #' @param dataSet The data set corresponds to the output from the function
 #' \code{\link[msDiaLogue]{analyze.plsda}}.
 #' 
-#' @param comp An integer (default = 1) specifying the PLS-DA component to use when
-#' ranking variables.
+#' @param comp An integer (default = 1) specifying
+#' the PLS-DA component to use when ranking variables.
 #' 
-#' @param num An integer (default = 10) specifying the number of top variables (highest
-#' VIP scores) to display.
+#' @param num An integer (default = 10) specifying
+#' the number of top variables (highest VIP scores) to display.
 #' 
-#' @param thres A scalar (default = 1) specifying the vertical dashed line drawn at this
-#' VIP value.
+#' @param thres A numeric value (default = 1) specifying
+#' the vertical dashed line drawn at this VIP value.
 #' 
-#' @param rel.widths A numerical vector specifying the proportion of relative widths for
-#' the plot panels. Defaults to widths chosen based on the range of the top variables' VIP
-#' scores and the number of group conditions.
+#' @param rel.widths A numeric value specifying the proportion of relative
+#' widths for the plot panels. Defaults to widths chosen based on the range of
+#' the top variables' VIP scores and the number of group conditions.
 #' 
 #' @importFrom cowplot plot_grid
 #' 
