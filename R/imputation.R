@@ -73,11 +73,11 @@ impute.min_local <- function(dataSet) {
 #' 
 #' @param rowmax A numeric value (default = 0.5) specifying the maximum percent
 #' missing data allowed in any row. For any rows with more than
-#' \code{rowmax}*100% missing are imputed using the overall mean per sample.
+#' \code{rowmax}*100\% missing are imputed using the overall mean per sample.
 #' 
 #' @param colmax A numeric value (default = 0.8) specifying the maximum percent
 #' missing data allowed in any column. If any column has more than
-#' \code{colmax}*100% missing data, the program halts and reports an error.
+#' \code{colmax}*100\% missing data, the program halts and reports an error.
 #' 
 #' @param maxp An integer (default = 1500) indicating the largest block of
 #' proteins imputed using the k-nearest neighbors algorithm. Larger blocks are

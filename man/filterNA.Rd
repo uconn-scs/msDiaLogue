@@ -17,7 +17,7 @@ how coverage is evaluated.
 \itemize{
 \item \code{"cond"}: The non-missing proportion for a protein must be
 at least \code{minProp} within each condition. Proteins failing in any
-condition are filtered out.
+condition are filtered out. 
 \item \code{"all"}: The overall non-missing proportion across all samples
 must be at least \code{minProp}.
 }}

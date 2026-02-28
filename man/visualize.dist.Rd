@@ -18,8 +18,8 @@ Generate distribution plots for protein abundance values.
 }
 \details{
 If \code{dataSet} is a single data frame, the function summarizes
-the distribution of proteins' average abundance across conditions
-and replicates, including both a kernel density estimate and an empirical
+the distribution of proteins' average abundance across conditions  
+and replicates, including both a kernel density estimate and an empirical  
 cumulative distribution function (ECDF).
 
 If \code{dataSet} is a list of data frames, the function produces comparative
