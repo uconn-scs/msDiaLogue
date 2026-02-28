@@ -1,38 +1,22 @@
-##
-## msDiaLogue: Analysis + Visuals for Data Indep. Aquisition Mass Spectrometry Data
-## Copyright (C) 2025  Shiying Xiao, Timothy Moore and Charles Watt
-## Shiying Xiao <shiying.xiao@uconn.edu>
-##
-## This file is part of the R package msDiaLogue.
-##
-## The R package msDiaLogue is free software: You can redistribute it and/or
-## modify it under the terms of the GNU General Public License as published by
-## the Free Software Foundation, either version 3 of the License, or any later
-## version (at your option). See the GNU General Public License at
-## <https://www.gnu.org/licenses/> for details.
-##
-## The R package msDiaLogue is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-##
-
-################################
-#### Code for data analysis ####
-################################
+##################
+#### Analysis ####
+##################
 #'
 #' Student's t-test
 #'
 #' @description
 #' Perform Student's t-tests on the data.
 #' 
-#' @param dataSet The 2d data set of data.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param ref A string (default = NULL) specifying the reference condition for comparison.
-#' If NULL, all pairwise comparisons are performed.
+#' @param ref A character string (default = NULL) specifying the reference
+#' condition for comparison. If NULL, all pairwise comparisons are performed.
 #' 
-#' @param adjust.method A string (default = "none") specifying the correction method for
-#' p-value adjustment: \itemize{
-#' \item "BH" or its alias "fdr": \insertCite{benjamini1995controlling;textual}{msDiaLogue}.
+#' @param adjust.method A character string (default = "none") specifying
+#' the correction method for p-value adjustment:
+#' \itemize{
+#' \item "BH" or its alias "fdr":
+#' \insertCite{benjamini1995controlling;textual}{msDiaLogue}.
 #' \item "BY": \insertCite{benjamini2001control;textual}{msDiaLogue}.
 #' \item "bonferroni": \insertCite{bonferroni1936teoria;textual}{msDiaLogue}.
 #' \item "hochberg": \insertCite{hochberg1988sharper;textual}{msDiaLogue}.
@@ -42,19 +26,19 @@
 #' }
 #' See \code{\link[stats]{p.adjust}} for more details.
 #' 
-#' @param paired A boolean (default = FALSE) specifying whether or not to perform a paired
-#' test.
+#' @param paired A logical value (default = FALSE) specifying whether
+#' to perform a paired test.
 #' 
-#' @param pool.sd A boolean (default = FALSE) specifying whether or not to use a pooled
-#' standard deviation.
+#' @param pool.sd A logical value (default = FALSE) specifying whether
+#' to use a pooled standard deviation.
 #' 
-#' @param saveRes A boolean (default = TRUE) specifying whether to save the analysis
-#' results to the current working directory.
+#' @param saveRes A logical value (default = TRUE) specifying whether
+#' to save the analysis results to the current working directory.
 #' 
 #' @return
-#' A list comprising data frames for each comparison, with each data frame containing
-#' the means of the two compared conditions for each protein, the difference in means,
-#' and the p-values.
+#' A list comprising data frames for each comparison, with each data frame
+#' containing the means of the two compared conditions for each protein,
+#' the difference in means, and the p-values.
 #' 
 #' @references
 #' \insertAllCited{}
@@ -149,23 +133,24 @@ analyze.t <- function(dataSet, ref = NULL, adjust.method = "none",
   return(result)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #'
 #' Empirical Bayes moderated t-test
 #' 
 #' @description
-#' Perform empirical Bayes moderated t-tests \insertCite{smyth2004linear}{msDiaLogue}
-#' on the data.
+#' Perform empirical Bayes moderated t-tests
+#' \insertCite{smyth2004linear}{msDiaLogue} on the data.
 #' 
-#' @param dataSet The 2d data set of data.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param ref A string (default = NULL) specifying the reference condition for comparison.
-#' If NULL, all pairwise comparisons are performed.
+#' @param ref A character string (default = NULL) specifying the reference
+#' condition for comparison. If NULL, all pairwise comparisons are performed.
 #' 
-#' @param adjust.method A string (default = "none") specifying the correction method for
-#' p-value adjustment: \itemize{
-#' \item "BH" or its alias "fdr": \insertCite{benjamini1995controlling;textual}{msDiaLogue}.
+#' @param adjust.method A character string (default = "none") specifying
+#' the correction method for p-value adjustment:
+#' \itemize{
+#' \item "BH" or its alias "fdr":
+#' \insertCite{benjamini1995controlling;textual}{msDiaLogue}.
 #' \item "BY": \insertCite{benjamini2001control;textual}{msDiaLogue}.
 #' \item "bonferroni": \insertCite{bonferroni1936teoria;textual}{msDiaLogue}.
 #' \item "hochberg": \insertCite{hochberg1988sharper;textual}{msDiaLogue}.
@@ -175,22 +160,23 @@ analyze.t <- function(dataSet, ref = NULL, adjust.method = "none",
 #' }
 #' See \code{\link[stats]{p.adjust}} for more details.
 #' 
-#' @param saveRes A boolean (default = TRUE) specifying whether to save the analysis
-#' results to the current working directory.
-#' 
-#' @import limma
+#' @param saveRes A logical value (default = TRUE) specifying whether
+#' to save the analysis results to the current working directory.
 #' 
 #' @return
-#' A list comprising data frames for each comparison, with each data frame containing
-#' the means of the two compared conditions for each protein, the difference in means,
-#' and the p-values.
+#' A list comprising data frames for each comparison, with each data frame
+#' containing the means of the two compared conditions for each protein,
+#' the difference in means, and the p-values.
 #' 
 #' @references
 #' \insertAllCited{}
 #' 
+#' @import limma
+#' 
 #' @export
 
-analyze.mod_t <- function(dataSet, ref = NULL, adjust.method = "none", saveRes = TRUE) {
+analyze.mod_t <- function(dataSet, ref = NULL, adjust.method = "none",
+                          saveRes = TRUE) {
   
   if (is.factor(dataSet$R.Condition)) {
     conds <- levels(dataSet$R.Condition)
@@ -273,22 +259,23 @@ analyze.mod_t <- function(dataSet, ref = NULL, adjust.method = "none", saveRes =
   return(result)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #'
 #' Wilcoxon test
 #' 
 #' @description
 #' Perform Wilcoxon tests on the data.
 #' 
-#' @param dataSet The 2d data set of data.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param ref A string (default = NULL) specifying the reference condition for comparison.
-#' If NULL, all pairwise comparisons are performed.
+#' @param ref A character string (default = NULL) specifying the reference
+#' condition for comparison. If NULL, all pairwise comparisons are performed.
 #' 
-#' @param adjust.method A string (default = "none") specifying the correction method for
-#' p-value adjustment: \itemize{
-#' \item "BH" or its alias "fdr": \insertCite{benjamini1995controlling;textual}{msDiaLogue}.
+#' @param adjust.method A character string (default = "none") specifying
+#' the correction method for p-value adjustment:
+#' \itemize{
+#' \item "BH" or its alias "fdr":
+#' \insertCite{benjamini1995controlling;textual}{msDiaLogue}.
 #' \item "BY": \insertCite{benjamini2001control;textual}{msDiaLogue}.
 #' \item "bonferroni": \insertCite{bonferroni1936teoria;textual}{msDiaLogue}.
 #' \item "hochberg": \insertCite{hochberg1988sharper;textual}{msDiaLogue}.
@@ -298,23 +285,24 @@ analyze.mod_t <- function(dataSet, ref = NULL, adjust.method = "none", saveRes =
 #' }
 #' See \code{\link[stats]{p.adjust}} for more details.
 #' 
-#' @param paired A boolean (default = FALSE) specifying whether or not to perform a paired
-#' test.
+#' @param paired A logical value (default = FALSE) specifying whether
+#' to perform a paired test.
 #' 
-#' @param saveRes A boolean (default = TRUE) specifying whether to save the analysis
-#' results to the current working directory.
+#' @param saveRes A logical value (default = TRUE) specifying whether
+#' to save the analysis results to the current working directory.
 #' 
 #' @return
-#' A list comprising data frames for each comparison, with each data frame containing
-#' the means of the two compared conditions for each protein, the difference in means,
-#' and the p-values.
+#' A list comprising data frames for each comparison, with each data frame
+#' containing the means of the two compared conditions for each protein,
+#' the difference in means, and the p-values.
 #' 
 #' @references
 #' \insertAllCited{}
 #' 
 #' @export
 
-analyze.wilcox <- function(dataSet, ref = NULL, adjust.method = "none", paired = FALSE, saveRes = TRUE) {
+analyze.wilcox <- function(dataSet, ref = NULL, adjust.method = "none",
+                           paired = FALSE, saveRes = TRUE) {
   
   if (is.factor(dataSet$R.Condition)) {
     conds <- levels(dataSet$R.Condition)
@@ -390,26 +378,26 @@ analyze.wilcox <- function(dataSet, ref = NULL, adjust.method = "none", paired =
   return(result)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #'
 #' MA: fold change versus average abundance
 #' 
 #' @description
-#' Compute the fold change (M) and average abundance (A) values from the data for MA plots.
+#' Compute the fold change (M) and average abundance (A) values from the data
+#' for MA plots.
 #' 
-#' @param dataSet The 2d data set of data.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param ref A string (default = NULL) specifying the reference condition for comparison.
-#' If NULL, all pairwise comparisons are performed.
+#' @param ref A character string (default = NULL) specifying the reference
+#' condition for comparison. If NULL, all pairwise comparisons are performed.
 #' 
-#' @param saveRes A boolean (default = TRUE) specifying whether to save the analysis
-#' results to the current working directory.
+#' @param saveRes A logical value (default = TRUE) specifying whether
+#' to save the analysis results to the current working directory.
 #' 
 #' @return
-#' A list comprising data frames for each comparison, with each data frame containing
-#' the means of the two compared conditions for each protein, as well as the average and
-#' difference in means.
+#' A list comprising data frames for each comparison, with each data frame
+#' containing the means of the two compared conditions for each protein,
+#' as well as the average and difference in means.
 #' 
 #' @export
 
@@ -472,8 +460,7 @@ analyze.ma <- function(dataSet, ref = NULL, saveRes = TRUE) {
   return(result)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #'
 #' PCA: principal component analysis
 #' 
@@ -481,16 +468,18 @@ analyze.ma <- function(dataSet, ref = NULL, saveRes = TRUE) {
 #' Perform a principal component analysis
 #' \insertCite{pearson1901lines,hotelling1933analysis}{msDiaLogue} on the data.
 #' 
-#' @param dataSet The 2d data set of data.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param center A boolean (default = TRUE) indicating whether the variables should be
-#' shifted to be zero centered.
+#' @param center A logical value (default = TRUE) indicating whether
+#' the variables should be shifted to be zero centered.
 #' 
-#' @param scale A boolean (default = TRUE) indicating whether the variables should be
-#' scaled to have unit variance before the analysis takes place.
+#' @param scale A logical value (default = TRUE) indicating whether
+#' the variables should be scaled to have unit variance before the analysis
+#' takes place.
 #' 
 #' @return
-#' A list containing the following components: \describe{
+#' A list containing the following components:
+#' \describe{
 #' \item{sdev}{The standard deviations of the principal components.}
 #' \item{loadings}{The matrix of variable loadings.}
 #' \item{scores}{The principal component scores.}
@@ -517,35 +506,38 @@ analyze.pca <- function(dataSet, center = TRUE, scale = TRUE) {
   return(result)
 }
 
-
-##----------------------------------------------------------------------------------------
+##------------------------------------------------------------------------------
 #'
 #' PLS-DA: partial least squares discriminant analysis
 #' 
 #' @description
 #' Perform a partial least squares discriminant analysis on the data.
 #' 
-#' @param dataSet The 2d data set of data.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param method A character string (default = "kernelpls") specifying the multivariate
-#' regression method to be used: \itemize{
+#' @param method A character string (default = "kernelpls") specifying
+#' the multivariate regression method to be used:
+#' \itemize{
 #' \item "kernelpls": Kernel algorithm \insertCite{dayal1997improved}{msDiaLogue}.
 #' \item "widekernelpls": Wide kernel algorithm \insertCite{rannar1994pls}{msDiaLogue}.
 #' \item "simpls": SIMPLS  algorithm \insertCite{dejong1993simpls}{msDiaLogue}.
-#' \item "oscorespls": NIPALS algorithm (classical orthogonal scores algorithm) \insertCite{martens1989multivariate}{msDiaLogue}.
+#' \item "oscorespls": NIPALS algorithm (classical orthogonal scores algorithm)
+#' \insertCite{martens1989multivariate}{msDiaLogue}.
 #' }
 #' 
-#' @param ncomp An integer specifying the number of components to include in the model.
-#' Defaults to min(n-1, p).
+#' @param ncomp An integer specifying the number of components to include
+#' in the model. Defaults to min(n-1, p).
 #' 
-#' @param center A boolean (default = TRUE) indicating whether the variables should be
-#' shifted to be zero centered.
+#' @param center A logical value (default = TRUE) indicating whether
+#' the variables should be shifted to be zero centered.
 #' 
-#' @param scale A boolean (default = FALSE) indicating whether the variables should be
-#' scaled to have unit variance before the analysis takes place.
+#' @param scale A logical value (default = FALSE) indicating whether
+#' the variables should be scaled to have unit variance before the analysis
+#' takes place.
 #' 
 #' @return
-#' A list containing the following components: \describe{
+#' A list containing the following components:
+#' \describe{
 #' \item{coefficients}{An array of regression coefficients for \code{ncomp} components.
 #' The dimensions are c(nvar, npred, \code{ncomp}), where nvar is the number of variables
 #' X (proteins) and npred is the number of predicted variables Y (conditions).}
