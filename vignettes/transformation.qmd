@@ -1,25 +1,16 @@
 ---
 title: "Transformation"
-output: rmarkdown::html_vignette
-author: 
-  - |
-    Shiying Xiao$^1$, Charles Watt$^1$, Jennifer C. Liddle$^2$, Jeremy L. Balsbaugh$^2$, Timothy E. Moore$^3$
-  - |
-    $^1$Department of Statistics, UConn \
-    $^2$Proteomics and Metabolomics Facility, UConn \
-    $^3$Statistical Consulting Services, UConn
-date: "`r format(file.info('transformation.Rmd')$mtime, '%Y-%m-%d')`"
-bibliography:
-  - ../inst/REFERENCES.bib
+bibliography: ../inst/REFERENCES.bib
 vignette: >
   %\VignetteIndexEntry{transformation}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk: 
+    collapse: true
+    comment: '#>'
+    fig.align: "center"
 ---
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center")
-```
 
 
 ## Preliminary
@@ -52,6 +43,7 @@ knitr::kable(dataTran)
 
 
 ## Details
+
 
 Raw mass spectrometry intensity measurements are often unsuitable for direct
 statistical modeling because the shape of the data is usually not symmetrical
