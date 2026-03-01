@@ -1,25 +1,16 @@
 ---
 title: "Normalization"
-output: rmarkdown::html_vignette
-author: 
-  - |
-    Shiying Xiao$^1$, Charles Watt$^1$, Jennifer C. Liddle$^2$, Jeremy L. Balsbaugh$^2$, Timothy E. Moore$^3$
-  - |
-    $^1$Department of Statistics, UConn \
-    $^2$Proteomics and Metabolomics Facility, UConn \
-    $^3$Statistical Consulting Services, UConn
-date: "`r format(file.info('normalization.Rmd')$mtime, '%Y-%m-%d')`"
-bibliography:
-  - ../inst/REFERENCES.bib
+bibliography: ../inst/REFERENCES.bib
 vignette: >
   %\VignetteIndexEntry{normalization}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk: 
+    collapse: true
+    comment: '#>'
+    fig.align: "center"
 ---
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center")
-```
 
 
 ## Preliminary
@@ -42,15 +33,15 @@ dataTran <- transform(dataSet, logFold = 2)
 
 
 ```{r}
-dataNorm <- normalize(dataTran, normalizeType = "quant")
+dataNorm <- normalize(dataTran, normalizeType = "median")
 ```
 
 
-The message "Warning: Removed 55 rows containing non-finite values" indicates
-the presence of 55 NA (Not Available) values in the data. These NA values arise
-when a protein was not identified in a particular sample or condition and are
-automatically excluded when generating the boxplot but retained in the actual
-dataset.
+The message "Warning: Removed 55 rows containing non-finite values outside
+the scale range (`stat_boxplot()`)" indicates the presence of 55 `NA`
+(Not Available) values in the data. These `NA` values arise when a protein was
+not identified in a particular sample or condition and are automatically
+excluded when generating the boxplot but retained in the actual data set.
 
 
 <div style="overflow-x: auto;">
@@ -70,9 +61,9 @@ peptide amounts across experiments, or other reasons. These factors can
 artificially mask or enhance actual biological changes. 
 
 
-Many normalization methods have been developed for large datasets, each with its
-own strengths and weaknesses. The following factors should be considered when
-choosing a normalization method:
+Many normalization methods have been developed for large data sets, each with
+its own strengths and weaknesses. The following factors should be considered
+when choosing a normalization method:
 
 
 a) Experiment-Specific Normalization: \
