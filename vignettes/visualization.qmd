@@ -412,8 +412,8 @@ the first two PCs. Longer arrows represents stronger associations.
 
 <div class="note">
 **Note:** Proteins that are weakly associated with PC1 or PC2 may still be
-highly correlated with other PCs not being plotted. Consult the scree plot (and
-other available methods) to determine the appropriate number of PCs to
+highly correlated with other PCs not being plotted. Consult the scree plot
+(and other available methods) to determine the appropriate number of PCs to
 investigate. </div>
 
 
