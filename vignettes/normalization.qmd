@@ -26,6 +26,9 @@ dataSet <- preprocessing(fileName,
                          replaceBlank = TRUE, saveRm = TRUE)
 ## transformation
 dataTran <- transform(dataSet, logFold = 2)
+## annotation-based filtering
+dataFiltAnno <- filterOutIn(dataTran, listName = "ALBU_BOVIN",
+                            removeList = TRUE, saveRm = TRUE)
 ```
 
 
@@ -33,7 +36,7 @@ dataTran <- transform(dataSet, logFold = 2)
 
 
 ```{r}
-dataNorm <- normalize(dataTran, normalizeType = "median")
+dataNorm <- normalize(dataFiltAnno, normalizeType = "median")
 ```
 
 
@@ -41,7 +44,7 @@ The message "Warning: Removed 55 rows containing non-finite values outside
 the scale range (`stat_boxplot()`)" indicates the presence of 55 `NA`
 (Not Available) values in the data. These `NA` values arise when a protein was
 not identified in a particular sample or condition and are automatically
-excluded when generating the boxplot but retained in the actual data set.
+excluded when generating the boxplot but retained in the actual dataset.
 
 
 <div style="overflow-x: auto;">
@@ -61,7 +64,7 @@ peptide amounts across experiments, or other reasons. These factors can
 artificially mask or enhance actual biological changes. 
 
 
-Many normalization methods have been developed for large data sets, each with
+Many normalization methods have been developed for large datasets, each with
 its own strengths and weaknesses. The following factors should be considered
 when choosing a normalization method:
 
@@ -115,9 +118,9 @@ variable).
 
 
 <div class="nav-button left-button">
-<a href="filtering.html">← Previous</a>
+<a href="filtering_annotation_based.html">← Previous</a>
 </div>
 <div class="nav-button right-button">
-<a href="imputation.html">Next →</a>
+<a href="filtering_data_driven.html">Next →</a>
 </div>
 
