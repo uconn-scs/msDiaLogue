@@ -1,0 +1,63 @@
+# Imputation by the k-nearest neighbors algorithm
+
+Apply imputation to the data set by the k-nearest neighbors algorithm
+(Troyanskaya et al. 2001) .
+
+## Usage
+
+``` r
+impute.knn(
+  dataSet,
+  k = 10,
+  rowmax = 0.5,
+  colmax = 0.8,
+  maxp = 1500,
+  seed = 362436069
+)
+```
+
+## Arguments
+
+- dataSet:
+
+  A data frame containing the data signals.
+
+- k:
+
+  An integer (default = 10) indicating the number of neighbors to be
+  used in the imputation.
+
+- rowmax:
+
+  A numeric value (default = 0.5) specifying the maximum percent missing
+  data allowed in any row. For any rows with more than `rowmax`\*100%
+  missing are imputed using the overall mean per sample.
+
+- colmax:
+
+  A numeric value (default = 0.8) specifying the maximum percent missing
+  data allowed in any column. If any column has more than `colmax`\*100%
+  missing data, the program halts and reports an error.
+
+- maxp:
+
+  An integer (default = 1500) indicating the largest block of proteins
+  imputed using the k-nearest neighbors algorithm. Larger blocks are
+  divided by two-means clustering (recursively) prior to imputation.
+
+- seed:
+
+  An integer (default = 362436069) specifying the seed used for the
+  random number generator for reproducibility.
+
+## Value
+
+An imputed data frame.
+
+## References
+
+Troyanskaya O, Cantor M, Sherlock G, Brown P, Hastie T, Tibshirani R,
+Botstein D, Altman RB (2001). “Missing Value Estimation Methods for DNA
+Microarrays.” *Bioinformatics*, **17**(6), 520–525.
+[doi:10.1093/bioinformatics/17.6.520](https://doi.org/10.1093/bioinformatics/17.6.520)
+.
