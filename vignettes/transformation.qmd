@@ -58,6 +58,6 @@ across the intensity range (i.e. reduces heteroscedasticity).
 <a href="preprocessing.html">← Previous</a>
 </div>
 <div class="nav-button right-button">
-<a href="filtering.html">Next →</a>
+<a href="filtering_annotation_based.html">Next →</a>
 </div>
 
