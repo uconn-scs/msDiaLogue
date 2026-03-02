@@ -1,25 +1,16 @@
 ---
 title: "Analysis"
-output: rmarkdown::html_vignette
-author: 
-  - |
-    Shiying Xiao$^1$, Charles Watt$^1$, Jennifer C. Liddle$^2$, Jeremy L. Balsbaugh$^2$, Timothy E. Moore$^3$
-  - |
-    $^1$Department of Statistics, UConn \
-    $^2$Proteomics and Metabolomics Facility, UConn \
-    $^3$Statistical Consulting Services, UConn
-date: "`r format(file.info('analysis.Rmd')$mtime, '%Y-%m-%d')`"
-bibliography:
-  - ../inst/REFERENCES.bib
+bibliography: ../inst/REFERENCES.bib
 vignette: >
   %\VignetteIndexEntry{analysis}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk: 
+    collapse: true
+    comment: '#>'
+    fig.align: "center"
 ---
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center")
-```
 
 
 ## Preliminary
@@ -35,12 +26,17 @@ dataSet <- preprocessing(fileName,
                          replaceBlank = TRUE, saveRm = TRUE)
 ## transformation
 dataTran <- transform(dataSet, logFold = 2)
+## annotation-based filtering
+dataFiltAnno <- filterOutIn(dataTran, listName = "ALBU_BOVIN",
+                            removeList = TRUE, saveRm = TRUE)
 ## normalization
-dataNorm <- normalize(dataTran, normalizeType = "quant")
-## filtering
-dataImput_pre <- filterNA(dataNorm, minProp = 0.51, by = "cond", saveRm = TRUE)
+dataNorm <- normalize(dataFiltAnno, normalizeType = "median")
+## data-driven filtering
+dataFilt <- filterNA(dataNorm, minProp = 0.51, by = "cond", saveRm = TRUE)
 ## imputation
-dataImput <- impute.min_local(dataImput_pre)
+dataImput <- impute.min_local(dataFilt)
+## summarization
+dataSumm <- summarize(dataImput, saveSumm = TRUE)
 ```
 
 
@@ -73,9 +69,9 @@ anlys_t <- analyze.t(dataImput, ref = "50pmol", adjust.method = "none",
 
 <div class="note">
 **Note:** In the Student's t-test, a warning message might appear, stating
-"**Data are essentially constant**," which means that the data contain proteins
+"Data are essentially constant," which means that the data contain proteins
 with the same value in all samples. In this case, the p-value of t-test returns
-NaN. </div>
+`NaN`. </div>
 
 
 ```{r echo=FALSE}
