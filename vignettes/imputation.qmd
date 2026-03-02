@@ -1,25 +1,16 @@
 ---
 title: "Imputation"
-output: rmarkdown::html_vignette
-author: 
-  - |
-    Shiying Xiao$^1$, Charles Watt$^1$, Jennifer C. Liddle$^2$, Jeremy L. Balsbaugh$^2$, Timothy E. Moore$^3$
-  - |
-    $^1$Department of Statistics, UConn \
-    $^2$Proteomics and Metabolomics Facility, UConn \
-    $^3$Statistical Consulting Services, UConn
-date: "`r format(file.info('imputation.Rmd')$mtime, '%Y-%m-%d')`"
-bibliography:
-  - ../inst/REFERENCES.bib
+bibliography: ../inst/REFERENCES.bib
 vignette: >
   %\VignetteIndexEntry{imputation}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk: 
+    collapse: true
+    comment: '#>'
+    fig.align: "center"
 ---
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center")
-```
 
 
 ## Preliminary
@@ -35,43 +26,21 @@ dataSet <- preprocessing(fileName,
                          replaceBlank = TRUE, saveRm = TRUE)
 ## transformation
 dataTran <- transform(dataSet, logFold = 2)
+## annotation-based filtering
+dataFiltAnno <- filterOutIn(dataTran, listName = "ALBU_BOVIN",
+                            removeList = TRUE, saveRm = TRUE)
 ## normalization
-dataNorm <- normalize(dataTran, normalizeType = "quant")
+dataNorm <- normalize(dataFiltAnno, normalizeType = "median")
+## data-driven filtering
+dataFilt <- filterNA(dataNorm, minProp = 0.51, by = "cond", saveRm = TRUE)
 ```
 
 
 ## Examples
 
 
-For example, to impute the NA value of `dataNorm` using `impute.min_local()`,
-set the required percentage of values that must be present in a given protein by
-condition combination for values to be imputed to 51\%.
-
-
-<div class="note">
-**Note:** There is no rule in the field of proteomics for filtering based on
-percentage of missingness, similar to there being no rule for the number of
-replicates required to draw a conclusion. However, reproducible observations
-make conclusions more credible. Setting the `reqPercentPresent` to 0.51 requires
-that any protein be observed in a majority of the replicates by condition in
-order to be considered. For 3 replicates, this would require 2 measurements to
-allow imputation of the 3rd value. If only 1 measurement is seen, the other
-values will remain NA, and will be filtered out in a subsequent step.  </div>
-
-
 ```{r}
-dataImput_pre <- filterNA(dataNorm, minProp = 0.51, by = "cond", saveRm = TRUE)
-```
-
-
-After the above filtering, any entries that did not pass the percent present
-threshold will still have NA values and will need to be filtered out. And
-`saveRm = TRUE` indicates that the filtered data will be saved as a .csv file
-named *filtered_NA_data.csv* in the current working directory.
-
-
-```{r}
-dataImput <- impute.min_local(dataImput_pre)
+dataImput <- impute.min_local(dataFilt)
 ```
 
 
@@ -86,25 +55,25 @@ knitr::kable(dataImput)
 
 
 The two primary MS/MS acquisition types implemented in large scale MS-based
-proteomics have unique advantages and disadvantages. Traditional Data-Dependent
-Acquisition (DDA) methods favor specificity in MS/MS sampling over comprehensive
-proteome coverage. Small peptide isolation windows (<3 m/z) result in MS/MS
+proteomics have unique advantages and disadvantages. Traditional data-dependent
+acquisition (DDA) methods favor specificity in MS/MS sampling over comprehensive
+proteome coverage. Small peptide isolation windows (< 3 m/z) result in MS/MS
 spectra that contain fragmentation data from ideally only one peptide. This
 specificity promotes clear peptide identifications but comes at the expense of
 added scan time. In DDA experiments, the number of peptides that can be selected
 for MS/MS is limited by instrument scan speeds and is therefore prioritized by
-highest peptide abundance.  Low abundance peptides are sampled less frequently
+highest peptide abundance. Low abundance peptides are sampled less frequently
 for MS/MS and this can result in variable peptide coverage and many missing
 protein data across large sample datasets.
 
 
-Data-Independent Acquisition (DIA) methods promote comprehensive peptide
+Data-independent acquisition (DIA) methods promote comprehensive peptide
 coverage over specificity by sampling many peptides for MS/MS simultaneously.
 Sequential and large mass isolation windows (4-50 m/z) are used to isolate large
 numbers of peptides at once for concurrent MS/MS. This produces complicated
 fragmentation spectra, but these spectra contain data on every observable
-peptide.  A major disadvantage with this type of acquisition is that DIA MS/MS
-spectra are incredibly complex and difficult to deconvolve.  Powerful and
+peptide. A major disadvantage with this type of acquisition is that DIA MS/MS
+spectra are incredibly complex and difficult to deconvolve. Powerful and
 relatively new software programs like Spectronaut are capable of successfully
 parsing out which fragment ions came from each co-fragmented peptide using
 custom libraries, machine learning algorithms, and precisely determined
@@ -115,7 +84,7 @@ not entirely.
 
 Various imputation methods have been developed to address the missing-value
 issue and assign a reasonable guess of quantitative value to proteins with
-missing values. So far, this package provides 10 imputation methods for use:
+missing values. So far, this package provides the following imputation methods:
 
 
 1. `impute.min_local()`: Replaces missing values with the lowest measured value
@@ -148,6 +117,7 @@ components analysis [@oba2003bayesian].
 10. `impute.pca_prob()`: Replaces missing values using the probabilistic
 principal components analysis [@stacklies2007pcamethods].
 
+
 Additional methods will be added later.
 
 
@@ -155,7 +125,7 @@ Additional methods will be added later.
 
 
 <div class="nav-button left-button">
-<a href="normalization.html">← Previous</a>
+<a href="filtering_data_driven.html">← Previous</a>
 </div>
 <div class="nav-button right-button">
 <a href="summarization.html">Next →</a>
