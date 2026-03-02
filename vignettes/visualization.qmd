@@ -1,29 +1,20 @@
 ---
 title: "Visualization"
-output: rmarkdown::html_vignette
-author: 
-  - |
-    Shiying Xiao$^1$, Charles Watt$^1$, Jennifer C. Liddle$^2$, Jeremy L. Balsbaugh$^2$, Timothy E. Moore$^3$
-  - |
-    $^1$Department of Statistics, UConn \
-    $^2$Proteomics and Metabolomics Facility, UConn \
-    $^3$Statistical Consulting Services, UConn
-date: "`r format(file.info('visualization.Rmd')$mtime, '%Y-%m-%d')`"
-bibliography:
-  - ../inst/REFERENCES.bib
+bibliography: ../inst/REFERENCES.bib
 vignette: >
   %\VignetteIndexEntry{visualization}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk: 
+    collapse: true
+    comment: '#>'
+    fig.align: "center"
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center")
-```
 
-
-This module provides a variety of options for getting a global view of your
-data, making comparisons, and highlighting trends.
+This module provides a variety of options for getting a global view of your data,
+making comparisons, and highlighting trends.
 
 
 <div class="note">
@@ -32,9 +23,9 @@ answering a question you have about your data, not as a means to find a
 point/question. </div>
 
 
-There is a wide variety of plotting options in **msDiaLogue**. What plots are
-possible depend on what data you have and what analyses have been run. See below
-for more details of individual plot types.
+There is a wide variety of plotting options in msDiaLogue. What plots are
+possible depend on what data you have and what analyses have been run.
+See below for more details of individual plot types.
 
 
 ## Preliminary
@@ -50,20 +41,23 @@ dataSet <- preprocessing(fileName,
                          replaceBlank = TRUE, saveRm = TRUE)
 ## transformation
 dataTran <- transform(dataSet, logFold = 2)
+## annotation-based filtering
+dataFiltAnno <- filterOutIn(dataTran, listName = "ALBU_BOVIN",
+                            removeList = TRUE, saveRm = TRUE)
 ## normalization
-dataNorm <- normalize(dataTran, normalizeType = "quant")
-## filtering
-dataImput_pre <- filterNA(dataNorm, minProp = 0.51, by = "cond", saveRm = TRUE)
+dataNorm <- normalize(dataFiltAnno, normalizeType = "median")
+## data-driven filtering
+dataFilt <- filterNA(dataNorm, minProp = 0.51, by = "cond", saveRm = TRUE)
 ## imputation
-dataImput <- impute.min_local(dataImput_pre)
+dataImput <- impute.min_local(dataFilt)
+## summarization
+dataSumm <- summarize(dataImput, saveSumm = TRUE)
 ## analysis: MA
 anlys_ma <- analyze.ma(dataImput, ref = "50pmol")
 ## analysis: Empirical Bayes moderated t-test
 anlys_modt <- analyze.mod_t(dataImput, ref = "50pmol", adjust.method = "none")
 ## analysis: PCA
-names(dataImput)[sapply(dataImput, function(col) length(unique(col)) == 1)]
-dataPCA <- dataImput[, colnames(dataImput) != "ALBU_BOVIN"]
-anlys_pca <- analyze.pca(dataPCA, center = TRUE, scale = TRUE)
+anlys_pca <- analyze.pca(dataImput, center = TRUE, scale = TRUE)
 ## analysis: PLS-DA
 anlys_plsda <- analyze.plsda(dataImput, method = "kernelpls",
                              center = TRUE, scale = FALSE)
@@ -110,19 +104,19 @@ distributional changes.
 
 
 ```{r}
-visualize.dist(list("Pre-Imputation" = dataNorm, "Post-Imputation" = dataImput))
+visualize.dist(list("Pre-Imputation" = dataFilt, "Post-Imputation" = dataImput))
 ```
 
 
 ## Heatmap
 
 
-The package offers two options for plotting the heatmap, regardless of whether missing
-values exist.
+The package offers two options for plotting the heatmap, regardless of whether
+missing values exist.
 
 
 + Option 1 utilizes the source package `pheatmap`, capable of plotting the
-dendrogram simultaneously. It is the default choice for heatmaps in this package.
+  dendrogram simultaneously. It is the default choice for heatmaps in msDiaLogue.
 
 
 ```{r fig.height=6}
@@ -136,7 +130,7 @@ When protein names are excessively long, it is recommended to set
 `show_rownames = FALSE` to view the full heatmap.
 
 
-If the input data contains an NA value, the heatmap will be binary for missing
+If the input data contains an `NA` value, the heatmap will be binary for missing
 data patterns, i.e., whether values are present or absent.
 
 
@@ -149,8 +143,8 @@ visualize.heatmap(dataSet, pkg = "pheatmap",
 ```
 
 
-+ Option 2 use the source package `ggplot2` to generate a ggplot object but does
-not include the dendrogram.
++ Option 2 use the source package `ggplot2` to generate a ggplot object
+  but does not include the dendrogram.
 
 
 ```{r fig.height=6}
@@ -183,11 +177,11 @@ visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 1)
 where `M.thres = 1` means the M thresholds are set to -1 and 1. The scatters are
 split into three parts: up regulation (M > 1), no regulation (-1 $\leq$ M
 $\leq$ 1), and down regulation (M < -1). Additionally, the warning message
-"Removed 32 rows containing missing values" indicates that there are 32 proteins
-with no regulation.
+"Removed 31 rows containing missing values or values outside the scale range
+(`geom_text_repel()`)" indicates that there are 31 proteins with no regulation.
 
 
-If the input `dataSet` is the whole list `anlys_MA`, **msDiaLogue** will produce
+If the input `dataSet` is the whole list `anlys_MA`, msDiaLogue will produce
 individual subplots corresponding to each comparison.
 
 
@@ -241,7 +235,8 @@ replicates.
 
 ```{r fig.height=6}
 visualize.rank(dataImput, listName = "POLK_HUMAN",
-               facet = c("Replicate", "Condition"))
+               regexName = c("ZN840", "CC85C"),
+               facet = c("Replicate", "Condition"), color = "black")
 ```
 
 
@@ -256,8 +251,8 @@ visualize.test(anlys_modt$`100pmol-50pmol`)
 ```
 
 
-If the input `dataSet` is the whole list `anlys_modt`, **msDiaLogue** will
-produce individual subplots corresponding to each comparison.
+If the input `dataSet` is the whole list `anlys_modt`, msDiaLogue will produce
+individual subplots corresponding to each comparison.
 
 
 ```{r fig.height = 6}
@@ -310,7 +305,7 @@ visualize.venn(dataSet, show_percentage = TRUE,
 
 
 where `saveRes = TRUE` refers to the data containing logical columns
-representing sets in Venn plot information will be saved as a .csv file named
+representing sets in Venn plot information will be saved as a `.csv` file named
 *venn_information.csv* in the current working directory.
 
 
@@ -328,8 +323,10 @@ Notably, 3 proteins are exclusively found in the 100pmol and 200pmol groups.
 visualize.volcano(anlys_modt$`100pmol-50pmol`, P.thres = 0.05, F.thres = 1)
 ```
 
-If the input `dataSet` is the whole list `anlys_modt`, **msDiaLogue** will
+
+If the input `dataSet` is the whole list `anlys_modt`, msDiaLogue will
 produce individual subplots corresponding to each comparison.
+
 
 ```{r}
 visualize.volcano(anlys_modt, P.thres = 0.05, F.thres = 1)
