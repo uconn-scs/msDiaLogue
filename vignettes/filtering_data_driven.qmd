@@ -1,0 +1,86 @@
+---
+title: "Filtering: Data-Driven"
+bibliography: ../inst/REFERENCES.bib
+vignette: >
+  %\VignetteIndexEntry{filtering_data_driven}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk: 
+    collapse: true
+    comment: '#>'
+    fig.align: "center"
+---
+
+
+## Preliminary
+
+
+```{r warning=FALSE, message=FALSE, results='hide', fig.show='hide'}
+## load R package
+library(msDiaLogue)
+## preprocessing
+fileName <- "../inst/extdata/Toy_Spectronaut_Data.csv"
+dataSet <- preprocessing(fileName,
+                         filterNaN = TRUE, filterUnique = 2,
+                         replaceBlank = TRUE, saveRm = TRUE)
+## transformation
+dataTran <- transform(dataSet, logFold = 2)
+## annotation-based filtering
+dataFiltAnno <- filterOutIn(dataTran, listName = "ALBU_BOVIN",
+                            removeList = TRUE, saveRm = TRUE)
+## normalization
+dataNorm <- normalize(dataFiltAnno, normalizeType = "median")
+```
+
+
+## Examples
+
+
+Before imputing missing (`NA`) values, proteins can be filtered based on
+the proportion of non-missing observations using `filterNA()`.
+
+
+The `minProp` argument sets the minimum required non-missing proportion for
+a protein to be retained, and the `by` argument determines whether this
+proportion is evaluated within each condition (`by = "cond"`) or across all
+samples (`by = "all"`).
+
+
+For example, setting `minProp = 0.51` and `by = "cond"` requires that a protein
+must be observed in at least 51\% of replicates within each condition.
+If a protein fails to meet the threshold in any condition, it will be removed.
+And `saveRm = TRUE` indicates that the filtered data will be saved as a `.csv`
+file named *filtered_NA_data.csv* in the current working directory.
+
+
+```{r}
+dataFilt <- filterNA(dataNorm, minProp = 0.51, by = "cond", saveRm = TRUE)
+```
+
+
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(dataFilt)
+```
+</div>
+
+
+<div class="note">
+**Note:** There is no rule in the field of proteomics for filtering based on
+percentage of missingness, similar to there being no rule for the number of
+replicates required to draw a conclusion. However, reproducible observations
+make conclusions more credible. Setting the `minProp` to 0.51 requires that
+any protein be observed in a majority of the replicates by condition in order to
+be considered. For 3 replicates, this would require 2 measurements to allow
+imputation of the 3rd value. If only 1 measurement is seen, the other values
+will remain NA, and will be filtered out in a subsequent step.  </div>
+
+
+<div class="nav-button left-button">
+<a href="normalization.html">← Previous</a>
+</div>
+<div class="nav-button right-button">
+<a href="imputation.html">Next →</a>
+</div>
+

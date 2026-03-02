@@ -1,8 +1,8 @@
 ---
-title: "Filtering"
+title: "Filtering: Annotation-Based"
 bibliography: ../inst/REFERENCES.bib
 vignette: >
-  %\VignetteIndexEntry{filtering}
+  %\VignetteIndexEntry{filtering_annotation_based}
   %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 knitr:
@@ -35,30 +35,47 @@ dataTran <- transform(dataSet, logFold = 2)
 ### Case 1. Remove proteins specified by the user in this step and keep everything else.
 
 
-In the example below, the specific protein with the identifier "ALBU_BOVIN"
-will be removed, as will anything entries with an identifier that contains
-the characters "HUMAN". If `removeList = TRUE`, this function will remove
-what you've specified and keep the rest.
+In the example below, the specific protein with the identifier `"ALBU_BOVIN"`
+will be removed. If `removeList = TRUE`, this function will remove what you've
+specified and keep the rest.
 
 
-```{r eval=FALSE}
-filterOutIn(dataTran, listName = "ALBU_BOVIN", regexName = "HUMAN",
-            removeList = TRUE, saveRm = TRUE)
+```{r}
+dataFiltAnno <- filterOutIn(dataTran, listName = "ALBU_BOVIN",
+                            removeList = TRUE, saveRm = TRUE)
 ```
 
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
-knitr::kable(
-  filterOutIn(dataTran, listName = "ALBU_BOVIN", regexName = "HUMAN",
-              removeList = TRUE, saveRm = TRUE))
+knitr::kable(dataFiltAnno)
 ```
 </div>
 
 
-If `saveRm = TRUE`, the filtered-out data (`"ALBU_BOVIN"` + `"\*HUMAN"`) will be
-saved as a `.xlsx` file named `filterOutIn.xlsx` in the current working
-directory, and you can inspect this list to see what was removed.
+If `saveRm = TRUE`, the filtered-out data (`"ALBU_BOVIN"`) will be saved as
+an `.xlsx` file named `filterOutIn.xlsx` in the current working directory, and
+you can inspect this list to see what was removed.
+
+
+To remove multiple entries, users may combine exact matching `listName` with
+pattern matching `regexName`. For example, in addition to removing `"ALBU_BOVIN"`,
+the following code also removes any protein whose identifier contains the string
+`"HUMAN"`.
+
+
+```{r}
+dataFiltAnno2 <- filterOutIn(dataTran,
+                             listName = "ALBU_BOVIN", regexName = "HUMAN",
+                             removeList = TRUE, saveRm = TRUE)
+```
+
+
+<div style="overflow-x: auto;">
+```{r echo=FALSE}
+knitr::kable(dataFiltAnno2)
+```
+</div>
 
 
 ### Case 2. Keep the proteins specified by the user in this step and remove everything else.
@@ -68,16 +85,16 @@ If we set `removeList` to FALSE, running this code will remove everything you
 DIDN'T specify and keep only things that matched your search terms.
 
 
-```{r eval=FALSE}
-filterOutIn(dataTran, listName = "ALBU_BOVIN", regexName = "HUMAN",
-            removeList = FALSE)
+```{r}
+dataFiltAnno3 <- filterOutIn(dataTran,
+                             listName = "ALBU_BOVIN", regexName = "HUMAN",
+                             removeList = FALSE)
 ```
 
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
-knitr::kable(
-  filterOutIn(dataTran, listName = "ALBU_BOVIN", regexName = "HUMAN", removeList = FALSE))
+knitr::kable(dataFiltAnno3)
 ```
 </div>
 
@@ -96,10 +113,12 @@ additional protein information.
 + For Scaffold: `"ProteinDescriptions"`, `"AccessionNumber"`, and `"AlternateID"`.
 
 
-```{r eval=FALSE}
-filterOutIn(dataTran,
-            listName = c("Putative zinc finger protein 840", "Bovine serum albumin"),
-            by = "PG.ProteinDescriptions", removeList = FALSE)
+```{r}
+dataFiltAnno4 <- filterOutIn(dataTran,
+                             listName = c("Putative zinc finger protein 840",
+                                          "Bovine serum albumin"),
+                             by = "PG.ProteinDescriptions",
+                             removeList = FALSE)
 ```
 
 
@@ -109,10 +128,7 @@ In this case, the proteins whose `"PG.ProteinDescriptions"` match with
 
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
-knitr::kable(
-  filterOutIn(dataTran,
-            listName = c("Putative zinc finger protein 840", "Bovine serum albumin"),
-            by = "PG.ProteinDescriptions", removeList = FALSE))
+knitr::kable(dataFiltAnno4)
 ```
 </div>
 
@@ -121,7 +137,7 @@ knitr::kable(
 
 
 In some cases, a researcher may wish to filter out a specific protein or
-proteins from the data set. The most common instance of this would be proteins
+proteins from the dataset. The most common instance of this would be proteins
 identified from the common contaminants database, where we don't want something
 like BSA to be matched to a human protein because the search algorithm didn't
 have the correct option available, but we don't actually care about BSA itself
