@@ -1,8 +1,9 @@
 ^.*\.Rproj$
+^LICENSE\.md$
+^Makefile$
 ^\.Rproj\.user$
 ^\.github$
 ^_pkgdown\.yml$
+^docs$
 ^pkgdown$
-^tests/.+$
-^Makefile$
-^LICENSE\.md$
+^vignettes/\.quarto$

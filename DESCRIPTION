@@ -55,7 +55,13 @@ Imports:
     tibble,
     utils
 biocViews: impute, limma, pcaMethods
-Suggests: roxyglobals
+Suggests:
+    knitr,
+    roxyglobals,
+    quarto
+VignetteBuilder:
+    knitr,
+    quarto
 RdMacros: Rdpack
 Config/roxyglobals/filename: globals.R
 Config/roxyglobals/unique: FALSE

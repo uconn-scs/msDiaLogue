@@ -6,9 +6,11 @@ url: https://uconn-scs.github.io/msDiaLogue
 
 template:
   bootstrap: 5
+  light-switch: true
+  math-rendering: mathjax
   opengraph:
     image:
-      src: https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figure/logo.png
+      src: https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figures/logo.png
 
 authors:
   Shiying Xiao:
@@ -82,7 +84,7 @@ reference:
 navbar:
   structure:
     left: [intro, reference, modules, tutorials, faq, news]
-    right: [search, github]
+    right: [search, github, lightswitch]
   components:
     modules:
       text: Modules
@@ -92,10 +94,12 @@ navbar:
           href: articles/preprocessing.html
         - text: Transformation
           href: articles/transformation.html
-        - text: Filtering
-          href: articles/filtering.html
+        - text: 'Filtering: Annotation-Based'
+          href: articles/filtering_annotation_based.html
         - text: Normalization
           href: articles/normalization.html
+        - text: 'Filtering: Data-Driven'
+          href: articles/filtering_data_driven.html
         - text: Imputation
           href: articles/imputation.html
         - text: Summarization

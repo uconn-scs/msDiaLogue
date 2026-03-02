@@ -22,11 +22,11 @@ mass spectrometry (MS)-based proteomics data.
 
 * Preprocessing: Getting data from Spectronaut.
 * Transformation: Options for transforming abundance data.
-* Filtering: Providing options to filter out data based on preset levels.
 * Normalization: Normalization procedures.
 * Imputation: Missing data procedures.
 * Summarization: Calculating and presenting numerical summaries in tabular form.
 * Analysis: Statistical tools for DIA data analysis.
+* Filtering: Providing options to filter out data based on preset levels.
 * Visualization: Providing clean visuals to aid in data analysis decisions.
 
 
@@ -40,7 +40,7 @@ You can install **msDiaLogue** directly from
 + Development (latest) version:
 
 
-``` r
+```
 # install.packages("devtools")
 devtools::install_github("uconn-scs/msDiaLogue")
 ```
@@ -49,7 +49,7 @@ devtools::install_github("uconn-scs/msDiaLogue")
 + Specific released version (e.g. v0.0.6):
 
 
-``` r
+```
 # install.packages("devtools")
 devtools::install_github("uconn-scs/msDiaLogue@v0.0.6")
 ```
