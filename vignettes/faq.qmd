@@ -1,11 +1,9 @@
 ---
 title: "FAQ"
-output: rmarkdown::html_vignette
-bibliography:
-  - ../inst/REFERENCES.bib
+bibliography: ../inst/REFERENCES.bib
 vignette: >
   %\VignetteIndexEntry{faq}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
 
