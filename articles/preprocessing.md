@@ -83,7 +83,7 @@ preprocessing.
   first load the data file directly, then specify the `dataSet` in the
   function.
 
-### 2. Filters out identified proteins that contain no quantitative values (uncommon for Spectronaut-based results, can occur in MaxQuant-based results)
+### 2. Filters out identified proteins that exhibit `NaN` quantitative values
 
 `NaN`, which stands for “Not a Number,” can be found in the
 `PG.Quantity` column for proteins that were identified by MS and MS/MS
@@ -95,7 +95,7 @@ interference from other co-eluting peptide ions with very similar or
 identical m/z values that lead to difficulty in parsing out individual
 intensity profiles.
 
-### 3. Filters out proteins with \< 2 unique peptide identifications
+### 3. Applies a unique peptides per protein filter
 
 General practice in the proteomics field is to filter out proteins which
 were identified on the basis of a single peptide. Because approximately
