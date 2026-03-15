@@ -67,3 +67,4 @@ Config/roxyglobals/filename: globals.R
 Config/roxyglobals/unique: FALSE
 URL: https://github.com/uconn-scs/msDiaLogue
 BugReports: https://github.com/uconn-scs/msDiaLogue/issues
+LazyData: true
