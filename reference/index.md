@@ -1,5 +1,10 @@
 # Package index
 
+## Example Data
+
+- [`Toy_Spectronaut_Data`](https://uconn-scs.github.io/msDiaLogue/reference/Toy_Spectronaut_Data.md)
+  : Toy Spectronaut Protein Abundance Dataset
+
 ## Preprocessing
 
 - [`preprocessing()`](https://uconn-scs.github.io/msDiaLogue/reference/preprocessing.md)
