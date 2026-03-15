@@ -64,7 +64,7 @@ on Variance and Bias.” *Bioinformatics*, **19**(2), 185–193.
 .  
   
 Jackson JE (1991). *A User's Guide to Principal Components*. John Wiley
-\\ Sons, New York, NY, USA. ISBN 9780471622673.  
+& Sons, New York, NY, USA. ISBN 9780471622673.  
   
 Keun HC, Ebbels TMD, Antti H, Bollard ME, Beckonert O, Holmes E, Lindon
 JC, Nicholson JK (2003). “Improved Analysis of Multivariate Data by

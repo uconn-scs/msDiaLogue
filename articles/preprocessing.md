@@ -72,7 +72,7 @@ functionality for some initial filtering (based on the number of unique
 peptides). The steps below describe the operations performed during
 preprocessing.
 
-**1.** Loads the raw data
+### 1. Loads the raw data
 
 - If the raw data is in a `.csv` file
   [Toy_Spectronaut_Data.csv](https://github.com/uconn-scs/msDiaLogue/blob/main/inst/extdata/Toy_Spectronaut_Data.csv),
@@ -83,8 +83,7 @@ preprocessing.
   first load the data file directly, then specify the `dataSet` in the
   function.
 
-**2.** Filters out identified proteins that exhibit `NaN` quantitative
-values
+### 2. Filters out identified proteins that contain no quantitative values (uncommon for Spectronaut-based results, can occur in MaxQuant-based results)
 
 `NaN`, which stands for “Not a Number,” can be found in the
 `PG.Quantity` column for proteins that were identified by MS and MS/MS
@@ -96,7 +95,7 @@ interference from other co-eluting peptide ions with very similar or
 identical m/z values that lead to difficulty in parsing out individual
 intensity profiles.
 
-**3.** Applies a unique peptides per protein filter
+### 3. Filters out proteins with \< 2 unique peptide identifications
 
 General practice in the proteomics field is to filter out proteins which
 were identified on the basis of a single peptide. Because approximately
@@ -110,8 +109,7 @@ with only 1 peptide identified, contact [PMF
 faculty](https://proteomics.uconn.edu/about-us/) and we can help you
 evaluate the evidence from the raw data to determine believability.
 
-**4.** Adds accession numbers to identified proteins without informative
-names
+### 4. Adds accession numbers to identified proteins without informative names
 
 Spectronaut reports contain 4 different columns of identifying
 information:
@@ -150,8 +148,7 @@ likely to be correct (other search algorithms such as MaxQuant, which is
 used in [PMF](https://proteomics.uconn.edu/) for most Scaffold-based
 results, do rank protein cluster IDs by likelihood of correctness).
 
-**5.** Saves a document to your working directory with all filtered out
-data, if desired
+### 5. Saves a document to your working directory with all filtered out data, if desired
 
 If `saveRm = TRUE`, the data removed in step 2
 (`preprocess_filterNaN.csv`) and step 3 (`preprocess_filterUnique.csv`)

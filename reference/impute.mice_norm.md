@@ -32,10 +32,10 @@ An imputed data frame.
 ## References
 
 Rubin DB (1987). *Multiple Imputation for Nonresponse in Surveys*. John
-Wiley \\ Sons, New York, NY, USA. ISBN 9780471087052.  
+Wiley & Sons, New York, NY, USA. ISBN 9780471087052.  
   
-Schafer JL (1997). *Analysis of Incomplete Multivariate Data*. Chapman
-\\ Hall/CRC, New York, NY, USA. ISBN 9780412040610.  
+Schafer JL (1997). *Analysis of Incomplete Multivariate Data*. Chapman &
+Hall/CRC, New York, NY, USA. ISBN 9780412040610.  
   
 van Buuren S, Groothuis-Oudshoorn K (2011). “mice: Multivariate
 Imputation by Chained Equations in R.” *Journal of Statistical

@@ -851,16 +851,19 @@
 </section><section class="level2"><h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a>
 </h2>
 <p>The function <code><a href="../reference/preprocessing.html">preprocessing()</a></code> takes a <code>.csv</code> file of summarized protein abundances, exported from Spectronaut. The most important columns that need to be included in this file are: <code>R.Condition</code>, <code>R.Replicate</code>, <code>PG.ProteinAccessions</code>, <code>PG.ProteinNames</code>, <code>PG.NrOfStrippedSequencesIdentified</code>, and <code>PG.Quantity</code>. This function will reformat the data and provide functionality for some initial filtering (based on the number of unique peptides). The steps below describe the operations performed during preprocessing.</p>
-<p><strong>1.</strong> Loads the raw data</p>
+<section class="level3"><h3 id="loads-the-raw-data">1. Loads the raw data<a class="anchor" aria-label="anchor" href="#loads-the-raw-data"></a>
+</h3>
 <ul>
 <li><p>If the raw data is in a <code>.csv</code> file <a href="https://github.com/uconn-scs/msDiaLogue/blob/main/inst/extdata/Toy_Spectronaut_Data.csv" class="external-link">Toy_Spectronaut_Data.csv</a>, specify the <code>fileName</code> to read the raw data file into R.</p></li>
 <li><p>If the raw data is stored as an <code>.RData</code> file <a href="https://github.com/uconn-scs/msDiaLogue/blob/main/inst/extdata/Toy_Spectronaut_Data.RData" class="external-link">Toy_Spectronaut_Data.RData</a>, first load the data file directly, then specify the <code>dataSet</code> in the function.</p></li>
-</ul>
-<p><strong>2.</strong> Filters out identified proteins that exhibit <code>NaN</code> quantitative values</p>
+</ul></section><section class="level3"><h3 id="filters-out-identified-proteins-that-contain-no-quantitative-values-uncommon-for-spectronaut-based-results-can-occur-in-maxquant-based-results">2. Filters out identified proteins that contain no quantitative values (uncommon for Spectronaut-based results, can occur in MaxQuant-based results)<a class="anchor" aria-label="anchor" href="#filters-out-identified-proteins-that-contain-no-quantitative-values-uncommon-for-spectronaut-based-results-can-occur-in-maxquant-based-results"></a>
+</h3>
 <p><code>NaN</code>, which stands for “Not a Number,” can be found in the <code>PG.Quantity</code> column for proteins that were identified by MS and MS/MS evidence in the raw data, but all peptides from that protein lack an associated integrated peak area or intensity. This usually occurs in low abundance peptides that exhibit intensities close to the limit of detection resulting in poor signal-to-noise (S/N) and/or when there is interference from other co-eluting peptide ions with very similar or identical m/z values that lead to difficulty in parsing out individual intensity profiles.</p>
-<p><strong>3.</strong> Applies a unique peptides per protein filter</p>
+</section><section class="level3"><h3 id="filters-out-proteins-with-2-unique-peptide-identifications">3. Filters out proteins with &lt; 2 unique peptide identifications<a class="anchor" aria-label="anchor" href="#filters-out-proteins-with-2-unique-peptide-identifications"></a>
+</h3>
 <p>General practice in the proteomics field is to filter out proteins which were identified on the basis of a single peptide. Because approximately 1% of all identified peptides are false positive matches, it’s more likely that 1 peptide was incorrectly identified and that protein ID is incorrect than that, for example, 5 peptides from the same protein were all incorrectly identified and that protein ID is incorrect. We recommend focusing on proteins with 2 or more peptide identifications, as these will be higher confidence. If you have a protein of interest with only 1 peptide identified, contact <a href="https://proteomics.uconn.edu/about-us/" class="external-link">PMF faculty</a> and we can help you evaluate the evidence from the raw data to determine believability.</p>
-<p><strong>4.</strong> Adds accession numbers to identified proteins without informative names</p>
+</section><section class="level3"><h3 id="adds-accession-numbers-to-identified-proteins-without-informative-names">4. Adds accession numbers to identified proteins without informative names<a class="anchor" aria-label="anchor" href="#adds-accession-numbers-to-identified-proteins-without-informative-names"></a>
+</h3>
 <p>Spectronaut reports contain 4 different columns of identifying information:</p>
 <ul>
 <li>
@@ -877,13 +880,14 @@
 <div class="note">
 <strong>Note:</strong> Not all proteins can be identified unambiguously. In many cases, the identified peptides can be found in multiple protein sequences, which yields a protein group or protein cluster rather than a single protein identification. When this happens, the accession numbers for all potential matches are concatenated into one string, separated by periods. When you see long strings of multiple identifiers later in your data processing, this is why. Spectronaut sorts these alphanumerically, so you should not assume that the first protein in the list is most likely to be correct (other search algorithms such as MaxQuant, which is used in <a href="https://proteomics.uconn.edu/" class="external-link">PMF</a> for most Scaffold-based results, do rank protein cluster IDs by likelihood of correctness).
 </div>
-<p><strong>5.</strong> Saves a document to your working directory with all filtered out data, if desired</p>
+</section><section class="level3"><h3 id="saves-a-document-to-your-working-directory-with-all-filtered-out-data-if-desired">5. Saves a document to your working directory with all filtered out data, if desired<a class="anchor" aria-label="anchor" href="#saves-a-document-to-your-working-directory-with-all-filtered-out-data-if-desired"></a>
+</h3>
 <p>If <code>saveRm = TRUE</code>, the data removed in step 2 (<code>preprocess_filterNaN.csv</code>) and step 3 (<code>preprocess_filterUnique.csv</code>) will be saved in the current working directory.</p>
 <p>As part of the <code><a href="../reference/preprocessing.html">preprocessing()</a></code>, a histogram of <span class="math inline">\(log_2\)</span>-transformed protein abundances is provided. This is a helpful way to confirm that the data have been read in correctly, and there are no issues with the numerical values of the protein abundances. Ideally, this histogram will appear fairly symmetrical (bell-shaped) without too much skew towards smaller or larger values.</p>
 <div class="nav-button right-button">
 <p><a href="transformation.html">Next →</a></p>
 </div>
-</section><script id="quarto-html-after-body" type="application/javascript">
+</section></section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);

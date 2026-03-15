@@ -40,5 +40,5 @@ Missing Data Imputation in the Presence of Interaction Effects.”
 [doi:10.1016/j.csda.2013.10.025](https://doi.org/10.1016/j.csda.2013.10.025)
 .  
   
-van Buuren S (2018). *Flexible Imputation of Missing Data*. Chapman \\
+van Buuren S (2018). *Flexible Imputation of Missing Data*. Chapman &
 Hall/CRC, New York, NY, USA. ISBN 9781032178639.
