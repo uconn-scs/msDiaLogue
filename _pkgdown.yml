@@ -23,6 +23,9 @@ development:
   mode: auto
 
 reference:
+- title: Example Data
+  contents:
+  - Toy_Spectronaut_Data
 - title: Preprocessing
   contents:
   - preprocessing
