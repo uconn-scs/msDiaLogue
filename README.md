@@ -40,17 +40,17 @@ You can install **msDiaLogue** directly from
 + Development (latest) version:
 
 
-```
-# install.packages("devtools")
-devtools::install_github("uconn-scs/msDiaLogue")
+``` r
+# install.packages("pak")
+pak::pkg_install("uconn-scs/msDiaLogue")
 ```
 
 
 + Specific released version (e.g. v0.0.6):
 
 
-```
-# install.packages("devtools")
-devtools::install_github("uconn-scs/msDiaLogue@v0.0.6")
+``` r
+# install.packages("pak")
+pak::pkg_install("uconn-scs/msDiaLogue@v0.0.6")
 ```
 
