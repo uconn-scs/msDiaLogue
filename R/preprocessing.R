@@ -90,6 +90,32 @@ preprocessing <- function(fileName,
            PG.ProteinDescriptions, PG.ProteinName, PG.ProteinNames) %>%
     distinct()
   
+  ID <- proteinInformation$PG.ProteinName
+  duplicateName <- unique(ID[duplicated(ID)])
+  
+  ## warning catching for duplicated protein names
+  if (length(duplicateName) > 0) {
+    message("There are duplicated protein names in the data: ",
+            paste(duplicateName, collapse = ", "),
+            ".\nAccession numbers have been used to replace duplicate names in all locations.")
+    
+    idx <- filteredData$PG.ProteinName %in% duplicateName
+    filteredData$PG.ProteinName[idx] <- filteredData$PG.ProteinAccession[idx]
+    # filteredData <- filteredData %>%
+    #   mutate(PG.ProteinName = ifelse(PG.ProteinName %in% duplicateName,
+    #                                  PG.ProteinAccession,
+    #                                  PG.ProteinName))
+    
+    proteinInformation <- filteredData %>%
+      select(PG.Genes, PG.ProteinAccession, PG.ProteinAccessions,
+             PG.ProteinDescriptions, PG.ProteinName, PG.ProteinNames) %>%
+      distinct()
+    
+    if (any(duplicated(proteinInformation$PG.ProteinName))) {
+      stop("`PG.ProteinName` is still not unique after replacing duplicated names with accession numbers.")
+    }
+  }
+  
   write.csv(proteinInformation, file = "preprocess_protein_information.csv", row.names = FALSE)
   
   ## select columns necessary for analysis
@@ -120,45 +146,11 @@ preprocessing <- function(fileName,
     theme(plot.title = element_text(hjust = 0.5))
   print(plot)
   
-  ## warning catching for duplicated protein names
-  reformatedData <- tryCatch({
-    
-    ## try to reformat the data to present proteins as the columns and
-    ## to group replicates under each protein
-    reformatedData <- selectedData %>% pivot_wider(
-      id_cols = c(R.Condition, R.Replicate),
-      names_from = PG.ProteinName, values_from = PG.Quantity)
-    
-  }, warning = function(w) {
-    
-    ## if a warning is thrown for duplicated protein names being stored as list
-    message(paste(
-      w, "There are duplicated protein names in your data.\n",
-      "Accession numbers have been used to replace duplicate names in all locations."))
-    
-    ## compile a database if the entries with duplicates
-    warningTmp <- selectedData %>%
-      dplyr::group_by(R.Condition, R.Replicate, PG.ProteinName) %>%
-      dplyr::summarise(n = dplyr::n(), .groups = "drop") %>%
-      dplyr::filter(n > 1L)
-    
-    ## create a unique list of duplicated values
-    duplicateName <- unique(warningTmp$PG.ProteinName)
-    
-    ## for each duplicate protein, replace all instances of the name,
-    ## with the accession numbers
-    for (i in duplicateName) {
-      selectedData <- selectedData %>%
-        mutate(PG.ProteinName = ifelse(
-          PG.ProteinName == i, PG.ProteinAccession, PG.ProteinName))
-    }
-    
-    ## try to reformat the data again
-    reformatedData <- selectedData %>%
-      pivot_wider(id_cols = c(R.Condition, R.Replicate),
-                  names_from = PG.ProteinName, values_from = PG.Quantity)
-    return(reformatedData)
-  })
+  ## reformat the data to present proteins as the columns and
+  ## to group replicates under each protein
+  reformatedData <- selectedData %>%
+    pivot_wider(id_cols = c(R.Condition, R.Replicate),
+                names_from = PG.ProteinName, values_from = PG.Quantity)
   
   ## store data in a data.frame structure
   result <- as.data.frame(reformatedData)
