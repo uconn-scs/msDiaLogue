@@ -130,9 +130,7 @@ Array Data Based on Variance and Bias.” *Bioinformatics* 19 (2): 185–93.
 Jackson, J. Edward. 1991. *A User’s Guide to Principal Components*. John
 Wiley & Sons.
 
-Keun, Hector C., Timothy M. D. Ebbels, Henrik Antti, Mary E. Bollard,
-Olaf Beckonert, Elaine Holmes, John C. Lindon, and Jeremy K. Nicholson.
-2003. “Improved Analysis of Multivariate Data by Variable Stability
-Scaling: Application to NMR-Based Metabolic Profiling.” *Analytica
-Chimica Acta* 490 (1–2): 265–76.
-<https://doi.org/10.1016/S0003-2670(03)00094-1>.
+Keun, Hector C., Timothy M. D. Ebbels, Henrik Antti, et al. 2003.
+“Improved Analysis of Multivariate Data by Variable Stability Scaling:
+Application to NMR-Based Metabolic Profiling.” *Analytica Chimica Acta*
+490 (1–2): 265–76. <https://doi.org/10.1016/S0003-2670(03)00094-1>.

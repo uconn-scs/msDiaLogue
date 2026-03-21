@@ -50,15 +50,13 @@ visualize.rank(
   A character string (default = c("Replicate", "Condition")) specifying
   grouping variables for faceting. Allowed values are:
 
-  - "Condition"
+  - "Condition": Abundance values are averaged across replicates.
 
-  - "Replicate"
+  - "Replicate": Abundance values are averaged across conditions.
 
-  - c("Condition", "Replicate")
+  - c("Condition", "Replicate"): No averaging is performed.
 
-  - c("Replicate", "Condition")
-
-  - "none" for no faceting
+  - c("Replicate", "Condition"): No averaging is performed.
 
 - color:
 

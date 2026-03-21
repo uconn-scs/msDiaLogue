@@ -114,11 +114,10 @@ Allowable options include:</p><ul><li><p>For Spectronaut: "PG.Genes", "PG.Protei
 
 <dt id="arg-facet">facet<a class="anchor" aria-label="anchor" href="#arg-facet"></a></dt>
 <dd><p>A character string (default = c("Replicate", "Condition"))
-specifying grouping variables for faceting. Allowed values are:</p><ul><li><p>"Condition"</p></li>
-<li><p>"Replicate"</p></li>
-<li><p>c("Condition", "Replicate")</p></li>
-<li><p>c("Replicate", "Condition")</p></li>
-<li><p>"none" for no faceting</p></li>
+specifying grouping variables for faceting. Allowed values are:</p><ul><li><p>"Condition": Abundance values are averaged across replicates.</p></li>
+<li><p>"Replicate": Abundance values are averaged across conditions.</p></li>
+<li><p>c("Condition", "Replicate"): No averaging is performed.</p></li>
+<li><p>c("Replicate", "Condition"): No averaging is performed.</p></li>
 </ul></dd>
 
 

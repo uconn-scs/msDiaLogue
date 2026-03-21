@@ -441,7 +441,7 @@ Squares Regression.” *Chemometrics and Intelligent Laboratory Systems*
 18 (3): 251–63. <https://doi.org/10.1016/0169-7439(93)85002-X>.
 
 Martens, Harald, and Tormod Næs. 1989. *Multivariate Calibration*.
-Wiley, New York, USA: Chichester.
+Chichester.
 
 Rännar, Stefan, Fredrik Lindgren, Paul Geladi, and Svante Wold. 1994. “A
 PLS Kernel Algorithm for Data Sets with Many Variables and Fewer

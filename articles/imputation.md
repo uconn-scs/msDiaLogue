@@ -92,7 +92,7 @@ following imputation methods:
 
 4.  [`impute.knn_seq()`](https://uconn-scs.github.io/msDiaLogue/reference/impute.knn_seq.md):
     Replaces missing values using the sequential k-nearest neighbors
-    algorithm ([Kim, Kim, and Yi 2004](#ref-kim2004reuse)).
+    algorithm ([Kim et al. 2004](#ref-kim2004reuse)).
 
 5.  [`impute.knn_trunc()`](https://uconn-scs.github.io/msDiaLogue/reference/impute.knn_trunc.md):
     Replaces missing values using the truncated k-nearest neighbors
@@ -104,9 +104,9 @@ following imputation methods:
 
 7.  [`impute.mice_cart()`](https://uconn-scs.github.io/msDiaLogue/reference/impute.mice_cart.md):
     Replaces missing values using the classification and regression
-    trees ([Breiman et al. 1984](#ref-breiman1984classification);
-    [Doove, van Buuren, and Dusseldorp 2014](#ref-doove2014recursive);
-    [van Buuren 2018](#ref-van2018flexible)).
+    trees ([Breiman et al. 1984](#ref-breiman1984classification); [Doove
+    et al. 2014](#ref-doove2014recursive); [van Buuren
+    2018](#ref-van2018flexible)).
 
 8.  [`impute.mice_norm()`](https://uconn-scs.github.io/msDiaLogue/reference/impute.mice_norm.md):
     Replaces missing values using the Bayesian linear regression ([Rubin
@@ -133,7 +133,7 @@ Previous](https://uconn-scs.github.io/msDiaLogue/articles/filtering_data_driven.
 →](https://uconn-scs.github.io/msDiaLogue/articles/summarization.md)
 
 Breiman, L., J. Friedman, R. A. Olshen, and C. J. Stone. 1984.
-*Classification and Regression Trees*. New York, NY, USA: Routledge.
+*Classification and Regression Trees*. Routledge.
 
 Doove, Lisa L., Stef van Buuren, and Elise Dusseldorp. 2014. “Recursive
 Partitioning for Missing Data Imputation in the Presence of Interaction
@@ -155,10 +155,10 @@ Method for Gene Expression Profile Data.” *Bioinformatics* 19 (16):
 2088–96. <https://doi.org/10.1093/bioinformatics/btg287>.
 
 Rubin, Donald B. 1987. *Multiple Imputation for Nonresponse in Surveys*.
-New York, NY, USA: John Wiley & Sons.
+John Wiley & Sons.
 
-Schafer, Joseph L. 1997. *Analysis of Incomplete Multivariate Data*. New
-York, NY, USA: Chapman & Hall/CRC.
+Schafer, Joseph L. 1997. *Analysis of Incomplete Multivariate Data*.
+Chapman & Hall/CRC.
 
 Shah, Jasmit S., Shesh N. Rai, Andrew P. DeFilippis, Bradford G. Hill,
 Aruni Bhatnagar, and Guy N. Brock. 2017. “Distribution Based Nearest
@@ -171,13 +171,12 @@ Joachim Selbig. 2007. “pcaMethods–a Bioconductor Package Providing PCA
 Methods for Incomplete Data.” *Bioinformatics* 23 (9): 1164–67.
 <https://doi.org/10.1093/bioinformatics/btm069>.
 
-Troyanskaya, Olga, Michael Cantor, Gavin Sherlock, Pat Brown, Trevor
-Hastie, Robert Tibshirani, David Botstein, and Russ B. Altman. 2001.
-“Missing Value Estimation Methods for DNA Microarrays.” *Bioinformatics*
-17 (6): 520–25. <https://doi.org/10.1093/bioinformatics/17.6.520>.
+Troyanskaya, Olga, Michael Cantor, Gavin Sherlock, et al. 2001. “Missing
+Value Estimation Methods for DNA Microarrays.” *Bioinformatics* 17 (6):
+520–25. <https://doi.org/10.1093/bioinformatics/17.6.520>.
 
-van Buuren, Stef. 2018. *Flexible Imputation of Missing Data*. New York,
-NY, USA: Chapman & Hall/CRC.
+van Buuren, Stef. 2018. *Flexible Imputation of Missing Data*. Chapman &
+Hall/CRC.
 
 van Buuren, Stef, and Karin Groothuis-Oudshoorn. 2011. “Mice:
 Multivariate Imputation by Chained Equations in R.” *Journal of

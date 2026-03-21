@@ -214,8 +214,6 @@ or replicates.
 visualize.rank(dataImput, listName = "POLK_HUMAN",
                regexName = c("ZN840", "CC85C"),
                facet = c("Replicate", "Condition"), color = "black")
-#> Warning: Removed 408 rows containing missing values or values outside the scale range
-#> (`geom_text_repel()`).
 ```
 
 ![](visualization_files/figure-html/unnamed-chunk-11-1.png)
