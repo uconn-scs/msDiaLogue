@@ -37,11 +37,10 @@ Allowable options include:
 \item{facet}{A character string (default = c("Replicate", "Condition"))
 specifying grouping variables for faceting. Allowed values are:
 \itemize{
-\item "Condition"
-\item "Replicate"
-\item c("Condition", "Replicate")
-\item c("Replicate", "Condition")
-\item "none" for no faceting
+\item "Condition": Abundance values are averaged across replicates.
+\item "Replicate": Abundance values are averaged across conditions.
+\item c("Condition", "Replicate"): No averaging is performed.
+\item c("Replicate", "Condition"): No averaging is performed.
 }}
 
 \item{color}{A character string (default = red") specifying

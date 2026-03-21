@@ -425,11 +425,10 @@ visualize.ma <- function(dataSet, M.thres = 1) {
 #' @param facet A character string (default = c("Replicate", "Condition"))
 #' specifying grouping variables for faceting. Allowed values are:
 #' \itemize{
-#' \item "Condition"
-#' \item "Replicate"
-#' \item c("Condition", "Replicate")
-#' \item c("Replicate", "Condition")
-#' \item "none" for no faceting
+#' \item "Condition": Abundance values are averaged across replicates.
+#' \item "Replicate": Abundance values are averaged across conditions.
+#' \item c("Condition", "Replicate"): No averaging is performed.
+#' \item c("Replicate", "Condition"): No averaging is performed.
 #' }
 #' 
 #' @param color A character string (default = red") specifying
@@ -449,13 +448,10 @@ visualize.rank <- function(dataSet, listName = NULL, regexName = NULL, by = NULL
                            ...) {
   
   information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
-  scaffoldCheck <- any(colnames(information) == "Visible?")
-  IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
-  labelCol <- ifelse(scaffoldCheck, "AlternateID", "PG.ProteinName")
-  
-  if (is.null(by)) {
-    by <- IDcol
-  }
+  scaffoldCheck <- "Visible?" %in% colnames(information)
+  IDcol <- if (scaffoldCheck) "AccessionNumber" else "PG.ProteinName"
+  labelCol <- if (scaffoldCheck) "AlternateID" else "PG.ProteinName"
+  by <- if (is.null(by)) IDcol else by
   
   ## only list filter if listName is present
   if (length(listName) != 0) {
@@ -475,44 +471,36 @@ visualize.rank <- function(dataSet, listName = NULL, regexName = NULL, by = NULL
   unionIndex <- sort(union(listIndex, regexIndex))
   unionName <- information[unionIndex, IDcol]
   
+  if (length(unionName) == 0) {
+    message("No matching proteins found to highlight!")
+  }
+  
   plotData <- dataSet %>%
     rename(Condition = R.Condition, Replicate = R.Replicate) %>%
-    pivot_longer(-c("Condition", "Replicate"), names_to = IDcol, values_to = "Abundance") %>%
+    pivot_longer(-c("Condition", "Replicate"), names_to = IDcol, values_to = "Abundance")
+  
+  if (!setequal(facet, c("Condition", "Replicate"))) {
+    plotData <- plotData %>%
+      group_by(across(all_of(c(facet, IDcol)))) %>%
+      summarise(Abundance = mean(Abundance, na.rm = TRUE), .groups = "drop")
+  }
+  
+  plotData <- plotData %>%
     left_join(information, by = IDcol) %>%
-    mutate(Type = ifelse(.data[[IDcol]] %in% unionName, "Highlight", "Other"),
-           Label = case_when(
-             Type == "Highlight" & identical(facet, "Condition") ~ paste(.data[[labelCol]], Replicate, sep = "_"),
-             Type == "Highlight" & identical(facet, "Replicate") ~ paste(.data[[labelCol]], Condition, sep = "_"),
-             Type == "Highlight" & length(facet) == 2 ~ .data[[labelCol]],
-             Type == "Other" ~ NA))
-  
-  if (!any(plotData$Type == "Highlight")) {
-    stop("No matching proteins found in the input dataset to highlight!")
-  }
-  
-  if (all(facet %in% c("Condition", "Replicate"))) {
-    plotData <- plotData %>%
-      group_by(across(all_of(facet))) %>%
-      arrange(desc(Abundance), .by_group = TRUE) %>%
-      mutate(Rank = row_number()) %>%
-      ungroup()
-  } else {
-    plotData <- plotData %>%
-      arrange(desc(Abundance)) %>%
-      mutate(Rank = row_number())
-  }
-  
-  highlight_label <- if (length(unionName) == 1) unionName else "Highlight"
+    mutate(Type = if_else(.data[[IDcol]] %in% unionName, "Highlight", "Other"),
+           Label = if_else(Type == "Highlight", .data[[labelCol]], NA_character_)) %>%
+    group_by(across(all_of(facet))) %>%
+    arrange(desc(Abundance), .by_group = TRUE) %>%
+    mutate(Rank = row_number()) %>%
+    ungroup()
   
   plot <- ggplot(plotData, aes(x = Rank, y = Abundance, shape = Type, color = Type)) +
     geom_point() +
-    scale_color_manual(values = c("Highlight" = color, "Other" = "gray"),
-                       labels = c("Highlight" = highlight_label, "Other" = "Other")) +
-    scale_shape_manual(values = c("Highlight" = 17, "Other" = 16),
-                       labels = c("Highlight" = highlight_label, "Other" = "Other")) +
+    scale_color_manual(values = c("Highlight" = color, "Other" = "gray")) +
+    scale_shape_manual(values = c("Highlight" = 17, "Other" = 16)) +
     labs(x = "Rank", y = "Abundance") +
     theme_bw() +
-    theme(legend.position = "bottom",
+    theme(legend.position = "none",
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank())
   
@@ -522,9 +510,11 @@ visualize.rank <- function(dataSet, listName = NULL, regexName = NULL, by = NULL
     plot <- plot + facet_grid(as.formula(paste(facet[1], "~", facet[2])))
   }
   
-  if (length(unionName) > 1) {
-    plot <- plot + geom_text_repel(data = plotData, aes(label = Label),
-                                   size = 2.5, show.legend = FALSE, ...)
+  if (length(unionName) != 0) {
+    plot <- plot +
+      geom_text_repel(data = subset(plotData, Type == "Highlight"),
+                      aes(label = Label), size = 2.5,
+                      show.legend = FALSE, ...)
   }
   
   return(plot)

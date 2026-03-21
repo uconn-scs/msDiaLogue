@@ -43,8 +43,8 @@ utils::globalVariables(c(
   "R.Condition", # <visualize.rank>
   "R.Replicate", # <visualize.rank>
   "Abundance", # <visualize.rank>
-  "Rank", # <visualize.rank>
   "Type", # <visualize.rank>
+  "Rank", # <visualize.rank>
   "Label", # <visualize.rank>
   "Variable", # <visualize.test>
   "name", # <visualize.test>
