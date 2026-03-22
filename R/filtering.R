@@ -9,16 +9,16 @@
 #' 
 #' @param dataSet A data frame containing the data signals.
 #' 
-#' @param listName A character vector of text strings used as keys for
-#' selecting or removing.
+#' @param listName A character vector specifying
+#' proteins for exact matching to select or remove.
 #' 
-#' @param regexName A character vector specifying proteins for regular
-#' expression pattern matching to select or remove.
+#' @param regexName A character vector specifying
+#' proteins for regular expression pattern matching to select or remove.
 #' 
 #' @param by A character string (default = "PG.ProteinName" for Spectronaut,
-#' default = "AccessionNumber" for Scaffold) specifying the information to
-#' which \code{listName} and/or \code{regexName} filter is applied.
-#' Allowable options include:
+#' default = "AccessionNumber" for Scaffold) specifying
+#' the information to which \code{listName} and/or \code{regexName} filter
+#' is applied. Allowable options include:
 #' \itemize{
 #' \item For Spectronaut: "PG.Genes", "PG.ProteinAccession",
 #' "PG.ProteinDescriptions", and "PG.ProteinName".
@@ -59,12 +59,9 @@ filterOutIn <- function(dataSet,
     select(-c(R.Condition, R.Replicate))
   
   information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
-  scaffoldCheck <- any(colnames(information) == "Visible?")
-  IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
-  
-  if (is.null(by)) {
-    by <- IDcol
-  }
+  scaffoldCheck <- "Visible?" %in% colnames(information)
+  IDcol <- if (scaffoldCheck) "AccessionNumber" else "PG.ProteinName"
+  by <- if (is.null(by)) IDcol else by
   
   ## only list filter if listName is present
   if (length(listName) != 0) {

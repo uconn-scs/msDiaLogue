@@ -405,7 +405,8 @@ visualize.ma <- function(dataSet, M.thres = 1) {
 #' 
 #' @param dataSet A data frame containing the data signals.
 #' 
-#' @param listName A character vector of proteins to highlight.
+#' @param listName A character vector specifying
+#' proteins for exact matching to highlight.
 #' 
 #' @param regexName A character vector specifying
 #' proteins for regular expression pattern matching to highlight.
@@ -413,8 +414,7 @@ visualize.ma <- function(dataSet, M.thres = 1) {
 #' @param by A character string (default = "PG.ProteinName" for Spectronaut,
 #' default = "AccessionNumber" for Scaffold) specifying
 #' the information to which \code{listName} and/or \code{regexName} filter
-#' is applied.
-#' Allowable options include:
+#' is applied. Allowable options include:
 #' \itemize{
 #' \item For Spectronaut: "PG.Genes", "PG.ProteinAccession",
 #' "PG.ProteinDescriptions", and "PG.ProteinName".
@@ -443,7 +443,7 @@ visualize.ma <- function(dataSet, M.thres = 1) {
 #' 
 #' @export
 
-visualize.rank <- function(dataSet, listName = NULL, regexName = NULL, by = NULL,
+visualize.rank <- function(dataSet, listName = c(), regexName = c(), by = NULL,
                            facet = c("Condition", "Replicate"), color = "red",
                            ...) {
   

@@ -4,15 +4,16 @@
 #' @description
 #' Summarize the steps performed on the data for one protein.
 #' 
-#' @param listName A character vector identifying the proteins of interest.
+#' @param listName A character vector specifying
+#' proteins for exact matching.
 #' 
-#' @param regexName A character vector specifying the proteins for regular
-#' expression pattern matching.
+#' @param regexName A character vector specifying
+#' proteins for regular expression pattern matching.
 #' 
 #' @param by A character string (default = "PG.ProteinName" for Spectronaut,
-#' default = "AccessionNumber" for Scaffold) specifying the information to
-#' which \code{listName} and/or \code{regexName} are applied.
-#' Allowable options include:
+#' default = "AccessionNumber" for Scaffold) specifying
+#' the information to which \code{listName} and/or \code{regexName} filter
+#' is applied. Allowable options include:
 #' \itemize{
 #' \item For Spectronaut: "PG.Genes", "PG.ProteinAccession",
 #' "PG.ProteinDescriptions", and "PG.ProteinName".
@@ -29,15 +30,13 @@
 #' 
 #' @export
 
-pullProteinPath <- function(listName = NULL, regexName = NULL, dataSetList, by = NULL) {
+pullProteinPath <- function(listName = c(), regexName = c(), by = NULL,
+                            dataSetList) {
   
   information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
-  scaffoldCheck <- any(colnames(information) == "Visible?")
-  IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
-  
-  if (is.null(by)) {
-    by <- IDcol
-  }
+  scaffoldCheck <- "Visible?" %in% colnames(information)
+  IDcol <- if (scaffoldCheck) "AccessionNumber" else "PG.ProteinName"
+  by <- if (is.null(by)) IDcol else by
   
   ## only list filter if listName is present
   if (length(listName) != 0) {
@@ -48,7 +47,7 @@ pullProteinPath <- function(listName = NULL, regexName = NULL, dataSetList, by =
   
   ## only regex filter if regexName is present
   if (length(regexName) != 0) {
-    regexIndex <- grep(paste(regexName, collapse = "|"), information[[by]], value = FALSE)
+    regexIndex <- grep(paste(regexName, collapse = "|"), information[[by]])
   } else {
     regexIndex <- NULL
   }

@@ -6,8 +6,8 @@
 \usage{
 visualize.rank(
   dataSet,
-  listName = NULL,
-  regexName = NULL,
+  listName = c(),
+  regexName = c(),
   by = NULL,
   facet = c("Condition", "Replicate"),
   color = "red",
@@ -17,7 +17,8 @@ visualize.rank(
 \arguments{
 \item{dataSet}{A data frame containing the data signals.}
 
-\item{listName}{A character vector of proteins to highlight.}
+\item{listName}{A character vector specifying
+proteins for exact matching to highlight.}
 
 \item{regexName}{A character vector specifying
 proteins for regular expression pattern matching to highlight.}
@@ -25,8 +26,7 @@ proteins for regular expression pattern matching to highlight.}
 \item{by}{A character string (default = "PG.ProteinName" for Spectronaut,
 default = "AccessionNumber" for Scaffold) specifying
 the information to which \code{listName} and/or \code{regexName} filter
-is applied.
-Allowable options include:
+is applied. Allowable options include:
 \itemize{
 \item For Spectronaut: "PG.Genes", "PG.ProteinAccession",
 "PG.ProteinDescriptions", and "PG.ProteinName".

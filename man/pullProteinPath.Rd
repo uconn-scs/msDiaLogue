@@ -4,27 +4,28 @@
 \alias{pullProteinPath}
 \title{Compiling data on a single protein from each step in the process}
 \usage{
-pullProteinPath(listName = NULL, regexName = NULL, dataSetList, by = NULL)
+pullProteinPath(listName = c(), regexName = c(), by = NULL, dataSetList)
 }
 \arguments{
-\item{listName}{A character vector identifying the proteins of interest.}
+\item{listName}{A character vector specifying
+proteins for exact matching.}
 
-\item{regexName}{A character vector specifying the proteins for regular
-expression pattern matching.}
-
-\item{dataSetList}{A list of data frames, the order dictates the order of
-presentation.}
+\item{regexName}{A character vector specifying
+proteins for regular expression pattern matching.}
 
 \item{by}{A character string (default = "PG.ProteinName" for Spectronaut,
-default = "AccessionNumber" for Scaffold) specifying the information to
-which \code{listName} and/or \code{regexName} are applied.
-Allowable options include:
+default = "AccessionNumber" for Scaffold) specifying
+the information to which \code{listName} and/or \code{regexName} filter
+is applied. Allowable options include:
 \itemize{
 \item For Spectronaut: "PG.Genes", "PG.ProteinAccession",
 "PG.ProteinDescriptions", and "PG.ProteinName".
 \item For Scaffold: "ProteinDescriptions", "AccessionNumber", and
 "AlternateID".
 }}
+
+\item{dataSetList}{A list of data frames, the order dictates the order of
+presentation.}
 }
 \value{
 A data frame, with the protein data at each step present
