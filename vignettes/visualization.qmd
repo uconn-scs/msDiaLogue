@@ -240,6 +240,23 @@ visualize.rank(dataImput, listName = "POLK_HUMAN",
 ```
 
 
+## Target protein abundance plot
+
+
+The `visualize.target()` function provides a convenient way to explore
+the abundance of specific proteins across experimental conditions.
+It is particularly useful for quickly examining target protein behavior,
+complementing global visualizations like rank abundance plots.
+
+
+```{r}
+visualize.target(dataImput, type = "violin", facet = TRUE,
+                 listName = "POLK_HUMAN", regexName = c("ZN840"))
+visualize.target(dataImput, type = "bar", facet = FALSE,
+                 listName = "POLK_HUMAN")
+```
+
+
 ## Histogram of fold changes and p-values for test
 
 

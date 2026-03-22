@@ -75,6 +75,7 @@ reference:
   - visualize.rank
   - visualize.score
   - visualize.scree
+  - visualize.target
   - visualize.test
   - visualize.upset
   - visualize.venn

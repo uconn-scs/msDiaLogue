@@ -521,6 +521,168 @@ visualize.rank <- function(dataSet, listName = c(), regexName = c(), by = NULL,
 }
 
 ##------------------------------------------------------------------------------
+#'
+#' Target protein abundance plot
+#'
+#' @description
+#' Generate bar, box, or violin plots for selected protein(s) of interest.
+#' 
+#' @param dataSet A data frame containing the data signals.
+#' 
+#' @param type A character string specifying the plot type.
+#' Allowable options include:
+#' \itemize{
+#' \item "bar": Bar chart.
+#' \item "boxplot": Boxplot.
+#' \item "violin": Violin plot.
+#' }
+#' 
+#' @param facet A logical value (default = TRUE) specifying whether
+#' to facet the plot by protein.
+#' 
+#' @param listName A character vector specifying
+#' proteins for exact matching to highlight.
+#' 
+#' @param regexName A character vector specifying
+#' proteins for regular expression pattern matching to highlight.
+#' 
+#' @param by A character string (default = "PG.ProteinName" for Spectronaut,
+#' default = "AccessionNumber" for Scaffold) specifying
+#' the information to which \code{listName} and/or \code{regexName} filter
+#' is applied. Allowable options include:
+#' \itemize{
+#' \item For Spectronaut: "PG.Genes", "PG.ProteinAccession",
+#' "PG.ProteinDescriptions", and "PG.ProteinName".
+#' \item For Scaffold: "ProteinDescriptions", "AccessionNumber", and
+#' "AlternateID".
+#' }
+#' 
+#' @return
+#' An object of class \code{ggplot}.
+#'
+#' @autoglobal
+#'
+#' @export
+
+visualize.target <- function(dataSet, type = "bar", facet = TRUE,
+                             listName = c(), regexName = c(), by = NULL) {
+  
+  information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
+  scaffoldCheck <- "Visible?" %in% colnames(information)
+  IDcol <- if (scaffoldCheck) "AccessionNumber" else "PG.ProteinName"
+  by <- if (is.null(by)) IDcol else by
+  
+  ## only list filter if listName is present
+  if (length(listName) != 0) {
+    listIndex <- which(information[[by]] %in% listName)
+  } else {
+    listIndex <- NULL
+  }
+  
+  ## only regex filter if regexName is present
+  if (length(regexName) != 0) {
+    regexIndex <- grep(paste(regexName, collapse = "|"), information[[by]])
+  } else {
+    regexIndex <- NULL
+  }
+  
+  ## combine protein names from list and regex names
+  unionIndex <- sort(union(listIndex, regexIndex))
+  unionName <- information[unionIndex, IDcol]
+  
+  if (length(unionName) == 0) {
+    stop("No matching proteins found to plot!")
+  }
+  
+  plotData <- dataSet %>%
+    rename(Condition = R.Condition, Replicate = R.Replicate) %>%
+    pivot_longer(-c("Condition", "Replicate"),
+                 names_to = "Protein", values_to = "Abundance") %>%
+    filter(Protein %in% unionName, !is.na(Abundance))
+  
+  if (type == "bar") {
+    smrData <- plotData %>%
+      group_by(Protein, Condition) %>%
+      summarise(mean = mean(Abundance, na.rm = TRUE),
+                sd = sd(Abundance, na.rm = TRUE),
+                n = n(), .groups = "drop") %>%
+      mutate(error = qnorm(0.975) * sd / sqrt(n))
+    if (facet) {
+      ggplot(smrData, aes(x = Condition, y = mean)) +
+        geom_col(width = 0.7, color = "black", fill = "gray") +
+        geom_errorbar(aes(ymin = mean - error, ymax = mean + error),
+                      width = 0.3) +
+        geom_point(data = plotData, aes(x = Condition, y = Abundance, color = Replicate),
+                   position = position_dodge(width = 0.3), size = 1) +
+        facet_wrap(~Protein) +
+        labs(y = "Abundance") +
+        theme_bw() +
+        theme(legend.position = "bottom")
+    } else {
+      ggplot(smrData, aes(x = Protein, y = mean, fill = Condition)) +
+        geom_col(width = 0.7, position = position_dodge(width = 0.8)) +
+        geom_errorbar(aes(ymin = mean - error, ymax = mean + error),
+                      position = position_dodge(width = 0.8),
+                      width = 0.3) +
+        geom_point(data = plotData, aes(x = Protein, y = Abundance,
+                                        shape = Replicate,
+                                        group = interaction(Protein, Condition)),
+                   position = position_jitterdodge(dodge.width = 0.8,
+                                                   jitter.width = 0.3),
+                   size = 1) +
+        guides(fill = guide_legend(override.aes = list(shape = NA)), shape = "none") +
+        labs(x = NULL, y = "Abundance") +
+        theme_bw() +
+        theme(legend.position = "bottom")
+    }
+  } else if (type == "boxplot") {
+    if (facet) {
+      ggplot(plotData, aes(x = Condition, y = Abundance)) +
+        geom_boxplot(width = 0.7) +
+        geom_point(aes(color = Replicate),
+                   position = position_dodge(width = 0.3), size = 1) +
+        facet_wrap(~Protein) +
+        theme_bw() +
+        theme(legend.position = "bottom")
+    } else {
+      ggplot(plotData, aes(x = Protein, y = Abundance, fill = Condition,
+                           group = interaction(Protein, Condition))) +
+        geom_boxplot(position = position_dodge(width = 0.8)) +
+        geom_point(aes(shape = Replicate),
+                   position = position_jitterdodge(dodge.width = 0.8,
+                                                   jitter.width = 0.3),
+                   size = 1) +
+        guides(fill = guide_legend(override.aes = list(shape = NA)), shape = "none") +
+        labs(x = NULL) +
+        theme_bw() +
+        theme(legend.position = "bottom")
+    }
+  } else if (type == "violin") {
+    if (facet) {
+      ggplot(plotData, aes(x = Condition, y = Abundance)) +
+        geom_violin(width = 0.7) +
+        geom_point(aes(color = Replicate),
+                   position = position_dodge(width = 0.1), size = 1) +
+        facet_wrap(~Protein) +
+        theme_bw() +
+        theme(legend.position = "bottom")
+    } else {
+      ggplot(plotData, aes(x = Protein, y = Abundance, fill = Condition,
+                           group = interaction(Protein, Condition))) +
+        geom_violin(position = position_dodge(width = 0.8)) +
+        geom_point(aes(shape = Replicate),
+                   position = position_jitterdodge(dodge.width = 0.8,
+                                                   jitter.width = 0.1),
+                   size = 1) +
+        guides(fill = guide_legend(override.aes = list(shape = NA)), shape = "none") +
+        labs(x = NULL) +
+        theme_bw() +
+        theme(legend.position = "bottom")
+    }
+  }
+}
+
+##------------------------------------------------------------------------------
 #' 
 #' Histograms of fold changes and p-values from test results
 #' 
