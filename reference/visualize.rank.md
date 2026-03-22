@@ -8,8 +8,8 @@ plot, for the data.
 ``` r
 visualize.rank(
   dataSet,
-  listName = NULL,
-  regexName = NULL,
+  listName = c(),
+  regexName = c(),
   by = NULL,
   facet = c("Condition", "Replicate"),
   color = "red",
@@ -25,7 +25,8 @@ visualize.rank(
 
 - listName:
 
-  A character vector of proteins to highlight.
+  A character vector specifying proteins for exact matching to
+  highlight.
 
 - regexName:
 

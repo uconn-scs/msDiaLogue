@@ -23,8 +23,8 @@ filterOutIn(
 
 - listName:
 
-  A character vector of text strings used as keys for selecting or
-  removing.
+  A character vector specifying proteins for exact matching to select or
+  remove.
 
 - regexName:
 
