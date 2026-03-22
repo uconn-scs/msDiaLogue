@@ -20,10 +20,10 @@ preprocessing(
 \item{dataSet}{The raw data set, if already loaded in R.}
 
 \item{filterNaN}{A logical value (default = TRUE) specifying whether
-observations including NaN should be omitted.}
+proteins with NaN should be removed.}
 
-\item{filterUnique}{An integer (default = 2) specifying how many number of
-unique peptides are required to include a protein.}
+\item{filterUnique}{An integer (default = 2) specifying the minimum number of
+unique peptides required for a protein to be retained in the data set.}
 
 \item{replaceBlank}{A logical value (default = TRUE) specifying whether
 proteins without names should be be named by their accession numbers.}

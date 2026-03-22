@@ -14,10 +14,10 @@
 #' @param dataSet The raw data set, if already loaded in R.
 #' 
 #' @param filterNaN A logical value (default = TRUE) specifying whether
-#' observations including NaN should be omitted.
+#' proteins with NaN should be removed.
 #' 
-#' @param filterUnique An integer (default = 2) specifying how many number of
-#' unique peptides are required to include a protein.
+#' @param filterUnique An integer (default = 2) specifying the minimum number of
+#' unique peptides required for a protein to be retained in the data set.
 #' 
 #' @param replaceBlank A logical value (default = TRUE) specifying whether
 #' proteins without names should be be named by their accession numbers.
@@ -67,23 +67,42 @@ preprocessing <- function(fileName,
     mutate(PG.ProteinName = firstName(PG.ProteinNames),
            PG.ProteinAccession = firstName(PG.ProteinAccessions))
   
-  ## generate a histogram of the log2-transformed values for full raw data set
-  temp <- log2(dataSet$PG.Quantity)
-  plot <- ggplot(data.frame(value = temp)) +
-    geom_histogram(aes(x = value),
-                   breaks = seq(floor(min(temp, na.rm = TRUE)),
-                                ceiling(max(temp, na.rm = TRUE)), 1),
-                   color = "black", fill = "gray") +
-    scale_x_continuous(breaks = seq(floor(min(temp, na.rm = TRUE)),
-                                    ceiling(max(temp, na.rm = TRUE)), 2)) +
-    labs(title = "Histogram of Full Raw Data Set",
-         x = expression("log"[2]*"(Data)"), y = "Frequency") +
-    theme_bw() +
-    theme(plot.title = element_text(hjust = 0.5))
-  print(plot)
+  ## histogram of full raw data
+  plotPre <- histPlot(dataSet$PG.Quantity,
+                      title = "Histogram of Raw Data Set")
+  print(plotPre)
   
-  ## filter data by NaN and unique peptide count
-  filteredData <- preProcessFiltering(dataSet, filterNaN, filterUnique, replaceBlank, saveRm)
+  ## filter data
+  filteredData <- dataSet
+  
+  ## filter out the proteins that have no recorded value
+  if (filterNaN) {
+    if (saveRm) {
+      removedData <- filteredData %>%
+        filter(is.nan(PG.Quantity))
+      write.csv(removedData, file = "preprocess_filterNaN.csv", row.names = FALSE)
+    }
+    filteredData <- filteredData %>%
+      filter(!is.nan(PG.Quantity))
+  }
+  
+  ## filter out proteins with less than 'filterUnique' unique peptides
+  if (filterUnique >= 2) {
+    if (saveRm) {
+      removedData <- filteredData %>%
+        filter(PG.NrOfStrippedSequencesIdentified < filterUnique)
+      write.csv(removedData, file = "preprocess_filterUnique.csv", row.names = FALSE)
+    }
+    filteredData <- filteredData %>%
+      filter(PG.NrOfStrippedSequencesIdentified >= filterUnique)
+  }
+  
+  ## replace blank protein name entries with their accession numbers
+  if (replaceBlank) {
+    filteredData <- filteredData %>%
+      mutate(PG.ProteinName = if_else(is.na(PG.ProteinName) | PG.ProteinName == "",
+                                      PG.ProteinAccession, PG.ProteinName))
+  }
   
   proteinInformation <- filteredData %>%
     select(PG.Genes, PG.ProteinAccession, PG.ProteinAccessions,
@@ -95,16 +114,15 @@ preprocessing <- function(fileName,
   
   ## warning catching for duplicated protein names
   if (length(duplicateName) > 0) {
-    message("There are duplicated protein names in the data: ",
+    message("There are duplicated `PG.ProteinName` in the data: ",
             paste(duplicateName, collapse = ", "),
-            ".\nAccession numbers have been used to replace duplicate names in all locations.")
+            ".\nAccession numbers have been used to replace duplicate `PG.ProteinName` in all locations.")
     
     idx <- filteredData$PG.ProteinName %in% duplicateName
     filteredData$PG.ProteinName[idx] <- filteredData$PG.ProteinAccession[idx]
     # filteredData <- filteredData %>%
-    #   mutate(PG.ProteinName = ifelse(PG.ProteinName %in% duplicateName,
-    #                                  PG.ProteinAccession,
-    #                                  PG.ProteinName))
+    #   mutate(PG.ProteinName = if_else(PG.ProteinName %in% duplicateName,
+    #                                   PG.ProteinAccession, PG.ProteinName))
     
     proteinInformation <- filteredData %>%
       select(PG.Genes, PG.ProteinAccession, PG.ProteinAccessions,
@@ -126,34 +144,24 @@ preprocessing <- function(fileName,
                                 levels = unique(as.character(R.Replicate)))) %>%
     select(R.Condition, R.Replicate, PG.Quantity, PG.ProteinName, PG.ProteinAccession)
   
-  ## print summary statistics for full raw data set
-  cat("Summary of Full Data Signals (Raw):\n")
+  ## print summary statistics
+  cat("Summary of Preprocessed Data Signals:\n")
   print(summary(selectedData$PG.Quantity))
   cat("\n")
   
-  ## generate a histogram of the log2-transformed values for full preprocessed data set
-  temp <- log2(selectedData$PG.Quantity)
-  plot <- ggplot(data.frame(value = temp)) +
-    geom_histogram(aes(x = value),
-                   breaks = seq(floor(min(temp, na.rm = TRUE)),
-                                ceiling(max(temp, na.rm = TRUE)), 1),
-                   color = "black", fill = "gray") +
-    scale_x_continuous(breaks = seq(floor(min(temp, na.rm = TRUE)),
-                                    ceiling(max(temp, na.rm = TRUE)), 2)) +
-    labs(title = "Histogram of Full Preprocessed Data Set",
-         x = expression("log"[2]*"(Data)"), y = "Frequency") +
-    theme_bw() +
-    theme(plot.title = element_text(hjust = 0.5))
-  print(plot)
+  ## histogram of preprocessed data
+  plotPost <- histPlot(selectedData$PG.Quantity,
+                       title = "Histogram of Preprocessed Data Set")
+  print(plotPost)
   
   ## reformat the data to present proteins as the columns and
   ## to group replicates under each protein
-  reformatedData <- selectedData %>%
+  reformattedData <- selectedData %>%
     pivot_wider(id_cols = c(R.Condition, R.Replicate),
                 names_from = PG.ProteinName, values_from = PG.Quantity)
   
   ## store data in a data.frame structure
-  result <- as.data.frame(reformatedData)
+  result <- as.data.frame(reformattedData)
   
   ## print levels of condition and replicate
   cat("Levels of Condition:", paste(levels(result$R.Condition), collapse = ", "), "\n")

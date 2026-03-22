@@ -33,7 +33,37 @@ firstName <- function(vecName) {
 
 ##------------------------------------------------------------------------------
 #' 
-#' Plotting a graph of mean versus variance
+#' Plot histogram of log2-transformed data
+#' 
+#' @description
+#' Generate a histogram of log2-transformed protein abundance values.
+#' 
+#' @param x A numeric vector containing the data signals.
+#' 
+#' @param title A character string specifying the plot title.
+#' 
+#' @return
+#' An object of class \code{plot}.
+#' 
+#' @noRd
+
+histPlot <- function(x, title = "") {
+  x <- log2(x)
+  ggplot(data.frame(value = x)) +
+    geom_histogram(aes(x = value),
+                   breaks = seq(floor(min(x, na.rm = TRUE)),
+                                ceiling(max(x, na.rm = TRUE)), 1),
+                   color = "black", fill = "gray") +
+    scale_x_continuous(breaks = seq(floor(min(x, na.rm = TRUE)),
+                                    ceiling(max(x, na.rm = TRUE)), 2)) +
+    labs(title = title, x = expression("log"[2]*"(Data)"), y = "Frequency") +
+    theme_bw() +
+    theme(plot.title = element_text(hjust = 0.5))
+}
+
+##------------------------------------------------------------------------------
+#' 
+#' Plot a graph of mean versus variance
 #' 
 #' @description
 #' Take a set of protein data organized by column, calculate the mean and
@@ -41,8 +71,7 @@ firstName <- function(vecName) {
 #' 
 #' @param datMV A data frame containing the data signals.
 #' 
-#' @param title A character string with the desired title for the mean-variance
-#' plot.
+#' @param title A character string specifying the plot title.
 #' 
 #' @return
 #' An object of class \code{plot}.
