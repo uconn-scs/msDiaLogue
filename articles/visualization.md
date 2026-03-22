@@ -229,14 +229,14 @@ visualizations like rank abundance plots.
 
 ``` r
 visualize.target(dataImput, type = "violin", facet = TRUE,
-                 listName = "POLK_HUMAN", regexName = c("ZN840"))
+                 listName = "POLK_HUMAN", regexName = c("CHICK", "ZN840"))
 ```
 
 ![](visualization_files/figure-html/unnamed-chunk-12-1.png)
 
 ``` r
 visualize.target(dataImput, type = "bar", facet = FALSE,
-                 listName = "POLK_HUMAN")
+                 listName = "POLK_HUMAN", regexName = c("CHICK", "ZN840"))
 ```
 
 ![](visualization_files/figure-html/unnamed-chunk-12-2.png)
