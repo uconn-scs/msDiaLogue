@@ -296,29 +296,14 @@ preprocessing_scaffold <- function(fileName, dataSet = NULL,
   
   ## reformat the data to present proteins as the columns and
   ## to group replicates under each protein
-  reformatedData <- selectedData %>%
+  reformattedData <- selectedData %>%
     pivot_wider(id_cols = c(R.Condition, R.Replicate),
                 names_from = AccessionNumber, values_from = Quantity)
   # spread(AccessionNumber, Quantity)
   
-  ## generate a histogram of the log2-transformed values for full data set
-  ## note: the Scaffold is a preprocessed data report.
-  temp <- reformatedData %>%
-    select(-c("R.Condition", "R.Replicate")) %>%
-    unlist() %>%
-    as.vector() %>%
-    log2()
-  plot <- ggplot(data.frame(value = temp)) +
-    geom_histogram(aes(x = value),
-                   breaks = seq(floor(min(temp, na.rm = TRUE)),
-                                ceiling(max(temp, na.rm = TRUE)), 1),
-                   color = "black", fill = "gray") +
-    scale_x_continuous(breaks = seq(floor(min(temp, na.rm = TRUE)),
-                                    ceiling(max(temp, na.rm = TRUE)), 2)) +
-    labs(title = "Histogram of Full Data Set",
-         x = expression("log"[2]*"(Data)"), y = "Frequency") +
-    theme_bw() +
-    theme(plot.title = element_text(hjust = 0.5))
+  ## histogram of full raw data
+  ## note: the Scaffold is a preprocessed data report
+  plot <- histPlot(selectedData$Quantity, title = "Histogram of Data Set")
   print(plot)
   
   ## print summary statistics for full data set
@@ -327,7 +312,7 @@ preprocessing_scaffold <- function(fileName, dataSet = NULL,
   cat("\n")
   
   ## store data in a data.frame structure
-  result <- as.data.frame(reformatedData)
+  result <- as.data.frame(reformattedData)
   
   ## print levels of condition and replicate
   cat("Levels of Condition:", unique(result$R.Condition), "\n")

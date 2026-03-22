@@ -19,7 +19,6 @@ utils::globalVariables(c(
   "R.Condition", # <preprocessing_scaffold>
   "R.Replicate", # <preprocessing_scaffold>
   "Quantity", # <preprocessing_scaffold>
-  "value", # <preprocessing_scaffold>
   "R.Condition", # <visualize.dist>
   "R.Replicate", # <visualize.dist>
   "name", # <visualize.dist>
