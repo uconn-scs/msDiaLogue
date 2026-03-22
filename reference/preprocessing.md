@@ -29,13 +29,13 @@ preprocessing(
 
 - filterNaN:
 
-  A logical value (default = TRUE) specifying whether observations
-  including NaN should be omitted.
+  A logical value (default = TRUE) specifying whether proteins with NaN
+  should be removed.
 
 - filterUnique:
 
-  An integer (default = 2) specifying how many number of unique peptides
-  are required to include a protein.
+  An integer (default = 2) specifying the minimum number of unique
+  peptides required for a protein to be retained in the data set.
 
 - replaceBlank:
 

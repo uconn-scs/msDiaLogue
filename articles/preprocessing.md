@@ -35,7 +35,7 @@ dataSet <- preprocessing(dataSet = Toy_Spectronaut_Data,
 
 ![](preprocessing_files/figure-html/unnamed-chunk-3-1.png)
 
-    #> Summary of Full Data Signals (Raw):
+    #> Summary of Preprocessed Data Signals:
     #>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max.
     #>     20.93    263.87    669.79   6897.92   1963.53 117803.49
 
