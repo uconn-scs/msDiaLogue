@@ -613,9 +613,9 @@ visualize.target <- function(dataSet, type = "bar", facet = TRUE,
         geom_errorbar(aes(ymin = mean - error, ymax = mean + error),
                       width = 0.3) +
         geom_point(data = plotData, aes(x = Condition, y = Abundance, color = Replicate),
-                   position = position_dodge(width = 0.3), size = 1) +
+                   shape = 18, position = position_dodge(width = 0.3), size = 2) +
         facet_wrap(~Protein) +
-        labs(y = "Abundance") +
+        labs(y = expression("Abundance"~"(\u00B195% CI)")) +
         theme_bw() +
         theme(legend.position = "bottom")
     } else {
@@ -625,13 +625,12 @@ visualize.target <- function(dataSet, type = "bar", facet = TRUE,
                       position = position_dodge(width = 0.8),
                       width = 0.3) +
         geom_point(data = plotData, aes(x = Protein, y = Abundance,
-                                        shape = Replicate,
-                                        group = interaction(Protein, Condition)),
+                                        group = Condition, shape = Replicate),
                    position = position_jitterdodge(dodge.width = 0.8,
                                                    jitter.width = 0.3),
                    size = 1) +
         guides(fill = guide_legend(override.aes = list(shape = NA)), shape = "none") +
-        labs(x = NULL, y = "Abundance") +
+        labs(x = NULL, y = expression("Abundance"~"(\u00B195% CI)")) +
         theme_bw() +
         theme(legend.position = "bottom")
     }
@@ -640,7 +639,7 @@ visualize.target <- function(dataSet, type = "bar", facet = TRUE,
       ggplot(plotData, aes(x = Condition, y = Abundance)) +
         geom_boxplot(width = 0.7) +
         geom_point(aes(color = Replicate),
-                   position = position_dodge(width = 0.3), size = 1) +
+                   shape = 18, position = position_dodge(width = 0.3), size = 2) +
         facet_wrap(~Protein) +
         theme_bw() +
         theme(legend.position = "bottom")
@@ -662,7 +661,7 @@ visualize.target <- function(dataSet, type = "bar", facet = TRUE,
       ggplot(plotData, aes(x = Condition, y = Abundance)) +
         geom_violin(width = 0.7) +
         geom_point(aes(color = Replicate),
-                   position = position_dodge(width = 0.1), size = 1) +
+                   shape = 18, position = position_dodge(width = 0.1), size = 2) +
         facet_wrap(~Protein) +
         theme_bw() +
         theme(legend.position = "bottom")
