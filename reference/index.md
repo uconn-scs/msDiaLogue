@@ -2,6 +2,8 @@
 
 ## Example Data
 
+- [`Toy_Scaffold_Data`](https://uconn-scs.github.io/msDiaLogue/reference/Toy_Scaffold_Data.md)
+  : Toy Scaffold Protein Abundance Dataset
 - [`Toy_Spectronaut_Data`](https://uconn-scs.github.io/msDiaLogue/reference/Toy_Spectronaut_Data.md)
   : Toy Spectronaut Protein Abundance Dataset
 
