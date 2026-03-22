@@ -25,6 +25,7 @@ development:
 reference:
 - title: Example Data
   contents:
+  - Toy_Scaffold_Data
   - Toy_Spectronaut_Data
 - title: Preprocessing
   contents:
