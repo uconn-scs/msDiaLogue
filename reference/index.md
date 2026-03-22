@@ -94,6 +94,8 @@
   : Score plot / graph of individuals
 - [`visualize.scree()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.scree.md)
   : Scree plot
+- [`visualize.target()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.target.md)
+  : Target protein abundance plot
 - [`visualize.test()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.test.md)
   : Histograms of fold changes and p-values from test results
 - [`visualize.upset()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.upset.md)

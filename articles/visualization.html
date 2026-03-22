@@ -305,27 +305,50 @@
 </div>
 </div>
 </div>
-</section><section class="level2"><h2 id="histogram-of-fold-changes-and-p-values-for-test">Histogram of fold changes and p-values for test<a class="anchor" aria-label="anchor" href="#histogram-of-fold-changes-and-p-values-for-test"></a>
+</section><section class="level2"><h2 id="target-protein-abundance-plot">Target protein abundance plot<a class="anchor" aria-label="anchor" href="#target-protein-abundance-plot"></a>
 </h2>
-<section class="level3"><h3 id="examples-1">Examples<a class="anchor" aria-label="anchor" href="#examples-1"></a>
-</h3>
+<p>The <code><a href="../reference/visualize.target.html">visualize.target()</a></code> function provides a convenient way to explore the abundance of specific proteins across experimental conditions. It is particularly useful for quickly examining target protein behavior, complementing global visualizations like rank abundance plots.</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.test.html">visualize.test</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.target.html">visualize.target</a></span><span class="op">(</span><span class="va">dataImput</span>, type <span class="op">=</span> <span class="st">"violin"</span>, facet <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                 listName <span class="op">=</span> <span class="st">"POLK_HUMAN"</span>, regexName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ZN840"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure><p><img src="visualization_files/figure-html/unnamed-chunk-12-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
 </figure>
 </div>
 </div>
-</div>
-<p>If the input <code>dataSet</code> is the whole list <code>anlys_modt</code>, msDiaLogue will produce individual subplots corresponding to each comparison.</p>
-<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.test.html">visualize.test</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.target.html">visualize.target</a></span><span class="op">(</span><span class="va">dataImput</span>, type <span class="op">=</span> <span class="st">"bar"</span>, facet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>                 listName <span class="op">=</span> <span class="st">"POLK_HUMAN"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure><p><img src="visualization_files/figure-html/unnamed-chunk-12-2.png" class="quarto-figure quarto-figure-center" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section class="level2"><h2 id="histogram-of-fold-changes-and-p-values-for-test">Histogram of fold changes and p-values for test<a class="anchor" aria-label="anchor" href="#histogram-of-fold-changes-and-p-values-for-test"></a>
+</h2>
+<section class="level3"><h3 id="examples-1">Examples<a class="anchor" aria-label="anchor" href="#examples-1"></a>
+</h3>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.test.html">visualize.test</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure><p><img src="visualization_files/figure-html/unnamed-chunk-13-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>If the input <code>dataSet</code> is the whole list <code>anlys_modt</code>, msDiaLogue will produce individual subplots corresponding to each comparison.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.test.html">visualize.test</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure><p><img src="visualization_files/figure-html/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
 </figure>
 </div>
 </div>
@@ -337,11 +360,11 @@
 </h2>
 <p>The UpSet plot is a visual representation that helps display the overlap and intersection of sets or categories in a dataset. It is particularly useful for illustrating the presence or absence of elements in combinations of sets.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.upset.html">visualize.upset</a></span><span class="op">(</span><span class="va">dataSet</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="visualization_files/figure-html/unnamed-chunk-14-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
+<figure><p><img src="visualization_files/figure-html/unnamed-chunk-15-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
 </figure>
 </div>
 </div>
@@ -351,13 +374,13 @@
 </h2>
 <p>The Venn plot is another graphical representation of the relationships between sets. Each circle represents a set, and the overlapping regions show the elements that are shared between sets.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.venn.html">visualize.venn</a></span><span class="op">(</span><span class="va">dataSet</span>, show_percentage <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>               fill_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"blue"</span>, <span class="st">"yellow"</span>, <span class="st">"green"</span>, <span class="st">"red"</span><span class="op">)</span>,</span>
 <span>               saveRes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="visualization_files/figure-html/unnamed-chunk-15-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
+<figure><p><img src="visualization_files/figure-html/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
 </figure>
 </div>
 </div>
@@ -369,26 +392,26 @@
 <section class="level3"><h3 id="examples-2">Examples<a class="anchor" aria-label="anchor" href="#examples-2"></a>
 </h3>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.volcano.html">visualize.volcano</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, P.thres <span class="op">=</span> <span class="fl">0.05</span>, F.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 32 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="visualization_files/figure-html/unnamed-chunk-16-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
+<figure><p><img src="visualization_files/figure-html/unnamed-chunk-17-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>If the input <code>dataSet</code> is the whole list <code>anlys_modt</code>, msDiaLogue will produce individual subplots corresponding to each comparison.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.volcano.html">visualize.volcano</a></span><span class="op">(</span><span class="va">anlys_modt</span>, P.thres <span class="op">=</span> <span class="fl">0.05</span>, F.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 60 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="visualization_files/figure-html/unnamed-chunk-17-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
+<figure><p><img src="visualization_files/figure-html/unnamed-chunk-18-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
 </figure>
 </div>
 </div>
@@ -403,13 +426,13 @@
 </h2>
 <p>One way to help identify how many PCs to retain is to explore a scree plot. The scree plot shows the percentage of variance explained by each PC.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.scree.html">visualize.scree</a></span><span class="op">(</span><span class="va">anlys_pca</span>, type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bar"</span>, <span class="st">"line"</span><span class="op">)</span>,</span>
 <span>                bar.color <span class="op">=</span> <span class="st">"gray"</span>, bar.fill <span class="op">=</span> <span class="st">"gray"</span>, line.color <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>                label <span class="op">=</span> <span class="cn">TRUE</span>, ncp <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="visualization_files/figure-html/unnamed-chunk-18-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
+<figure><p><img src="visualization_files/figure-html/unnamed-chunk-19-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
 </figure>
 </div>
 </div>
@@ -420,11 +443,11 @@
 <section class="level3"><h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h3>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.score.html">visualize.score</a></span><span class="op">(</span><span class="va">anlys_pca</span>, ellipse <span class="op">=</span> <span class="cn">TRUE</span>, ellipse.level <span class="op">=</span> <span class="fl">0.95</span>, label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="visualization_files/figure-html/unnamed-chunk-19-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
+<figure><p><img src="visualization_files/figure-html/unnamed-chunk-20-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
 </figure>
 </div>
 </div>
@@ -437,11 +460,11 @@
 <section class="level3"><h3 id="example-1">Example<a class="anchor" aria-label="anchor" href="#example-1"></a>
 </h3>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.loading.html">visualize.loading</a></span><span class="op">(</span><span class="va">anlys_pca</span>, label <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="visualization_files/figure-html/unnamed-chunk-20-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
+<figure><p><img src="visualization_files/figure-html/unnamed-chunk-21-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
 </figure>
 </div>
 </div>
@@ -456,11 +479,11 @@
 </h2>
 <p>The biplot includes individual and variable plots. Again, with a large number of proteins, this plot can be unwieldy.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.biplot.html">visualize.biplot</a></span><span class="op">(</span><span class="va">anlys_pca</span>, ellipse <span class="op">=</span> <span class="cn">TRUE</span>, ellipse.level <span class="op">=</span> <span class="fl">0.95</span>, label <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="visualization_files/figure-html/unnamed-chunk-21-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
+<figure><p><img src="visualization_files/figure-html/unnamed-chunk-22-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
 </figure>
 </div>
 </div>
@@ -469,11 +492,11 @@
 </h2>
 <p>This combined plot pairs a VIP-score chart on the left with a heatmap on the right. The left panel shows each variable as a dot at its VIP score from PLS-DA. Higher scores indicate greater importance for class separation. The right panel uses colored tiles to show each top variable’s average abundance across conditions. So you can instantly see which variables matter most for class separation and how they behave in each condition.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.vip.html">visualize.vip</a></span><span class="op">(</span><span class="va">anlys_plsda</span>, comp <span class="op">=</span> <span class="fl">1</span>, num <span class="op">=</span> <span class="fl">10</span>, thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure><p><img src="visualization_files/figure-html/unnamed-chunk-22-1.png" class="quarto-figure quarto-figure-center" width="864"></p>
+<figure><p><img src="visualization_files/figure-html/unnamed-chunk-23-1.png" class="quarto-figure quarto-figure-center" width="864"></p>
 </figure>
 </div>
 </div>

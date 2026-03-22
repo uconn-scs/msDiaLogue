@@ -218,6 +218,29 @@ visualize.rank(dataImput, listName = "POLK_HUMAN",
 
 ![](visualization_files/figure-html/unnamed-chunk-11-1.png)
 
+## Target protein abundance plot
+
+The
+[`visualize.target()`](https://uconn-scs.github.io/msDiaLogue/reference/visualize.target.md)
+function provides a convenient way to explore the abundance of specific
+proteins across experimental conditions. It is particularly useful for
+quickly examining target protein behavior, complementing global
+visualizations like rank abundance plots.
+
+``` r
+visualize.target(dataImput, type = "violin", facet = TRUE,
+                 listName = "POLK_HUMAN", regexName = c("ZN840"))
+```
+
+![](visualization_files/figure-html/unnamed-chunk-12-1.png)
+
+``` r
+visualize.target(dataImput, type = "bar", facet = FALSE,
+                 listName = "POLK_HUMAN")
+```
+
+![](visualization_files/figure-html/unnamed-chunk-12-2.png)
+
 ## Histogram of fold changes and p-values for test
 
 ### Examples
@@ -226,7 +249,7 @@ visualize.rank(dataImput, listName = "POLK_HUMAN",
 visualize.test(anlys_modt$`100pmol-50pmol`)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-12-1.png)
+![](visualization_files/figure-html/unnamed-chunk-13-1.png)
 
 If the input `dataSet` is the whole list `anlys_modt`, msDiaLogue will
 produce individual subplots corresponding to each comparison.
@@ -235,7 +258,7 @@ produce individual subplots corresponding to each comparison.
 visualize.test(anlys_modt)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-13-1.png)
+![](visualization_files/figure-html/unnamed-chunk-14-1.png)
 
 ### Details
 
@@ -259,7 +282,7 @@ combinations of sets.
 visualize.upset(dataSet)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-14-1.png)
+![](visualization_files/figure-html/unnamed-chunk-15-1.png)
 
 This plot reveals that 42 proteins are shared by 50pmol, 100pmol, and
 200pmol, while only 3 proteins are shared by 100 pmol and 200pmol, but
@@ -277,7 +300,7 @@ visualize.venn(dataSet, show_percentage = TRUE,
                saveRes = TRUE)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-15-1.png)
+![](visualization_files/figure-html/unnamed-chunk-16-1.png)
 
 where `saveRes = TRUE` refers to the data containing logical columns
 representing sets in Venn plot information will be saved as a `.csv`
@@ -297,7 +320,7 @@ visualize.volcano(anlys_modt$`100pmol-50pmol`, P.thres = 0.05, F.thres = 1)
 #> (`geom_text_repel()`).
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-16-1.png)
+![](visualization_files/figure-html/unnamed-chunk-17-1.png)
 
 If the input `dataSet` is the whole list `anlys_modt`, msDiaLogue will
 produce individual subplots corresponding to each comparison.
@@ -308,7 +331,7 @@ visualize.volcano(anlys_modt, P.thres = 0.05, F.thres = 1)
 #> (`geom_text_repel()`).
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-17-1.png)
+![](visualization_files/figure-html/unnamed-chunk-18-1.png)
 
 ### Details
 
@@ -335,7 +358,7 @@ visualize.scree(anlys_pca, type = c("bar", "line"),
                 label = TRUE, ncp = 10)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-18-1.png)
+![](visualization_files/figure-html/unnamed-chunk-19-1.png)
 
 where `label = TRUE` adds information labels at the top of bars/points,
 and `ncp = 10` sets the number of dimension to be displayed.
@@ -348,7 +371,7 @@ and `ncp = 10` sets the number of dimension to be displayed.
 visualize.score(anlys_pca, ellipse = TRUE, ellipse.level = 0.95, label = TRUE)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-19-1.png)
+![](visualization_files/figure-html/unnamed-chunk-20-1.png)
 
 ### Details
 
@@ -371,7 +394,7 @@ provided), for each groups (condition) provided.
 visualize.loading(anlys_pca, label = TRUE)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-20-1.png)
+![](visualization_files/figure-html/unnamed-chunk-21-1.png)
 
 ### Details
 
@@ -394,7 +417,7 @@ number of proteins, this plot can be unwieldy.
 visualize.biplot(anlys_pca, ellipse = TRUE, ellipse.level = 0.95, label = "all")
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-21-1.png)
+![](visualization_files/figure-html/unnamed-chunk-22-1.png)
 
 ## VIP score plot
 
@@ -410,7 +433,7 @@ each condition.
 visualize.vip(anlys_plsda, comp = 1, num = 10, thres = 1)
 ```
 
-![](visualization_files/figure-html/unnamed-chunk-22-1.png)
+![](visualization_files/figure-html/unnamed-chunk-23-1.png)
 
 [←
 Previous](https://uconn-scs.github.io/msDiaLogue/articles/analysis.md)
