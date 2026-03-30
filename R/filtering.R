@@ -113,24 +113,30 @@ filterOutIn <- function(dataSet,
 
 ##------------------------------------------------------------------------------
 #' 
-#' Filter proteins by non-missing proportion
+#' Filter proteins by non-missing proportion and/or count
 #' 
 #' @description
-#' Remove proteins with NA values.
+#' Remove proteins with insufficient non-missing values based on a minimum
+#' non-missing proportion threshold, a minimum non-missing count threshold,
+#' or both.
 #' 
-#' @param dataSet The 2d data set of experimental values.
+#' @param dataSet A data frame containing the data signals.
 #' 
-#' @param minProp A numeric value (default = 0.51) specifying the minimum
-#' non-missing proportion required for a protein to be retained.
+#' @param minProp A numeric value (default = 0.51) specifying
+#' the minimum non-missing proportion required for a protein to be retained.
+#' 
+#' @param minCount An integer specifying
+#' the minimum non-missing count required for a protein to be retained.
 #' 
 #' @param by A character string (default = "cond") specifying
-#' how coverage is evaluated.
+#' how non-missingness is evaluated.
 #' \itemize{
-#' \item \code{"cond"}: The non-missing proportion for a protein must be
-#' at least \code{minProp} within each condition. Proteins failing in any
-#' condition are filtered out. 
-#' \item \code{"all"}: The overall non-missing proportion across all samples
-#' must be at least \code{minProp}.
+#' \item \code{"cond"}: The non-missing proportion and/or count for a protein
+#' must meet the specified threshold (\code{minProp} and/or \code{minCount})
+#' within each condition. Proteins failing in any condition are filtered out. 
+#' \item \code{"all"}: The overall non-missing proportion and/or count
+#' across all samples must meet the specified threshold (\code{minProp} and/or
+#' \code{minCount}).
 #' }
 #' 
 #' @param saveRm A logical value (default = TRUE) specifying whether
@@ -139,9 +145,24 @@ filterOutIn <- function(dataSet,
 #' @return
 #' A filtered data frame.
 #' 
+#' @details
+#' \itemize{
+#' \item If \code{minProp} is provided, proteins are filtered based on
+#' the non-missing proportion.
+#' \item If \code{minCount} is provided, proteins are filtered based on
+#' the non-missing count.
+#' \item If both are provided, both criteria must be satisfied.
+#' \item At least one of \code{minProp} and \code{minCount} must be specified.
+#' }
+#' 
 #' @export
 
-filterNA <- function(dataSet, minProp = 0.51, by = "cond", saveRm = TRUE) {
+filterNA <- function(dataSet, minProp = 0.51, minCount = NULL,
+                     by = "cond", saveRm = TRUE) {
+  
+  if (is.null(minProp) && is.null(minCount)) {
+    stop("At least one of 'minProp' and 'minCount' must be provided.")
+  }
   
   ## 0/1 non-missing indicator: 1 present, 0 missing
   prot_cols <- setdiff(names(dataSet), c("R.Condition", "R.Replicate"))
@@ -155,12 +176,24 @@ filterNA <- function(dataSet, minProp = 0.51, by = "cond", saveRm = TRUE) {
     ## non-missing counts per condition x protein
     nonmissing_n <- rowsum(nonmissing01, group = cond, reorder = FALSE)
     ## samples per condition
-    n_per_cond <- as.integer(table(cond))
-    ## non-missing proportion per condition x protein
-    prop_nonmissing <- sweep(nonmissing_n, 1, n_per_cond, "/")
-    keep <- colSums(prop_nonmissing < minProp) == 0
+    n_per_cond <- as.integer(table(cond)[rownames(nonmissing_n)])
+    keep <- rep(TRUE, ncol(nonmissing_n))
+    if (!is.null(minProp)) {
+      ## non-missing proportion per condition x protein
+      prop_nonmissing <- sweep(nonmissing_n, 1, n_per_cond, "/")
+      keep <- keep & (colSums(prop_nonmissing < minProp) == 0)
+    }
+    if (!is.null(minCount)) {
+      keep <- keep & (colSums(nonmissing_n < minCount) == 0)
+    }
   } else {
-    keep <- (colMeans(nonmissing01) >= minProp)
+    keep <- rep(TRUE, ncol(nonmissing01))
+    if (!is.null(minProp)) {
+      keep <- keep & (colMeans(nonmissing01) >= minProp)
+    }
+    if (!is.null(minCount)) {
+      keep <- keep & (colSums(nonmissing01) >= minCount)
+    }
   }
   
   keep_proteins <- prot_cols[keep]
@@ -172,19 +205,19 @@ filterNA <- function(dataSet, minProp = 0.51, by = "cond", saveRm = TRUE) {
     removedData <- dataSet[, c("R.Condition", "R.Replicate", drop_proteins), drop = FALSE]
     
     information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
-    scaffoldCheck <- any(colnames(information) == "Visible?")
-    IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+    scaffoldCheck <- "Visible?" %in% colnames(information)
+    IDcol <- if (scaffoldCheck) "AccessionNumber" else "PG.ProteinName"
     
     ## save removed data to current working directory
     removedData_long <- removedData %>%
-      pivot_longer(-c("R.Condition", "R.Replicate"), names_to = IDcol, values_to = "PG.Quantity") %>%
+      pivot_longer(-c("R.Condition", "R.Replicate"),
+                   names_to = IDcol, values_to = "PG.Quantity") %>%
       left_join(information, by = IDcol)
     
     write.xlsx(list(removedData, removedData_long), file = "filterNA.xlsx")
     
   }
   
-  ## return the filtered data
   return(filteredData)
 }
 

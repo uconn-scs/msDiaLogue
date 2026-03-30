@@ -2,24 +2,28 @@
 % Please edit documentation in R/filtering.R
 \name{filterNA}
 \alias{filterNA}
-\title{Filter proteins by non-missing proportion}
+\title{Filter proteins by non-missing proportion and/or count}
 \usage{
-filterNA(dataSet, minProp = 0.51, by = "cond", saveRm = TRUE)
+filterNA(dataSet, minProp = 0.51, minCount = NULL, by = "cond", saveRm = TRUE)
 }
 \arguments{
-\item{dataSet}{The 2d data set of experimental values.}
+\item{dataSet}{A data frame containing the data signals.}
 
-\item{minProp}{A numeric value (default = 0.51) specifying the minimum
-non-missing proportion required for a protein to be retained.}
+\item{minProp}{A numeric value (default = 0.51) specifying
+the minimum non-missing proportion required for a protein to be retained.}
+
+\item{minCount}{An integer specifying
+the minimum non-missing count required for a protein to be retained.}
 
 \item{by}{A character string (default = "cond") specifying
-how coverage is evaluated.
+how non-missingness is evaluated.
 \itemize{
-\item \code{"cond"}: The non-missing proportion for a protein must be
-at least \code{minProp} within each condition. Proteins failing in any
-condition are filtered out. 
-\item \code{"all"}: The overall non-missing proportion across all samples
-must be at least \code{minProp}.
+\item \code{"cond"}: The non-missing proportion and/or count for a protein
+must meet the specified threshold (\code{minProp} and/or \code{minCount})
+within each condition. Proteins failing in any condition are filtered out. 
+\item \code{"all"}: The overall non-missing proportion and/or count
+across all samples must meet the specified threshold (\code{minProp} and/or
+\code{minCount}).
 }}
 
 \item{saveRm}{A logical value (default = TRUE) specifying whether
@@ -29,5 +33,17 @@ to save removed data to current working directory.}
 A filtered data frame.
 }
 \description{
-Remove proteins with NA values.
+Remove proteins with insufficient non-missing values based on a minimum
+non-missing proportion threshold, a minimum non-missing count threshold,
+or both.
+}
+\details{
+\itemize{
+\item If \code{minProp} is provided, proteins are filtered based on
+the non-missing proportion.
+\item If \code{minCount} is provided, proteins are filtered based on
+the non-missing count.
+\item If both are provided, both criteria must be satisfied.
+\item At least one of \code{minProp} and \code{minCount} must be specified.
+}
 }
