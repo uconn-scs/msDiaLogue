@@ -22,7 +22,7 @@
 ## Filtering
 
 - [`filterNA()`](https://uconn-scs.github.io/msDiaLogue/reference/filterNA.md)
-  : Filter proteins by non-missing proportion
+  : Filter proteins by non-missing proportion and/or count
 - [`filterOutIn()`](https://uconn-scs.github.io/msDiaLogue/reference/filterOutIn.md)
   : Filter proteins by list or pattern
 
