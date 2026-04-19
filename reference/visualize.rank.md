@@ -12,8 +12,11 @@ visualize.rank(
   regexName = c(),
   by = NULL,
   facet = c("Condition", "Replicate"),
-  color = "red",
-  ...
+  ht.color = "black",
+  ht.shape = 17,
+  ht.size = 1.5,
+  ht.textcolor = "black",
+  ht.textsize = 2
 )
 ```
 
@@ -59,15 +62,32 @@ visualize.rank(
 
   - c("Replicate", "Condition"): No averaging is performed.
 
-- color:
+- ht.color:
 
-  A character string (default = red") specifying the color used to
-  highlight proteins.
+  A character string (default = "black") specifying the point color of
+  highlighted proteins.
 
-- ...:
+- ht.shape:
 
-  Optional arguments passed to
-  [`geom_text_repel`](https://ggrepel.slowkow.com/reference/geom_text_repel.html).
+  A numeric value (default = 17) specifying the point shape of
+  highlighted points. See \[ggplot2: Elegant Graphics for Data
+  Analysis\](https://ggplot2-book.org/scales-other.html#sec-scale-shape)
+  for more details.
+
+- ht.size:
+
+  A numeric value (default = 1.5) specifying the point size of
+  highlighted proteins.
+
+- ht.textcolor:
+
+  A character string (default = "black") specifying the font color of
+  text labels for highlighted proteins.
+
+- ht.textsize:
+
+  A numeric value (default = 2) specifying the font size of text labels
+  for highlighted proteins.
 
 ## Value
 

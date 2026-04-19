@@ -78,8 +78,11 @@ for the data.</p>
 <span>  regexName <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  by <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  facet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Condition"</span>, <span class="st">"Replicate"</span><span class="op">)</span>,</span>
-<span>  color <span class="op">=</span> <span class="st">"red"</span>,</span>
-<span>  <span class="va">...</span></span>
+<span>  ht.color <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  ht.shape <span class="op">=</span> <span class="fl">17</span>,</span>
+<span>  ht.size <span class="op">=</span> <span class="fl">1.5</span>,</span>
+<span>  ht.textcolor <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  ht.textsize <span class="op">=</span> <span class="fl">2</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -121,13 +124,31 @@ specifying grouping variables for faceting. Allowed values are:</p><ul><li><p>"C
 </ul></dd>
 
 
-<dt id="arg-color">color<a class="anchor" aria-label="anchor" href="#arg-color"></a></dt>
-<dd><p>A character string (default = red") specifying
-the color used to highlight proteins.</p></dd>
+<dt id="arg-ht-color">ht.color<a class="anchor" aria-label="anchor" href="#arg-ht-color"></a></dt>
+<dd><p>A character string (default = "black") specifying
+the point color of highlighted proteins.</p></dd>
 
 
-<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Optional arguments passed to <code><a href="https://ggrepel.slowkow.com/reference/geom_text_repel.html" class="external-link">geom_text_repel</a></code>.</p></dd>
+<dt id="arg-ht-shape">ht.shape<a class="anchor" aria-label="anchor" href="#arg-ht-shape"></a></dt>
+<dd><p>A numeric value (default = 17) specifying
+the point shape of highlighted points.
+See [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/scales-other.html#sec-scale-shape)
+for more details.</p></dd>
+
+
+<dt id="arg-ht-size">ht.size<a class="anchor" aria-label="anchor" href="#arg-ht-size"></a></dt>
+<dd><p>A numeric value (default = 1.5) specifying
+the point size of highlighted proteins.</p></dd>
+
+
+<dt id="arg-ht-textcolor">ht.textcolor<a class="anchor" aria-label="anchor" href="#arg-ht-textcolor"></a></dt>
+<dd><p>A character string (default = "black") specifying
+the font color of text labels for highlighted proteins.</p></dd>
+
+
+<dt id="arg-ht-textsize">ht.textsize<a class="anchor" aria-label="anchor" href="#arg-ht-textsize"></a></dt>
+<dd><p>A numeric value (default = 2) specifying
+the font size of text labels for highlighted proteins.</p></dd>
 
 </dl></div>
     <div class="section level2">

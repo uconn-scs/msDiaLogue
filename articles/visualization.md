@@ -213,7 +213,9 @@ or replicates.
 ``` r
 visualize.rank(dataImput, listName = "POLK_HUMAN",
                regexName = c("ZN840", "CC85C"),
-               facet = c("Replicate", "Condition"), color = "black")
+               facet = c("Replicate", "Condition"),
+               ht.color = "black", ht.size = 1.5,
+               ht.textcolor = "black", ht.textsize = 2)
 ```
 
 ![](visualization_files/figure-html/unnamed-chunk-11-1.png)
