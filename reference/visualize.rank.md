@@ -16,7 +16,8 @@ visualize.rank(
   ht.shape = 17,
   ht.size = 1.5,
   ht.textcolor = "black",
-  ht.textsize = 2
+  ht.textsize = 2,
+  ...
 )
 ```
 
@@ -88,6 +89,11 @@ visualize.rank(
 
   A numeric value (default = 2) specifying the font size of text labels
   for highlighted proteins.
+
+- ...:
+
+  Optional arguments passed to
+  [`geom_text_repel`](https://ggrepel.slowkow.com/reference/geom_text_repel.html).
 
 ## Value
 
