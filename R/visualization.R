@@ -431,10 +431,22 @@ visualize.ma <- function(dataSet, M.thres = 1) {
 #' \item c("Replicate", "Condition"): No averaging is performed.
 #' }
 #' 
-#' @param color A character string (default = red") specifying
-#' the color used to highlight proteins.
+#' @param ht.color A character string (default = "black") specifying
+#' the point color of highlighted proteins.
+#'
+#' @param ht.shape A numeric value (default = 17) specifying
+#' the point shape of highlighted points.
+#' See [ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/scales-other.html#sec-scale-shape)
+#' for more details.
 #' 
-#' @param ... Optional arguments passed to \code{\link[ggrepel]{geom_text_repel}}.
+#' @param ht.size A numeric value (default = 1.5) specifying
+#' the point size of highlighted proteins.
+#' 
+#' @param ht.textcolor A character string (default = "black") specifying
+#' the font color of text labels for highlighted proteins.
+#' 
+#' @param ht.textsize A numeric value (default = 2) specifying
+#' the font size of text labels for highlighted proteins.
 #' 
 #' @return
 #' An object of class \code{ggplot}.
@@ -444,8 +456,9 @@ visualize.ma <- function(dataSet, M.thres = 1) {
 #' @export
 
 visualize.rank <- function(dataSet, listName = c(), regexName = c(), by = NULL,
-                           facet = c("Condition", "Replicate"), color = "red",
-                           ...) {
+                           facet = c("Condition", "Replicate"),
+                           ht.color = "black", ht.shape = 17, ht.size = 1.5,
+                           ht.textcolor = "black", ht.textsize = 2) {
   
   information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
   scaffoldCheck <- "Visible?" %in% colnames(information)
@@ -494,10 +507,10 @@ visualize.rank <- function(dataSet, listName = c(), regexName = c(), by = NULL,
     mutate(Rank = row_number()) %>%
     ungroup()
   
-  plot <- ggplot(plotData, aes(x = Rank, y = Abundance, shape = Type, color = Type)) +
-    geom_point() +
-    scale_color_manual(values = c("Highlight" = color, "Other" = "gray")) +
-    scale_shape_manual(values = c("Highlight" = 17, "Other" = 16)) +
+  plot <- ggplot(plotData, aes(x = Rank, y = Abundance)) +
+    geom_point(data = subset(plotData, Type == "Other"), shape = 16, color = "gray") +
+    geom_point(data = subset(plotData, Type == "Highlight"),
+               color = ht.color, shape = ht.shape, size = ht.size) +
     labs(x = "Rank", y = "Abundance") +
     theme_bw() +
     theme(legend.position = "none",
@@ -513,8 +526,9 @@ visualize.rank <- function(dataSet, listName = c(), regexName = c(), by = NULL,
   if (length(unionName) != 0) {
     plot <- plot +
       geom_text_repel(data = subset(plotData, Type == "Highlight"),
-                      aes(label = Label), size = 2.5,
-                      show.legend = FALSE, ...)
+                      aes(label = Label),
+                      color = ht.textcolor, size = ht.textsize,
+                      show.legend = FALSE)
   }
   
   return(plot)
