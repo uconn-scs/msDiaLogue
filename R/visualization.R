@@ -448,6 +448,8 @@ visualize.ma <- function(dataSet, M.thres = 1) {
 #' @param ht.textsize A numeric value (default = 2) specifying
 #' the font size of text labels for highlighted proteins.
 #' 
+#' @param ... Optional arguments passed to \code{\link[ggrepel]{geom_text_repel}}.
+#' 
 #' @return
 #' An object of class \code{ggplot}.
 #' 
@@ -458,7 +460,7 @@ visualize.ma <- function(dataSet, M.thres = 1) {
 visualize.rank <- function(dataSet, listName = c(), regexName = c(), by = NULL,
                            facet = c("Condition", "Replicate"),
                            ht.color = "black", ht.shape = 17, ht.size = 1.5,
-                           ht.textcolor = "black", ht.textsize = 2) {
+                           ht.textcolor = "black", ht.textsize = 2, ...) {
   
   information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
   scaffoldCheck <- "Visible?" %in% colnames(information)
@@ -528,7 +530,7 @@ visualize.rank <- function(dataSet, listName = c(), regexName = c(), by = NULL,
       geom_text_repel(data = subset(plotData, Type == "Highlight"),
                       aes(label = Label),
                       color = ht.textcolor, size = ht.textsize,
-                      show.legend = FALSE)
+                      show.legend = FALSE, ...)
   }
   
   return(plot)

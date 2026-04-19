@@ -14,7 +14,8 @@ visualize.rank(
   ht.shape = 17,
   ht.size = 1.5,
   ht.textcolor = "black",
-  ht.textsize = 2
+  ht.textsize = 2,
+  ...
 )
 }
 \arguments{
@@ -62,6 +63,8 @@ the font color of text labels for highlighted proteins.}
 
 \item{ht.textsize}{A numeric value (default = 2) specifying
 the font size of text labels for highlighted proteins.}
+
+\item{...}{Optional arguments passed to \code{\link[ggrepel]{geom_text_repel}}.}
 }
 \value{
 An object of class \code{ggplot}.
