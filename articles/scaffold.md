@@ -172,7 +172,7 @@ dataSet <- preprocessing_scaffold(dataSet = Toy_Scaffold_Data,
 ![](scaffold_files/figure-html/unnamed-chunk-3-1.png)
 
     #> Summary of Full Data Signals:
-    #>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max.      NA's
+    #>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max.       NAs
     #> 7.300e+05 9.640e+06 2.250e+07 5.546e+07 5.630e+07 3.480e+09      4194
     #>
     #> Levels of Condition: 6 ctrl DM SIC
