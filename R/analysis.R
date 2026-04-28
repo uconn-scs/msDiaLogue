@@ -115,13 +115,14 @@ analyze.t <- function(dataSet, ref = NULL, adjust.method = "none",
   
   if (saveRes) {
     
+    rownames(means) <- paste(rownames(means), "mean")
     total <- do.call(rbind, lapply(result, `[`, c("difference", "p-value"), , drop = FALSE))
+    rownames(total) <- as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0)))
     total <- rbind(means, total)
-    rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0))))
     
     information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
-    scaffoldCheck <- any(colnames(information) == "Visible?")
-    IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+    scaffoldCheck <- "Visible?" %in% colnames(information)
+    IDcol <- if (scaffoldCheck) "AccessionNumber" else "PG.ProteinName"
     
     total <- as.data.frame(t(total)) %>%
       rownames_to_column(IDcol) %>%
@@ -241,13 +242,14 @@ analyze.mod_t <- function(dataSet, ref = NULL, adjust.method = "none", saveRes =
   
   if (saveRes) {
     
+    rownames(means) <- paste(rownames(means), "mean")
     total <- do.call(rbind, lapply(result, `[`, c("difference", "p-value"), , drop = FALSE))
+    rownames(total) <- as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0)))
     total <- rbind(means, total)
-    rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0))))
     
     information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
-    scaffoldCheck <- any(colnames(information) == "Visible?")
-    IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+    scaffoldCheck <- "Visible?" %in% colnames(information)
+    IDcol <- if (scaffoldCheck) "AccessionNumber" else "PG.ProteinName"
     
     total <- as.data.frame(t(total)) %>%
       rownames_to_column(IDcol) %>%
@@ -361,13 +363,14 @@ analyze.wilcox <- function(dataSet, ref = NULL, adjust.method = "none",
   
   if (saveRes) {
     
+    rownames(means) <- paste(rownames(means), "mean")
     total <- do.call(rbind, lapply(result, `[`, c("difference", "p-value"), , drop = FALSE))
+    rownames(total) <- as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0)))
     total <- rbind(means, total)
-    rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": difference", ": p-value"), paste0))))
     
     information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
-    scaffoldCheck <- any(colnames(information) == "Visible?")
-    IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+    scaffoldCheck <- "Visible?" %in% colnames(information)
+    IDcol <- if (scaffoldCheck) "AccessionNumber" else "PG.ProteinName"
     
     total <- as.data.frame(t(total)) %>%
       rownames_to_column(IDcol) %>%
@@ -444,13 +447,14 @@ analyze.ma <- function(dataSet, ref = NULL, saveRes = TRUE) {
   
   if (saveRes) {
     
+    rownames(means) <- paste(rownames(means), "mean")
     total <- do.call(rbind, lapply(result, `[`, c("A", "M"), , drop = FALSE))
+    rownames(total) <- as.vector(t(outer(names(result), c(": A", ": M"), paste0)))
     total <- rbind(means, total)
-    rownames(total) <- c(paste(conds, "mean"), as.vector(t(outer(names(result), c(": A", ": M"), paste0))))
     
     information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
-    scaffoldCheck <- any(colnames(information) == "Visible?")
-    IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
+    scaffoldCheck <- "Visible?" %in% colnames(information)
+    IDcol <- if (scaffoldCheck) "AccessionNumber" else "PG.ProteinName"
     
     total <- as.data.frame(t(total)) %>%
       rownames_to_column(IDcol) %>%
