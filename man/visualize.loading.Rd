@@ -4,11 +4,14 @@
 \alias{visualize.loading}
 \title{Loading plot / graph of variables}
 \usage{
-visualize.loading(dataSet, label = TRUE)
+visualize.loading(dataSet, axes = c(1, 2), label = TRUE)
 }
 \arguments{
 \item{dataSet}{The data set corresponds to the output from the function
 \code{\link[msDiaLogue]{analyze.pca}} or \code{\link[msDiaLogue]{analyze.plsda}}.}
+
+\item{axes}{A numeric vector (default = c(1, 2)) specifying
+the axes of interest.}
 
 \item{label}{A logical value (default = TRUE) specifying whether
 the active variables to be labeled.}

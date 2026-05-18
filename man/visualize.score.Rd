@@ -4,11 +4,20 @@
 \alias{visualize.score}
 \title{Score plot / graph of individuals}
 \usage{
-visualize.score(dataSet, ellipse = TRUE, ellipse.level = 0.95, label = TRUE)
+visualize.score(
+  dataSet,
+  axes = c(1, 2),
+  ellipse = TRUE,
+  ellipse.level = 0.95,
+  label = TRUE
+)
 }
 \arguments{
 \item{dataSet}{The data set corresponds to the output from the function
 \code{\link[msDiaLogue]{analyze.pca}} or \code{\link[msDiaLogue]{analyze.plsda}}.}
+
+\item{axes}{A numeric vector (default = c(1, 2)) specifying
+the axes of interest.}
 
 \item{ellipse}{A logical value (default = TRUE) specifying whether
 to draw ellipses around the individuals.}

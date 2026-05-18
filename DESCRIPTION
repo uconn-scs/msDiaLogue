@@ -24,7 +24,6 @@ License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(roclets = c("collate", "namespace", "rd",
     "roxyglobals::global_roclet"))
-RoxygenNote: 7.3.3
 Depends: R (>= 4.1.0)
 Imports:
     RColorBrewer,
@@ -68,3 +67,4 @@ Config/roxyglobals/unique: FALSE
 URL: https://github.com/uconn-scs/msDiaLogue
 BugReports: https://github.com/uconn-scs/msDiaLogue/issues
 LazyData: true
+Config/roxygen2/version: 8.0.0

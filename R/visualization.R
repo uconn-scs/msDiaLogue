@@ -984,6 +984,9 @@ visualize.scree <- function(dataSet, type = c("bar", "line"),
 #' @param dataSet The data set corresponds to the output from the function
 #' \code{\link[msDiaLogue]{analyze.pca}} or \code{\link[msDiaLogue]{analyze.plsda}}.
 #' 
+#' @param axes A numeric vector (default = c(1, 2)) specifying
+#' the axes of interest.
+#' 
 #' @param ellipse A logical value (default = TRUE) specifying whether
 #' to draw ellipses around the individuals.
 #' 
@@ -998,11 +1001,21 @@ visualize.scree <- function(dataSet, type = c("bar", "line"),
 #' 
 #' @export
 
-visualize.score <- function(dataSet, ellipse = TRUE, ellipse.level = 0.95, label = TRUE) {
+visualize.score <- function(dataSet, axes = c(1, 2),
+                            ellipse = TRUE, ellipse.level = 0.95,
+                            label = TRUE) {
   
   ## individual coordinates (scores)
   ind.coord <- dataSet$scores
-  colnames(ind.coord) <- paste0("Dim.", 1:ncol(ind.coord))
+  ndim <- ncol(ind.coord)
+  colnames(ind.coord) <- paste0("Dim.", 1:ndim)
+  
+  if(length(axes) != 2) {
+    stop("`axes` must have length 2.")
+  }
+  if (max(axes) > ndim) {
+    stop("`axes` must be between 1 and ", ndim, ".")
+  }
   
   ## percentage of variance explained by each component
   if (inherits(dataSet, "pca")) {
@@ -1015,21 +1028,21 @@ visualize.score <- function(dataSet, ellipse = TRUE, ellipse.level = 0.95, label
   ## extract coordinates for selected axes
   ind <- data.frame(Group = factor(gsub("_.*", "", rownames(ind.coord))),
                     Name = gsub("^.*_", "", rownames(ind.coord)),
-                    ind.coord[, c(1,2), drop = FALSE],
+                    setNames(as.data.frame(ind.coord[, axes, drop = FALSE]), c("x", "y")),
                     stringsAsFactors = TRUE)
   
-  ggplot(ind, aes(x = Dim.1, y = Dim.2, color = Group, shape = Group)) +
+  ggplot(ind, aes(x = x, y = y, color = Group, shape = Group)) +
     geom_point() +
     { if (ellipse) stat_ellipse(aes(group = Group, fill = Group),
                                 geom = "polygon", alpha = 0.1,
                                 type = "norm", level = ellipse.level,
-                                linetype = "solid", size = 0.5, show.legend = TRUE) } +
+                                linetype = "solid", linewidth = 0.5, show.legend = TRUE) } +
     { if (label) geom_text_repel(aes(label = Name), size = 3,
                                  max.overlaps = Inf, show.legend = FALSE) } +
     geom_hline(yintercept = 0, color = "black", linetype = "dashed") +
     geom_vline(xintercept = 0, color = "black", linetype = "dashed") +
-    labs(x = paste0("Dim.1 (", round(variance[1], 1), "%)"),
-         y = paste0("Dim.2 (", round(variance[2], 1), "%)")) +
+    labs(x = sprintf("Dim.%d (%.1f%%)", axes[1], variance[axes[1]]),
+         y = sprintf("Dim.%d (%.1f%%)", axes[2], variance[axes[2]])) +
     theme_bw() +
     theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
   
@@ -1045,6 +1058,9 @@ visualize.score <- function(dataSet, ellipse = TRUE, ellipse.level = 0.95, label
 #' @param dataSet The data set corresponds to the output from the function
 #' \code{\link[msDiaLogue]{analyze.pca}} or \code{\link[msDiaLogue]{analyze.plsda}}.
 #' 
+#' @param axes A numeric vector (default = c(1, 2)) specifying
+#' the axes of interest.
+#' 
 #' @param label A logical value (default = TRUE) specifying whether
 #' the active variables to be labeled.
 #' 
@@ -1055,7 +1071,7 @@ visualize.score <- function(dataSet, ellipse = TRUE, ellipse.level = 0.95, label
 #' 
 #' @export
 
-visualize.loading <- function(dataSet, label = TRUE) {
+visualize.loading <- function(dataSet, axes = c(1, 2), label = TRUE) {
   
   ## variable-component correlaiton
   ## percentage of variance explained by each component
@@ -1067,22 +1083,30 @@ visualize.loading <- function(dataSet, label = TRUE) {
     var.coord <- sweep(dataSet$loadings, 2, sqrt(dataSet$Xvar/dataSet$Xtotvar), "*")
     variance <- 100 * dataSet$Xvar / dataSet$Xtotvar
   }
-  colnames(var.coord) <- paste0("Dim.", 1:ncol(var.coord))
+  ndim <- ncol(var.coord)
+  colnames(var.coord) <- paste0("Dim.", 1:ndim)
+  
+  if(length(axes) != 2) {
+    stop("`axes` must have length 2.")
+  }
+  if (max(axes) > ndim) {
+    stop("`axes` must be between 1 and ", ndim, ".")
+  }
   
   ## combine into result data frame
   var <- data.frame(Name = rownames(var.coord),
-                    var.coord[, c(1,2), drop = FALSE],
+                    setNames(as.data.frame(var.coord[, axes, drop = FALSE]), c("x", "y")),
                     xstart = 0, ystart = 0,
                     stringsAsFactors = TRUE)
   
-  plot <- ggplot(var, aes(x = Dim.1, y = Dim.2)) +
-    geom_segment(data = var, aes(x = 0, y = 0, xend = Dim.1, yend = Dim.2),
+  plot <- ggplot(var, aes(x = x, y = y)) +
+    geom_segment(data = var, aes(x = 0, y = 0, xend = x, yend = y),
                  arrow = arrow(length = unit(0.2, "cm")), color = "black") +
     { if (label) geom_text_repel(aes(label = Name), size = 3, max.overlaps = Inf) } +
     geom_hline(yintercept = 0, color = "black", linetype = "dashed") +
     geom_vline(xintercept = 0, color = "black", linetype = "dashed") +
-    labs(x = paste0("Dim1 (", round(variance[1], 1), "%)"),
-         y = paste0("Dim2 (", round(variance[2], 1), "%)")) +
+    labs(x = sprintf("Dim.%d (%.1f%%)", axes[1], variance[axes[1]]),
+         y = sprintf("Dim.%d (%.1f%%)", axes[2], variance[axes[2]])) +
     theme_bw() +
     theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
   
@@ -1108,6 +1132,9 @@ visualize.loading <- function(dataSet, label = TRUE) {
 #' @param dataSet The data set corresponds to the output from the function
 #' \code{\link[msDiaLogue]{analyze.pca}} or \code{\link[msDiaLogue]{analyze.plsda}}.
 #' 
+#' @param axes A numeric vector (default = c(1, 2)) specifying
+#' the axes of interest.
+#' 
 #' @param ellipse A logical value (default = TRUE) specifying whether
 #' to draw ellipses around the individuals.
 #' 
@@ -1128,15 +1155,24 @@ visualize.loading <- function(dataSet, label = TRUE) {
 #' 
 #' @export
 
-visualize.biplot <- function(dataSet, ellipse = TRUE, ellipse.level = 0.95, label = "all") {
-  
+visualize.biplot <- function(dataSet, axes = c(1, 2),
+                             ellipse = TRUE, ellipse.level = 0.95,
+                             label = "all") {
   ## individual coordinates (scores)
   ind.coord <- dataSet$scores
-  colnames(ind.coord) <- paste0("Dim.", 1:ncol(ind.coord))
+  ndim <- ncol(ind.coord)
+  colnames(ind.coord) <- paste0("Dim.", 1:ndim)
+  
+  if(length(axes) != 2) {
+    stop("`axes` must have length 2.")
+  }
+  if (max(axes) > ndim) {
+    stop("`axes` must be between 1 and ", ndim, ".")
+  }
   
   ind <- data.frame(Group = factor(gsub("_.*", "", rownames(ind.coord))),
                     Name = gsub("^.*_", "", rownames(ind.coord)),
-                    ind.coord[, c(1,2), drop = FALSE],
+                    setNames(as.data.frame(ind.coord[, axes, drop = FALSE]), c("x", "y")),
                     stringsAsFactors = TRUE)
   
   ## variable-component correlaiton
@@ -1149,36 +1185,36 @@ visualize.biplot <- function(dataSet, ellipse = TRUE, ellipse.level = 0.95, labe
     var.coord <- sweep(dataSet$loadings, 2, sqrt(dataSet$Xvar/dataSet$Xtotvar), "*")
     variance <- 100 * dataSet$Xvar / dataSet$Xtotvar
   }
-  colnames(var.coord) <- paste0("Dim.", 1:ncol(var.coord))
+  colnames(var.coord) <- paste0("Dim.", 1:ndim)
   
   var <- data.frame(Name = rownames(var.coord),
-                    var.coord[, c(1,2), drop = FALSE],
+                    setNames(as.data.frame(var.coord[, axes, drop = FALSE]), c("x", "y")),
                     xstart = 0, ystart = 0,
                     stringsAsFactors = TRUE)
   
-  r <- min(max(ind[, "Dim.1"]) - min(ind[, "Dim.1"])/(max(var[, "Dim.1"]) - min(var[, "Dim.1"])),
-           max(ind[, "Dim.2"]) - min(ind[, "Dim.2"])/(max(var[, "Dim.2"]) - min(var[, "Dim.2"])))
+  r <- min(max(ind[, "x"]) - min(ind[, "x"])/(max(var[, "x"]) - min(var[, "x"])),
+           max(ind[, "y"]) - min(ind[, "y"])/(max(var[, "y"]) - min(var[, "y"])))
   
-  var[, c("Dim.1", "Dim.2")] <- var[, c("Dim.1", "Dim.2")] * r * 0.7
+  var[, c("x", "y")] <- var[, c("x", "y")] * r * 0.7
   
-  ggplot(ind, aes(x = Dim.1, y = Dim.2, color = Group, shape = Group)) +
+  ggplot(ind, aes(x = x, y = y, color = Group, shape = Group)) +
     geom_point() +
     { if (ellipse) stat_ellipse(aes(group = Group, fill = Group),
                                 geom = "polygon", alpha = 0.1,
                                 type = "norm", level = ellipse.level,
-                                linetype = "solid", size = 0.5, show.legend = TRUE) } +
+                                linetype = "solid", linewidth = 0.5, show.legend = TRUE) } +
     { if (label %in% c("all", "ind")) geom_text_repel(aes(label = Name), size = 3,
                                                       max.overlaps = Inf, show.legend = FALSE) } +
     geom_segment(inherit.aes = FALSE, data = var,
-                 aes(x = 0, y = 0, xend = Dim.1, yend = Dim.2),
+                 aes(x = 0, y = 0, xend = x, yend = y),
                  arrow = arrow(length = unit(0.2, "cm")), color = "black") +
     { if (label %in% c("all", "var")) geom_text_repel(inherit.aes = FALSE, data = var,
-                                                      aes(x = Dim.1, y = Dim.2, label = Name),
+                                                      aes(x = x, y = y, label = Name),
                                                       size = 3, max.overlaps = Inf) } +
     geom_hline(yintercept = 0, color = "black", linetype = "dashed") +
     geom_vline(xintercept = 0, color = "black", linetype = "dashed") +
-    labs(x = paste0("Dim1 (", round(variance[1], 1), "%)"),
-         y = paste0("Dim2 (", round(variance[2], 1), "%)")) +
+    labs(x = sprintf("Dim.%d (%.1f%%)", axes[1], variance[axes[1]]),
+         y = sprintf("Dim.%d (%.1f%%)", axes[2], variance[axes[2]])) +
     theme_bw() +
     theme(legend.position = "bottom", plot.title = element_text(hjust = 0.5))
   
@@ -1219,9 +1255,9 @@ visualize.biplot <- function(dataSet, ellipse = TRUE, ellipse.level = 0.95, labe
 visualize.vip <- function(dataSet, comp = 1, num = 10, thres = 1, rel.widths) {
   
   information <- read.csv("preprocess_protein_information.csv", check.names = FALSE)
-  scaffoldCheck <- any(colnames(information) == "Visible?")
-  IDcol <- ifelse(scaffoldCheck, "AccessionNumber", "PG.ProteinName")
-  labelCol <- ifelse(scaffoldCheck, "AlternateID", "PG.ProteinName")
+  scaffoldCheck <- "Visible?" %in% colnames(information)
+  IDcol <- if (scaffoldCheck) "AccessionNumber" else "PG.ProteinName"
+  labelCol <- if (scaffoldCheck) "AlternateID" else "PG.ProteinName"
   
   vips <- as.data.frame(dataSet[["vips"]]) %>%
     select(Score = paste("Comp", comp)) %>%

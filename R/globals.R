@@ -58,8 +58,8 @@ utils::globalVariables(c(
   "p-value", # <visualize.volcano>
   "Label", # <visualize.volcano>
   "percent", # <visualize.scree>
-  "Dim.1", # <visualize.loading>
-  "Dim.2", # <visualize.loading>
+  "x", # <visualize.loading>
+  "y", # <visualize.loading>
   "Name", # <visualize.loading>
   "xcircle", # <visualize.loading>
   "ycircle", # <visualize.loading>
