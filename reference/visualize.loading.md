@@ -5,7 +5,7 @@ Generate a loadings plot (graph of variables) for the data.
 ## Usage
 
 ``` r
-visualize.loading(dataSet, label = TRUE)
+visualize.loading(dataSet, axes = c(1, 2), label = TRUE)
 ```
 
 ## Arguments
@@ -16,6 +16,10 @@ visualize.loading(dataSet, label = TRUE)
   [`analyze.pca`](https://uconn-scs.github.io/msDiaLogue/reference/analyze.pca.md)
   or
   [`analyze.plsda`](https://uconn-scs.github.io/msDiaLogue/reference/analyze.plsda.md).
+
+- axes:
+
+  A numeric vector (default = c(1, 2)) specifying the axes of interest.
 
 - label:
 

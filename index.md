@@ -39,6 +39,7 @@ You can install **msDiaLogue** directly from
 - Development (latest) version:
 
 ``` r
+
 # install.packages("pak")
 pak::pkg_install("uconn-scs/msDiaLogue")
 ```
@@ -46,6 +47,7 @@ pak::pkg_install("uconn-scs/msDiaLogue")
 - Specific released version (e.g. v0.0.6):
 
 ``` r
+
 # install.packages("pak")
 pak::pkg_install("uconn-scs/msDiaLogue@v0.0.6")
 ```

@@ -14,6 +14,7 @@ run. See below for more details of individual plot types.
 ## Preliminary
 
 ``` r
+
 ## load R package
 library(msDiaLogue)
 ## preprocessing
@@ -48,6 +49,7 @@ anlys_plsda <- analyze.plsda(dataImput, method = "kernelpls",
 ## Boxplot
 
 ``` r
+
 visualize.boxplot(dataNorm)
 #> Warning: Removed 55 rows containing non-finite outside the scale range
 #> (`stat_boxplot()`).
@@ -62,6 +64,7 @@ proteins, the distribution plot helps clearly distinguish proteins with
 and without missing values.
 
 ``` r
+
 visualize.dist(dataTran)
 ```
 
@@ -84,6 +87,7 @@ imputation), density plots are arranged side by side to enable direct
 comparison of distributional changes.
 
 ``` r
+
 visualize.dist(list("Pre-Imputation" = dataFilt, "Post-Imputation" = dataImput))
 ```
 
@@ -99,6 +103,7 @@ whether missing values exist.
   in msDiaLogue.
 
 ``` r
+
 visualize.heatmap(dataImput, pkg = "pheatmap",
                   cluster_cols = TRUE, cluster_rows = TRUE,
                   show_colnames = TRUE, show_rownames = TRUE)
@@ -114,6 +119,7 @@ If the input data contains an `NA` value, the heatmap will be binary for
 missing data patterns, i.e., whether values are present or absent.
 
 ``` r
+
 visualize.heatmap(dataSet, pkg = "pheatmap",
                   cluster_cols = FALSE, cluster_rows = FALSE,
                   show_colnames = TRUE, show_rownames = TRUE,
@@ -127,6 +133,7 @@ visualize.heatmap(dataSet, pkg = "pheatmap",
   but does not include the dendrogram.
 
 ``` r
+
 visualize.heatmap(dataImput, pkg = "ggplot2")
 #> Warning: Setting row names on a tibble is deprecated.
 ```
@@ -138,6 +145,7 @@ values, suggesting similar protein expression levels across different
 samples.
 
 ``` r
+
 visualize.heatmap(dataSet, pkg = "ggplot2",
                   show_pct_cols = FALSE, show_pct_rows = TRUE,
                   show_pct_legend = TRUE, saveRes = TRUE)
@@ -150,6 +158,7 @@ visualize.heatmap(dataSet, pkg = "ggplot2",
 ### Examples
 
 ``` r
+
 visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 1)
 #> Warning: Removed 31 rows containing missing values or values outside the scale range
 #> (`geom_text_repel()`).
@@ -168,6 +177,7 @@ If the input `dataSet` is the whole list `anlys_MA`, msDiaLogue will
 produce individual subplots corresponding to each comparison.
 
 ``` r
+
 visualize.ma(anlys_ma, M.thres = 1)
 #> Warning: Removed 58 rows containing missing values or values outside the scale range
 #> (`geom_text_repel()`).
@@ -211,6 +221,7 @@ distribution patterns and highlight specific proteins across conditions
 or replicates.
 
 ``` r
+
 visualize.rank(dataImput, listName = "POLK_HUMAN",
                regexName = c("ZN840", "CC85C"),
                facet = c("Replicate", "Condition"),
@@ -230,6 +241,7 @@ quickly examining target protein behavior, complementing global
 visualizations like rank abundance plots.
 
 ``` r
+
 visualize.target(dataImput, type = "violin", facet = TRUE,
                  listName = "POLK_HUMAN", regexName = c("CHICK", "ZN840"))
 ```
@@ -237,6 +249,7 @@ visualize.target(dataImput, type = "violin", facet = TRUE,
 ![](visualization_files/figure-html/unnamed-chunk-12-1.png)
 
 ``` r
+
 visualize.target(dataImput, type = "bar", facet = FALSE,
                  listName = "POLK_HUMAN", regexName = c("CHICK", "ZN840"))
 ```
@@ -248,6 +261,7 @@ visualize.target(dataImput, type = "bar", facet = FALSE,
 ### Examples
 
 ``` r
+
 visualize.test(anlys_modt$`100pmol-50pmol`)
 ```
 
@@ -257,6 +271,7 @@ If the input `dataSet` is the whole list `anlys_modt`, msDiaLogue will
 produce individual subplots corresponding to each comparison.
 
 ``` r
+
 visualize.test(anlys_modt)
 ```
 
@@ -281,6 +296,7 @@ useful for illustrating the presence or absence of elements in
 combinations of sets.
 
 ``` r
+
 visualize.upset(dataSet)
 ```
 
@@ -297,6 +313,7 @@ between sets. Each circle represents a set, and the overlapping regions
 show the elements that are shared between sets.
 
 ``` r
+
 visualize.venn(dataSet, show_percentage = TRUE,
                fill_color = c("blue", "yellow", "green", "red"),
                saveRes = TRUE)
@@ -317,6 +334,7 @@ proteins. Notably, 3 proteins are exclusively found in the 100pmol and
 ### Examples
 
 ``` r
+
 visualize.volcano(anlys_modt$`100pmol-50pmol`, P.thres = 0.05, F.thres = 1)
 #> Warning: Removed 32 rows containing missing values or values outside the scale range
 #> (`geom_text_repel()`).
@@ -328,6 +346,7 @@ If the input `dataSet` is the whole list `anlys_modt`, msDiaLogue will
 produce individual subplots corresponding to each comparison.
 
 ``` r
+
 visualize.volcano(anlys_modt, P.thres = 0.05, F.thres = 1)
 #> Warning: Removed 60 rows containing missing values or values outside the scale range
 #> (`geom_text_repel()`).
@@ -355,6 +374,7 @@ plot. The scree plot shows the percentage of variance explained by each
 PC.
 
 ``` r
+
 visualize.scree(anlys_pca, type = c("bar", "line"),
                 bar.color = "gray", bar.fill = "gray", line.color = "black",
                 label = TRUE, ncp = 10)
@@ -370,6 +390,7 @@ and `ncp = 10` sets the number of dimension to be displayed.
 ### Example
 
 ``` r
+
 visualize.score(anlys_pca, ellipse = TRUE, ellipse.level = 0.95, label = TRUE)
 ```
 
@@ -393,6 +414,7 @@ provided), for each groups (condition) provided.
 ### Example
 
 ``` r
+
 visualize.loading(anlys_pca, label = TRUE)
 ```
 
@@ -416,6 +438,7 @@ The biplot includes individual and variable plots. Again, with a large
 number of proteins, this plot can be unwieldy.
 
 ``` r
+
 visualize.biplot(anlys_pca, ellipse = TRUE, ellipse.level = 0.95, label = "all")
 ```
 
@@ -432,6 +455,7 @@ which variables matter most for class separation and how they behave in
 each condition.
 
 ``` r
+
 visualize.vip(anlys_plsda, comp = 1, num = 10, thres = 1)
 ```
 

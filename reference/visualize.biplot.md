@@ -5,7 +5,13 @@ Generate a biplot of individuals and variables for the data.
 ## Usage
 
 ``` r
-visualize.biplot(dataSet, ellipse = TRUE, ellipse.level = 0.95, label = "all")
+visualize.biplot(
+  dataSet,
+  axes = c(1, 2),
+  ellipse = TRUE,
+  ellipse.level = 0.95,
+  label = "all"
+)
 ```
 
 ## Arguments
@@ -16,6 +22,10 @@ visualize.biplot(dataSet, ellipse = TRUE, ellipse.level = 0.95, label = "all")
   [`analyze.pca`](https://uconn-scs.github.io/msDiaLogue/reference/analyze.pca.md)
   or
   [`analyze.plsda`](https://uconn-scs.github.io/msDiaLogue/reference/analyze.plsda.md).
+
+- axes:
+
+  A numeric vector (default = c(1, 2)) specifying the axes of interest.
 
 - ellipse:
 

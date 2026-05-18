@@ -15,6 +15,7 @@ The following is the preliminary to generate the default visualization
 in msDiaLogue:
 
 ``` r
+
 ## load R package
 library(msDiaLogue)
 ## preprocessing
@@ -41,6 +42,7 @@ anlys_ma <- analyze.ma(dataImput, ref = "50pmol")
 ## Volcano plot
 
 ``` r
+
 ## default volcano
 visualize.volcano(anlys_modt$`100pmol-50pmol`, P.thres = 0.05, F.thres = 1)
 #> Warning: Removed 32 rows containing missing values or values outside the scale range
@@ -56,6 +58,7 @@ labels in the volcano plot with gene or protein names, using additional
 information.
 
 ``` r
+
 volcano <- visualize.volcano(anlys_modt$`100pmol-50pmol`,
                              P.thres = 0.05, F.thres = 1)
 
@@ -80,6 +83,7 @@ from ggplot2. This allows you to specify custom colors for different
 significance levels in the output plot.
 
 ``` r
+
 volcano <- visualize.volcano(anlys_modt$`100pmol-50pmol`,
                              P.thres = 0.05, F.thres = 1)
 
@@ -103,6 +107,7 @@ control the overall look of the plot, including the background,
 gridlines, and text.
 
 ``` r
+
 volcano <- visualize.volcano(anlys_modt$`100pmol-50pmol`,
                              P.thres = 0.05, F.thres = 1)
 
@@ -118,6 +123,7 @@ volcano + theme_classic()
 ## MA plot
 
 ``` r
+
 ## default MA
 visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
 #> Warning: Removed 19 rows containing missing values or values outside the scale range
@@ -132,6 +138,7 @@ To change the labels on your plot from accession numbers to gene or
 protein names, follow these steps:
 
 ``` r
+
 ma <- visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
 
 ## change labels of proteins
@@ -154,6 +161,7 @@ to better highlight different categories of significance. Here is how
 you can modify the colors in the plot:
 
 ``` r
+
 ma <- visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
 
 library(ggplot2)
@@ -174,6 +182,7 @@ To alter the visual style of your MA plot, you can apply a different
 theme using ggplot2’s theme functions.
 
 ``` r
+
 ma <- visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
 
 library(ggplot2)
