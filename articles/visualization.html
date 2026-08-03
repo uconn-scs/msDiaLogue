@@ -135,9 +135,9 @@
 <span><span class="co">## summarization</span></span>
 <span><span class="va">dataSumm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarize.html">summarize</a></span><span class="op">(</span><span class="va">dataImput</span>, saveSumm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">## analysis: MA</span></span>
-<span><span class="va">anlys_ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.ma.html">analyze.ma</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="st">"50pmol"</span><span class="op">)</span></span>
+<span><span class="va">anlys_ma</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.ma.html">analyze.ma</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="st">"50fmol"</span><span class="op">)</span></span>
 <span><span class="co">## analysis: Empirical Bayes moderated t-test</span></span>
-<span><span class="va">anlys_modt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.mod_t.html">analyze.mod_t</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="st">"50pmol"</span>, adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<span><span class="va">anlys_modt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.mod_t.html">analyze.mod_t</a></span><span class="op">(</span><span class="va">dataImput</span>, ref <span class="op">=</span> <span class="st">"50fmol"</span>, adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span><span class="co">## analysis: PCA</span></span>
 <span><span class="va">anlys_pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/analyze.pca.html">analyze.pca</a></span><span class="op">(</span><span class="va">dataImput</span>, center <span class="op">=</span> <span class="cn">TRUE</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">## analysis: PLS-DA</span></span>
@@ -252,8 +252,8 @@
 </h3>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_ma</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, M.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 31 rows containing missing values or values outside the scale range</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_ma</span><span class="op">$</span><span class="va">`100fmol-50fmol`</span>, M.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 32 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -267,7 +267,7 @@
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.ma.html">visualize.ma</a></span><span class="op">(</span><span class="va">anlys_ma</span>, M.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 58 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">#&gt; Warning: Removed 60 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -336,7 +336,7 @@
 </h3>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.test.html">visualize.test</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.test.html">visualize.test</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">$</span><span class="va">`100fmol-50fmol`</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure><p><img src="visualization_files/figure-html/unnamed-chunk-13-1.png" class="quarto-figure quarto-figure-center" width="672"></p>
@@ -371,7 +371,7 @@
 </div>
 </div>
 </div>
-<p>This plot reveals that 42 proteins are shared by 50pmol, 100pmol, and 200pmol, while only 3 proteins are shared by 100 pmol and 200pmol, but not with 50pmol.</p>
+<p>This plot reveals that 42 proteins are shared by 50fmol, 100fmol, and 200fmol, while only 3 proteins are shared by 100fmol and 200fmol, but not with 50fmol.</p>
 </section><section class="level2"><h2 id="venn-plot">Venn plot<a class="anchor" aria-label="anchor" href="#venn-plot"></a>
 </h2>
 <p>The Venn plot is another graphical representation of the relationships between sets. Each circle represents a set, and the overlapping regions show the elements that are shared between sets.</p>
@@ -388,14 +388,14 @@
 </div>
 </div>
 <p>where <code>saveRes = TRUE</code> refers to the data containing logical columns representing sets in Venn plot information will be saved as a <code>.csv</code> file named <em>venn_information.csv</em> in the current working directory.</p>
-<p>In the example above, 50pmol, 100pmol, and 200pmol groups share 42 proteins. Notably, 3 proteins are exclusively found in the 100pmol and 200pmol groups.</p>
+<p>In the example above, 50fmol, 100fmol, and 200fmol groups share 42 proteins. Notably, 3 proteins are exclusively found in the 100fmol and 200fmol groups.</p>
 </section><section class="level2"><h2 id="volcano-plot">Volcano plot<a class="anchor" aria-label="anchor" href="#volcano-plot"></a>
 </h2>
 <section class="level3"><h3 id="examples-2">Examples<a class="anchor" aria-label="anchor" href="#examples-2"></a>
 </h3>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.volcano.html">visualize.volcano</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">$</span><span class="va">`100pmol-50pmol`</span>, P.thres <span class="op">=</span> <span class="fl">0.05</span>, F.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/visualize.volcano.html">visualize.volcano</a></span><span class="op">(</span><span class="va">anlys_modt</span><span class="op">$</span><span class="va">`100fmol-50fmol`</span>, P.thres <span class="op">=</span> <span class="fl">0.05</span>, F.thres <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 32 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_text_repel()`).</span></span></code></pre></div>
 <div class="cell-output-display">
@@ -602,7 +602,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

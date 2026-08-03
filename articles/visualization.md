@@ -36,9 +36,9 @@ dataImput <- impute.min_local(dataFilt)
 ## summarization
 dataSumm <- summarize(dataImput, saveSumm = TRUE)
 ## analysis: MA
-anlys_ma <- analyze.ma(dataImput, ref = "50pmol")
+anlys_ma <- analyze.ma(dataImput, ref = "50fmol")
 ## analysis: Empirical Bayes moderated t-test
-anlys_modt <- analyze.mod_t(dataImput, ref = "50pmol", adjust.method = "none")
+anlys_modt <- analyze.mod_t(dataImput, ref = "50fmol", adjust.method = "none")
 ## analysis: PCA
 anlys_pca <- analyze.pca(dataImput, center = TRUE, scale = TRUE)
 ## analysis: PLS-DA
@@ -159,8 +159,8 @@ visualize.heatmap(dataSet, pkg = "ggplot2",
 
 ``` r
 
-visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 1)
-#> Warning: Removed 31 rows containing missing values or values outside the scale range
+visualize.ma(anlys_ma$`100fmol-50fmol`, M.thres = 1)
+#> Warning: Removed 32 rows containing missing values or values outside the scale range
 #> (`geom_text_repel()`).
 ```
 
@@ -179,7 +179,7 @@ produce individual subplots corresponding to each comparison.
 ``` r
 
 visualize.ma(anlys_ma, M.thres = 1)
-#> Warning: Removed 58 rows containing missing values or values outside the scale range
+#> Warning: Removed 60 rows containing missing values or values outside the scale range
 #> (`geom_text_repel()`).
 ```
 
@@ -262,7 +262,7 @@ visualize.target(dataImput, type = "bar", facet = FALSE,
 
 ``` r
 
-visualize.test(anlys_modt$`100pmol-50pmol`)
+visualize.test(anlys_modt$`100fmol-50fmol`)
 ```
 
 ![](visualization_files/figure-html/unnamed-chunk-13-1.png)
@@ -302,9 +302,9 @@ visualize.upset(dataSet)
 
 ![](visualization_files/figure-html/unnamed-chunk-15-1.png)
 
-This plot reveals that 42 proteins are shared by 50pmol, 100pmol, and
-200pmol, while only 3 proteins are shared by 100 pmol and 200pmol, but
-not with 50pmol.
+This plot reveals that 42 proteins are shared by 50fmol, 100fmol, and
+200fmol, while only 3 proteins are shared by 100fmol and 200fmol, but
+not with 50fmol.
 
 ## Venn plot
 
@@ -325,9 +325,9 @@ where `saveRes = TRUE` refers to the data containing logical columns
 representing sets in Venn plot information will be saved as a `.csv`
 file named *venn_information.csv* in the current working directory.
 
-In the example above, 50pmol, 100pmol, and 200pmol groups share 42
-proteins. Notably, 3 proteins are exclusively found in the 100pmol and
-200pmol groups.
+In the example above, 50fmol, 100fmol, and 200fmol groups share 42
+proteins. Notably, 3 proteins are exclusively found in the 100fmol and
+200fmol groups.
 
 ## Volcano plot
 
@@ -335,7 +335,7 @@ proteins. Notably, 3 proteins are exclusively found in the 100pmol and
 
 ``` r
 
-visualize.volcano(anlys_modt$`100pmol-50pmol`, P.thres = 0.05, F.thres = 1)
+visualize.volcano(anlys_modt$`100fmol-50fmol`, P.thres = 0.05, F.thres = 1)
 #> Warning: Removed 32 rows containing missing values or values outside the scale range
 #> (`geom_text_repel()`).
 ```

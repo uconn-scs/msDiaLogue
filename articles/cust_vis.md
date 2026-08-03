@@ -35,8 +35,8 @@ dataFilt <- filterNA(dataNorm, minProp = 0.51, by = "cond", saveRm = TRUE)
 ## imputation
 dataImput <- impute.min_local(dataFilt)
 ## analysis
-anlys_modt <- analyze.mod_t(dataImput, ref = "50pmol")
-anlys_ma <- analyze.ma(dataImput, ref = "50pmol")
+anlys_modt <- analyze.mod_t(dataImput, ref = "50fmol")
+anlys_ma <- analyze.ma(dataImput, ref = "50fmol")
 ```
 
 ## Volcano plot
@@ -44,7 +44,7 @@ anlys_ma <- analyze.ma(dataImput, ref = "50pmol")
 ``` r
 
 ## default volcano
-visualize.volcano(anlys_modt$`100pmol-50pmol`, P.thres = 0.05, F.thres = 1)
+visualize.volcano(anlys_modt$`100fmol-50fmol`, P.thres = 0.05, F.thres = 1)
 #> Warning: Removed 32 rows containing missing values or values outside the scale range
 #> (`geom_text_repel()`).
 ```
@@ -59,7 +59,7 @@ information.
 
 ``` r
 
-volcano <- visualize.volcano(anlys_modt$`100pmol-50pmol`,
+volcano <- visualize.volcano(anlys_modt$`100fmol-50fmol`,
                              P.thres = 0.05, F.thres = 1)
 
 ## change labels of proteins
@@ -84,7 +84,7 @@ significance levels in the output plot.
 
 ``` r
 
-volcano <- visualize.volcano(anlys_modt$`100pmol-50pmol`,
+volcano <- visualize.volcano(anlys_modt$`100fmol-50fmol`,
                              P.thres = 0.05, F.thres = 1)
 
 library(ggplot2)
@@ -108,7 +108,7 @@ gridlines, and text.
 
 ``` r
 
-volcano <- visualize.volcano(anlys_modt$`100pmol-50pmol`,
+volcano <- visualize.volcano(anlys_modt$`100fmol-50fmol`,
                              P.thres = 0.05, F.thres = 1)
 
 library(ggplot2)
@@ -125,8 +125,8 @@ volcano + theme_classic()
 ``` r
 
 ## default MA
-visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
-#> Warning: Removed 19 rows containing missing values or values outside the scale range
+visualize.ma(anlys_ma$`100fmol-50fmol`, M.thres = 0.5)
+#> Warning: Removed 18 rows containing missing values or values outside the scale range
 #> (`geom_text_repel()`).
 ```
 
@@ -139,7 +139,7 @@ protein names, follow these steps:
 
 ``` r
 
-ma <- visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
+ma <- visualize.ma(anlys_ma$`100fmol-50fmol`, M.thres = 0.5)
 
 ## change labels of proteins
 library(dplyr)
@@ -148,7 +148,7 @@ ma[["data"]] <- ma[["data"]] %>%
   mutate(Label = ifelse(is.na(Label), Label, PG.Genes))
 
 ma
-#> Warning: Removed 19 rows containing missing values or values outside the scale range
+#> Warning: Removed 18 rows containing missing values or values outside the scale range
 #> (`geom_text_repel()`).
 ```
 
@@ -162,7 +162,7 @@ you can modify the colors in the plot:
 
 ``` r
 
-ma <- visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
+ma <- visualize.ma(anlys_ma$`100fmol-50fmol`, M.thres = 0.5)
 
 library(ggplot2)
 new <- ggplot_build(ma)
@@ -170,7 +170,7 @@ new[["plot"]][["scales"]][["scales"]][[1]][["palette.cache"]] <-
   c(Down = "darkblue", No = "gray", Up = "orange")
 
 new$plot
-#> Warning: Removed 19 rows containing missing values or values outside the scale range
+#> Warning: Removed 18 rows containing missing values or values outside the scale range
 #> (`geom_text_repel()`).
 ```
 
@@ -183,12 +183,12 @@ theme using ggplot2’s theme functions.
 
 ``` r
 
-ma <- visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
+ma <- visualize.ma(anlys_ma$`100fmol-50fmol`, M.thres = 0.5)
 
 library(ggplot2)
  ## use a minimal theme
 ma + theme_minimal()
-#> Warning: Removed 19 rows containing missing values or values outside the scale range
+#> Warning: Removed 18 rows containing missing values or values outside the scale range
 #> (`geom_text_repel()`).
 ```
 
