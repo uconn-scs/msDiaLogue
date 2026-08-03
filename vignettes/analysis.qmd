@@ -62,7 +62,7 @@ If you specify `ref = "A"`, then the result includes two comparisons: "B-A" and
 
 
 ```{r}
-anlys_t <- analyze.t(dataImput, ref = "50pmol", adjust.method = "none",
+anlys_t <- analyze.t(dataImput, ref = "50fmol", adjust.method = "none",
                      saveRes = TRUE)
 ```
 
@@ -75,21 +75,21 @@ with the same value in all samples. In this case, the p-value of t-test returns
 
 
 ```{r echo=FALSE}
-cat("$`100pmol-50pmol`\n")
+cat("$`100fmol-50fmol`\n")
 ```
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
-knitr::kable(anlys_t$`100pmol-50pmol`)
+knitr::kable(anlys_t$`100fmol-50fmol`)
 ```
 </div>
 
 
 ```{r echo=FALSE}
-cat("$`200pmol-50pmol`\n")
+cat("$`200fmol-50fmol`\n")
 ```
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
-knitr::kable(anlys_t$`200pmol-50pmol`)
+knitr::kable(anlys_t$`200fmol-50fmol`)
 ```
 </div>
 
@@ -154,7 +154,7 @@ The default value `"none"` indicates that no correction is applied.
 
 
 ```{r}
-anlys_modt <- analyze.mod_t(dataImput, ref = "50pmol", adjust.method = "none",
+anlys_modt <- analyze.mod_t(dataImput, ref = "50fmol", adjust.method = "none",
                             saveRes = TRUE)
 ```
 
@@ -175,21 +175,21 @@ it merely serves to alert users to its occurrence. </div>
 
 
 ```{r echo=FALSE}
-cat("$`100pmol-50pmol`\n")
+cat("$`100fmol-50fmol`\n")
 ```
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
-knitr::kable(anlys_modt$`100pmol-50pmol`)
+knitr::kable(anlys_modt$`100fmol-50fmol`)
 ```
 </div>
 
 
 ```{r echo=FALSE}
-cat("$`200pmol-50pmol`\n")
+cat("$`200fmol-50fmol`\n")
 ```
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
-knitr::kable(anlys_modt$`200pmol-50pmol`)
+knitr::kable(anlys_modt$`200fmol-50fmol`)
 ```
 </div>
 
@@ -212,7 +212,7 @@ in the current dataset to calculate variance.
 
 
 ```{r warning=FALSE}
-anlys_wilcox <- analyze.wilcox(dataImput, ref = "50pmol", adjust.method = "none",
+anlys_wilcox <- analyze.wilcox(dataImput, ref = "50fmol", adjust.method = "none",
                                saveRes = TRUE)
 ```
 
@@ -227,21 +227,21 @@ same value, the corresponding p-value returns NaN. </div>
 
 
 ```{r echo=FALSE}
-cat("$`100pmol-50pmol`\n")
+cat("$`100fmol-50fmol`\n")
 ```
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
-knitr::kable(anlys_wilcox$`100pmol-50pmol`)
+knitr::kable(anlys_wilcox$`100fmol-50fmol`)
 ```
 </div>
 
 
 ```{r echo=FALSE}
-cat("$`200pmol-50pmol`\n")
+cat("$`200fmol-50fmol`\n")
 ```
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
-knitr::kable(anlys_wilcox$`200pmol-50pmol`)
+knitr::kable(anlys_wilcox$`200fmol-50fmol`)
 ```
 </div>
 
@@ -265,26 +265,26 @@ the same.
 
 
 ```{r}
-anlys_ma <- analyze.ma(dataImput, ref = "50pmol", saveRes = TRUE)
+anlys_ma <- analyze.ma(dataImput, ref = "50fmol", saveRes = TRUE)
 ```
 
 
 ```{r echo=FALSE}
-cat("$`100pmol-50pmol`\n")
+cat("$`100fmol-50fmol`\n")
 ```
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
-knitr::kable(anlys_ma$`100pmol-50pmol`)
+knitr::kable(anlys_ma$`100fmol-50fmol`)
 ```
 </div>
 
 
 ```{r echo=FALSE}
-cat("$`200pmol-50pmol`\n")
+cat("$`200fmol-50fmol`\n")
 ```
 <div style="overflow-x: auto;">
 ```{r echo=FALSE}
-knitr::kable(anlys_ma$`200pmol-50pmol`)
+knitr::kable(anlys_ma$`200fmol-50fmol`)
 ```
 </div>
 

@@ -40,8 +40,8 @@ You still need to use the function `transform()`. </div>
 
 
 ```{r}
-## if the raw data is in an .Rdata file
-load("../inst/extdata/Toy_Spectronaut_Data.RData")
+## if the raw data is in an R data file
+data("Toy_Spectronaut_Data")
 dataSet <- preprocessing(dataSet = Toy_Spectronaut_Data,
                          filterNaN = TRUE, filterUnique = 2,
                          replaceBlank = TRUE, saveRm = TRUE)
@@ -74,9 +74,11 @@ The steps below describe the operations performed during preprocessing.
 specify the `fileName` to read the raw data file into R.
 
 
-+ If the raw data is stored as an `.RData` file
-[Toy_Spectronaut_Data.RData](https://github.com/uconn-scs/msDiaLogue/blob/main/inst/extdata/Toy_Spectronaut_Data.RData),
-first load the data file directly, then specify the `dataSet` in the function.
++ If the raw data is stored in an R data file (e.g.,
+[Toy_Spectronaut_Data.rda](https://github.com/uconn-scs/msDiaLogue/blob/main/data/Toy_Spectronaut_Data.rda)
+or a `.RData` file),
+first load the data file directly, then specify the loaded object as
+the `dataSet` argument.
 
 
 ### 2. Filters out identified proteins that exhibit `NaN` quantitative values

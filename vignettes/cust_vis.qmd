@@ -48,8 +48,8 @@ dataFilt <- filterNA(dataNorm, minProp = 0.51, by = "cond", saveRm = TRUE)
 ## imputation
 dataImput <- impute.min_local(dataFilt)
 ## analysis
-anlys_modt <- analyze.mod_t(dataImput, ref = "50pmol")
-anlys_ma <- analyze.ma(dataImput, ref = "50pmol")
+anlys_modt <- analyze.mod_t(dataImput, ref = "50fmol")
+anlys_ma <- analyze.ma(dataImput, ref = "50fmol")
 ```
 
 
@@ -58,7 +58,7 @@ anlys_ma <- analyze.ma(dataImput, ref = "50pmol")
 
 ```{r}
 ## default volcano
-visualize.volcano(anlys_modt$`100pmol-50pmol`, P.thres = 0.05, F.thres = 1)
+visualize.volcano(anlys_modt$`100fmol-50fmol`, P.thres = 0.05, F.thres = 1)
 ```
 
 
@@ -70,7 +70,7 @@ the volcano plot with gene or protein names, using additional information.
 
 
 ```{r message=FALSE}
-volcano <- visualize.volcano(anlys_modt$`100pmol-50pmol`,
+volcano <- visualize.volcano(anlys_modt$`100fmol-50fmol`,
                              P.thres = 0.05, F.thres = 1)
 
 ## change labels of proteins
@@ -92,7 +92,7 @@ different significance levels in the output plot.
 
 
 ```{r}
-volcano <- visualize.volcano(anlys_modt$`100pmol-50pmol`,
+volcano <- visualize.volcano(anlys_modt$`100fmol-50fmol`,
                              P.thres = 0.05, F.thres = 1)
 
 library(ggplot2)
@@ -113,7 +113,7 @@ look of the plot, including the background, gridlines, and text.
 
 
 ```{r}
-volcano <- visualize.volcano(anlys_modt$`100pmol-50pmol`,
+volcano <- visualize.volcano(anlys_modt$`100fmol-50fmol`,
                              P.thres = 0.05, F.thres = 1)
 
 library(ggplot2)
@@ -127,7 +127,7 @@ volcano + theme_classic()
 
 ```{r}
 ## default MA
-visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
+visualize.ma(anlys_ma$`100fmol-50fmol`, M.thres = 0.5)
 ```
 
 
@@ -139,7 +139,7 @@ names, follow these steps:
 
 
 ```{r message=FALSE}
-ma <- visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
+ma <- visualize.ma(anlys_ma$`100fmol-50fmol`, M.thres = 0.5)
 
 ## change labels of proteins
 library(dplyr)
@@ -160,7 +160,7 @@ modify the colors in the plot:
 
 
 ```{r}
-ma <- visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
+ma <- visualize.ma(anlys_ma$`100fmol-50fmol`, M.thres = 0.5)
 
 library(ggplot2)
 new <- ggplot_build(ma)
@@ -179,7 +179,7 @@ ggplot2's theme functions.
 
 
 ```{r}
-ma <- visualize.ma(anlys_ma$`100pmol-50pmol`, M.thres = 0.5)
+ma <- visualize.ma(anlys_ma$`100fmol-50fmol`, M.thres = 0.5)
 
 library(ggplot2)
  ## use a minimal theme

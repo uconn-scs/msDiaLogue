@@ -4,6 +4,7 @@
 ^\.Rproj\.user$
 ^\.github$
 ^_pkgdown\.yml$
+^data-raw$
 ^docs$
 ^pkgdown$
 ^vignettes/\.quarto$
