@@ -13,7 +13,7 @@ library(msDiaLogue)
 ``` r
 
 ## if the raw data is in a .csv file
-fileName <- "../inst/extdata/Toy_Spectronaut_Data.csv"
+fileName <- "../inst/extdata/Spectronaut_HeLa6Mix_Data.csv"
 dataSet <- preprocessing(fileName,
                          filterNaN = TRUE, filterUnique = 2,
                          replaceBlank = TRUE, saveRm = TRUE)
@@ -28,8 +28,8 @@ the function
 ``` r
 
 ## if the raw data is in an R data file
-data("Toy_Spectronaut_Data")
-dataSet <- preprocessing(dataSet = Toy_Spectronaut_Data,
+data("Spectronaut_HeLa6Mix_Data")
+dataSet <- preprocessing(dataSet = Spectronaut_HeLa6Mix_Data,
                          filterNaN = TRUE, filterUnique = 2,
                          replaceBlank = TRUE, saveRm = TRUE)
 #> Warning: Removed 62 rows containing non-finite outside the scale range
@@ -78,11 +78,11 @@ preprocessing.
 ### 1. Loads the raw data
 
 - If the raw data is in a `.csv` file
-  [Toy_Spectronaut_Data.csv](https://github.com/uconn-scs/msDiaLogue/blob/main/inst/extdata/Toy_Spectronaut_Data.csv),
+  [Spectronaut_HeLa6Mix_Data.csv](https://github.com/uconn-scs/msDiaLogue/blob/main/inst/extdata/Spectronaut_HeLa6Mix_Data.csv),
   specify the `fileName` to read the raw data file into R.
 
 - If the raw data is stored in an R data file (e.g.,
-  [Toy_Spectronaut_Data.rda](https://github.com/uconn-scs/msDiaLogue/blob/main/data/Toy_Spectronaut_Data.rda)
+  [Spectronaut_HeLa6Mix_Data.rda](https://github.com/uconn-scs/msDiaLogue/blob/main/data/Spectronaut_HeLa6Mix_Data.rda)
   or a `.RData` file), first load the data file directly, then specify
   the loaded object as the `dataSet` argument.
 

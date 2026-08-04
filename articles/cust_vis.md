@@ -19,7 +19,7 @@ in msDiaLogue:
 ## load R package
 library(msDiaLogue)
 ## preprocessing
-fileName <- "../inst/extdata/Toy_Spectronaut_Data.csv"
+fileName <- "../inst/extdata/Spectronaut_HeLa6Mix_Data.csv"
 dataSet <- preprocessing(fileName,
                          filterNaN = TRUE, filterUnique = 2,
                          replaceBlank = TRUE, saveRm = TRUE)

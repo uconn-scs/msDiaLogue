@@ -135,11 +135,11 @@ report format. The function for Scaffold data is called
 given in the code box below.
 
 - If the raw data is in a `.xls` file
-  [Toy_Scaffold_Data.xls](https://github.com/uconn-scs/msDiaLogue/blob/main/inst/extdata/Toy_Scaffold_Data.xls),
+  [Scaffold_ListeriaLysates_Data.xls](https://github.com/uconn-scs/msDiaLogue/blob/main/inst/extdata/Scaffold_ListeriaLysates_Data.xls),
   specify the `fileName` to read the raw data file into R.
 
 - If the raw data is stored in an R data file (e.g.,
-  [Toy_Scaffold_Data.rda](https://github.com/uconn-scs/msDiaLogue/blob/main/data/Toy_Scaffold_Data.rda)
+  [Scaffold_ListeriaLysates_Data.rda](https://github.com/uconn-scs/msDiaLogue/blob/main/data/Scaffold_ListeriaLysates_Data.rda)
   or a `.RData` file), first load the data file directly, then specify
   the loaded object as the `dataSet` argument.
 
@@ -158,15 +158,15 @@ library(msDiaLogue)
 ``` r
 
 ## if the raw data is in a .xls file
-dataSet <- preprocessing_scaffold(fileName = "../inst/extdata/Toy_Scaffold_Data.xls",
+dataSet <- preprocessing_scaffold(fileName = "../inst/extdata/Scaffold_ListeriaLysates_Data.xls",
                                   zeroNA = TRUE, oneNA = TRUE)
 ```
 
 ``` r
 
 ## if the raw data is in an .Rdata file
-data("Toy_Scaffold_Data")
-dataSet <- preprocessing_scaffold(dataSet = Toy_Scaffold_Data,
+data("Scaffold_ListeriaLysates_Data")
+dataSet <- preprocessing_scaffold(dataSet = Scaffold_ListeriaLysates_Data,
                                   zeroNA = TRUE, oneNA = TRUE)
 #> Warning: Removed 4194 rows containing non-finite outside the scale range
 #> (`stat_bin()`).

@@ -150,8 +150,8 @@
 <strong>Note:</strong> You cannot use the function <code><a href="../reference/preprocessing.html">preprocessing()</a></code> in the main template, as that is designed for inputs in a Spectronaut report format. The function for Scaffold data is called <code><a href="../reference/preprocessing_scaffold.html">preprocessing_scaffold()</a></code>, given in the code box below.
 </div>
 <ul>
-<li><p>If the raw data is in a <code>.xls</code> file <a href="https://github.com/uconn-scs/msDiaLogue/blob/main/inst/extdata/Toy_Scaffold_Data.xls" class="external-link">Toy_Scaffold_Data.xls</a>, specify the <code>fileName</code> to read the raw data file into R.</p></li>
-<li><p>If the raw data is stored in an R data file (e.g., <a href="https://github.com/uconn-scs/msDiaLogue/blob/main/data/Toy_Scaffold_Data.rda" class="external-link">Toy_Scaffold_Data.rda</a> or a <code>.RData</code> file), first load the data file directly, then specify the loaded object as the <code>dataSet</code> argument.</p></li>
+<li><p>If the raw data is in a <code>.xls</code> file <a href="https://github.com/uconn-scs/msDiaLogue/blob/main/inst/extdata/Scaffold_ListeriaLysates_Data.xls" class="external-link">Scaffold_ListeriaLysates_Data.xls</a>, specify the <code>fileName</code> to read the raw data file into R.</p></li>
+<li><p>If the raw data is stored in an R data file (e.g., <a href="https://github.com/uconn-scs/msDiaLogue/blob/main/data/Scaffold_ListeriaLysates_Data.rda" class="external-link">Scaffold_ListeriaLysates_Data.rda</a> or a <code>.RData</code> file), first load the data file directly, then specify the loaded object as the <code>dataSet</code> argument.</p></li>
 </ul>
 <div class="note">
 <strong>Note:</strong> Decoys and contaminants can be removed either in the Excel report before Preprocessing, or can be removed in msDiaLogue with the filter step, if the accession number has the “CON__” or “DECOY__” prefix. (This prefix is not applied with search algorithms like MSFragger, so alternative filters would need to be developed in that case.)
@@ -163,14 +163,14 @@
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## if the raw data is in a .xls file</span></span>
-<span><span class="va">dataSet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocessing_scaffold.html">preprocessing_scaffold</a></span><span class="op">(</span>fileName <span class="op">=</span> <span class="st">"../inst/extdata/Toy_Scaffold_Data.xls"</span>,</span>
+<span><span class="va">dataSet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocessing_scaffold.html">preprocessing_scaffold</a></span><span class="op">(</span>fileName <span class="op">=</span> <span class="st">"../inst/extdata/Scaffold_ListeriaLysates_Data.xls"</span>,</span>
 <span>                                  zeroNA <span class="op">=</span> <span class="cn">TRUE</span>, oneNA <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## if the raw data is in an .Rdata file</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"Toy_Scaffold_Data"</span><span class="op">)</span></span>
-<span><span class="va">dataSet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocessing_scaffold.html">preprocessing_scaffold</a></span><span class="op">(</span>dataSet <span class="op">=</span> <span class="va">Toy_Scaffold_Data</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"Scaffold_ListeriaLysates_Data"</span><span class="op">)</span></span>
+<span><span class="va">dataSet</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/preprocessing_scaffold.html">preprocessing_scaffold</a></span><span class="op">(</span>dataSet <span class="op">=</span> <span class="va">Scaffold_ListeriaLysates_Data</span>,</span>
 <span>                                  zeroNA <span class="op">=</span> <span class="cn">TRUE</span>, oneNA <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Removed 4194 rows containing non-finite outside the scale range</span></span>
 <span><span class="co">#&gt; (`stat_bin()`).</span></span></code></pre></div>
