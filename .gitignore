@@ -3,9 +3,6 @@
 .Rproj.user
 .Ruserdata
 data-raw/
-inst/extdata/20260319_DIAPlasmaProteomics_SpectronautProteinReport.csv
-inst/extdata/Toy_Scaffold_Data_old.xls
-inst/extdata/Toy_Spectronaut_Data_old.csv
 man/figures/workflow.pptx
 vignettes/analyze_ma.csv
 vignettes/analyze_modt.csv
