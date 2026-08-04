@@ -25,8 +25,8 @@ development:
 reference:
 - title: Example Data
   contents:
-  - Toy_Scaffold_Data
-  - Toy_Spectronaut_Data
+  - Scaffold_ListeriaLysates_Data
+  - Spectronaut_HeLa6Mix_Data
 - title: Preprocessing
   contents:
   - preprocessing
