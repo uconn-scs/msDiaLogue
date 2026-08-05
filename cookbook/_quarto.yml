@@ -1,0 +1,22 @@
+project:
+  type: book
+
+book:
+  title: "The msDiaLogue Cookbook"
+  cover-image: https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figures/logo.png
+  repo-url: https://github.com/uconn-scs/msDiaLogue/
+  chapters:
+    - index.qmd
+
+bibliography: ../inst/REFERENCES.bib
+
+format:
+  html:
+    theme:
+      - cosmo
+      - msDiaLogue.scss
+  pdf:
+    documentclass: scrreprt
+
+
+

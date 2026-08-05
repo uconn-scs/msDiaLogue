@@ -1,0 +1,9 @@
+/*-- scss:defaults --*/
+
+$font-size-root: 18px !default;
+
+/*-- scss:rules --*/
+
+div.sidebar-item-container .active {
+  font-weight: bold;
+}

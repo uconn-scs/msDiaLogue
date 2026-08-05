@@ -2,6 +2,8 @@
 .Rhistory
 .Rproj.user
 .Ruserdata
+cookbook/_book/
+cookbook/.quarto/
 data-raw/
 man/figures/workflow.pptx
 vignettes/analyze_ma.csv

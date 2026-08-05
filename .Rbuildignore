@@ -4,6 +4,7 @@
 ^\.Rproj\.user$
 ^\.github$
 ^_pkgdown\.yml$
+^cookbook$
 ^data-raw$
 ^docs$
 ^pkgdown$

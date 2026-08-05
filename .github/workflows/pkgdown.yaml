@@ -35,6 +35,10 @@ jobs:
         with:
           extra-packages: any::pkgdown, local::.
           needs: website
+      
+      - name: Render cookbook
+        working-directory: cookbook
+        run: quarto render
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE, clean = TRUE)
