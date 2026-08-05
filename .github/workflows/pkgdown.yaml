@@ -43,6 +43,11 @@ jobs:
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE, clean = TRUE)
         shell: Rscript {0}
+      
+      - name: Add cookbook to pkgdown site
+        run: |
+          mkdir -p docs/cookbook
+          cp -R cookbook/_book/. docs/cookbook/
 
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'
