@@ -88,9 +88,13 @@ reference:
 
 navbar:
   structure:
-    left: [intro, reference, modules, tutorials, faq, news]
+    left: [intro, reference, cookbook, modules, tutorials, faq, news]
     right: [search, github, lightswitch]
   components:
+    cookbook:
+      text: Cookbook
+      icon: fa-solid fa-kitchen-set
+      href: cookbook/
     modules:
       text: Modules
       icon: fa-solid fa-hand-spock
