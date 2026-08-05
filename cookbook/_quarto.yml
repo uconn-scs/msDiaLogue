@@ -15,8 +15,3 @@ format:
     theme:
       - cosmo
       - msDiaLogue.scss
-  pdf:
-    documentclass: scrreprt
-
-
-
