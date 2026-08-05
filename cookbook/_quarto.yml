@@ -9,7 +9,6 @@ book:
   site-url: https://uconn-scs.github.io/msDiaLogue/cookbook/
   chapters:
     - index.qmd
-    - intro.qmd
 
 bibliography: ../inst/REFERENCES.bib
 
