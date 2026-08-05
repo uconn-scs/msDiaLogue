@@ -4,25 +4,8 @@
 Welcome to the **msDiaLogue Cookbook**!
 
 
-This book provides practical, example-driven recipes for analyzing mass
-spectrometry-based proteomics data using **msDiaLogue** in R.
-Each recipe focuses on one module of the analysis workflow, allowing users can
-easily combine recipes into workflows that best fit their own analyses.
-
-
-**msDiaLogue** is an R package developed through a collaboration between
-the [Proteomics & Metabolomics Facility (PMF)](https://proteomics.uconn.edu/)
-and the [Statistical Consulting Services (SCS)](https://statsconsulting.uconn.edu/)
-at the [University of Connecticut (UConn)](https://uconn.edu/)
-It provides a modular workflow for analyzing untargeted mass spectrometry
-(MS)-based proteomics data, together with a wide range of visualization options
-for both Data-Dependent Acquisition (DDA) and Data-Independent Acquisition (DIA)
-datasets.
-
-
-::: {style="text-align: center;"}
-[![UConn](https://raw.githubusercontent.com/uconn-scs/msDiaLogue/main/man/figures/uconn.png){style="width:34%; margin:0 2%"}](https://uconn.edu/)
-[![CORE](https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figures/core.png){style="width:30.6%; margin:0 2%"}](https://core.uconn.edu/)
-[![SCS](https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figures/scs.png){style="width:25.5%; margin:0 0%"}](https://statsconsulting.uconn.edu/)
-:::
+This book provides practical, example-driven recipes for analyzing
+mass spectrometry-based proteomics data using **msDiaLogue** in R.
+Each recipe focuses on one module of the analysis workflow, allowing users
+to easily combine recipes into workflows that best fit their own analyses.
 
