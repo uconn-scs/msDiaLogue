@@ -4,9 +4,49 @@
     "href": "index.html",
     "title": "The msDiaLogue Cookbook",
     "section": "",
-    "text": "Welcome\nWelcome to the msDiaLogue Cookbook!\nThis book provides practical, example-driven recipes for analyzing mass spectrometry-based proteomics data using msDiaLogue in R. Each recipe focuses on one module of the analysis workflow, allowing users can easily combine recipes into workflows that best fit their own analyses.\nmsDiaLogue is an R package developed through a collaboration between the Proteomics & Metabolomics Facility (PMF) and the Statistical Consulting Services (SCS) at the University of Connecticut (UConn) It provides a modular workflow for analyzing untargeted mass spectrometry (MS)-based proteomics data, together with a wide range of visualization options for both Data-Dependent Acquisition (DDA) and Data-Independent Acquisition (DIA) datasets.",
+    "text": "Welcome\nWelcome to the msDiaLogue Cookbook!\nThis book provides practical, example-driven recipes for analyzing mass spectrometry-based proteomics data using msDiaLogue in R. Each recipe focuses on one module of the analysis workflow, allowing users to easily combine recipes into workflows that best fit their own analyses.",
     "crumbs": [
       "Welcome"
+    ]
+  },
+  {
+    "objectID": "intro.html",
+    "href": "intro.html",
+    "title": "Introduction",
+    "section": "",
+    "text": "What is msDiaLogue?\nmsDiaLogue is an R package developed through a collaboration between the Proteomics & Metabolomics Facility (PMF) and the Statistical Consulting Services (SCS) at the University of Connecticut (UConn) It provides a modular workflow for analyzing untargeted mass spectrometry (MS)-based proteomics data, together with a wide range of visualization options for both Data-Dependent Acquisition (DDA) and Data-Independent Acquisition (DIA) datasets.",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "intro.html#design-philosophy",
+    "href": "intro.html#design-philosophy",
+    "title": "Introduction",
+    "section": "Design philosophy",
+    "text": "Design philosophy\nUnlike monolithic analysis pipelines, msDiaLogue is designed as a modular workflow. Each analysis step is implemented as an independent module that can be used on its own or combined with other modules. This design allows users to adapt the workflow to different experimental designs, software platforms, and analysis objectives.",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "intro.html#workflow",
+    "href": "intro.html#workflow",
+    "title": "Introduction",
+    "section": "Workflow",
+    "text": "Workflow",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "intro.html#organization-of-this-cookbook",
+    "href": "intro.html#organization-of-this-cookbook",
+    "title": "Introduction",
+    "section": "Organization of this cookbook",
+    "text": "Organization of this cookbook\nThe cookbook is organized into independent recipes corresponding to the major modules of msDiaLogue. Each chapter introduces one module using practical examples and can be read independently. Readers may follow the recipes in sequence as a complete workflow or use individual chapters as references for specific analysis tasks.",
+    "crumbs": [
+      "Introduction"
     ]
   }
 ]

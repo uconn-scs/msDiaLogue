@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>The msDiaLogue Cookbook</title>
+<title>Introduction – The msDiaLogue Cookbook</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,7 +36,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./intro.html" rel="next">
+<link href="./index.html" rel="prev">
 <link href="./https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figures/logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -88,7 +88,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Welcome</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./intro.html">Introduction</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -118,13 +118,13 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Welcome</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro.html" class="sidebar-item-text sidebar-link">
+  <a href="./intro.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
@@ -138,7 +138,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a></li>
+  <li><a href="#what-is-msdialogue" id="toc-what-is-msdialogue" class="nav-link active" data-scroll-target="#what-is-msdialogue">What is msDiaLogue?</a></li>
+  <li><a href="#design-philosophy" id="toc-design-philosophy" class="nav-link" data-scroll-target="#design-philosophy">Design philosophy</a></li>
+  <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow</a></li>
+  <li><a href="#organization-of-this-cookbook" id="toc-organization-of-this-cookbook" class="nav-link" data-scroll-target="#organization-of-this-cookbook">Organization of this cookbook</a></li>
   </ul>
 </nav>
     </div>
@@ -147,7 +150,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">The msDiaLogue Cookbook</h1>
+<h1 class="title">Introduction</h1>
 </div>
 
 
@@ -164,11 +167,26 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-
-<section id="welcome" class="level1 unnumbered">
-<h1 class="unnumbered">Welcome</h1><p><img src="https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figures/logo.png" title="The msDiaLogue Cookbook" class="quarto-cover-image nolightbox img-fluid"></p>
-<p>Welcome to the <strong>msDiaLogue Cookbook</strong>!</p>
-<p>This book provides practical, example-driven recipes for analyzing mass spectrometry-based proteomics data using <strong>msDiaLogue</strong> in R. Each recipe focuses on one module of the analysis workflow, allowing users to easily combine recipes into workflows that best fit their own analyses.</p>
+<section id="what-is-msdialogue" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-msdialogue">What is msDiaLogue?</h2>
+<p><strong>msDiaLogue</strong> is an R package developed through a collaboration between the <a href="https://proteomics.uconn.edu/">Proteomics &amp; Metabolomics Facility (PMF)</a> and the <a href="https://statsconsulting.uconn.edu/">Statistical Consulting Services (SCS)</a> at the <a href="https://uconn.edu/">University of Connecticut (UConn)</a> It provides a modular workflow for analyzing untargeted mass spectrometry (MS)-based proteomics data, together with a wide range of visualization options for both Data-Dependent Acquisition (DDA) and Data-Independent Acquisition (DIA) datasets.</p>
+<div style="text-align: center;">
+<p><a href="https://uconn.edu/"><img src="https://raw.githubusercontent.com/uconn-scs/msDiaLogue/main/man/figures/uconn.png" class="img-fluid" style="width:34%; margin:0 2%" alt="UConn"></a> <a href="https://core.uconn.edu/"><img src="https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figures/core.png" class="img-fluid" style="width:30.6%; margin:0 2%" alt="CORE"></a> <a href="https://statsconsulting.uconn.edu/"><img src="https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figures/scs.png" class="img-fluid" style="width:25.5%; margin:0 0%" alt="SCS"></a></p>
+</div>
+</section>
+<section id="design-philosophy" class="level2">
+<h2 class="anchored" data-anchor-id="design-philosophy">Design philosophy</h2>
+<p>Unlike monolithic analysis pipelines, <strong>msDiaLogue</strong> is designed as a modular workflow. Each analysis step is implemented as an independent module that can be used on its own or combined with other modules. This design allows users to adapt the workflow to different experimental designs, software platforms, and analysis objectives.</p>
+</section>
+<section id="workflow" class="level2">
+<h2 class="anchored" data-anchor-id="workflow">Workflow</h2>
+<div style="text-align: center;">
+<p><img src="https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figures/workflow.png" class="img-fluid"></p>
+</div>
+</section>
+<section id="organization-of-this-cookbook" class="level2">
+<h2 class="anchored" data-anchor-id="organization-of-this-cookbook">Organization of this cookbook</h2>
+<p>The cookbook is organized into independent recipes corresponding to the major modules of <strong>msDiaLogue</strong>. Each chapter introduces one module using practical examples and can be read independently. Readers may follow the recipes in sequence as a complete workflow or use individual chapters as references for specific analysis tasks.</p>
 
 
 </section>
@@ -576,11 +594,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Welcome">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Welcome</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./intro.html" class="pagination-link" aria-label="Introduction">
-        <span class="nav-page-text">Introduction</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
