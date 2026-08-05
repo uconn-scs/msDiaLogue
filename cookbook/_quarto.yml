@@ -4,7 +4,9 @@ project:
 book:
   title: "The msDiaLogue Cookbook"
   cover-image: https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figures/logo.png
+  favicon: https://raw.githubusercontent.com/uconn-scs/msDiaLogue/refs/heads/main/man/figures/logo.png
   repo-url: https://github.com/uconn-scs/msDiaLogue/
+  site-url: https://uconn-scs.github.io/msDiaLogue/cookbook/
   chapters:
     - index.qmd
 
