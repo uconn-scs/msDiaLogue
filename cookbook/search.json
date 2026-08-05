@@ -10,43 +10,43 @@
     ]
   },
   {
-    "objectID": "intro.html",
-    "href": "intro.html",
-    "title": "Introduction",
-    "section": "",
+    "objectID": "index.html#what-is-msdialogue",
+    "href": "index.html#what-is-msdialogue",
+    "title": "The msDiaLogue Cookbook",
+    "section": "What is msDiaLogue?",
     "text": "What is msDiaLogue?\nmsDiaLogue is an R package developed through a collaboration between the Proteomics & Metabolomics Facility (PMF) and the Statistical Consulting Services (SCS) at the University of Connecticut (UConn) It provides a modular workflow for analyzing untargeted mass spectrometry (MS)-based proteomics data, together with a wide range of visualization options for both Data-Dependent Acquisition (DDA) and Data-Independent Acquisition (DIA) datasets.",
     "crumbs": [
-      "Introduction"
+      "Welcome"
     ]
   },
   {
-    "objectID": "intro.html#design-philosophy",
-    "href": "intro.html#design-philosophy",
-    "title": "Introduction",
+    "objectID": "index.html#design-philosophy",
+    "href": "index.html#design-philosophy",
+    "title": "The msDiaLogue Cookbook",
     "section": "Design philosophy",
     "text": "Design philosophy\nUnlike monolithic analysis pipelines, msDiaLogue is designed as a modular workflow. Each analysis step is implemented as an independent module that can be used on its own or combined with other modules. This design allows users to adapt the workflow to different experimental designs, software platforms, and analysis objectives.",
     "crumbs": [
-      "Introduction"
+      "Welcome"
     ]
   },
   {
-    "objectID": "intro.html#workflow",
-    "href": "intro.html#workflow",
-    "title": "Introduction",
+    "objectID": "index.html#workflow",
+    "href": "index.html#workflow",
+    "title": "The msDiaLogue Cookbook",
     "section": "Workflow",
     "text": "Workflow",
     "crumbs": [
-      "Introduction"
+      "Welcome"
     ]
   },
   {
-    "objectID": "intro.html#organization-of-this-cookbook",
-    "href": "intro.html#organization-of-this-cookbook",
-    "title": "Introduction",
+    "objectID": "index.html#organization-of-this-cookbook",
+    "href": "index.html#organization-of-this-cookbook",
+    "title": "The msDiaLogue Cookbook",
     "section": "Organization of this cookbook",
     "text": "Organization of this cookbook\nThe cookbook is organized into independent recipes corresponding to the major modules of msDiaLogue. Each chapter introduces one module using practical examples and can be read independently. Readers may follow the recipes in sequence as a complete workflow or use individual chapters as references for specific analysis tasks.",
     "crumbs": [
-      "Introduction"
+      "Welcome"
     ]
   }
 ]
