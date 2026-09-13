@@ -14,7 +14,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/uconn-scs/msDiaLogue/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/uconn-scs/msDiaLogue/blob/v0.0.7/DESCRIPTION)
 
 Xiao S, Moore T, Watt C (2026). *msDiaLogue: Analysis and Visuals for
 Data-Independent Aquisition Mass Spectrometry Data*. R package version
