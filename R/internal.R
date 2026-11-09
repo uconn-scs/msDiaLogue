@@ -2,31 +2,39 @@
 #### Internal ####
 ##################
 #'
-#' Extract the first name from a semicolon-separated names
+#' Extract the first name from semicolon-separated names
 #'
 #' @description
-#' Take a character vector. If an element contains multiple names separated by
-#' semicolons (e.g., "A;B;C"), only the first name is kept and annotated with
-#' the number of additional names (e.g., "A (+2)"). Single names (e.g., "A")
-#' are returned unchanged.
+#' Take a character vector whose elements may contain multiple names separated
+#' by semicolons. For each element, retain the first name and annotate it with
+#' the number of additional names (e.g., "A;B;C" -> "A (+2)"). If \code{marker}
+#' is provided and any of the separated names starts with that marker, prefix
+#' the retained first name with the marker (e.g., "A;CON__B;C" -> "CON__A (+2)").
 #'
 #' @param vecName A character vector, with elements possibly containing multiple
 #' names separated by semicolons.
 #'
+#' @param marker An optional character string (default = NULL) used to identify
+#' specially marked names. If any separated name starts with \code{marker},
+#' the retained first name is prefixed with \code{marker}.
+#'
 #' @return
-#' A character vector of the same length as \code{vecName}, with either
-#' the original name (if only one) or the first name followed by the count of
-#' additional names.
+#' A character vector of the same length as \code{vecName}.
 #'
 #' @noRd
 
-firstName <- function(vecName) {
+firstName <- function(vecName, marker = NULL) {
   sapply(vecName, function(element) {
     parts <- unlist(strsplit(element, ";", fixed = TRUE))
+    first <- parts[1]
+    if (!is.null(marker) && any(startsWith(parts, marker)) &&
+        !startsWith(first, marker)) {
+      first <- paste0(marker, first)
+    }
     if (length(parts) > 1) {
-      paste0(parts[1], " (+", length(parts)-1, ")")
+      sprintf("%s (+%d)", first, length(parts) - 1)
     } else {
-      element
+      first
     }
   })
 }

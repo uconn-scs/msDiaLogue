@@ -65,7 +65,7 @@ preprocessing <- function(fileName,
   ## keep only the first entry of protein names and accessions
   dataSet <- dataSet %>%
     mutate(PG.ProteinName = firstName(PG.ProteinNames),
-           PG.ProteinAccession = firstName(PG.ProteinAccessions))
+           PG.ProteinAccession = firstName(PG.ProteinAccessions, "CON__"))
   
   ## histogram of full raw data
   plotPre <- histPlot(dataSet$PG.Quantity,
