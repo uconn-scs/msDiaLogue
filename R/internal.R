@@ -7,16 +7,18 @@
 #' @description
 #' Take a character vector whose elements may contain multiple names separated
 #' by semicolons. For each element, retain the first name and annotate it with
-#' the number of additional names (e.g., "A;B;C" -> "A (+2)"). If \code{marker}
-#' is provided and any of the separated names starts with that marker, prefix
-#' the retained first name with the marker (e.g., "A;CON__B;C" -> "CON__A (+2)").
+#' the number of additional names (e.g., "A;B;C" becomes "A (+2)").
+#' If \code{marker} is provided and any separated name contains the marker,
+#' include the marker in the annotation unless the retained first name already
+#' contains it (e.g., "A;CON__B;C" becomes "A (+2, CON__)").
 #'
-#' @param vecName A character vector, with elements possibly containing multiple
-#' names separated by semicolons.
+#' @param vecName A character vector whose elements may contain multiple names
+#' separated by semicolons.
 #'
 #' @param marker An optional character string (default = NULL) used to identify
-#' specially marked names. If any separated name starts with \code{marker},
-#' the retained first name is prefixed with \code{marker}.
+#' specially marked names. If any separated name contains \code{marker},
+#' the marker is included in the annotation unless it is already present in
+#' the retained first name.
 #'
 #' @return
 #' A character vector of the same length as \code{vecName}.
@@ -25,14 +27,18 @@
 
 firstName <- function(vecName, marker = NULL) {
   sapply(vecName, function(element) {
-    parts <- unlist(strsplit(element, ";", fixed = TRUE))
+    parts <- trimws(unlist(strsplit(element, ";", fixed = TRUE)))
     first <- parts[1]
-    if (!is.null(marker) && any(startsWith(parts, marker)) &&
-        !startsWith(first, marker)) {
-      first <- paste0(marker, first)
-    }
+    hasMarker <- !is.null(marker) &&
+      any(grepl(marker, parts, fixed = TRUE), na.rm = TRUE)
+    firstHasMarker <- !is.null(marker) && !is.na(first) &&
+      grepl(marker, first, fixed = TRUE)
     if (length(parts) > 1) {
-      sprintf("%s (+%d)", first, length(parts) - 1)
+      annotation <- length(parts) - 1
+      if (hasMarker && !firstHasMarker) {
+        annotation <- sprintf("%d, %s", annotation, marker)
+      }
+      sprintf("%s (+%s)", first, annotation)
     } else {
       first
     }
